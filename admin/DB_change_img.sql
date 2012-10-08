@@ -1,0 +1,16 @@
+UPDATE questions_mc SET image1=5423,image2=5409,image3=5455,image4=5421 WHERE questions_id=1099;
+UPDATE questions_mc SET image1=5429,image2=5440,image3=5421,image4=5444 WHERE questions_id=1100;
+UPDATE questions_mc SET image1=5423,image2=5409,image3=5455,image4=5421 WHERE questions_id=2215;
+UPDATE questions_m SET Limage1=5549,Limage2=5553,Limage3=5551 WHERE questions_id=515;
+UPDATE questions_m SET Limage1=5549,Limage2=5554,Limage3=5551 WHERE questions_id=519;
+UPDATE questions_m SET Limage1=5549,Limage2=5553,Limage3=5551 WHERE questions_id=544;
+UPDATE questions_m SET Limage1=5549,Limage2=5553,Limage3=5551 WHERE questions_id=550;
+UPDATE questions_m SET Limage1=5549,Limage2=5554,Limage3=5551 WHERE questions_id=553;
+UPDATE questions_m SET Rimage1=5454,Rimage2=5465,Rimage3=5411 WHERE questions_id=26;
+UPDATE questions_m SET Rimage1=5452,Rimage2=5422,Rimage3=5477 WHERE questions_id=49;
+UPDATE questions_m SET Rimage1=5556,Rimage2=5555,Rimage3=5552,Rimage4=5556 WHERE questions_id=515;
+UPDATE questions_m SET Rimage1=5550,Rimage2=5556,Rimage3=5552,Rimage4=5555 WHERE questions_id=519;
+UPDATE questions_m SET Rimage1=5550,Rimage2=5555,Rimage3=5552,Rimage4=5556 WHERE questions_id=544;
+UPDATE questions_m SET Rimage1=5550,Rimage2=5555,Rimage3=5552,Rimage4=5556 WHERE questions_id=550;
+UPDATE questions_m SET Rimage1=5550,Rimage2=5556,Rimage3=5552,Rimage4=5555 WHERE questions_id=553;
+UPDATE questions_m SET Rimage1=5440,Rimage2=5409,Rimage3=5455 WHERE questions_id=644;

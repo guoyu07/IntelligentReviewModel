@@ -1,0 +1,53 @@
+
+#conceptContainer{border:1px solid #fff;margin:0;}
+#conceptListContainer{border:1px solid #fff;margin:0;width:100%;overflow: auto}
+#SelectedConcContainer{padding:1em;border-top:3px solid #eee;margin-top:1em;overflow:auto;display:none}
+#ConcQuesContainer{position:absolute; top:400; height:400px;overflow: auto;}
+
+.selcon{display:inline;float:left;font:100% Georgia, serif;text-align:center;margin:0.5em;color:#000;border:2px solid #eee;padding:0.2em}
+.selcon:hover{border:2px solid #000;color:#000;cursor:pointer}
+.concept_alph {color:pink;border:1px solid pink;}
+.concept_alph:hover{border:2px solid red;color:#000;cursor:pointer}
+#errorConceptContainer{color:#f00;padding:0.5em;}
+li.ITS_nav_concept {margin:0;padding:0}
+li.ITS_nav_concept a{border:2px solid #fff;margin:0}
+
+span.CHOICE {
+	 clear:both;
+	 float: left;
+	 /*position: relative;*/
+	 width: auto;
+     border: 2px solid #999; 
+	 margin: 0.5em;
+	 padding: 0.25em 1em;
+	 display: inline;
+	 background: #fff;
+	 white-space: nowrap;
+	 border-radius:5px;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+-khtml-border-radius:5px;
+	 overflow: auto;
+}
+.circle{
+width:35px;
+height:35px;
+display:block;
+border-radius:15px;
+-moz-border-radius:15px;
+-webkit-border-radius:15px;
+-khtml-border-radius:15px;
+font-size:120%;
+color:#666;
+font-weight:bold;
+line-height:0px;
+text-align:center;
+background:#eee}
+
+/*================= DEBUG =================/
+#conceptContainer{border:3px solid brown;}
+#conceptContainer{background-color:pink}
+#SelectedConcContainer{border:2px solid blue;}
+#conceptListContainer{background-color:yellow}
+#errorConceptContainer{background-color:lightgreen;
+/*=========================================*/
