@@ -11,13 +11,11 @@ require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_statistics.php");
 require_once("../classes/ITS_screen2.php");
-
 require_once("../classes/ITS_tag.php");
 //require_once("../classes/ITS_book.php");
 
 session_start();
 //$id = $_SESSION['user']->id();
-//die('aa');
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state, $files_path;
 
@@ -78,8 +76,8 @@ switch ($action){
 }
 //-----------------------------------------------//
 $mdb2->disconnect();
-echo 'ECHO'.$style.$str;
-
+//echo 'ECHO'.$style.$str;
+echo $str;
 //-----------------------------------------------//
 /*
 $data = preg_split('[,]',$Data);

@@ -264,9 +264,9 @@ if ($status == 'admin' OR $status == 'instructor') {
         </style>    
         <?php
 include INCLUDE_DIR.'stylesheet.php';
+include 'js/ITS_tag_jquery.php';
 include 'js/ITS_search_jquery.php';
 include 'js/ITS_Question_jquery.php';
-include 'js/ITS_search_jquery.php';
 include INCLUDE_DIR.'include_fancybox.php';
 ?>
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	

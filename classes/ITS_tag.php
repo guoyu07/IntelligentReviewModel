@@ -107,20 +107,19 @@ class ITS_tag {
     function add($keyword, $rid, $rname){
         //=====================================================================// 	  
         //echo 'add<br>';       
-        $tag = '<div class="ITS_tag"><table><tr><td>' . $keyword . '</td><td class="tag_add" tid="0" tname="' . $keyword . '" rid="' . $rid . '" rname="' . $rname . '">+2</td></tr></table></div>';
+        $tag = '<div class="ITS_tag"><table><tr><td>' . $keyword . '</td><td class="tag_add" tid="0" tname="' . $keyword . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
         
         return $tag;
     }
     //=====================================================================//
     function addToQues($tid, $tname, $rid, $rname){
         //=====================================================================//  
-                //ITS_debug();
+        //ITS_debug();
         if ($tid == 0) { // new tag
             $tid = $this->addTag($tname);
         }
         $query  = 'INSERT IGNORE INTO ' . $rname.'_'.$tname . ' ('.$rname.'_id,'.$tname.'_id) VALUES ('.$rid.','.$tid.')'; 
-        // 
-        echo '<br>ITS_tags:addToQues: '.$query;die();
+        // echo time().'<p>ITS_tags:addToQues: '.$query.'</p>';die();
         $result = mysql_query($query);
         
         $tag = $this->render(array($tid), $rname, $rid);
@@ -139,7 +138,7 @@ class ITS_tag {
         //die($tag);
         return $tag;
     }
-    //  alter table tags change id id int auto_increment;
+    //  alter table tags change id int auto_increment;
     //=====================================================================//
     function addTag($tname) {
     //=====================================================================// 	  
@@ -183,7 +182,7 @@ class ITS_tag {
         if (!empty($arr)) {
             $tag_list = '';
             for ($i = 0; $i < count($arr) - 1; $i++) {
-                echo '<div class="ITS_'.$tname.'"><table><tr><td><a href="Resource.php?rid='.$arr[$i][0].'">' . $arr[$i][1] . '</a></td><td class="tag_add" tid="' . $arr[$i][0] . '" tname="' . $tname . '" rid="' . $rid . '" rname="' . $rname . '">+3</td></tr></table></div>';
+                echo '<div class="ITS_'.$tname.'"><table><tr><td><a href="Resource.php?rid='.$arr[$i][0].'">' . $arr[$i][1] . '</a></td><td class="tag_add" tid="' . $arr[$i][0] . '" tname="' . $tname . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
             }
             $tb .= '<tr><td>' . $tag_list . '</td></tr>';
         }

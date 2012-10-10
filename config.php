@@ -39,8 +39,8 @@ $files_dir = 'ITS_FILES';
 /*======= OS TYPE =======================*/
 if (PHP_OS == "WINNT") {
     $MDB2_path  = 'C:/xampp/php/pear/';
-    $tex_path   = '/cgi-bin/mimetex.exe? ';   // TEX_PATH
-    $files_path = '..' . $srv . '/ITS_FILES'; // RESOURCE_PATH (images etc.)
+    $tex_path   = '/cgi-bin/mimetex.exe? ';    // TEX_PATH
+    $files_path = '..' . $srv . '/ITS_FILES';  // RESOURCE_PATH (images etc.)
     $CAS_path   = '';
 } else {
     switch ($host) {
