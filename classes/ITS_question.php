@@ -104,9 +104,9 @@ class ITS_question
         }
         // ANSWER
         //die('aa');
-        /*
-        $query = "DESCRIBE " . $this->tb_name . '_' . $this->Q_question_data['qtype'];
-        die($query);
+        ///*
+        $query = "DESCRIBE " . $this->tb_name . '_' . strtolower($this->Q_question_data['qtype']);
+        //die($query);
         $res   = mysql_query($query);
         if (!$res) {
             die('Query execution problem in ITS_question: ' . msql_error());
@@ -114,7 +114,8 @@ class ITS_question
         $fields = array();
         for ($f = 0; $f < mysql_num_rows($res); $f++) {
 			$this->Q_answers_data[mysql_result($res, $f)] = '';
-        }*/
+        }
+        //*/
     }    
     //=====================================================================//
     function render_TITLE()
@@ -434,10 +435,12 @@ class ITS_question
         //$stags  = $b.'<br>'.$tagBox->createSearchAddBox(1,$qid);
         //=======
         //echo $style;
+       
         $style = 'ITS';
         $css   = 'ITS_QUESTION_DB';
         $dbT   = '<tr><th colspan="6">TAGS: ' . $sb . '</th></tr><tr><td colspan="7">' . $Q_T_list . $Q_T_sys_list . $sbr . '</td></tr>';
-        $db1   = '<tr><th colspan="2">TITLE</th><th>ANS</th><th>CATEGORY</th><th>QUESTION<br>config</b></th><th>ANSWERS<br>config</th></tr>' . '<tr>' . '<td class="' . $css . '" colspan="2">' . $this->createEditTable('title', $this->Q_question_data['title'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answers'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('category', $this->Q_question_data['category'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('title', $this->Q_question_data['questionConfig'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answersConfig'], $style) . '</td>' . '</tr>';
+        $db1   = '<tr><th colspan="2">TITLE</th><th>ANS</th><th>CATEGORY</th></tr><tr>' . '<td class="' . $css . '" colspan="2">' . $this->createEditTable('title', $this->Q_question_data['title'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answers'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('category', $this->Q_question_data['category'], $style) . '</td>';
+        $db11  = '<tr><th>QUESTION<br>config</b></th><th>ANSWERS<br>config</th></tr><td class="' . $css . '">' . $this->createEditTable('title', $this->Q_question_data['questionConfig'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answersConfig'], $style) . '</td>' . '</tr>';
         $db2   = '';
         
         switch (strtolower($this->Q_question_data['qtype'])) {
@@ -463,6 +466,7 @@ class ITS_question
                 }
                 
                 $ChkVal = '<input type="button" name="ShowPreview" id="ShowPreview" value="Value(s)">';
+                $Nvals = 2;
                 $db2 .= '<th>' . $ChkVal . '</th><th>Min value</th><th>Max value</th></tr>' . '<tr>';
                 for ($k = 0; $k < $this->Q_question_data['answers']; $k++) {
                     $db2 .= '<td rowspan="' . $Nvals . '" class="' . $css . '">' . $edit_tb[$k] . '</td>';
@@ -476,36 +480,56 @@ class ITS_question
                     $db2 .= '<td class="ITS_QUESTION_DB">' . $val_tb . '</td><td class="' . $css . '">' . $min_tb . '</td><td class="' . $css . '">' . $max_tb . '</td></tr>';
                 }
                 //++++++++++++++//
-                
-                /*   $vals   = $this->Q_question_data['answers']_data;
-                $fields = $this->Q_question_data['answers']_fields;
-                $Nvals  = (count($fields) - 1) / 3;
-                //ITS_debug($fields); // die();
-                $edit_tb = $this->createEditTable('formula', $vals[0], $style);
-                $db2 .= '<tr><th>formula</th><th>value</th><th>min value</th><th>max value</th></tr>'
-                . '<tr><td rowspan="' . $Nvals . '" class="' . $css . '">' . $edit_tb . '</td>';
-                
-                for ($f = 0; $f < $Nvals; $f++) {
-                $val_tb = $this->createEditTable('val' . ($f + 1), $vals[3 * $f + 1], $style);
-                $min_tb = $this->createEditTable('min_val' . ($f + 1), $vals[3 * $f + 2], $style);
-                $max_tb = $this->createEditTable('max_val' . ($f + 1), $vals[3 * $f + 3], $style);
-                //$answer_str .= '<font color="blue">'.$f.'</font> = '.$vals[$f].'<br>';
-                $db2 .= '<td class="ITS_QUESTION_DB">' . $val_tb . '</td><td class="' . $css . '">' . $min_tb . '</td><td class="' . $css . '">' . $max_tb . '</td></tr>';
-                }
-                */
-                
-                //$tb = new ITS_table('ANSWER_C',1,1,$tb_C_str,array(100),$class);
-                //$answer_str = '<center><div class="ITS_ANSWER">'.$tb_C_str.'</div></center>';
+                // DISPLAY 2
+                        $Qtb = '<ul id="ITS_ANSWER">';
+        $Qtb = '<table class="CPROFILE">';
+        foreach (array_keys($this->Q_question_data) as $field) {
+			if (!empty($this->Q_question_data[$field])){
+			switch ($field) {
+    case "id":
+    case "question":
+    case "qtype":
+        break;
+         case "images_id":
+         $Qtb .= '<tr><th width="5px">'.$field.'</th><td>image here</td></tr>';
+        break;   
+        default:
+        $Qtb .= '<tr><th width="5px">'.$field.'</th><td>'.$this->createEditTable($field, $this->Q_question_data[$field], $style).'</td></tr>';
+			//$tb .= '<li style="float:left;list-style-type: none;padding:4px"><table style="border:1px solid #999"><tr><th>'.$field.'</th></tr><tr><td>'.$this->Q_answers_data[$field].'</td></tr></table></li>';
+}}		
+			}
+
+		$Qtb .= '</table>';
+        $tb = '<ul id="ITS_ANSWER">';
+        $tb = '<table class="CPROFILE">';
+        foreach (array_keys($this->Q_answers_data) as $field) {
+			if (!empty($this->Q_answers_data[$field])){
+			switch ($field) {
+    case "questions_id":
+        break;
+         case "images_id":
+         $tb .= '<tr><th width="5px">'.$field.'</th><td>image here</td></tr>';
+        break;   
+        default:
+        $tb .= '<tr><th width="5px">'.$field.'</th><td>'.$this->createEditTable($field, $this->Q_answers_data[$field], $style).'</td></tr>';
+			//$tb .= '<li style="float:left;list-style-type: none;padding:4px"><table style="border:1px solid #999"><tr><th>'.$field.'</th></tr><tr><td>'.$this->Q_answers_data[$field].'</td></tr></table></li>';
+}}		
+			}
+		
+		$tb .= '</table>';
+        //($this->Q_answers_fields);
+
                 break;
             default:
                 $db2 = '';
         }
+        $QAtb = '<table><tr><th>Question</th><th>Answers</th></tr><tr><td>'.$Qtb.'</td><td>'.$tb.'</td></tr></table>';
         $tagtb   = '<div id="tagContainer" style="display: none;"><table class="' . $css . '">' . $dbT . '</table></div>'; //The Tags container
         //$tb  = '<table class="'.$css.'">' . $dbT . $db1 . $db2 . '</table>';
-        $tb      = '<table class="' . $css . '">' . $db1 . $db2 . '</table>';
+        //$tb      = '<table class="' . $css . '">' . $db1 .$db11. $db2 . '</table>';
         $metaTog = '<div id="metaContainerToggle"><span>&raquo;&nbsp;metaData</span></div>';
         $tagTog  = '<div id="tagContainerToggle"><span>&raquo;&nbsp;Tags</span></div>';
-        $str     = $tagTog . '' . $tagtb . '' . $metaTog . '<div id="metaContainer" style="display: none;"><p>' . $tb . '</p></div>'; //metaData Container
+        $str     = $tagTog . '' . $tagtb . '' . $metaTog . '<div id="metaContainer" style="display: none;"><center>' . $QAtb . '</center></div>'; //metaData Container
         return $str;
     }
     //=====================================================================//

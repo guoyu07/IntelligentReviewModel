@@ -1,7 +1,7 @@
 <?php
 /*=====================================================================//	
 Author(s): Greg Krudysz
-Last Revision: Oct-8-2012	
+Last Revision: Nov-9-2012	
 //=====================================================================*/
 //--- begin timer ---//
 $mtime     = microtime();
@@ -42,8 +42,10 @@ if ($status == 'admin') {
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>Profile</title>
-	<!---->
+	<title>User</title>
+		<link type="text/css" href="js/jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" />	
+    <script type="text/javascript" src="js/jquery-ui-1.8.23.custom/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.23.custom/js/jquery-ui-1.8.23.custom.min.js"></script>
 	<link rel="stylesheet" href="css/ITS.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_user.css" type="text/css" media="screen">
@@ -51,10 +53,6 @@ if ($status == 'admin') {
 	<link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
-	
-	<link type="text/css" href="js/jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="stylesheet" />	
-    <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>
 	<script type="text/javascript">
 	/*
 	$(function() {
@@ -63,8 +61,8 @@ if ($status == 'admin') {
   });*/
 	/*-------------------------------------------------------------------------*/
   $(document).ready(function() { 
-	 /*-------------------------------------------------------------------------*/
-	 /*	function doChange() {			
+	 /*-------------------------------------------------------------------------*/	
+	 function doChange() {			
       var sid     = $("#sortProfile").attr("sid");
       var section = $("#sortProfile").attr("section");
       var status  = $("#sortProfile").attr("status");
@@ -83,6 +81,7 @@ if ($status == 'admin') {
         var ln = $("input[name=last_name]").val();
         var st = $("input[name=username]").val();
         var de = $("#select_status option:selected").text();
+		//
 		//alert('ITS_add_user:  '+fn+'~'+ln+'~'+st+'~'+de);
         $.get('ajax/ITS_admin.php',{ ajax_args: "addUser", ajax_data: fn+'~'+ln+'~'+st+'~'+de}, function(data) {
           //alert(data);
@@ -91,14 +90,7 @@ if ($status == 'admin') {
 	 });
 	 /*-------------------------------------------------------------------------*/		 
   });
-  </script>
-  <style>
-	  #select_class { margin-top: 2em; }
-		.ui-widget-header   { background: #aaa; border: 2px solid #666; }
-		.ui-dialog-titlebar { background: #aaa; border: 2px solid #666; }
-		.ui-dialog-content  { text-align: left; color: #666; padding: 0.5em; }
-		.ui-button-text { color: #00a; }
-	</style>	
+  </script>	
 </head>
 <body>
 <div id="framecontent">
@@ -137,9 +129,6 @@ echo $nav;
 </form>
 </center>
 <?php
-//+++++++++++++++++++++++//
-//echo 'this is';		
-//+++++++++++++++++++++++//
 //-----------------------------------------------------------//
 // ACCOUNT INFO
 //-----------------------------------------------------------//

@@ -236,7 +236,8 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="css/ITS_tag.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">        
+        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">     
+                <link rel="stylesheet" href="css/ITS.css" type="text/css">      
         <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
 
         <!-- QTI IMPORTER start ----------------------------------->

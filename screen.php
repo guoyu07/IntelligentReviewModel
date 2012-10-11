@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '208k';
-$LAST_UPDATE = 'Nov-4-2012';
+$ITS_version = '208l';
+$LAST_UPDATE = 'Nov-5-2012';
 //=============================================================//
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
@@ -29,7 +29,7 @@ $view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 
 //----- SCHEDULE -----//
 $open  = array(array(8,20),array(8,27),array(9,3),array(9,24),array(10,22),array(10,29),array(11,19),array(11,19));
-$close = array(array(9,24),array(10,1),array(11,5),array(11,12),array(11,26),array(12,3),array(12,10),array(12,10));
+$close = array(array(9,24),array(10,1),array(11,5),array(11,19),array(11,26),array(12,3),array(12,10),array(12,10));
 
 $term_arr = explode('_',$term);
 $tset = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
