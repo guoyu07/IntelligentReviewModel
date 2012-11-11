@@ -1,9 +1,3 @@
-<?php
-/* ============================================================= */
-$ITS_version = '193';
-$LAST_UPDATE = 'May-19-2012';
-/* ============================================================= */
-?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
@@ -12,12 +6,7 @@ $LAST_UPDATE = 'May-19-2012';
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <title>ITS</title>
         <link rel="stylesheet" href="css/ITS_index4.css" type="text/css" media="screen">
-				<link rel="stylesheet" href="css/ITS_intro.css"  type="text/css" media="screen">				
-        <!--[if IE 6]>
-      	<link rel="stylesheet" href="css/IE6/ITS.css" type="text/css" media="screen">
-      	<![endif]-->	
-        <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>
+		<link rel="stylesheet" href="css/ITS_intro.css"  type="text/css" media="screen">				
         <script type="text/javascript">
           /*---- GOOGLE ANALYTICS ------------------*/
           var _gaq = _gaq || [];
@@ -73,7 +62,7 @@ School of Electrical and Computer Engineering <br>
 Georgia Institute of Technology, Atlanta, GA 30332-0250
   </p>
 	</center>
-Copyright <img src="/cgi-bin/mimetex.exe?\compose{\LARGE O}{\normalsize c}" alt=""> ITS @ GT, 2009-2012
+Copyright &copy; ITS @ GT, 2009-2012
 	</div>
 <!-- end div#FOOTER -->
 </div>

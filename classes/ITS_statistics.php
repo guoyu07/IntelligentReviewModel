@@ -864,6 +864,7 @@ class ITS_statistics {
                     // obtain highest tolerance
                     sort($toll_array);
                     $toll = $toll_array[0];
+
                     $k    = $i + 1;
                     if ($toll < $toll_lim) {
                         if ($weight[$i] == '') {
@@ -1332,9 +1333,10 @@ class ITS_statistics {
     }
     //----------------------------------------------------------------------------
     function get_question_dist($stats, $qid, $qtype, $title, $score){
-        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------  
         if (!empty($stats)) {
             $dist = array();
+            //die('1201');
             switch (strtolower($qtype)) {
                 //-------------------------------
                 case 'm':

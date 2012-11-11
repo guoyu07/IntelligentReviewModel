@@ -41,9 +41,8 @@ function submitf(obj){
 <h1>I<font color="gray">ntelligent</font> T<font
 color="gray">utoring</font> S<font color="gray">ystem</font><br /></h1>
 <p>
-<img src="/cgi-bin/mimetex.exe?\Large\Longleftrightarrow" alt=".">
-</p>
 <?php
+echo '<img src="'.$tex_path.'\Longleftrightarrow" alt="."></p>';
 if (isset($_REQUEST['ask_info'])){
   $msg = 'Please enter username and password<br />';
 }

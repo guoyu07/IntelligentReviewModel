@@ -443,7 +443,7 @@ img.ITS_question_img {
   padding: 0;
   margin: 0.5em 1em;
   max-height: 250px;
-  max-width: 650px;
+  max-width: 500px;
   text-align:right;
   vertical-align: middle;
   z-index: 3;
@@ -753,6 +753,7 @@ TD.ITS_ANSWER_BOXED SPAN.CHOICE {
 	background: #FFFFFF;
 	white-space: nowrap;
 	display: block;	
+	overflow: hidden;
 }
 TD.ITS_ANSWER_BOXED SPAN.CHOICE PRE.MATLAB {
     display: block;

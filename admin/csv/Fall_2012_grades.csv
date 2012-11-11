@@ -1,10 +1,10 @@
-jadams33,Adams," John",22,0,30,30,30,0,0,0,0
+jadams33,Adams," John",22,0,30,30,30,30,0,0,0
 radams41,Adams," Robert",10,0,30,3,0,0,0,0,0
 wadams33,Adams," Wesley",0,0,0,0,0,0,0,0,0
 jadipi3,Adipi," Jeekenn",30,30,30,3,0,0,0,0,0
 aagnone3,Agnone," Anthony",30,30,30,30,0,0,0,0,0
 sahnaf3,Ahnaf," Shafkat",30,30,21,0,0,0,0,0,0
-dajdari3,Ajdari," Donnya",30,30,30,0,0,0,0,0,0
+dajdari3,Ajdari," Donnya",30,30,30,1,0,0,0,0,0
 takins7,Akins," Travis",28,0,18,17,0,0,0,0,0
 daldrich3,Aldrich," Derek",0,0,0,0,0,0,0,0,0
 aalfarraj3,Alfarraj," Azzam",30,24,28,9,0,0,0,0,0
@@ -13,13 +13,13 @@ jarnold33,Arnold," Jesse",30,0,30,0,0,0,0,0,0
 carnold8,Arnold," Chelsey",30,30,23,0,0,0,0,0,0
 sbaek44,Baek," Seunghyuk",30,30,25,5,0,0,0,0,0
 cbagwell3,Bagwell," Carden",30,30,18,0,0,0,0,0,0
-bbailey32,Bailey," Benjamin",30,30,29,0,0,0,0,0,0
-sbanerjee44,Banerjee," Shurjo",30,30,30,1,0,0,0,0,0
+bbailey32,Bailey," Benjamin",30,30,29,5,0,0,0,0,0
+sbanerjee44,Banerjee," Shurjo",30,30,30,4,0,0,0,0,0
 dbantug3,Bantug," Derek",30,30,30,27,0,0,0,0,0
 abarry30,Barry," Aissatou",3,0,0,0,0,0,0,0,0
 sbatra30,Batra," Sarthak",30,0,30,0,0,0,0,0,0
 dbegasse3,Begasse," Daniel",30,30,30,0,0,0,0,0,0
-nbeneda3,Beneda," Nick",30,30,29,29,26,0,0,0,0
+nbeneda3,Beneda," Nick",30,30,29,29,30,0,0,0,0
 rberhane3,Berhane," Robel",30,30,30,0,0,0,0,0,0
 kberman6,Berman," Kevin",30,30,24,0,0,0,0,0,0
 jberry35,Berry," John",30,0,21,0,0,0,0,0,0
@@ -33,7 +33,7 @@ lbooth3,Booth," Luke",30,30,30,30,0,0,0,0,0
 kbostater3,Bostater," Kristen",30,30,30,0,0,0,0,0,0
 mboumenir3,Boumenir," Mohammed",1,0,0,0,0,0,0,0,0
 abraun8,Braun," Allen",30,30,30,15,5,0,0,0,0
-mbrooks35,Brooks," Mark",30,30,25,0,0,0,0,0,0
+mbrooks35,Brooks," Mark",30,30,25,1,0,0,0,0,0
 nbrown47,Brown," Nicholas",30,30,17,0,0,0,0,0,0
 sbufi3,Bufi," Sokrat",30,24,14,1,0,0,0,0,0
 mbuhari3,Buhari," Mohamed",30,30,30,0,0,0,0,0,0
@@ -58,7 +58,7 @@ jclinton3,Clinton," Joshua",30,26,25,6,0,0,0,0,0
 gth746s,Coleman," James",30,30,30,0,0,0,0,0,0
 sconway30,Conway," Stephen",30,30,30,30,0,0,0,0,0
 kcook39,Cook," Kevin",30,30,30,13,0,0,0,0,0
-acorbett3,Corbett," Andrew",30,30,17,3,0,0,0,0,0
+acorbett3,Corbett," Andrew",30,30,17,7,0,0,0,0,0
 rcruz8,Cruz," Reinaldo",30,30,28,8,0,0,0,0,0
 ddarcy6,D'Arcy," Declan",0,0,0,0,0,0,0,0,0
 edavies6,Davies," Evan",30,30,30,10,0,0,0,0,0
@@ -80,7 +80,7 @@ mfontenot3,Fontenot," Matthew",28,10,22,0,0,0,0,0,0
 tfortes3,Fortes," Thomas",30,0,30,6,0,0,0,0,0
 kframpton3,Frampton," Kati",29,19,2,0,0,0,0,0,0
 jfreeman43,Freeman," Julie",30,30,30,0,0,0,0,0,0
-mfreije3,Freije," Manuel",30,30,30,14,0,0,0,0,0
+mfreije3,Freije," Manuel",30,30,30,30,8,0,0,0,0
 cgao30,Gao," Chen",30,30,30,30,0,0,0,0,0
 agarofano3,Garofano," Aaron",30,30,30,30,10,0,0,0,0
 wgauspohl3,Gauspohl," William",30,30,30,30,0,0,0,0,0
@@ -90,11 +90,11 @@ bgizaw3,Gizaw,Belane,30,30,30,0,0,0,0,0,0
 wgoal3,Goal," Willy",30,30,30,0,0,0,0,0,0
 mgolino3,Golino," Matthew",30,1,13,0,0,0,0,0,0
 dgoodman9,Goodman," Dustin",30,30,30,0,0,0,0,0,0
-agregor3,Gregor," Alexander",30,30,30,12,0,0,0,0,0
+agregor3,Gregor," Alexander",30,30,30,30,0,0,0,0,0
 qgu7,Gu," Qinchen",30,30,30,30,14,0,0,0,0
-jguinta3,Guinta," Joseph",30,30,30,11,0,0,0,0,0
+jguinta3,Guinta," Joseph",30,30,30,30,5,0,0,0,0
 jhan86,Han," Jae Kyung",6,0,0,0,0,0,0,0,0
-ehanson3,Hanson," Erin",30,30,30,15,0,0,0,0,0
+ehanson3,Hanson," Erin",30,30,30,30,10,0,0,0,0
 ahaque31,Haque," Akm",30,30,30,4,0,0,0,0,0
 jhartney3,Hartney," Jordan",30,30,28,0,0,0,0,0,0
 jhawkins38,Hawkins,James,0,30,0,0,0,0,0,0,0
@@ -104,14 +104,14 @@ nhenry7,Henry," Nicole",30,30,10,9,0,0,0,0,0
 gholden3,Holden," Gina",11,0,19,0,0,0,0,0,0
 jholley7,Holley," Joshua",30,30,29,0,0,0,0,0,0
 khospedales3,Hospedales," Kevone",30,0,29,0,0,0,0,0,0
-choude3,Houde," Carl",30,30,23,9,0,0,0,0,0
+choude3,Houde," Carl",30,30,23,13,0,0,0,0,0
 jhowe7,Howe," Jillian",30,30,22,0,0,0,0,0,0
 ghutchins3,Hutchins," Garrett",30,29,27,26,0,0,0,0,0
-thuynh42,Huynh," Tho",30,30,30,0,0,0,0,0,0
-ahuynh3,Huynh," Alice",30,30,30,0,0,0,0,0,0
+thuynh42,Huynh," Tho",30,30,30,30,0,0,0,0,0
+ahuynh3,Huynh," Alice",30,30,30,30,0,0,0,0,0
 mishmam3,Ishmam," Mahdir",30,0,30,0,0,0,0,0,0
 yjang41,Jang," Yonkyu",30,23,30,0,0,0,0,0,0
-ssang7,Jang," Suyoung",30,30,30,29,3,0,0,0,0
+ssang7,Jang," Suyoung",30,30,30,30,3,0,0,0,0
 njean6,Jean," Neal",30,30,30,30,0,0,0,0,0
 sjeong41,Jeong," Shin",30,0,16,0,0,0,0,0,0
 ajimenez30,Jimenez," Alejandro",30,30,30,30,10,0,0,0,0
@@ -121,14 +121,14 @@ jjohnson327,Johnson," Julian",22,30,16,26,30,0,0,0,0
 jjunco3,Junco," Jorge",30,30,25,0,0,0,0,0,0
 akahin3,Kahin," Adam",30,30,30,1,0,0,0,0,0
 skang94,Kang," Soheui",30,30,30,0,0,0,0,0,0
-rkantlehner3,Kantlehner," Robert",30,30,30,1,0,0,0,0,0
+rkantlehner3,Kantlehner," Robert",30,30,30,9,0,0,0,0,0
 nkaraulac3,Karaulac," Nedeljko",30,30,30,0,0,0,0,0,0
 tkeatley3,Keatley," Trent",0,0,0,0,0,0,0,0,0
 jkester3,Kester," Jonathan",0,0,0,0,0,0,0,0,0
 mkhan67,Khan," Muhammad",30,30,30,0,0,0,0,0,0
 jkim808,Kim," Ji Young",30,30,30,1,0,0,0,0,0
 nkim71,Kim," Nakyoung",30,30,30,0,0,0,0,0,0
-pkomarov3,Komarov," Pavel",30,30,30,28,0,0,0,0,0
+pkomarov3,Komarov," Pavel",30,30,30,30,0,0,0,0,0
 rkosicki3,Kosicki," Robert",27,0,0,0,0,0,0,0,0
 wkoskiewicz3,Koskiewicz," William",30,0,22,0,0,0,0,0,0
 bkuo6,Kuo," Brian",30,30,24,0,0,0,0,0,0
@@ -138,7 +138,7 @@ alawrence32,Lawrence," Alyssa",24,30,30,29,0,0,0,0,0
 blee98,Lee," Brian",30,30,30,10,0,0,0,0,0
 dlee392,Lee," Dongsub",30,30,30,0,0,0,0,0,0
 jlee755,Lee," Joshua",0,27,1,0,0,0,0,0,0
-mlee350,Lee," Myron",30,30,30,0,0,0,0,0,0
+mlee350,Lee," Myron",30,30,30,8,0,0,0,0,0
 dlee440,Lee," Daniel",30,30,30,5,0,0,0,0,0
 slee661,Lee," Seung",30,30,30,0,0,0,0,0,0
 klemus3,Lemus," Kevin",1,30,24,0,0,0,0,0,0
@@ -148,14 +148,14 @@ jlibbey3,Libbey," Jason",0,0,0,0,0,0,0,0,0
 zlin40,Lin," Zechariah",30,30,30,20,0,0,0,0,0
 wlw3,Lin," Willy",30,30,30,1,0,0,0,0,0
 glu9,Lu," Guang",30,30,30,0,0,0,0,0,0
-lma42,Ma," Lawrence",30,30,30,7,0,0,0,0,0
+lma42,Ma," Lawrence",30,30,30,12,0,0,0,0,0
 xmao34,Mao," Xiangyu",0,0,0,0,0,0,0,0,0
 amarsen3,Marsen," Abraham",9,4,30,28,7,0,0,0,0
 amartenson3,Martenson," Austin",30,30,30,0,0,0,0,0,0
 rmcentaggart3,McEntaggart," Rindawati",30,30,30,20,0,0,0,0,0
 jmcgaughey3,Mcgaughey," Joseph",30,30,27,0,0,1,0,0,0
 rmcneal6,McNeal," Ryan",0,0,0,0,0,0,0,0,0
-tmeares3,Meares," Taylor",30,30,30,13,0,0,0,0,0
+tmeares3,Meares," Taylor",30,30,30,15,0,0,0,0,0
 bmedeiros6,Medeiros," Bradford",30,30,30,3,0,0,0,0,0
 jmelliadis3,Melliadis," Jordan",30,30,30,10,0,0,0,0,0
 jmims3,Mims," Jihad",30,30,30,0,0,0,0,0,0
@@ -165,7 +165,7 @@ cmonaco3,Monaco," Christopher",30,1,22,1,0,0,0,0,0
 rmoon6,Moon," Richard",30,30,30,1,0,0,0,0,0
 nmoon3,Moon," Nathan",30,30,0,0,0,0,0,0,0
 ymoon9,Moon," Young Suk",30,3,24,1,0,0,0,0,0
-jmoreira3,Moreira," Jose",30,6,30,1,0,0,0,0,0
+jmoreira3,Moreira," Jose",30,6,30,28,0,0,0,0,0
 jmulder3,Mulder," John",30,3,16,0,0,0,0,0,0
 smulpuru3,Mulpuru," Sai Raghav",8,0,4,0,0,0,0,0,0
 smurhammer3,Murhammer," Steven",30,30,30,0,0,0,0,0,0
@@ -177,16 +177,16 @@ bnensick3,Nemsick," Brian",30,30,30,29,1,0,0,0,0
 anewton8,Newton," Alexander",30,14,30,0,0,0,0,0,0
 anorkham3,Norkham," Alan",30,30,30,0,0,0,0,0,0
 mnuon3,Nuon," Seth",26,3,1,0,0,0,0,0,0
-toneal30,O'Neal," Troy",30,30,30,0,0,0,0,0,0
+toneal30,O'Neal," Troy",30,30,30,30,0,0,0,0,0
 roneal3,O'Neal," Robert",30,30,30,28,30,4,0,0,0
 gte724p,O'Rourke," Nathaniel",30,30,30,29,0,0,0,0,0
 joh74,Oh," Jaekyu",30,30,28,0,0,0,0,0,0
-soludare6,Oludare," Simisola",27,26,21,0,0,0,0,0,0
+soludare6,Oludare," Simisola",27,26,21,28,0,0,0,0,0
 jomess3,Omess," Jeremy",30,30,30,24,0,0,0,0,0
 spanda6,Panda," Saswat",30,10,30,0,0,0,0,0,0
-mpang3,Pang," Mitchell",30,30,30,8,0,0,0,0,0
+mpang3,Pang," Mitchell",30,30,30,11,0,0,0,0,0
 wparker9,Parker," Will",30,30,5,0,0,0,0,0,0
-apatel384,Patel," Ateet",30,6,30,30,7,0,0,0,0
+apatel384,Patel," Ateet",30,6,30,30,18,0,0,0,0
 kpatel82,Patel," Krishna",30,30,28,27,0,0,0,0,0
 pdpc3,"Perez De Corcho"," Peter",30,30,30,25,0,0,0,0,0
 cpeterson30,Peterson," Christopher",30,30,30,0,0,0,0,0,0
@@ -194,11 +194,11 @@ dpierre3,Pierre," Doubea",30,26,20,0,0,0,0,0,0
 ppierre6,Pierre," Patrick",30,30,30,0,0,0,0,0,0
 apotnis3,Potnis," Anish",30,30,30,29,0,0,0,0,0
 kpowell35,Powell," Kevin",30,17,23,24,0,0,0,0,0
-tprusisz3,Prusisz," Tyler",30,30,30,5,0,0,0,0,0
+tprusisz3,Prusisz," Tyler",30,30,30,30,0,0,0,0,0
 mrahman44,Rahman," Moklasur",30,30,30,1,0,0,0,0,0
 rrajan7,Rajan," Rohith",30,30,30,0,0,0,0,0,0
 nray30,Ray," Nicole",30,30,17,0,0,0,0,0,0
-srezaei6,Rezaei," Seyed Mansour",30,0,29,1,0,0,0,0,0
+srezaei6,Rezaei," Seyed Mansour",30,0,29,8,0,0,0,0,0
 jrha3,Rha," Jae Woong",30,0,30,0,0,0,0,0,0
 hriddiford3,Riddiford," Hayden",30,30,30,0,0,0,0,0,0
 brock3,Rock," Brandon",30,30,30,1,0,0,0,0,0
@@ -211,10 +211,10 @@ natchaphon3,Ruengsakulrach," Natchaphon",30,30,30,28,0,0,0,0,0
 irush3,Rush," Ivan",30,30,30,2,0,0,0,0,0
 sseligsohn3,Seligsohn," Steven",30,30,30,30,0,0,0,0,0
 msen6,Sen," Mallika",30,0,25,0,0,0,0,0,0
-dsheng6,Sheng," Di",30,30,30,25,0,0,0,0,0
+dsheng6,Sheng," Di",30,30,30,30,0,0,0,0,0
 eshibut3,Shibut," Emily",30,30,29,29,1,0,0,0,0
 fshiu3,Shiu," Fu Hung",30,30,30,0,0,0,0,0,0
-dsigelbaum3,Sigelbaum," Douglas",30,30,30,14,0,0,0,0,0
+dsigelbaum3,Sigelbaum," Douglas",30,30,30,16,0,0,0,0,0
 jskow3,Skow," Joshua",30,30,30,30,0,0,0,0,0
 dslack6,Slack," Dylan",30,30,30,27,0,0,0,0,0
 wsmith41,Smith," Webb",0,0,0,0,0,0,0,0,0
@@ -224,7 +224,7 @@ msong37,Song," Mark",30,30,21,0,0,0,0,0,0
 ssridhara3,Sridhar," Srivathsa",30,30,19,0,0,0,0,0,0
 sjsm3,"St. Martin"," Scott",30,30,30,0,0,0,0,0,0
 gstein6,Stein," Gregory",30,6,0,0,0,0,0,0,0
-sstrang6,Strang," Stephen",30,6,30,6,0,0,0,0,0
+sstrang6,Strang," Stephen",30,6,30,18,0,0,0,0,0
 "Student ID","Student Name",,0,0,0,0,0,0,0,0,0
 rswinehart3,Swinehart," Rachel",29,30,30,0,0,0,0,0,0
 jtao8,Tao," Junhan",30,30,30,28,0,0,0,0,0
