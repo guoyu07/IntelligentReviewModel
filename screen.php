@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '208m';
-$LAST_UPDATE = 'Nov-11-2012';
+$ITS_version = '208o';
+$LAST_UPDATE = 'Nov-13-2012';
 //=============================================================//
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
@@ -85,6 +85,22 @@ include(INCLUDE_DIR.'include_fancybox.php');
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	
 <script type="text/javascript">
 $(document).ready(function() {
+$(".fancybox").fancybox({
+			  type: 'inline',
+		  closeClick: true,
+		  padding: 5,
+          helpers: {
+	overlay : {
+		closeClick : true,
+		speedOut   : 300,
+		showEarly  : false,
+		css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
+	},			  
+              title : {
+                  type : 'inside'
+              }
+          }
+      });    
 $(".ITS_schedule").fancybox({
 		  type: 'ajax',
 		  closeClick: true,

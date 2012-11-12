@@ -107,7 +107,7 @@ class ITS_tag {
     function add($keyword, $rid, $rname){
         //=====================================================================// 	  
         //echo 'add<br>';       
-        $tag = '<div class="ITS_tag"><table><tr><td>' . $keyword . '</td><td class="tag_add" tid="0" tname="' . $keyword . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
+        $tag = '<div class="ITS_tags"><table><tr><td>' . $keyword . '</td><td class="tag_add" tid="0" tname="' . $keyword . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
         
         return $tag;
     }
