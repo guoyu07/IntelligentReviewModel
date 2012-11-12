@@ -102,20 +102,18 @@ class ITS_question
         for ($f = 0; $f < mysql_num_rows($res); $f++) {
             $this->Q_question_data[mysql_result($res, $f)] = '';
         }
+        
         // ANSWER
-        //die('aa');
-        ///*
-        $query = "DESCRIBE " . $this->tb_name . '_' . strtolower($this->Q_question_data['qtype']);
-        //die($query);
+        $query = "DESCRIBE " . $this->tb_name . '_' . strtolower($d[1]);
         $res   = mysql_query($query);
         if (!$res) {
             die('Query execution problem in ITS_question: ' . msql_error());
         }
         $fields = array();
+
         for ($f = 0; $f < mysql_num_rows($res); $f++) {
             $this->Q_answers_data[mysql_result($res, $f)] = '';
         }
-        //*/
     }
     //=====================================================================//
     function render_TITLE()

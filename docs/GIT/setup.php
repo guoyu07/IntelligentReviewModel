@@ -14,7 +14,7 @@ Instructions for installing developer's tools on Ubuntu:
 			<tr><th>ITEM</th><th>ACTION</th></tr>
 	    <!--------------------------------------------------------------------->
 	    <tr>
-		  <td>GIT</td>
+		  <td>GIT<br>SETUP</td>
 			<td class="list">
 			  <ol>
 				<li><b>Download:</b> <a href="ubuntu.com">ubuntu.com</a> Ubuntu server</li>
@@ -23,6 +23,31 @@ Instructions for installing developer's tools on Ubuntu:
 				<li>Include editor:<br><code>git config --global core.editor /usr/big/geany</code></li>	
         </ol>
 			</td>
+			</tr>
+			<tr>
+				<td>GIT<br>REMOTE</td>
+			<td class="list">
+			  <ul>
+				<li><b>DEV5 ( ssh -X [username]@itsdev5.vip.gatech.edu )</b></li>
+				<code>cd /home/[username]<br>
+				git clone [username]@itsdev5.vip.gatech.edu:/opt/git/ITS-GT.git html<br>			
+				cd html<br>	
+				git branch dev</code>
+				<li><b>LOCAL</b><br>
+				<code>cd /var/www<br>
+				git clone [username]@itsdev5.vip.gatech.edu:/home/[username]/html<br>			
+				cd html</code><br>	
+				[change file(s)]<br>	
+				<code>git add *<br>		
+				git commit -am "first message"<br>	
+				git push origin --delete dev<br>
+				git push origin HEAD:dev</code>
+				<li><b>DEV5</b></li>
+<code>cd /home/[username]/html<br>
+git checkout master<br>
+git merge dev</code>
+        </ul>
+			</td>			
 		  </tr>
 	    <!--------------------------------------------------------------------->			
   </table></center>

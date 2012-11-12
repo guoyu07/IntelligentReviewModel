@@ -427,9 +427,8 @@ switch ($action) {
                     1,
                     NULL
                 );
-                $obj->load_DATA($data);
-                $obj->Q_answers_values = array_fill(0, $N, NULL);
-                $obj->Q_weights_values = array_fill(0, $N, NULL);
+                //$obj->load_DATA($data);
+				$str = 'aaa';
                 break;
             //---------------//
             case 'clone':
@@ -438,6 +437,7 @@ switch ($action) {
                 $obj->get_ANSWERS_data_from_DB();
                 break;
         }
+        /*
         //echo $obj->Q_answers;
         $class = 'text ui-widget-content ui-corner-all ITS_Q';
         $ans   = '<table id="ITS_Qans" class="ITS_Qans">';
@@ -457,6 +457,7 @@ switch ($action) {
         }
         $ans .= '</table>';
         $str = $ans;
+        */
         break;
         //-------------------------------------------//
 }
