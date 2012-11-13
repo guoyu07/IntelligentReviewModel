@@ -509,6 +509,7 @@ class ITS_question
                             case "id":
                             case "question":
                             case "qtype":
+                            case "tag_id":  
                                 break;
                             case "images_id":
                                 $Qtb .= '<tr><th width="5px">' . $field . '</th><td>image here</td></tr>';
@@ -521,15 +522,10 @@ class ITS_question
                 } 
                 $Qtb .= '</table>';
                 //($this->Q_answers_fields);
-                
-  /*              break;
-            default:
-                $db2 = '';
-        }*/
+
         $QAtb    = '<table><tr><th>Question</th><th>Answers</th></tr><tr><td>' . $Qtb . '</td><td>' . $tb . '</td></tr></table>';
-        $tagtb   = '<div id="tagContainer" style="display: none;"><table class="' . $css . '">' . $dbT . '</table></div>'; //The Tags container
-        //$tb  = '<table class="'.$css.'">' . $dbT . $db1 . $db2 . '</table>';
-        //$tb      = '<table class="' . $css . '">' . $db1 .$db11. $db2 . '</table>';
+        $tagtb   = '<div id="tagContainer" style="display: none;"><table class="' . $css . '">' . $dbT . '</table></div>'; 
+        //The Tags container
         $metaTog = '<div id="metaContainerToggle"><span>&raquo;&nbsp;metaData</span></div>';
         $tagTog  = '<div id="tagContainerToggle"><span>&raquo;&nbsp;Tags</span></div>';
         $str     = $tagTog . '' . $tagtb . '' . $metaTog . '<div id="metaContainer" style="display: none;"><center>' . $QAtb . '</center></div>'; //metaData Container
@@ -1015,14 +1011,36 @@ class ITS_question
         foreach (array_keys($this->Q_answers_data) as $field ){
         $tb .= '<tr><td>'.$field . '</td><td>' . $this->Q_answers_data[$field] . '</td></tr>';
         }
-        $tb .= '</table>'; //die();
-        //*/
+        $tb .= '</table>'; //die();*/
         
         $act   = explode('~', $action);
+                $class = 'text ui-widget-content ui-corner-all ITS_Q';
+        $label_class = 'field_label';
         //echo $act[0]; die();
-        $class = 'text ui-widget-content ui-corner-all ITS_Q';
         
-        /* 
+        //-- NEW: Set Defualt Values
+        if ($act[0]=='new') {
+			$this->Q_question_data['qtype'] = $act[1];
+			$qtype = '<div id="navContainer">' . '<ul id="navListQC">' . '<li qtype="mc" value="mc" name="qtype"><a href="#" id="current">Multiple Choice</a></li>' . '<li qtype="m"  value="m"  name="qtype"><a href="#">Matching</a></li>' . '<li qtype="c"  value="c"  name="qtype"><a href="#">Calculated</a></li>' . '<li qtype="s"  value="s"  name="qtype"><a href="#">Short Answer</a></li>' . '<li qtype="p"  value="p"  name="qtype"><a href="#">Paragraph</a></li>' . '</ul>' . '</div>';
+			            switch ($this->Q_question_data['qtype']) {
+                //+++++++++++++++++++++++++++++++++++++++++++//
+                case 'm':
+                case 'mc':
+                $this->Q_question_data['answers'] = 4;
+               break;
+               default:
+               $this->Q_question_data['answers'] = 1;
+		   }		
+		} else {
+						            switch (strtolower($this->Q_question_data['qtype'])) {
+                case 'm':  $field = 'MATCHING';break;
+                case 'mc': $field = 'MULTIPLE CHOICE';break;
+				case 'c':  $field = 'CALCULATED';break;
+		   }
+			 $qtype = '<p><b>'.$field.' QUESTION<b></p>';
+		}
+				//--
+ /*
         $qtypes = array('Multiple Choice','Matching','Calculated','Short Answer','Paragraph');
         $qtype = '<select id="ITS_qtype" name="qtype" qid="'.$this->Q_question_data['id'].'">';
         for ($t=1; $t<=count($qtypes); $t++) {
@@ -1032,12 +1050,9 @@ class ITS_question
         }
         $qtype .= '</select>';*/
         
-        //$qtype = '<div id="navContainer">' . '<ul id="navListQC">' . '<li qtype="mc" value="mc" name="qtype"><a href="#" id="current">Multiple Choice</a></li>' . '<li qtype="m"  value="m"  name="qtype"><a href="#">Matching</a></li>' . '<li qtype="c"  value="c"  name="qtype"><a href="#">Calculated</a></li>' . '<li qtype="s"  value="s"  name="qtype"><a href="#">Short Answer</a></li>' . '<li qtype="p"  value="p"  name="qtype"><a href="#">Paragraph</a></li>' . '</ul>' . '</div>';
-        
         $form = $tb . '<form id="Qform"><fieldset><table class="ITS_newQuestion">';
-        $form .= '<tr><td colspan="2" style="position:relative;width:100%;">' . $qtype . '</td></tr>';
+        $form .= '<tr>'.$qtype.'</tr>';
         
-        //for ($i = 2; $i < count($fields); $i++) {
         foreach (array_keys($this->Q_question_data) as $field) {
             $label = '<label for="' . $field . '"><b>' . strtoupper(preg_replace('/_/', ' ', $field)) . ': </b></label>';
             //--------------------------//
@@ -1046,6 +1061,8 @@ class ITS_question
                 //+++++++++++++++++++++++++++++++++++++++++++//
                 case 'id':
                 case 'qtype':
+                case 'verified':
+                case 'verified_by':
                 case 'tag_id':
                     break;
                 //+++++++++++++++++++++++++++++++++++++++++++//
@@ -1062,7 +1079,7 @@ class ITS_question
                     $sel .= '</select>'; */
                     
                     $sel   = '<input type="button" name="changeAnswer" id="addAnswer" v="+" value="+" class="ITS_buttonQ">' . '<br><input type="button" name="changeAnswer" id="remAnswer" v="-" value="&mdash;" class="ITS_buttonQ">';
-                    $n     = $this->Q_question_data['answers'];
+                    $n     = $this->Q_question_data[$field];
                     $qtype = strtolower($this->Q_question_data['qtype']);
                     switch ($qtype) {
                         //-------------------------------------------//
@@ -1099,7 +1116,6 @@ class ITS_question
                                 $ans .= '<tr><td>' . $a . '</td><td>' . $L_field . '</td><td>' . $R_field . '</td></tr>';
                             }
                             $ans .= '</table>';
-                            
                             $form .= '<tr id="ansQ"><td>' . $label . '<br>' . $sel . '</td><td>' . $ans . '</td></tr>';
                             break;
                         //-------------------------------------------//
@@ -1217,52 +1233,25 @@ class ITS_question
                         $sel .= '<option ' . $issel . ' value="' . $val . '">' . $val . '</option>';
                     }
                     $sel .= '</select>';
-                    $form .= '<tr><td style="width:10%;padding:0.25em;text-align:right">' . $label . '</td><td colspan="5">' . $sel . '</td></tr>';
+                    $form .= '<tr><td class="'.$label_class.'">' . $label . '</td><td colspan="5">' . $sel . '</td></tr>';
                     mysql_free_result($res);
                     break;
                 //+++++++++++++++++++++++++++++++++++++++++++//
                 case 'author':
-                case 'verified_by':
                     //+++++++++++++++++++++++++++++++++++++++++++// 
-                    $field = '<textarea name="' . $field . '" id="' . $field . '" class="' . $class . '">' . htmlspecialchars($this->user_id) . '</textarea>';
-                    $form .= '<tr><td style="width:10%;padding:0.25em;text-align:right">' . $label . '</td><td colspan="5" style="text-align:center">' . $field . '</td></tr>';
+                    $form .= '<input type="hidden" name="' . $field . '" value="'.htmlspecialchars($this->user_id).'">';
                     break;
                 //+++++++++++++++++++++++++++++++++++++++++++//
                 default:
                     //+++++++++++++++++++++++++++++++++++++++++++//
                     $field = '<textarea name="' . $field . '" id="' . $field . '" class="' . $class . '">' . htmlspecialchars($this->Q_question_data[$field]) . '</textarea>';
-                    $form .= '<tr><td style="width:10%;padding:0.25em;text-align:right">' . strtoupper($label) . '</td><td colspan="5">' . $field . '</td></tr>';
+                    $form .= '<tr><td class="'.$label_class.'">' . strtoupper($label) . '</td><td colspan="5">' . $field . '</td></tr>';
             }
         }
         $buttons = '<div id="cancelDialog" class="ITS_button" style="float:right">Cancel</div>' . '<div id="PreviewDialog" class="ITS_button" style="float:right">Show Preview</div>' . '<div id="submitDialog" class="ITS_button" style="float:right">Create New Question</div>';
         $form .= '</table>' . $buttons . '</fieldset><noscript><input type="submit" value="Submit"></noscript></form>';
         $dialog = '<div title="Create New Question" id="xxy">' . $form . '</div>';
         
-        /*
-        $dialog .= '<div id="dialog-form" title="Create new Question" style="display:none">'
-        .'<p class="validateTips">To create a templated question just click on the "Create Question" button.</p><br>'
-        .'<form>'
-        .'<fieldset>'
-        .'<table class="ITS_newQuestion"><tr>'
-        .'<td style="width:20%"></td>'.$Qtitle_label
-        .'<td style="width:80%"></td>'
-        .'</tr><tr><td><label for="Qimage">Image</label></td>'
-        .'<td><input type="text" name="Qimage" id="Qimage" value="'.$image.'" class="text ui-widget-content ui-corner-all ITS_Q" /></td>'
-        .'</tr><tr><td><label for="Qquestion">Question</label></td>'
-        .'<td><input type="text" name="Qquestion" id="Qquestion" value="'.$question.'" style="height:150px" class="text ui-widget-content ui-corner-all ITS_Q" /></td>'
-        .'</tr><tr><td><label for="Qanswers">No. Answers</label>&nbsp;&nbsp;'
-        .'<select id="Qanswers" style="float:right">'
-        .'<option value="1">1</option>'
-        .'<option value="2">2</option>'
-        .'<option value="3">3</option>'
-        .'<option value="4" selected="selected">4</option>'
-        .'<option value="5">5</option>'
-        .'</select></td><td></td>'
-        .'</tr><tr><td><label for="Qcategory">Category</label></td>'
-        .'<td><input type="text" name="Qcategory" id="Qcategory" value="'.$category.'" class="text ui-widget-content ui-corner-all ITS_Q" /></td>'
-        .'</tr></table><p><div id="cancelDialog" class="ITS_button" style="float:right">Cancel</div><div id="submitDialog" class="ITS_button" style="float:right">Create New Question</div>'
-        .'</fieldset></form></div>';
-        */
         return $dialog;
     }
     //=====================================================================//

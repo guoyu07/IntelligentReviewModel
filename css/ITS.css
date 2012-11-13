@@ -3,8 +3,6 @@ Author(s): Greg Krudysz
 W3C CSS Validator results for ITS.css (CSS level 2.1)
 ======================================================*/
 
-/*.ANDTHIS img:hover {  }*/
-
 .ITS_error { background: #ff9;color: red;font-weight:bold;border:2px solid #000; }
 #slider { z-index: 2; }
 /*
@@ -1348,13 +1346,7 @@ label.ansCheck_inactive {
 /*==========================================================================
                F O O T E R
 ============================================================================*/
-#footerContainer {
-	clear: both;
-	color: #999;
-	font-size: 80%;
-	padding-top: 5em;
-	text-align: center;
-	border-top: 2px solid #999999;
+#footerContainer {clear: both;color: #999;font-size: 80%;padding-top: 2em;text-align: center;border-top: 2px solid #999999;
 	/*overflow:auto;*/
 }
 div.footer_list {

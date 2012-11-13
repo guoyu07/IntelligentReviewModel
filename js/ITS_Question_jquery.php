@@ -322,6 +322,27 @@ echo $qid;
     /*-------------------------------------------------------------------------*/
     $("#createQuestion").live('click', function (event) {
         var qtype = $(this).attr("qtype");
+        //alert(qtype);
+        //$("#ITS_question_container").append(load("showtext.php"));
+        $.get('ajax/ITS_admin.php', {
+            ajax_args: "createQuestion",
+            ajax_data: 'new~' + qtype
+        }, function (data) {
+            $('#ITS_question_container').append(data);
+            $('#dialog-form').css("display", "block");
+            $("li[name='qtype']").each(function (index) {
+                if ($(this).attr("qtype") == qtype) {
+                    $(this).children("a").attr('id', 'current');
+                } else {
+                    $(this).children("a").attr('id', '');
+                }
+            })
+        });
+    });    
+    /*-------------------------------------------------------------------------*/
+    /*
+    $("#createQuestion").live('click', function (event) {
+        var qtype = $(this).attr("qtype");
         // alert(qtype);
         $.get('ajax/ITS_admin.php', {
             ajax_args: "createQuestion",
@@ -345,7 +366,7 @@ echo $qid;
                      },
                            Cancel: function() { $( this ).dialog( "close" ); }
                                      },*/
-                close: function () {
+ /*               close: function () {
                     //alert('on closing ...');
                 }
             });
@@ -359,9 +380,10 @@ echo $qid;
                 }
             })
             //$("#ITS_qtype").change(function() { doChange1(); }).attr("onchange", function() { doChang1();  });
-            /*------------*/
+
         });
-    });
+    });*/
+    /*-------------------------------------------------------------------------*/    
     function doChange1() {
         //$('#ITS_qtype').css('border','2px solid red');
         /*
@@ -535,14 +557,6 @@ echo $qid;
         }, function (data) {
             $('#ITS_question_container').append(data);
             $('#dialog-form').css("display", "block");
-            //var dialog = data;
-            //alert(dialog);
-            //var dialog = $(data).appendTo('body');
-            //var dialog = $('<div style="display:hidden"></div>').appendTo('body');
-            //dialog.dialog();
-            //$('#myDialog').css("position","absolute");
-            //$('#ITS_question_container').append(data);  
-            //$( "#dialog-form" ).dialog("open");
             $("li[name='qtype']").each(function (index) {
                 if ($(this).attr("qtype") == qtype) {
                     $(this).children("a").attr('id', 'current');
@@ -551,7 +565,6 @@ echo $qid;
                 }
             })
         });
-        //$( "#dialog-form" ).dialog("open");
     });
     /*-------------------------------------------------------------------------*/
     $("#deleteQuestion").live('click', function (event) {
