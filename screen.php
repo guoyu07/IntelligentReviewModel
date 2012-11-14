@@ -190,15 +190,16 @@ switch ($status) {
         $mode   = 'question'; // index | practice | question
         //$chList = '<span id="chText">MODULE</span><ul id="chList">';
         
-        /*     
+        ///*     
         $chList = '<div class="QuestionMode"><select id="QuestionMode">'
         .'<option value="MODULE">Modules</option>'
         .'<option value="CONCEPT" id="showConcepts">Concepts</option></select>'
         .'<input type="button" style="display:none" name="changeConcept" id="changeConcept" value="change Concept"/></div>'
         .'<div class="module_index" id="ModuleListingDiv"></div><div id="chapterListingDiv"><ul id="chList">';
-        */
-        $chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
+        //*/
+        //++$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
         //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
+        //++
         $chList .= '<div id="modeContentContainer"><div id="chContainer"><ul id="chList">';
         //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
         
