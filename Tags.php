@@ -1,8 +1,7 @@
 <?php
-$LAST_UPDATE = 'Mar-8-2012';
+$LAST_UPDATE = 'Nov-18-2012';
 /*=====================================================================// 					
     Author(s): Gregory Krudysz
-    Last Revision: Mar-8-2012
 //=====================================================================*/
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
@@ -10,6 +9,7 @@ require_once("classes/ITS_footer.php");
 require_once("classes/ITS_tag.php");
 require_once("classes/ITS_search.php");
 require_once("classes/ITS_navigation.php");
+require_once("classes/ITS_resource.php");
 
 session_start();
 // return to login page if not logged in
@@ -87,24 +87,11 @@ $form = $chapter . '&nbsp;&nbsp;' . $type;
 //--------------------------------------//
 
 if (isset($_GET['tid'])) {
+	
   $tag = $_GET['tid'];
-  $queryQid = 'SELECT dspfirst_ids FROM dspfirst_map WHERE tag_id='.$tag;        //echo $query;
-  $query    = 'SELECT * FROM dspfirst WHERE id IN ('.$queryQid.')';
-  //die($query);
-  //echo $query.'<br>';
-  $res =& $mdb2->query($query);
-  if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-  $resources  = $res->fetchAll();
-  if (!empty($resources)) {
-	  $tList = '';
-	  //var_dump(count($resources));die('---');
-	  for ($i=0; $i < count($resources); $i++) {
-	  //var_dump($tags[$i][0]);//die();
-	  //$tagList .= '<input type="button" class="logout" value="'.$tagNames[$i].'">';
-		$tList .= '<p>'.$resources[$i][1].'</p><span class="ITS_List">'.$resources[$i][3].'</span><br>';
-	  }
-  //echo 
-  }
+  $robj = new ITS_resource($tag);
+  $RR = $robj->renderContainer();
+
 } else {
 $tList = '<table class="DATA" style="margin:"15%">';
 for ($l=0; $l < 26; $l++){
@@ -235,11 +222,7 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
-        <script src="js/ITS_AJAX.js"></script>
-        <script src="js/ITS_QControl.js"></script>
-        <title>Questions Database</title>
-        <link rel="stylesheet" href="css/ITS.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_question.css" type="text/css" media="screen">
+		        <link rel="stylesheet" href="css/ITS_question.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css" media="screen">
@@ -250,35 +233,39 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
         <link rel="stylesheet" href="plugins/rating/ITS_rating.css" type="text/css" media="screen">	
         <link rel="stylesheet" href="css/ITS_questionCreate.css" type="text/css" media="screen">	
         <link rel="stylesheet" href="css/ITS_index4.css" type="text/css" media="screen">
-
-        <link type="text/css" href="js/jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="stylesheet" />	
-  <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
-
-        <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>
-        <style>
-            #dialog-form { background: red; }
-            .ui-dialog-form { background: #e1e; }
-            .ui-widget-header { background: red; border: 2px solid #666; }
-            .ui-dialog-title { background: #aaa;}
-            .ui-dialog-titlebar { background: #aaa; border: 2px solid #666; color: #fff; font-size:12pt}
-            .ui-dialog-content  { text-align: left; color: #000; padding: 0.5em; }
-            .ui-button-text { color: #00a; }
-            #myDialog { background: #fff; border-bottom: 2px solid #666; zindex: 5;}
-        </style>	
-<?php include 'js/ITS_Question_jquery.php'; ?>
-        <script type="text/javascript">
-            /*---- GOOGLE ANALYTICS ------------------*/
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-16889198-1']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-            /*---- GOOGLE ANALYTICS ------------------*/	
-        </script>
+                <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
+                 <link rel="stylesheet" href="css/ITS_resource.css" type="text/css" media="screen">
+        <script src="js/ITS_AJAX.js"></script>
+        <script src="js/ITS_QControl.js"></script>
+        <title>Questions Database</title>
+        <link rel="stylesheet" href="css/ITS.css" type="text/css" media="screen">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+<?php 
+include 'js/ITS_Question_jquery.php'; 
+include 'js/ITS_resource_jquery.php';
+?>
+<script>
+$(document).ready(function() { 
+$( "input[name=selectResource]" ).live('click', function(event) {
+	        var field = $(this).val();
+            $.get("ajax/ITS_resource.php", {
+                ajax_args: "test",
+                ajax_data: '402~'+field
+            }, function(data) {
+                $('#resourceContainer').html(data);
+            });
+});    
+});
+</script>	
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="js/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="js/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<script type="text/javascript">
+$(document).ready(function() {
+	/* This is basic - uses default settings */
+	$("a#fbimage").fancybox();	
+});
+</script>  
     </head>
     <body>
         <!---===========================================--->
@@ -300,7 +287,8 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
 <?php
 //$Q2 = new ITS_question2();
 //echo $Q2->render_list();
-
+echo $RR;
+echo '<div id="resourceContainer" class="ITS_meta">'.$tList.'</div><p>';
 // RENDER QUESTION
 echo '<div id="metaContainer" class="ITS_meta">'.$tList.'</div><p>';
 echo '</div><br>';

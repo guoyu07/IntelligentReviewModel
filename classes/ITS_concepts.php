@@ -201,11 +201,11 @@ class ITS_concepts
     //=====================================================================//
     function SelectedConcContainer($mode){
         //=====================================================================//
-        $str = '<div id="SelectedConcContainer"><table id="seldcon" class="choice"></table>';
+        $str = '<div id="SelectedConcContainer"><table id="seldcon" class="conceptTable"></table>';
         if ($mode == 0) // 0 is for Instructor mode
             $str .= '<input type="button" id="submitConcepts" name="submit" value="Submit Concepts"></div>';
         else if ($mode == 1) // 1 is for Student mode
-            $str .= '<input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div>';
+            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div>';
         return $str;
     }
     //=====================================================================//
@@ -278,7 +278,6 @@ class ITS_concepts
                 //if($str!='') 
                 $str = "<div id='moduleListDialogDiv'><select id='moduleListDD' class='moduleListDD'><option value='0'>Create a new module..</option>" . $str . "</select></div>";
                 break;
-            
             default:
                 $str = 'server error';
         }

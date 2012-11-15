@@ -192,14 +192,21 @@ $(document).ready(function() {
     $(".selcon").live("click", function() {
 /*-------------------------------------------------------------------------*/		
         $('#errorConceptContainer').html("");
+        var field=this.id;
         var tr = '';
         if ($('#seldcon td:contains(' + this.id + ')').length) {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td>' + this.id + '</td><td class="choice_del">x</td></tr>';
+        tr = '<tr><td width="10%">' + this.id + '</td><td width="80%"><div id="resource_'+field+'"></td><td width="20px"class="choice_del">x</td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
+        
+            $.get("ajax/ITS_concepts.php", {
+                resource: this.id +'~255'
+            }, function(data) {
+                $('#resource_'+field).html(data);
+            });
     });
     /*-------------------------------------------------------------------------*
 	 * When called, the letter clicked on concept viewer is submitted and the 
@@ -207,7 +214,6 @@ $(document).ready(function() {
 	 * ------------------------------------------------------------------------*/
     $(".ITS_alph_index").live("click", function() {
 /*-------------------------------------------------------------------------*/		
-		//
 		var header = $(this).html();
 		$('.ITS_alph_index').each(function(index) {
 			//alert(index);
@@ -344,4 +350,5 @@ $(document).ready(function() {
                 $("#ModuleQuestion").html("<br> No Questions");
         });
     });
+/*-------------------------------------------------------------------------*/    
 });

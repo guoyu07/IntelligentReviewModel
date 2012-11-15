@@ -10,6 +10,7 @@ require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_statistics.php");
 require_once("../classes/ITS_concepts.php");
+require_once("../classes/ITS_resource.php");
 
 if (isset($_REQUEST['letter'])) {
     $letter = $_REQUEST['letter'];
@@ -57,6 +58,13 @@ if (isset($_REQUEST['choice'])) {
             break;
         default:
     }
+    echo $retStr;
+}
+if (isset($_REQUEST['resource'])) {
+    $letter = $_REQUEST['resource'];
+    $data   = preg_split('[~]',$letter);
+    $obj    = new ITS_resource($data[0]);
+    $retStr = $obj->renderContainer();
     echo $retStr;
 }
 ?>
