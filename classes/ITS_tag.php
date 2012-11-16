@@ -193,9 +193,8 @@ class ITS_tag
                 $tag_list .= $this->render($row['id'], $row['name'], $rid, $rtable, $type);
             }
         }
-        $tb = '<div id="ITS_TAGS_LIST">' . $tag_list . '</div>';
         
-        return $tb;
+        return $tag_list;
     }
     //=====================================================================//
     function render2($arr, $rid, $rtable, $tname,$type)

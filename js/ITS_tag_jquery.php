@@ -13,8 +13,7 @@
 			var tname = $(this).attr('tname');
 			var rid   = $(this).attr('rid');
 			var rname = $(this).attr('rname');
-			//
-			alert(tid+'~'+tname+'~'+rid+'~'+rname);			
+			//alert(tid+'~'+tname+'~'+rid+'~'+rname);			
 
 			$.get('ajax/ITS_tag.php', {
                 ajax_args: "tag_del", 
@@ -36,8 +35,7 @@
 			var tag   = $(this).attr('tag');
 			var rid   = $(this).attr('rid');
 			var rname = $(this).attr('rname');
-			//
-			alert(tid+'~'+tag+'~'+rid+'~'+rname);
+			//alert(tid+'~'+tag+'~'+rid+'~'+rname);
 
 			$.get('ajax/ITS_tag.php', {
                 ajax_args: "tag_add", 

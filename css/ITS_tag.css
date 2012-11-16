@@ -13,6 +13,4 @@
 .taginfo{display:none;}
 .clear{clear:both}
 
-#Q_tag_list {border:1px solid red}
-#Q_tag_list td {border:1px solid red}
-#ITS_TAGS_LIST {border:2px solid red;padding:0.25em;overflow:auto}
+#ITS_TAGS_LIST {border:2px solid #999;padding:0.25em;overflow:auto;text-align:center}
