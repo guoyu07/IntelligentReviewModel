@@ -47,6 +47,21 @@ $(document).ready(function() {
         var tbvalues = tdArray.join();
         // Ajax call to send questions to replace the question container
         // alert(tbvalues);
+        
+        // Save RESOURCE data
+        var concept = $( "input[name=selectResource]" ).attr("concept");
+		var text = $('#ITS_resource_text').attr("rid");
+        var equation = $('#ITS_resource_equation').attr("rid");
+        var image = $('#ITS_resource_image').attr("rid");
+        var example = $('#ITS_resource_example').attr("rid");
+        
+        alert(concept+'~'+text+'~'+equation+'~'+image+'~'+example);
+        $.get('ajax/ITS_resource.php', {
+            ajax_args: "resourceDB",
+            ajax_data: concept+'~'+text+'~'+equation+'~'+image+'~'+example
+        }, function(data) {
+                $("#contentContainer").html(data);
+        });
         $.get('ajax/ITS_screen2.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues

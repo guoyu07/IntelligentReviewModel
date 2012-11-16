@@ -211,7 +211,7 @@ class ITS_concepts
     //=====================================================================//
     function conceptListContainer(){
     //=====================================================================//
-        $str = '<div id="conceptListContainer">'.$this->getConcepts('A').'</div><div id="errorConceptContainer"></div>';
+        $str = '<div id="conceptListContainer">'.$this->getConcepts('S').'</div><div id="errorConceptContainer"></div>';
         return $str;
     }
     //=====================================================================//
@@ -228,7 +228,7 @@ class ITS_concepts
             $val = strtoupper($row[0]);
             
             if (!fmod($x,15)) { $str .= '<br><br>'; }
-            if ($val == 'A') { $idx_id = 'id="current"'; } 
+            if ($val == 'S') { $idx_id = 'id="current"'; } 
             else 		  					{ $idx_id = ''; }			
             $str .= '<li class="ITS_nav_concept"><a href="#" class="ITS_alph_index" name="chapter" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
         }            

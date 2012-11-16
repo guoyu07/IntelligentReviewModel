@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
 $ITS_version = '208r';
-$LAST_UPDATE = 'Nov-18-2012';
+$LAST_UPDATE = 'Nov-21-2012';
 //=============================================================//
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
@@ -132,13 +132,18 @@ $( "input[name=selectResource]" ).live('click', function(event) {
             });
 });     
 $( "input[name=resourceSelect]" ).live('click', function(event) {
-	        var field = 'Equation'; //$(this).val();
+			
+	        var field = $(this).attr("field");
+	        var rid = $(this).attr("rid");
+	        $(this).attr("concept");
 	        //alert(field);
+			//$('#ITS_resource_'+field.toLowerCase()).html(rid);
             $.get("ajax/ITS_resource.php", {
-                ajax_args: "test",
-                ajax_data: '402~'+field.toLowerCase()
+                ajax_args: "select",
+                ajax_data: field.toLowerCase()+'~'+rid
             }, function(data) {
-                $('#ITS_resource_'+field.toLowerCase()).html('res here');
+                $('#ITS_resource_'+field.toLowerCase()).html(data);
+                $('#ITS_resource_'+field.toLowerCase()).attr("rid",rid);
             });
 }); 
 });
