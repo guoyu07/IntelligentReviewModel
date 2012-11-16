@@ -99,8 +99,8 @@ class ITS_resource
                     //---//
                     $path = '../cgi-bin/mathtex.cgi?\large ';
                     for ($i = 0; $i < mysql_num_rows($res); $i++) {
-						$id   = mysql_result($res, $i);
-                        $code = mysql_result($res, $i);
+						$id   = mysql_result($res, $i,0);
+                        $code = mysql_result($res, $i,1);
                         if (!empty($code)) {
 							array_push($id_arr,$id);
                             array_push($li_arr, '<img class="ITS_LaTeX" src="' . $path . $code . ' "/>');

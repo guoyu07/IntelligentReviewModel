@@ -205,7 +205,7 @@ $(document).ready(function() {
 	 Selects a concepts in the concept viewer
 	-------------------------------------------------------------------------*/
     $(".selcon").live("click", function() {
-/*-------------------------------------------------------------------------*/		
+	/*-------------------------------------------------------------------------*/		
         $('#errorConceptContainer').html("");
         var field=this.id;
         var tr = '';
@@ -213,7 +213,7 @@ $(document).ready(function() {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td width="10%">' + this.id + '</td><td width="80%"><div id="resource_'+field+'"></td><td width="20px"class="choice_del">x</td></tr>';  
+        tr = '<tr><td class="resource_concept">' + this.id + '</td><td rowspan="2" width="10px" class="choice_del">x</td><tr><td width="95%"><div id="resource_'+field+'"></td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
         
