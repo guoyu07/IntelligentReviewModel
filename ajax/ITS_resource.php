@@ -1,8 +1,8 @@
 <?php
-/*  ITS_book - script for AJAX ITS_book class
+/*  ITS_resource - script for AJAX ITS_resource class
 
 Author(s): Greg Krudysz
-Date: Jun-4-2012        
+Date: Nov-21-2012        
 ---------------------------------------------------------------------*/
 require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
@@ -12,6 +12,7 @@ require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_resource.php");
 
 session_start();
+
 //$id = $_SESSION['user']->id();
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state, $files_path;
@@ -52,7 +53,16 @@ switch ($action){
 		  $list  = $obj->setResource($data[0],$data[1]);
 		  $str  = $list;
 		  break;  
+	  //-------------------------------------------//	 
+	  case 'resourceDB':
 	  //-------------------------------------------//	  
+		  $data = preg_split('[~]',$Data);
+		  $id = 1;
+		  $obj    = new ITS_resource(trim($data[0]));
+		  $list  = $obj->saveResource($data[0],$data[1],$data[2],$data[3],$data[4],$data[5]);
+		  $str  = $list;
+		  break;  
+	  //-------------------------------------------//	    
 }
 //-----------------------------------------------//
 $mdb2->disconnect();
