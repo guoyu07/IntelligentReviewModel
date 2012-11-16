@@ -28,7 +28,7 @@ $(document).ready(function() {
 		/*-------------------------------------------------------------------------*/	
 	   $('#nextQuestion').live('click', function(event) {
 	      var qid = $('#ITS_QCONTROL_TEXT').attr("value");
-	      //var del = $(this).attr("del"); //alert(delta);
+	      //var del = $(this).attr("del"); //
         $.get('ITS_admin_AJAX.php', { ajax_args: "getQuestionMeta", ajax_data: qid}, function(data) {
            $('#metaContainer').html(data);  
         })

@@ -45,8 +45,8 @@ class ITS_solution
         $this->db_pass = $dsn[2]; //Database pass
         
         $this->con = mysql_connect($this->host, $this->db_user, $this->db_pass) or die('Could not Connect to DB');
-        mysql_select_db($this->db_name, $this->con) or die('Could not select DB');       
-    }   
+        mysql_select_db($this->db_name, $this->con) or die('Could not select DB');
+    }
     //=============================================================//
     // Show Index
     // Description: Shows the Index for the Solutions page by showing
@@ -77,7 +77,6 @@ class ITS_solution
             $res1     = mysql_query($query1);
             $category = mysql_fetch_array($res1, MYSQL_NUM);
             $string   = substr($category[0], 0, -2);
-            
             
             ////////////////////////////////////////////////////////////////////
             //Check Amount of Unrated and Verified Solutions for question
@@ -436,8 +435,6 @@ class ITS_solution
         echo '<br>';
         
         mysql_free_result($res);
-        
-        
         ///////////////////////////////////////////////////////////////////
         //Grab Solutions
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Sol\' ORDER BY rating DESC;'; // ORDER BY RATING
@@ -894,7 +891,6 @@ class ITS_solution
             $verifyFormCount++;
             $solTextCount++;
             $enableEdit++;
-            
         }
         //If no Detailed
         if ($NumRows == 0) {
@@ -955,8 +951,8 @@ class ITS_solution
         </div>
         </form>';
         */
-        return;       
-    }   
+        return;
+    }
     //=============================================================//
     // Parse solutions entered from showIndex()
     // Description: Given the question number, the hint, the solution,
@@ -1024,9 +1020,9 @@ class ITS_solution
 					</form>';
         } else {
             echo '<H3>INVALID QUESTION NUMBER</H3><br>';
-        }       
+        }
         return;
-    }   
+    }
     //=============================================================//
     // Edit menu for a Hint/Solution/Detailed
     // Description: Given the question number, the hint/sol/det number,
@@ -1203,8 +1199,8 @@ class ITS_solution
         //echo '<input type="submit" value="Back">';
         //echo '</form>';
         
-        return;      
-    }    
+        return;
+    }
     //=============================================================//
     // Parse solutions edited from solutionEditor()
     // Description: Given the id Number (in solutions table), the question number,
@@ -1277,6 +1273,7 @@ class ITS_solution
         }
         
         //BACK button      
+        
         /*
         echo '<form action="solutions.php" method="get">
         <div align="center">
@@ -1289,7 +1286,7 @@ class ITS_solution
         */
         return;
         
-    }  
+    }
     //=============================================================//
     // Parse ratings coming from viewSolution()
     // Description: Given the new rating, the ID of the solution, 
@@ -1316,7 +1313,7 @@ class ITS_solution
         $text1 = $text[0];
         $stype = $text[1];
         $text1 = addslashes($text1);
-               
+        
         if ($newRating > 5) {
             //This logical block deals with verification
             $Ver    = $VerVAR;
@@ -1358,6 +1355,7 @@ class ITS_solution
         }
         
         //BACK button to showIndex()       
+        
         /*
         echo '<form action="solutions.php">
         <div align="center">
@@ -1365,8 +1363,8 @@ class ITS_solution
         </div>
         </form>';
         */
-        return;      
-    }   
+        return;
+    }
     //=============================================================//
     // Add a hint to a question ID
     // Description: Given an input of a question_id and the text, this function
@@ -1390,7 +1388,6 @@ class ITS_solution
         
         return;
     }
-    
     //=============================================================//
     // Add a solution to a question ID
     // Description: Given an input of a question_id and the text, this function
@@ -1411,10 +1408,8 @@ class ITS_solution
         } else {
             echo 'No solution was entered';
         }
-        
         return;
     }
-    
     //=============================================================//
     // Add a Detailed Solution to a question ID
     // Description: Given an input of a question_id and the text, this function
@@ -1438,7 +1433,6 @@ class ITS_solution
         
         return;
     }
-    
     //=============================================================//
     // Delete a Hint/Solution/Detailed from the database
     // Description: Given the id of the hint/sol/det *NOT question_id*,
@@ -1494,7 +1488,6 @@ class ITS_solution
         
         return;
     }
-    
     //=============================================================//
     // Updates a Hint/Sol/Det in the database
     // Description: Given the question_id, the id, the stype, and the text,
@@ -1763,7 +1756,6 @@ class ITS_solution
             
             //===================
             $styleCount++;
-            
         }
         //If no Detailed
         if ($NumRows == 0) {
@@ -1780,7 +1772,7 @@ class ITS_solution
         mysql_free_result($res);
         
         return;
-    }  
+    }
     //=====================================================================//
     //Latex Check
     //=====================================================================//
@@ -1803,8 +1795,7 @@ class ITS_solution
         } else {
             $theStyle = 'ITS_ANSWERSOL';
         }
-        
         return $theStyle;
-    }   
+    }
 }
 ?>

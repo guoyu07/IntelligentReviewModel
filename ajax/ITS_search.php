@@ -1,7 +1,7 @@
 <?php
 /*  ITS_search_AJAX - script for AJAX search
 Author(s): Greg Krudysz
-Date: Jun-4-2012
+Date: Nov-21-2012
 ---------------------------------------------------------------------*/
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
@@ -60,10 +60,11 @@ switch ($action) {
         //-------------------------------------------//		  
         $data          = preg_split('[~]', $Data);
         $tname         = 'tags';
+        $rname		   = 'questions';
         $t             = new ITS_tag($tname);
         $Ques_tag_arr  = $t->getByResource($data[1], $data[2]);
         $Keyw_tag_arr  = $t->getByKeyword($data[0], $Ques_tag_arr);
-        $Keyw_tag_list = $t->render2($Keyw_tag_arr, $data[2], $data[1], $tname);
+        $Keyw_tag_list = $t->render2($Keyw_tag_arr, $data[2] ,$data[1], $rname,'add');
         $str           = $Keyw_tag_list;
         break;
     //-------------------------------------------//

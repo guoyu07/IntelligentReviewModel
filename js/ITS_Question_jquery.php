@@ -88,7 +88,6 @@ $(document).ready(function () {
 		$("#metaContainer").slideToggle("slow");
 	});
     /*-------------------------------------------------------------------------*/
-    $("#tagContainer").hide();
     $("#tagContainerToggle").live('click', function() {
 		$("#tagContainer").slideToggle("slow");
 	});
@@ -245,6 +244,22 @@ echo $qid;
 			return false;
 	});
     /*-------------------------------------------------------------------------*/
+            $("#tag_check").live('click', function(event) {
+							if ($(this).is(':checked')) {
+            $("#tagContainer").slideDown("slow");
+        } else {
+            $("#tagContainer").slideUp("slow");
+        }
+            /*-------------------------------------------------------------------------*/
+			});
+        $("input[name='question_nav']").live('click', function(event) {	
+			if ($('#tag_check').is(':checked')) {
+            $("#tagContainer").css('display','inline');
+        } else {
+            $("#tagContainer").hide();
+        }
+        
+		});
     /* $("input[name='question_nav']").live('click', function(event) {		
 		  var nav = $(this).val();
 		  var qid = $('#ITS_QCONTROL_TEXT').attr("value");

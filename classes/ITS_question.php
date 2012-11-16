@@ -414,11 +414,11 @@ class ITS_question
         
         $t        = new ITS_tag($this->tb_tags);
         $Q_T_arr  = $t->getByResource($this->tb_name, $qid);
-        $Q_T_list = $t->render($Q_T_arr, $this->tb_name, $qid);
+        $Q_T_list = $t->renderList($Q_T_arr, $qid, $this->tb_name,'delete');
         
         $ts           = new ITS_tag($this->tb_tags . '_system');
         $Q_T_sys_arr  = $ts->getByResource($this->tb_name, $qid);
-        $Q_T_sys_list = $ts->render($Q_T_sys_arr, $this->tb_name, $qid);
+        $Q_T_sys_list = $ts->renderList($Q_T_sys_arr, $qid, $this->tb_name,'delete');
         
         //$Ques_tag_list = '';
         //var_dump($this->tb_name);die();
@@ -436,7 +436,7 @@ class ITS_question
 
         $style = 'ITS';
         $css   = 'ITS_QUESTION_DB';
-        $dbT   = '<tr><th colspan="6">TAGS: ' . $sb . '</th></tr><tr><td colspan="7">' . $Q_T_list . $Q_T_sys_list . $sbr . '</td></tr>';
+        $dbT   = '<tr><td colspan="7">' . $Q_T_list . $Q_T_sys_list . '</td></tr><tr><th colspan="6">SEARCH FOR TAGS: ' . $sb . '</th></tr><tr><td colspan="7">' . $sbr . '</td></tr>';
         $db1   = '<tr><th colspan="2">TITLE</th><th>ANS</th><th>CATEGORY</th></tr><tr>' . '<td class="' . $css . '" colspan="2">' . $this->createEditTable('title', $this->Q_question_data['title'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answers'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('category', $this->Q_question_data['category'], $style) . '</td>';
         $db11  = '<tr><th>QUESTION<br>config</b></th><th>ANSWERS<br>config</th></tr><td class="' . $css . '">' . $this->createEditTable('title', $this->Q_question_data['questionConfig'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answersConfig'], $style) . '</td>' . '</tr>';
         $db2   = '';

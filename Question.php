@@ -107,9 +107,10 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     $type .= '</select>';
     
+    $tag_chk = 'Tagging<input id="tag_check" type="checkbox">';
     // update SESSION
     $_SESSION['qNum_current'] = $qid;
-    $form                     = $chapter . '&nbsp;&nbsp;' . $type;
+    $form                     = $tag_chk.$chapter . '&nbsp;&nbsp;' . $type;
     //--------------------------------------//
     /*
     // QUERY

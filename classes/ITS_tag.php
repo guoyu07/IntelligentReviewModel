@@ -7,14 +7,16 @@ ex. $ITS_tag = new ITS_tag();
 
 API: * getByResource($resource_table, $resource_id,$tags_table_extra)
 
-Author(s): Greg Krudysz |  Sep-14-2012 						   
+Author(s): Greg Krudysz |  Nov-21-2012 						   
 //=====================================================================*/
 
-class ITS_tag {
+class ITS_tag
+{
     public $tb_tags;
     
     //=====================================================================//
-    function __construct($tbTags){
+    function __construct($tbTags)
+    {
         //=====================================================================//
         global $db_dsn, $db_name, $tb_name, $tb_tags, $db_table_user_state, $tex_path, $files_path;
         
@@ -30,23 +32,25 @@ class ITS_tag {
         $this->mdb2 = $mdb2;
     }
     //=====================================================================//
-    function getByResource($rtb,$rid){
-    //=====================================================================//
-        $query_tag_id = 'SELECT '.$this->tb_tags.'_id FROM ' . $rtb . '_'.$this->tb_tags.' WHERE '.$rtb.'_id=' . $rid;
+    function getByResource($rtb, $rid)
+    {
+        //=====================================================================//
+        $query_tag_id = 'SELECT ' . $this->tb_tags . '_id FROM ' . $rtb . '_' . $this->tb_tags . ' WHERE ' . $rtb . '_id=' . $rid;
         //die($query_tag_id);
-        $res = mysql_query($query_tag_id);
+        $res          = mysql_query($query_tag_id);
         if (!$res) {
             die('Query execution problem in ITS_question: ' . msql_error());
         }
-		while($row = mysql_fetch_array($res, MYSQL_ASSOC)){
-			$arr[] = $row[$this->tb_tags.'_id'];
-		}
+        while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+            $arr[] = $row[$this->tb_tags . '_id'];
+        }
         //var_dump($arr); die();
         
         return $arr;
     }
     //=====================================================================//
-    function getByKeyword($keyword, $exclude){
+    function getByKeyword($keyword, $exclude)
+    {
         /* arr[id][name] */
         //=====================================================================// 	  
         //$query = "SELECT id,name FROM ".$this->tb_tags." WHERE name LIKE '$keyword%' ORDER BY name";
@@ -68,7 +72,8 @@ class ITS_tag {
         return $arr;
     }
     //=====================================================================//
-    function query($keyword, $exclude){
+    function query($keyword, $exclude)
+    {
         /* arr[id][name] */
         //=====================================================================// 	  
         //echo 'query<br>';
@@ -90,58 +95,61 @@ class ITS_tag {
         return $arr;
     }
     //=====================================================================//
-    function query2($keyword, $rid, $rname){
+    function query2($keyword, $rid, $rname)
+    {
         //=====================================================================// 	  
         //echo 'query2<br>';
-
+        
         $list = $this->getByKeyword($keyword, $rid, $rname);
         
         for ($t = 0; $t < count($list) - 1; $t++) {
-			echo $list[$t][0].' '.$list[$t][0].' '.$rid.' '.$rname.'<br>';
+            echo $list[$t][0] . ' ' . $list[$t][0] . ' ' . $rid . ' ' . $rname . '<br>';
             $tags .= '<div class="ITS_tag"><table><tr><td>' . $list[$t][1] . '</td><td class="tag_add" tid="' . $list[$t][0] . '" tname="' . $list[$t][1] . '" rid="' . $rid . '" rname="' . $rname . '">+1</td></tr></table></div>';
         }
-       //die('done');
+        //die('done');
         return $tags;
     }
     //=====================================================================//
-    function add($keyword, $rid, $rname){
+    function add($keyword, $rid, $rname)
+    {
         //=====================================================================// 	  
-        //echo 'add<br>';       
-        $tag = '<div class="ITS_tags"><table><tr><td>' . $keyword . '</td><td class="tag_add" tid="0" tname="' . $keyword . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
+        $tag = $this->render(0, $keyword, $rid, $rname, 'add');
         
         return $tag;
     }
     //=====================================================================//
-    function addToQues($tid, $tname, $rid, $rname){
+    function addToQues($tid, $tag, $rid, $rname)
+    {
         //=====================================================================//  
         //ITS_debug();
         if ($tid == 0) { // new tag
-            $tid = $this->addTag($tname);
+            $tid = $this->addTag($tag);
         }
-        $query  = 'INSERT IGNORE INTO ' . $rname.'_'.$tname . ' ('.$rname.'_id,'.$tname.'_id) VALUES ('.$rid.','.$tid.')'; 
-        // echo time().'<p>ITS_tags:addToQues: '.$query.'</p>';die();
+        $query  = 'INSERT IGNORE INTO ' . $rname . '_' . $this->tb_tags . ' (' . $rname . '_id,' . $this->tb_tags . '_id) VALUES (' . $rid . ',' . $tid . ')';
+        //echo time().'<p>ITS_tags:addToQues: '.$query.'</p>';die();
         $result = mysql_query($query);
+        //$query.' : '.
+        $tag = $this->render($tid, $tag,$rid,$rname,'delete');
         
-        $tag = $this->render(array($tid), $rname, $rid);
-        //$tag = '<div class="ITS_'.$tname.'"><table><tr><td>' . $tname . '</td><td class="tag_del" tid="' . $tid . '" rname="' . $rname . '" rid="' . $rid . '">x</td></tr></table></div>';
-        //die($tag);
         return $tag;
     }
     //=====================================================================//
-    function deleteFromQues($tid, $tname, $rid, $rname) {
-    //=====================================================================// 
-        $query = 'DELETE FROM ' . $rname.'_'.$tname . ' WHERE '.$rname.'_id='.$rid.' AND '.$tname.'_id='.$tid; 
+    function deleteFromQues($tid, $tname, $rid, $rname)
+    {
+        //=====================================================================// 
+        $query = 'DELETE FROM ' . $rname . '_' . $this->tb_tags . ' WHERE ' . $rname . '_id=' . $rid . ' AND ' . $tname . '_id=' . $tid;
         //echo 'ITS_tags:addToQues: <br>'.$query;die();
         
         $result = mysql_query($query);
         //$tag = '<div class="ITS_tag"><table><tr><td>' . $tname . '</td><td class="tag_del" tid="' . $tid . '" rname="' . $rname . '" rid="' . $rid . '">x-del</td></tr></table></div>';
         //die($tag);
-        return $tag;
+        return $query;
     }
     //  alter table tags change id int auto_increment;
     //=====================================================================//
-    function addTag($tname) {
-    //=====================================================================// 	  
+    function addTag($tname)
+    {
+        //=====================================================================// 	  
         //echo 'addTag<br>';
         $query  = 'INSERT INTO ' . $this->tb_tags . ' (name) VALUES ("' . $tname . '")';
         //echo $query;die();
@@ -152,46 +160,62 @@ class ITS_tag {
         return $tid;
     }
     //=====================================================================//
-    function render($arr, $rname, $rid){
+    function render($tid, $tag, $rid, $rname, $type)
+    {
         //=====================================================================// 
-        //echo 'render<br>';
-        $tb      = '<table>';
-        $tag_ids = implode(',', $arr);
+        switch ($type) {
+            case 'add':
+                $icon       = '+';
+                $icon_class = 'tag_add';
+                break;
+            case 'delete':
+                $icon       = 'x'; //$tid.'-'.$tag.'-'.$rid.'-'.$rname;
+                $icon_class = 'tag_del';
+                break;
+        }
+        $tag = '<div class="ITS_tags"><table><tr><td>' . $tag . '</td><td class="' . $icon_class . '" tag="'.$tag.'" tid="' . $tid . '" tname="' . $this->tb_tags . '" rname="' . $rname . '" rid="' . $rid . '">' . $icon . '</td></tr></table></div>';
+        return $tag;
+    }
+    //=====================================================================//
+    function renderList($list_arr, $rid, $rtable, $type)
+    {
+        //=====================================================================// 
+        $tag_list = '';
+        $tag_ids  = implode(',', $list_arr);
         if (!empty($tag_ids)) {
-            $query = 'SELECT id,name FROM '.$this->tb_tags.' WHERE id IN (' . $tag_ids . ') ORDER BY name';
+            $query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE id IN (' . $tag_ids . ') ORDER BY name';
             //die($query); 
             $res   = mysql_query($query);
             if (!$res) {
                 die('Query execution problem in ITS_question: ' . msql_error());
             }
-            $tag_list = '';
             while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-                $tag_list .= '<div class="ITS_'.$this->tb_tags.'"><table><tr><td>' . $row['name'] . '</td><td class="tag_del" tid="' . $row['id'] . '" tname="' . $this->tb_tags .'" rname="' . $rname . '" rid="' . $rid . '">x</td></tr></table></div>';
+                $tag_list .= $this->render($row['id'], $row['name'], $rid, $rtable, $type);
             }
-            $tb .= '<tr><td id="Q_tag_list">' . $tag_list . '</td></tr>';
         }
-        $tb .= '</table>';
+        $tb = '<div id="ITS_TAGS_LIST">' . $tag_list . '</div>';
         
         return $tb;
     }
     //=====================================================================//
-    function render2($arr, $rid, $rname,$tname){
+    function render2($arr, $rid, $rtable, $tname,$type)
+    {
         //=====================================================================// 
         //echo 'render2<br>';
-        $tb = '<table>';
+        $tag_list = '';
         if (!empty($arr)) {
             $tag_list = '';
             for ($i = 0; $i < count($arr) - 1; $i++) {
-                echo '<div class="ITS_'.$tname.'"><table><tr><td><a href="Resource.php?rid='.$arr[$i][0].'">' . $arr[$i][1] . '</a></td><td class="tag_add" tid="' . $arr[$i][0] . '" tname="' . $tname . '" rid="' . $rid . '" rname="' . $rname . '">+</td></tr></table></div>';
+                $tag_list .= $this->render($arr[$i][0], $arr[$i][1], $rid, $tname, $type); //$rtable,
             }
-            $tb .= '<tr><td>' . $tag_list . '</td></tr>';
+            $tb = '<div class="ITS_TAGS_RES">' . $tag_list . '</div>';
         }
-        $tb .= '</table>';
         
         return $tb;
     }
     //=====================================================================//
-    function main(){
+    function main()
+    {
         //=====================================================================// 
         $query = 'SELECT id,chapter,section,paragraph,content,tag_id,name FROM dspfirst WHERE meta="' . $this->meta . '" AND chapter=' . $this->chapter;
         // die($query);

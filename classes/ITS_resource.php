@@ -81,7 +81,7 @@ class ITS_resource
                 $query = 'SELECT dir,name FROM images WHERE name REGEXP "'.$this->concept.'"';
                 break;
             case 'example':
-                $query = 'SELECT statement,solutions,term,year FROM SPF WHERE title REGEXP "'.$this->concept.'" OR keywords REGEXP "'.$this->concept.'" LIMIT 5';
+                $query = 'SELECT statement,solutions,term,year FROM SPF WHERE title REGEXP "'.$this->concept.'" OR keywords REGEXP "'.$this->concept.'" LIMIT 6';
                 break;
         }
         
