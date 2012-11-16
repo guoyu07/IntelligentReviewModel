@@ -89,7 +89,7 @@ $form = $chapter . '&nbsp;&nbsp;' . $type;
 if (isset($_GET['tid'])) {
 	
   $tag = $_GET['tid'];
-  $robj = new ITS_resource($tag);
+  $robj = new ITS_resource($id,$tag);
   $RR = $robj->renderContainer();
 
 } else {

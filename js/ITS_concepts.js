@@ -49,17 +49,19 @@ $(document).ready(function() {
         // alert(tbvalues);
         
         // Save RESOURCE data
+        var id = $('#logout').attr("uid");
         var concept = $( "input[name=selectResource]" ).attr("concept");
-		var text = $('#ITS_resource_text').attr("rid");
-        var equation = $('#ITS_resource_equation').attr("rid");
-        var image = $('#ITS_resource_image').attr("rid");
-        var example = $('#ITS_resource_example').attr("rid");
+		var text = $('#ITS_resource_text_'+concept).attr("rid");
+        var equation = $('#ITS_resource_equation_'+concept).attr("rid");
+        var image = $('#ITS_resource_image_'+concept).attr("rid");
+        var example = $('#ITS_resource_example_'+concept).attr("rid");
         
-        alert(concept+'~'+text+'~'+equation+'~'+image+'~'+example);
+        alert(id+'~'+concept+'~'+text+'~'+equation+'~'+image+'~'+example);
         $.get('ajax/ITS_resource.php', {
             ajax_args: "resourceDB",
-            ajax_data: concept+'~'+text+'~'+equation+'~'+image+'~'+example
+            ajax_data: id+'~'+concept+'~'+text+'~'+equation+'~'+image+'~'+example
         }, function(data) {
+			alert(data);
                 $("#contentContainer").html(data);
         });
         $.get('ajax/ITS_screen2.php', {
@@ -213,12 +215,12 @@ $(document).ready(function() {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td class="resource_concept">' + this.id + '</td><td rowspan="2" width="10px" class="choice_del">x</td><tr><td width="95%"><div id="resource_'+field+'"></td></tr>';  
+        tr = '<tr><td width="95%"><div class="resource_concept">' + this.id + '</div><br><br><div id="resource_'+field+'"></td><td width="95%" class="choice_del">x</td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
         
             $.get("ajax/ITS_concepts.php", {
-                resource: this.id +'~255'
+                resource: this.id +'~'+field
             }, function(data) {
                 $('#resource_'+field).html(data);
             });
