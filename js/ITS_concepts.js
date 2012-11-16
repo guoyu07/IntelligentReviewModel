@@ -47,6 +47,21 @@ $(document).ready(function() {
         var tbvalues = tdArray.join();
         // Ajax call to send questions to replace the question container
         // alert(tbvalues);
+        
+        // Save RESOURCE data
+        var concept = $( "input[name=selectResource]" ).attr("concept");
+		var text = $('#ITS_resource_text').attr("rid");
+        var equation = $('#ITS_resource_equation').attr("rid");
+        var image = $('#ITS_resource_image').attr("rid");
+        var example = $('#ITS_resource_example').attr("rid");
+        
+        alert(concept+'~'+text+'~'+equation+'~'+image+'~'+example);
+        $.get('ajax/ITS_resource.php', {
+            ajax_args: "resourceDB",
+            ajax_data: concept+'~'+text+'~'+equation+'~'+image+'~'+example
+        }, function(data) {
+                $("#contentContainer").html(data);
+        });
         $.get('ajax/ITS_screen2.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues
@@ -190,7 +205,7 @@ $(document).ready(function() {
 	 Selects a concepts in the concept viewer
 	-------------------------------------------------------------------------*/
     $(".selcon").live("click", function() {
-/*-------------------------------------------------------------------------*/		
+	/*-------------------------------------------------------------------------*/		
         $('#errorConceptContainer').html("");
         var field=this.id;
         var tr = '';
@@ -198,7 +213,7 @@ $(document).ready(function() {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td width="10%">' + this.id + '</td><td width="80%"><div id="resource_'+field+'"></td><td width="20px"class="choice_del">x</td></tr>';  
+        tr = '<tr><td class="resource_concept">' + this.id + '</td><td rowspan="2" width="10px" class="choice_del">x</td><tr><td width="95%"><div id="resource_'+field+'"></td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
         
