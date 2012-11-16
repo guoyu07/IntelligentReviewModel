@@ -36,7 +36,7 @@ class ITS_search {
 	//=====================================================================//
 	public function renderResultsBox(){
 	//=====================================================================//	
- 		$box = '<hr class="ITS"><div class="ITS_search"></div>';              					 
+ 		$box = '<div class="ITS_search"></div>';              					 
                	 																	
 		return $box;	
 	}	
