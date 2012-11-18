@@ -609,8 +609,7 @@ class ITS_screen2
     //=====================================================================//
     function labsContent()
     {
-        //=====================================================================//
-        
+        //=====================================================================// 
         /*  IF ACTIVE:
         |	  		         IF NOT COMPLETED 
         IF IN INDEX -> FORM ( QUESTION )
@@ -1519,7 +1518,6 @@ class ITS_screen2
                   //$score = 100;
                   
                     $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (question_id,current_chapter,answered,comment,score,epochtime,duration,event) VALUES(' . $qid . ',' . $current_chapter . ',"' . mysql_real_escape_string($answered) . '",' . $perm_str . ',' . $score . ',' . $tstart . ',' . $dur . ',"' . $event . '")';
-                  //
                   //var_dump($query_str);
                   //die('done');
                     if (!(is_empty($answered))) {
@@ -2118,7 +2116,7 @@ class ITS_screen2
                         //-------------------------------//
                 }
                 //echo $K . "\n";die();
-                echo '<div class="circle">' . $K . '</div><br>';
+                echo '<div class="ITS_ADMIN">' . $K . '</div>';
                 if ($K) { // section questions available
                     // choose random question from ALL POSSIBLE QUESTIONS
                     // $qAvailable = array(581); //492,1211,1212);
@@ -2172,7 +2170,7 @@ class ITS_screen2
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
                     $resources                = '';
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
-                    $error                    = '<br><div id="errorContainer"></div>';
+                    $error                    = '<div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">
                     //*** Prevent Multiple submissions: - 2. Server: Generate question session ticket ***//
                     $token                    = time(); // based on current time

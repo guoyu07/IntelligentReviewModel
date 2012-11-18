@@ -8,7 +8,7 @@ ITS_search - search box class.
 						ex. $search = new ITS_search( ... );
 								
 	 Author(s): Greg Krudysz
-	 Last Update: Sep-27-2012	 
+	 Last Update: Nov-27-2012	 
 //=====================================================================*/
 class ITS_search {
 	

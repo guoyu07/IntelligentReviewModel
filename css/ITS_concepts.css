@@ -1,11 +1,12 @@
-
 #conceptContainer{border:1px solid #fff;margin:0;padding:0}
 #conceptListContainer{border:1px solid #fff;margin:0;width:100%;overflow: auto;padding:0}
 #SelectedConcContainer{padding:1em;border-top:3px solid #eee;margin-top:1em;overflow:auto;display:none}
 #ConcQuesContainer{position:absolute; top:400; height:400px;overflow: auto;}
 #getQuesForConcepts {position:relative;clear: both;margin-top:20px;}
 
-#conceptTable {position:relative;width:100%;}
+.conceptTable {position:relative;width:100%;border:2px solid #999;border-collapse:collapse}
+.conceptTable td {position:relative;border:1px solid #FFF}
+.conceptTable td.choice_del {border:1px solid #999;background-color:#aaa}
 .selcon{display:inline;float:left;font:100% Georgia, serif;text-align:center;margin:0.5em;color:#000;border:2px solid #eee;padding:0.2em}
 .selcon:hover{border:2px solid #000;color:#000;cursor:pointer}
 .concept_alph {color:pink;border:1px solid pink;}

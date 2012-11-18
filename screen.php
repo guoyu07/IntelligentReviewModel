@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '209';
-$LAST_UPDATE = 'Nov-21-2012';
+$ITS_version = '210b';
+$LAST_UPDATE = 'Nov-27-2012';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -43,8 +43,8 @@ foreach ($open as $Odate){
 $index_hide = 0;
 $schedule = array();
 foreach ($close as $Cdate){
-    $close_time = mktime(4, 0, 0, $Cdate[0], $Cdate[1], $term_arr[1]);
-    array_push($schedule,date("M - j", $close_time));  
+    $close_time = mktime(23, 59, 59, $Cdate[0], $Cdate[1], $term_arr[1]);
+    array_push($schedule,date("M - j", $close_time).' @ midnight');  
     //echo '<p>'.date("M-j", $close_time).'</p>';
 	if ($close_time < time())
 		$index_hide++;
@@ -123,8 +123,7 @@ $(".ITS_schedule").fancybox({
 $( "input[name=selectResource]" ).live('click', function(event) {
 	        var field = $(this).val();
 	        var concept = $(this).attr("concept");
-	        //
-	        alert(field+'='+concept);
+	        //alert(field+'='+concept);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "test",
                 ajax_data: concept+'~'+field.toLowerCase()
@@ -136,8 +135,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
 	        var field 	= $(this).attr("field");
 	        var rid  	= $(this).attr("rid");
 	        var concept = $(this).attr("concept");
-	        //
-	        alert(field+'~'+rid+'~'+concept);
+	        //alert(field+'~'+rid+'~'+concept);
 			//$('#ITS_resource_'+field.toLowerCase()).html(rid);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "select",
@@ -146,7 +144,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
                 $('#ITS_resource_'+field.toLowerCase()+'_'+concept).html(data);
                 $('#ITS_resource_'+field.toLowerCase()+'_'+concept).attr("rid",rid);
             });
-}); 
+});
 });
 </script>
 <script type='text/javascript'>
