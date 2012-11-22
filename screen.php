@@ -123,7 +123,8 @@ $(".ITS_schedule").fancybox({
 $( "input[name=selectResource]" ).live('click', function(event) {
 	        var field = $(this).val();
 	        var concept = $(this).attr("concept");
-	        //alert(field+'='+concept);
+	        //
+	        alert(field+'='+concept);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "test",
                 ajax_data: concept+'~'+field.toLowerCase()
@@ -132,18 +133,18 @@ $( "input[name=selectResource]" ).live('click', function(event) {
             });
 });     
 $( "input[name=resourceSelect]" ).live('click', function(event) {
-			
-	        var field = $(this).attr("field");
-	        var rid = $(this).attr("rid");
-	        $(this).attr("concept");
-	        //alert(field);
+	        var field 	= $(this).attr("field");
+	        var rid  	= $(this).attr("rid");
+	        var concept = $(this).attr("concept");
+	        //
+	        alert(field+'~'+rid+'~'+concept);
 			//$('#ITS_resource_'+field.toLowerCase()).html(rid);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "select",
                 ajax_data: field.toLowerCase()+'~'+rid
             }, function(data) {
-                $('#ITS_resource_'+field.toLowerCase()).html(data);
-                $('#ITS_resource_'+field.toLowerCase()).attr("rid",rid);
+                $('#ITS_resource_'+field.toLowerCase()+'_'+concept).html(data);
+                $('#ITS_resource_'+field.toLowerCase()+'_'+concept).attr("rid",rid);
             });
 }); 
 });
@@ -158,7 +159,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
             <div id="menuContainer">
-                <div class="logout"><a href="logout.php">Logout</a></div>
+                <div id="logout" class="logout" uid="<?php echo $id;?>"><a href="logout.php">Logout</a></div>
                 <!--
 	  <div class="icon" id="Minst_icon">I</div>
                <p class="ITS_instruction"><img src="images/matching_example1.png" style="position:relative;max-width:100%"></p>

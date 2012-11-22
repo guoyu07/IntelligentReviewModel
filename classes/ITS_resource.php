@@ -14,11 +14,18 @@ class ITS_resource
 {
     public function __construct($tag)
     {
-        global $db_dsn, $tb_name;
+        global $db_dsn, $db_name, $tb_name, $db_table_user_state, $tex_path;
         
-        $this->db_dsn  = $db_dsn;
+        $this->db_dsn  = $db_dsn;  
+        $this->term    = $term;
+        $this->role    = $role;
+        $this->db_name = $db_name;
         $this->tb_name = $tb_name;
-        $this->concept = $tag;     
+        $this->tb_user = $db_table_user_state;
+        
+        $this->epochtime = $date;        
+        $this->concept = $tag;
+        
     }
     //=====================================================================//
     public function renderBox($rtb, $rid)
@@ -53,7 +60,7 @@ class ITS_resource
         $td    = ''; //'<td>' . $this->concept . '</td>';
         for ($n = 0; $n < count($tharr); $n++) {
             $td .= '<th><input type="button" name="selectResource" concept="'.$this->concept.'" value="' . $tharr[$n] . '" class="ITS_res"></th>';
-            $th .= '<td id="ITS_resource_'.strtolower($tharr[$n]).'" rid=""></td>';
+            $th .= '<td id="ITS_resource_'.strtolower($tharr[$n]).'_'.$this->concept.'" rid=""></td>';
         }
         $tb .= '<table class="ITS_resource"><tr>' . $th . '</tr><tr>' . $td . '</tr></table>';
         
@@ -185,7 +192,7 @@ class ITS_resource
                     //---//
                     $tList = '<table class="CPROFILE">';
                     for ($i = 0; $i < count($li_arr); $i++) {
-                        $tList .= '<tr><td><span class="ITS_List">' . $li_arr[$i] . '</span></td><td><input id="aa" type="button" name="resourceSelect" value="select" field="'.$field.'" rid="'.$id_arr[$i].'"></td></tr>';
+                        $tList .= '<tr><td><span class="ITS_List">' . $li_arr[$i] . '</span></td><td><input id="aa" type="button" name="resourceSelect" value="select" field="'.$field.'" rid="'.$id_arr[$i].'" concept="'.$this->concept.'"></td></tr>';
                     }
                     $tList .= '</table>';
                     break;
@@ -193,7 +200,7 @@ class ITS_resource
                     $tList = ''; //'<ul class="ITS_list">';
                     for ($i = 0; $i < count($li_arr); $i++) {
                         //$tList .= '<li><table><tr><td>' . $li_arr[$i] . '</td></tr><tr><td><input type="button" value="SELECT"></td></tr></li>';
-                        $tList .= '<div class="fl"><table class="tt"><tr><td><div class="ITS_latex">' . $li_arr[$i] . '</div></td></tr><tr><td><input type="button" name="resourceSelect" value="select" field="'.$field.'" rid="'.$id_arr[$i].'"></td></tr></table></div>';
+                        $tList .= '<div class="fl"><table class="tt"><tr><td><div class="ITS_resource_box">' . $li_arr[$i] . '</div></td></tr><tr><td><input type="button" name="resourceSelect" value="select" field="'.$field.'" rid="'.$id_arr[$i].'" concept="'.$this->concept.'"></td></tr></table></div>';
                     }
                     //$tList .= '</ul>';
             }
@@ -326,13 +333,29 @@ class ITS_resource
                     $tList = ''; //'<ul class="ITS_list">';
                     for ($i = 0; $i < count($li_arr); $i++) {
                         //$tList .= '<li><table><tr><td>' . $li_arr[$i] . '</td></tr><tr><td><input type="button" value="SELECT"></td></tr></li>';
-                        $tList .= '<div class="fl"><table class="tt"><tr><td><div class="ITS_latex">' . $li_arr[$i] . '</div></td></tr><tr><td><input type="button" name="'.$callback.'" value="'.$action.'" field="'.$field.'" rid="'.$rid.'"></td></tr></table></div>';
+                        $tList .= '<div class="fl"><table class="tt"><tr><td><div class="ITS_resource_box">' . $li_arr[$i] . '</div></td></tr><tr><td><input type="button" name="'.$callback.'" value="'.$action.'" field="'.$field.'" rid="'.$rid.'"></td></tr></table></div>';
                     }
                     //$tList .= '</ul>';
             }
         }
+<<<<<<< HEAD
         return '<center>' . $tList . '</center>';
     }
+=======
+        return '<center>' . $tList . '</center>';    
+	}
+        //=====================================================================//
+    public function saveResource($id,$concept,$text,$equation,$image,$example)
+    {
+        //=====================================================================//
+        
+        $cid = 402;
+        $comment = $concept.','.$text.','.$equation.','.$image.','.$example;
+        $query_str = 'INSERT IGNORE INTO ' . $this->tb_user .$id . ' (concept_id,comment,epochtime,event) VALUES(' . $cid . ',"' .$comment. '",' . time() . ',"resource")';
+        
+        return $query_str; 
+	}	
+>>>>>>> dev
     //=====================================================================//
 } //eo:class
 //=====================================================================//
