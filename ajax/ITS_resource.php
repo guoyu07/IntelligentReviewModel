@@ -57,7 +57,6 @@ switch ($action){
 	  case 'resourceDB':
 	  //-------------------------------------------//	  
 		  $data = preg_split('[~]',$Data);
-		  $id = 1;
 		  $obj    = new ITS_resource(trim($data[0]));
 		  $list  = $obj->saveResource($data[0],$data[1],$data[2],$data[3],$data[4],$data[5]);
 		  $str  = $list;

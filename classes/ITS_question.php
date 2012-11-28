@@ -16,7 +16,7 @@ Methods: load_DATA_from_DB($q_num)
 ex. $ITS_question = new ITS_question(90001,"its","user_cpt");
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Oct-22-2012
+Last Revision: Nov-27-2012
 //=====================================================================*/
 
 class ITS_question
@@ -65,7 +65,7 @@ class ITS_question
         $query = "DESCRIBE " . $this->tb_name;
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         $fields = array();
@@ -79,7 +79,7 @@ class ITS_question
         $query     = 'SELECT ' . $fieldsSTR . ' FROM ' . $this->tb_name . ' WHERE id=' . $qid;
         $res       = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $this->Q_question_data['id'] = $qid;
         $this->Q_question_data       = mysql_fetch_assoc($res);
@@ -96,7 +96,7 @@ class ITS_question
         $query                          = "DESCRIBE " . $this->tb_name;
         $res                            = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $fields = array();
         for ($f = 0; $f < mysql_num_rows($res); $f++) {
@@ -107,7 +107,7 @@ class ITS_question
         $query = "DESCRIBE " . $this->tb_name . '_' . strtolower($d[1]);
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $fields = array();
 
@@ -150,7 +150,7 @@ class ITS_question
             
             $res = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $this->Q_question_parts = mysql_fetch_assoc($res);
             
@@ -164,7 +164,7 @@ class ITS_question
             //echo $query;
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             
             $vdata    = mysql_fetch_array($res);
@@ -226,6 +226,7 @@ class ITS_question
     function render_QUESTION_parts($conf) // mode: (0-rand) | (1-DB) parameters
     {
         //=====================================================================//   
+                      $ret_value = '';
         $qtype = strtolower($this->Q_question_data['qtype']);
         if ($qtype == 'c') {
             $query  = "SELECT vals FROM " . $this->tb_name . "_" . $qtype . " WHERE " . $this->tb_name . "_id=" . $this->Q_question_data['id'];
@@ -239,7 +240,7 @@ class ITS_question
             $query = "SELECT " . $fields . " FROM " . $this->tb_name . "_" . $qtype . " WHERE " . $this->tb_name . "_id=" . $this->Q_question_data['id'];
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $Q_question_parts = mysql_fetch_assoc($res);
             // get token fields
@@ -250,7 +251,7 @@ class ITS_question
             $query = " SELECT " . $fields . " FROM " . $this->tb_name . "_" . $qtype . " WHERE " . $this->tb_name . "_id=" . $this->Q_question_data['id'];
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $vdata = mysql_fetch_array($res);
             $mode  = intval(empty($conf));
@@ -285,11 +286,11 @@ class ITS_question
                     break;
                     //-------------------------------------------//
             }
-        }
-        $ret_value = '';
         for ($k = 1; $k <= $this->Q_question_data['answers']; $k++) {
-            $ret_value .= "<div class='ITS_QUESTION'><table class='ITS_QUESTION'><tr ><td class='ITS_QUESTION'>" . $Q_question_parts['text' . $k] . "</td></tr></TABLE></div>";
+            $ret_value .= "<div class='ITS_QUESTION'><table class='ITS_QUESTION'><tr><td class='ITS_QUESTION'>" . $Q_question_parts['text' . $k] . "</td></tr></TABLE></div>";
+        }      
         }
+
         //die('returning '.$ret_value );
         return $ret_value;
     }
@@ -349,7 +350,7 @@ class ITS_question
             $query_img = 'SELECT dir,name FROM images WHERE id=' . $iid;
             $res       = mysql_query($query_img);
             if (!$res) {
-                die('Query execution problem in classes/ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             
             $row = mysql_fetch_assoc($res);
@@ -541,7 +542,7 @@ class ITS_question
         //die($query);
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         $fields = array();
@@ -556,7 +557,7 @@ class ITS_question
         //die($query);
         $res                    = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $this->Q_answers_data = mysql_fetch_assoc($res);
     }
@@ -704,7 +705,7 @@ class ITS_question
                         //echo 'IN MODE=default<p>'.$query; //die();
                         $res      = mysql_query($query);
                         if (!$res) {
-                            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
                         }
                         $C = mysql_fetch_array($res);
                         //echo 'C<p>'; //print_r($C);//echo count($C); die();
@@ -981,7 +982,7 @@ class ITS_question
             //echo $query_img.'<br>';
             $res       = mysql_query($query_img);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             
             $row = mysql_fetch_assoc($res);
@@ -1213,12 +1214,12 @@ class ITS_question
                 case 'category':
                     //+++++++++++++++++++++++++++++++++++++++++++//
                     $issel = '';
-                    $sel   = '<select id="' . $field . '" name="' . $field . '" class="ITS_question">';
+                    $sel   = '<select id="' . $field . '" name="' . $field . '" class="'.get_class($this).'">';
                     $query = 'SELECT DISTINCT ' . $field . ' FROM ' . $this->tb_name . ' GROUP BY category';
                     //echo $query.'<p>';
                     $res   = mysql_query($query);
                     if (!$res) {
-                        die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
                     }
                     //$categories = mysql_fetch_row($res);
                     //var_dump($categories);

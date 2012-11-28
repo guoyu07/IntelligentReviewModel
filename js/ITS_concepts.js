@@ -38,32 +38,31 @@ $(document).ready(function() {
 	/*-------------------------------------------------------------------------*/		
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
-        $('#seldcon tr').each(function() {
-            $(this).find('td').each(function() {
-                if ($(this).text() != 'x')
+        $('.resource_concept').each(function() {
                     tdArray.push($(this).text());
-            });
         });
         var tbvalues = tdArray.join();
         // Ajax call to send questions to replace the question container
-        // alert(tbvalues);
+        //alert(tbvalues);
         
         // Save RESOURCE data
         var id = $('#logout').attr("uid");
         var concept = $( "input[name=selectResource]" ).attr("concept");
+        var cid = $('#resource_'+concept).attr("cid");
 		var text = $('#ITS_resource_text_'+concept).attr("rid");
         var equation = $('#ITS_resource_equation_'+concept).attr("rid");
         var image = $('#ITS_resource_image_'+concept).attr("rid");
         var example = $('#ITS_resource_example_'+concept).attr("rid");
         
-        alert(id+'~'+concept+'~'+text+'~'+equation+'~'+image+'~'+example);
+        //alert(id+'~'+cid+'~'+text+'~'+equation+'~'+image+'~'+example);
         $.get('ajax/ITS_resource.php', {
             ajax_args: "resourceDB",
-            ajax_data: id+'~'+concept+'~'+text+'~'+equation+'~'+image+'~'+example
+            ajax_data: id+'~'+cid+'~'+text+'~'+equation+'~'+image+'~'+example
         }, function(data) {
-			alert(data);
-                $("#contentContainer").html(data);
+			//alert(data);
+                //$("#contentContainer").html(data);
         });
+        alert(tbvalues);
         $.get('ajax/ITS_screen2.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues
@@ -209,13 +208,15 @@ $(document).ready(function() {
     $(".selcon").live("click", function() {
 	/*-------------------------------------------------------------------------*/		
         $('#errorConceptContainer').html("");
-        var field=this.id;
+        var field = this.id;
+        var cid   = $(this).attr("cid");
         var tr = '';
         if ($('#seldcon td:contains(' + this.id + ')').length) {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td width="95%"><div class="resource_concept">' + this.id + '</div><br><br><div id="resource_'+field+'"></td><td width="95%" class="choice_del">x</td></tr>';  
+        //alert(field+' ~ '+cid);
+        tr = '<tr><td width="95%"><div class="resource_concept">' + this.id + '</div><br><br><div id="resource_'+field+'" cid="'+cid+'"></td><td class="choice_del">x</td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
         

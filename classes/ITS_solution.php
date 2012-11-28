@@ -25,7 +25,8 @@ HELPER FUNCTIONS:
 ex. $ITS_solution = new ITS_solution($id);
 
 Author(s): Drew Boatwright  | May-11-2012
-Last Revision: May-17-2012, Drew Boatwright
+       Revision: May-17-2012, Drew Boatwright
+  Last Revision: Nov-27-2012, Greg Krudysz
 //=====================================================================*/
 class ITS_solution
 {
@@ -44,9 +45,15 @@ class ITS_solution
         $this->db_user = $dsn[1]; //Database username
         $this->db_pass = $dsn[2]; //Database pass
         
+<<<<<<< HEAD
         $this->con = mysql_connect($this->host, $this->db_user, $this->db_pass) or die('Could not Connect to DB');
         mysql_select_db($this->db_name, $this->con) or die('Could not select DB');
     }
+=======
+        $this->con = mysql_connect($this->host, $this->db_user, $this->db_pass) or die('Could not Connect to DB in '.get_class($this));
+        mysql_select_db($this->db_name, $this->con) or die('Could not Connect to DB in '.get_class($this));       
+    }   
+>>>>>>> dev
     //=============================================================//
     // Show Index
     // Description: Shows the Index for the Solutions page by showing
@@ -184,7 +191,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Hint\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Hints
@@ -245,7 +252,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id =' . $ID . ';';
             $res2 = mysql_query($query2) or die(mysql_error());
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];
@@ -440,7 +447,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Sol\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Solutions
@@ -500,7 +507,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id=' . $ID . ';';
             $res2   = mysql_query($query2);
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];
@@ -694,7 +701,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Det\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Detailed
@@ -754,7 +761,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id =' . $ID . ';';
             $res2   = mysql_query($query2);
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];
@@ -1096,7 +1103,7 @@ class ITS_solution
             $query = 'SELECT text FROM solutions WHERE id =' . $ID . ';';
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $text  = mysql_fetch_array($res, MYSQL_NUM);
             //$text1 = addslashes($text[0]);
@@ -1225,7 +1232,7 @@ class ITS_solution
             $query = 'SELECT text FROM solutions WHERE id =' . $idNum . ';';
             $res = mysql_query($query) or die(mysql_error());
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $text = mysql_fetch_array($res, MYSQL_NUM) or die(mysql_error());
             $text1  = $text[0];
@@ -1237,7 +1244,7 @@ class ITS_solution
             $query = 'DELETE FROM solutions WHERE id = ' . $idNum . ';';
             $res = mysql_query($query) or die(mysql_error());
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             echo 'Successfully Deleted';
         }
@@ -1250,7 +1257,7 @@ class ITS_solution
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $qNum . ', \'' . $stype . '\',\'' . $text . '\', ' . $this->sessionId . ', ' . time() . ', \'Updated\');';
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             //echo self::latexCheck($textpre, $path) or die(mysql_error()).'<br>';
             //echo $text;
@@ -1266,7 +1273,7 @@ class ITS_solution
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $qNum . ', \'' . $stype . '\',\'' . $text . '\', ' . $this->sessionId . ', ' . time() . ', \'Added\');';
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             echo '' . self::latexCheck($textVAL, $path) . '<br>';
             //echo 'Successfully Added';
@@ -1307,7 +1314,7 @@ class ITS_solution
         $query = 'SELECT text, stype FROM solutions WHERE id =' . $ID . ';';
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $text = mysql_fetch_array($res, MYSQL_NUM) or die(mysql_error());
         $text1 = $text[0];
@@ -1322,7 +1329,7 @@ class ITS_solution
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $qNum . ', \'' . $stype . '\',\'' . $text1 . '\', ' . $this->sessionId . ', ' . time() . ', \'Verified or Unverified\');';
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             echo 'Successfully Verified or Unverified';
         } else {
@@ -1334,7 +1341,7 @@ class ITS_solution
             $query = 'SELECT rating, numratings FROM solutions WHERE id = ' . $ID . ';';
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table    = mysql_fetch_array($res, MYSQL_NUM);
             $Current  = $table[0];
@@ -1349,7 +1356,7 @@ class ITS_solution
             $query2 = 'UPDATE solutions SET rating=' . $new . ', numratings=' . $numRates . ' WHERE id=' . $ID . ';';
             $res2   = mysql_query($query2);
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             echo 'Successfully Rated';
         }
@@ -1445,7 +1452,7 @@ class ITS_solution
         $query = 'SELECT text, question_id, stype FROM solutions WHERE id =' . $idNum . ';';
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $text = mysql_fetch_array($res, MYSQL_NUM) or die(mysql_error());
         $text1  = $text[0];
@@ -1459,7 +1466,7 @@ class ITS_solution
         $query = 'DELETE FROM solutions WHERE id = ' . $idNum . ';';
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         echo 'Successfully Deleted';
         
@@ -1482,7 +1489,7 @@ class ITS_solution
         $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $qNum . ', \'' . $stype . '\',\'' . $text . '\', ' . $this->sessionId . ', ' . time() . ', \'Added\');';
         $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         echo 'Successfully Added';
         
@@ -1505,7 +1512,7 @@ class ITS_solution
         $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $qNum . ', \'' . $stype . '\',\'' . $text . '\', ' . $this->sessionId . ', ' . time() . ', \'Updated\');';
         $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         echo 'Successfully Updated';
         
@@ -1533,7 +1540,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Hint\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Hints
@@ -1555,7 +1562,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id =' . $ID . ';';
             $res2 = mysql_query($query2) or die(mysql_error());
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];
@@ -1625,7 +1632,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Sol\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Solutions
@@ -1648,7 +1655,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id=' . $ID . ';';
             $res2   = mysql_query($query2);
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];
@@ -1701,7 +1708,7 @@ class ITS_solution
         $query = 'SELECT id,text FROM solutions WHERE question_id = ' . $qNum . ' AND stype = \'Det\' ORDER BY rating DESC;'; // ORDER BY RATING
         $res = mysql_query($query) or die(mysql_error());
         if (!$res) {
-            die('Query execution problem in SQLforDemo.php: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //Print Detailed
@@ -1722,7 +1729,7 @@ class ITS_solution
             $query2 = 'SELECT rating,numratings,verified FROM solutions WHERE id =' . $ID . ';';
             $res2   = mysql_query($query2);
             if (!$res2) {
-                die('Query execution problem in SQLforDemo.php: ' . msql_error());
+                die('Query execution problem in '.get_class($this).': ' . msql_error());
             }
             $table      = mysql_fetch_array($res2, MYSQL_NUM);
             $rating     = $table[0];

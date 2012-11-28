@@ -8,7 +8,7 @@ Constructor: ITS_resource( ... )
 ex. $r = new ITS_resource( ... );
 
 Author(s): Greg Krudysz
-Last Update: Nov-21-2012	 
+Last Update: Nov-27-2012	 
 //=====================================================================*/
 class ITS_resource
 {
@@ -96,7 +96,7 @@ class ITS_resource
         $li_arr = array();
         $res    = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_resource: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         if (!empty($res)) {
@@ -235,7 +235,7 @@ class ITS_resource
         $li_arr = array();
         $res    = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_resource: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         if (!empty($res)) {
@@ -348,19 +348,27 @@ class ITS_resource
         return '<center>' . $tList . '</center>';    
 	}
         //=====================================================================//
-    public function saveResource($id,$concept,$text,$equation,$image,$example)
+    public function saveResource($id,$concept_id,$text,$equation,$image,$example)
     {
-        //=====================================================================//
+        //=====================================================================//      
+        $comment = $text.','.$equation.','.$image.','.$example;
+        $query_str = 'INSERT IGNORE INTO ' . $this->tb_user .$id . ' (concept_id,comment,epochtime,event) VALUES(' . $concept_id . ',"' .$comment. '",' . time() . ',"resource")';
+
+        $res    = mysql_query($query_str);
+        if (!$res) {
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
+        }
         
-        $cid = 402;
-        $comment = $concept.','.$text.','.$equation.','.$image.','.$example;
-        $query_str = 'INSERT IGNORE INTO ' . $this->tb_user .$id . ' (concept_id,comment,epochtime,event) VALUES(' . $cid . ',"' .$comment. '",' . time() . ',"resource")';
-        
+<<<<<<< HEAD
         return $query_str; 
 	}	
 <<<<<<< HEAD
 >>>>>>> dev
 =======
+>>>>>>> dev
+=======
+        return $query_str;
+	}
 >>>>>>> dev
     //=====================================================================//
 } //eo:class
