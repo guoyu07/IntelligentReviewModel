@@ -201,12 +201,16 @@ class ITS_concepts
     //=====================================================================//
     function SelectedConcContainer($mode){
         //=====================================================================//
+         $box =  '<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';    			
+
         $str = '<div id="SelectedConcContainer"><table id="seldcon" class="conceptTable"></table>';
         if ($mode == 0) // 0 is for Instructor mode
             $str .= '<input type="button" id="submitConcepts" name="submit" value="Submit Concepts"></div>';
         else if ($mode == 1) // 1 is for Student mode
-            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div>';
-        return $str;
+            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div><br><br><div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts2" name="getQuesForConcepts2" class="ITS_submit" value="Get Questions 22"></div>';
+        
+                $box .= $str . '</div>';
+        return $box;
     }
     //=====================================================================//
     function conceptListContainer(){
@@ -222,7 +226,8 @@ class ITS_concepts
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
         $res   = mysql_query($query, $con);    
         
-		$str = '<ul class="ITS_nav">';           
+		$str = '<ul class="ITS_nav"><li id="xx"></li>';      
+		/*     
         for ($x = 1; $x <= mysql_num_rows($res); $x++) {
             $row = mysql_fetch_row($res);
             $val = strtoupper($row[0]);
@@ -231,7 +236,7 @@ class ITS_concepts
             if ($val == 'S') { $idx_id = 'id="current"'; } 
             else 		  					{ $idx_id = ''; }			
             $str .= '<li class="ITS_nav_concept"><a href="#" class="ITS_alph_index" name="chapter" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
-        }            
+        }            */
         $str .= '</ul>';
         return $str;
     }

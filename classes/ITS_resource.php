@@ -33,8 +33,10 @@ class ITS_resource
         //=====================================================================//
         //if (empty($rating)) { $rating = 0; }
         //$box = '<hr class="ITS_search"><input id="ITS_search_box" type="text" name="keyword" rtb="'.$rtb.'" rid="'.$rid.'">'.
-        //       '<div class="ITS_search"></div></p>';		
-        $box = '<input id="ITS_search_box" type="text" name="keyword" rtb="' . $rtb . '" rid="' . $rid . '">';
+        //       '<div class="ITS_search"></div></p>';	
+        $box =  '<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';    			
+        $Rstr = '<input id="ITS_search_box" type="text" name="keyword" rtb="' . $rtb . '" rid="' . $rid . '">';
+        $box .= $Rstr . '</div>';
         
         return $box;
     }

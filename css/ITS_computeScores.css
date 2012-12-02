@@ -1,4 +1,4 @@
-#scoreContainer{clear:both;position:relative;width:100%;text-align:left;background-color:#DCDCDC;border-bottom:1px solid #DCDCDC;background:#fff}
+#scoreContainer{clear:both;position:relative;width:100%;text-align:left;background-color:#DCDCDC;border-bottom:1px solid #DCDCDC;background:#fff;padding:0.1em}
 #scoreContainer span{position:relative;color:#666;background-color:#fff;background:#fff;margin:0 1em;padding:0 .5em}
 #scoreContainer span:hover{color:#fff;background-color:#666;cursor:pointer}
 #scoreContainerContent{position:relative;width:90%;text-align:center;display:none;background:#fff;margin:0;padding:1em}

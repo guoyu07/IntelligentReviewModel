@@ -1978,7 +1978,7 @@ class ITS_screen2
             '<tr><td><a href="Question.php?qNum='.$qid.'" class="Qnum">'.$qid.'</a></td><td>'.$qtype.'</td><td>'.$resource_name.'</td></tr>'.
             '</table>'; 
             */
-            $qinfo .= '<table class="ITS_ADMIN" style="float:right;border:1px solid red">' . '<tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
+            $qinfo .= '';//'<table class="ITS_ADMIN" style="float:right;border:1px solid red">' . '<tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
         }
         return $qinfo;
     }
@@ -2116,7 +2116,7 @@ class ITS_screen2
                         //-------------------------------//
                 }
                 //echo $K . "\n";die();
-                echo '<div class="ITS_ADMIN">' . $K . '</div>';
+                //echo '<div class="ITS_ADMIN">' . $K . '</div>';
                 if ($K) { // section questions available
                     // choose random question from ALL POSSIBLE QUESTIONS
                     // $qAvailable = array(581); //492,1211,1212);
@@ -2136,8 +2136,8 @@ class ITS_screen2
                         case 'concept':
                             //-------------------------------//
                             $ques_arr_rand_key = array_rand($qAvailable, 1);
-                            $qid               = $qAvailable[$ques_arr_rand_key][0];
-                            $qtype             = $qAvailable[$ques_arr_rand_key][1];
+                            $qid               = 1222; //$qAvailable[$ques_arr_rand_key][0];
+                            $qtype             = 'mc';//s$qAvailable[$ques_arr_rand_key][1];
                             $ch_idx            = $this->chapter_number;
                             $this->mode        = 'concept';
                             //$skip = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" mode="'.$resource.'">';
@@ -2145,8 +2145,8 @@ class ITS_screen2
                         //-------------------------------//
                         default:
                             $ques_arr_rand_key = array_rand($qAvailable, 1);
-                            $qid               = $qAvailable[$ques_arr_rand_key][0];
-                            $qtype             = $qAvailable[$ques_arr_rand_key][1];
+                            $qid               = 3550; //$qAvailable[$ques_arr_rand_key][0];
+                            $qtype             = 'c'; //$qAvailable[$ques_arr_rand_key][1];
                             $ch_idx            = $this->chapter_number;
                             $this->mode        = 'question';
                             //$skip = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" mode="'.$resource.'">';
@@ -2168,7 +2168,14 @@ class ITS_screen2
                         }
                     }
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-                    $resources                = '';
+                    $resources = '';
+//<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
+					
+					//$Robj = new ITS_resource('sampling');
+					//$Rstr  = $obj->setResource('sampling',402);   
+					//$Rstr = '<p style="height:0px">&nbsp;</p>';      
+					//$resources .= $Rstr . '</div>';
+					
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
                     $error                    = '<div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">
@@ -2474,7 +2481,13 @@ class ITS_screen2
                     //echo $resources.'<p>';die('done');
                     */
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-                    $resources                = '';
+                    $resources                = '<div class="resource_concept">sampling</div><br/><br/>'.
+'<div id="resource_sampling" cid="402"><table class="ITS_resource"><tbody><tr>'.
+'<td id="ITS_resource_text_sampling" rid=""/>'.
+'<td id="ITS_resource_equation_sampling" rid="4001">'.
+'<td id="ITS_resource_image_sampling" rid=""/>'.
+'<td id="ITS_resource_example_sampling" rid="34"></tr><tr></tbody></table></div>'.
+'</td><td class="choice_del">x</td></tr></tbody></table></div>';
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
                     $error                    = '<br><div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">

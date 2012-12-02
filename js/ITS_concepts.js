@@ -34,8 +34,39 @@ $(document).ready(function() {
     /*-------------------------------------------------------------------------*
 	 * for Students!
 	 *-------------------------------------------------------------------------*/
+    $('#getQuesForConcepts2').live('click', function(event) {
+	/*-------------------------------------------------------------------------*/	
+
+		var tdArray = new Array();
+        
+        $('.resource_concept').each(function() {
+                    tdArray.push($(this).text());
+        });
+        var tbvalues = tdArray.join();
+		var tbdivs   = tdArray.join('</span><span class="CHOICE">');
+		    tbdivs = '<span class="CHOICE">'+tbdivs+'</span>';
+		    //alert(tbdivs);
+            //$('#coContainer').html(tbdivs);
+            	//$('.ITS_nav').html(tbdivs);//css("border","2px solid red");
+            //
+            $('#xx').html('<span class="CHOICE">sampling</span>');
+                      //$('#coContainer').html(tbdivs);
+            //$('#modeContentContainer').html(tbdivs);
+    
+            //$('#coContainer').html(tbdivs);
+            //$('#coContainer').show();
+                        $.get('ajax/ITS_screen2.php', {
+            ajax_args: "getQuestionsForConcepts",
+            ajax_data: tbvalues
+        }, function(data) {
+			//alert(data);
+                $("#conceptListContainer").html(data);
+        });
+//+'<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">'
+    });
+	 /*-------------------------------------------------------------------------*/
     $('#getQuesForConcepts').live('click', function(event) {
-	/*-------------------------------------------------------------------------*/		
+	/*-------------------------------------------------------------------------*/	
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
         $('.resource_concept').each(function() {
