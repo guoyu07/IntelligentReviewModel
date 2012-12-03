@@ -33,6 +33,8 @@
 <tr><td>mysqldump --single-transaction --skip-add-locks dbname tbname -u root -p > file.sql</td><td>backup database "dbname" to a sql file</td></tr>
 <tr><td>rsync -vaz /home/ITSdrive/ /media/ITSbackup/BACKUP/ITSdrive</td><td>backup files from source to destination folder</td></tr>
 <tr><td>rsync -a -e ssh source/ username@remotemachine.com:/path/to/destination/</td><td>backup files from source to server destination</td></tr>
+<tr><td>grep -iRn "searchpattern" *</td><td>recursivley search for pattern in files</td></tr>
+<tr><td>perl -p -i -e 's/oldstring/newstring/g' `grep -ril searchpattern *`</td><td>recursivley search pattern and replace in files</td></tr>
 		  <!--------------------------------------------------------------------->		  
   </table>
  </center>

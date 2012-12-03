@@ -13,3 +13,16 @@ table.tt {border-collapse:collapse;margin:0.2em;}
 table.ITS_resource{position:relative;width:100%;vertical-align:middle;border-collapse:collapse;background:#fff;font-size:8pt;}
 table.ITS_resource td {border:none}
 img.ITS_resource_img {max-height: 250px;max-width: 200px;}
+.ITS_res {font-size:150%}
+.CPROFILE td span.ITS_List { font-size:200%}
+
+#resourceContainer {clear:both;position:relative;width:91.9%;text-align:left;background-color:#DCDCDC;border-bottom:1px solid #DCDCDC;background:#fff}
+#resourceContainer span{position:relative;color:#666;background-color:#fff;background:#fff;margin:0 1em;padding:0 .5em}
+#resourceContainer span:hover{color:#fff;background-color:#666;cursor:pointer}
+#xx{float:left;margin-top:-30px;font-size:100%}
+
+/* del below */
+.ITS_ANSWER {padding:0;margin:0}
+#navBoxContainer {padding:0;margin:0}
+input.ITS_submit {margin:0.1em}
+.CHOICE_ACTIVE {margin:0 0} 

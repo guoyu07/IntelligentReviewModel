@@ -14,7 +14,7 @@ include ("classes/ITS_timer.php");
 require_once ("config.php");
 
 require_once ("classes/ITS_statistics.php");
-require_once ("classes/ITS_computeScores.php");
+require_once ("classes/ITS_score.php");
 require_once ("classes/ITS_footer.php");
 
 require_once ("classes/ITS_screen2.php");

@@ -176,7 +176,7 @@ $nav     = $ITS_nav->render($current,$course);
         <link rel="stylesheet" href="css/login.css" 	 type="text/css" media="screen">
         <link rel="stylesheet" href="css/admin.css" 	 type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_BOOK.css" 	 type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_test.css" 	 type="text/css" media="screen">
         <script src="js/ITS_admin.js"></script>

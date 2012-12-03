@@ -1,17 +1,17 @@
 <?php
 /*=====================================================================//
-ITS_computeScores - compute user lab scores.
+ITS_score - compute user scores.
 
-		Constructor: ITS_computeScores( ... )
+		Constructor: ITS_score( ... )
 		
-			ex. $scores = new ITS_computeScores( ... );
+			ex. $scores = new ITS_score( ... );
 			
 		NOTE: requires ITS_query() class
 								
 	 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-	 Last Update: Oct-03-2012
+	 Last Update: Dec-04-2012
 //=====================================================================*/
-class ITS_computeScores {
+class ITS_score {
 	
 	public function __construct($userid,$ch,$chArr,$term,$date) {
 	
@@ -90,9 +90,9 @@ class ITS_computeScores {
 			$lab_arr = array();
 			
 			for ($n=0;$n<$N;$n++){
-        $lab_arr[$n] = '<span class="ITS_computeScores">Lab '.($n+1).'</span>';
+        $lab_arr[$n] = '<span class="ITS_score">Lab '.($n+1).'</span>';
       }
-			$lab_arr[$N] = '<span class="ITS_computeScores_Total">TOTAL</span>';
+			$lab_arr[$N] = '<span class="ITS_score_Total">TOTAL</span>';
 			
       $weight = array_fill(0,($N+1),100/($N+1));
       $str = array_merge($lab_arr,$score_arr);
@@ -128,6 +128,7 @@ class ITS_computeScores {
 			$c = $chArr[$i];	
 								
 			$query = $ITSq->getQuery('SUM(score)',$usertable,$c,$this->epochtime);		
+			//echo '<p>'.$query.'<p>'; 
 			$res   = $mdb2->query($query);	
 						
 			//die($this->epochtime);
@@ -144,7 +145,7 @@ class ITS_computeScores {
 			$query1 = $ITSq->getQuery('count(question_id)',$usertable,$c,$this->epochtime);
 
 			//echo '<p>'.$query1.'</p>';
-			//echo 'ITS_computeScores::computeChapterScores():<br><font color="blue">'.$query1.'</font><p>';
+			//echo 'ITS_score::computeChapterScores():<br><font color="blue">'.$query1.'</font><p>';
 
 			$res1 = & $mdb2->query($query1);	
 			$row1 = $res1->fetchAll();
@@ -180,9 +181,9 @@ class ITS_computeScores {
 		$chapter_arr = array();
 		$chapter_arr[] = '';
 		foreach ($chArr as $c) {
-        	$chapter_arr[] = '<span class="ITS_computeScores">A&ndash;'.$c.'</span>';
+        	$chapter_arr[] = '<span class="ITS_score">A&ndash;'.$c.'</span>';
 		}
-		$chapter_arr[] = '<span class="ITS_computeScores_Total">TOTAL</span>';
+		$chapter_arr[] = '<span class="ITS_score_Total">TOTAL</span>';
 		$score_arr[] = "<b>Score</b>";
 	    $attemptedQues[] = '<span class="ITS_smallFont">Attempted / Available</span><br><b>Questions</b>';
 	    $percentageArr[] = "<b>Percentage</b>";

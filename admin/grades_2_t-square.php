@@ -15,8 +15,8 @@
 	 Last Update: Apr-30-2012										   */	 
 //=====================================================================//
 
-$class_name    = 'Spring_2012';
-$tsquare_file  = 'csv/gradebook-22463.201202-2012-04-20.csv';
+$class_name    = 'Fall_2012';
+$tsquare_file  = 'csv/gradebook-2012-12-04.csv';
 $its_file      = 'csv/'.$class_name.'_grades.csv';
 $output_file   = 'csv/gradebook-'.date("Y-m-d").'.csv';
 $gradebook     = array();
@@ -85,16 +85,17 @@ for($k=0;$k<count($gradebook);$k++) {
 	$stop = 0;
 	for( $idx=0;$idx<$N;$idx++ ){  
 		if ($gradebook[$k][0]==$its[$idx][0]){		
+
+			$gradebook[$k][14] = $its[$idx][3];
+			$gradebook[$k][15] = $its[$idx][4];
+			$gradebook[$k][16] = $its[$idx][5];
+			$gradebook[$k][17] = $its[$idx][6];
+			$gradebook[$k][18]  = $its[$idx][7];
+			$gradebook[$k][19] = $its[$idx][8];
 			/*
-			$gradebook[$k][5] = $its[$idx][3];
-			$gradebook[$k][6] = $its[$idx][4];
-			$gradebook[$k][7] = $its[$idx][5];
-			$gradebook[$k][8] = $its[$idx][6];
-			$gradebook[$k][9]  = $its[$idx][7];
-			$gradebook[$k][10] = $its[$idx][8];
-			*/
 			$gradebook[$k][11] = $its[$idx][9];
 			$gradebook[$k][12] = $its[$idx][10];
+			*/
 			//echo $gradebook[$k][0].' '.$its[$idx][0].'<br>';
 			$stop = 1;
 		}

@@ -12,7 +12,7 @@ require_once ("classes/ITS_survey.php");
 require_once ("classes/ITS_menu.php");
 require_once ("classes/ITS_message.php");
 require_once ("classes/ITS_statistics.php");
-require_once ("classes/ITS_computeScores.php");
+require_once ("classes/ITS_score.php");
 
 require_once ("classes/ITS_screen2.php");
 require_once (INCLUDE_DIR . "common.php");
@@ -34,7 +34,7 @@ require_once (INCLUDE_DIR . "User.php");
 	<link rel="stylesheet" href="tagging/ITS_tagging.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="rating/ITS_rating.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_test.css" type="text/css" media="screen">
 	
@@ -83,14 +83,14 @@ require_once (INCLUDE_DIR . "User.php");
     $mtime = $mtime[1] + $mtime[0];
     $starttime = $mtime;
     //------------------//
-		// SLOW: $score = new ITS_computeScores($sid,$status,$ch_max);
+		// SLOW: $score = new ITS_score($sid,$status,$ch_max);
     // if ($role == 'admin') {$ch = 13; } 
     // else                  {$ch = 7;  }
 		$id = 2;
 		$ch = 13;
 		$ch_max = $ch;
     $chArr = range(1,$ch);
-		$score = new ITS_computeScores($id,$ch,$chArr); //,$ch);
+		$score = new ITS_score($id,$ch,$chArr); //,$ch);
     $str   = $score->renderChapterScores($ch_max);
     //--- begin timer ---//
     $mtime = microtime();

@@ -121,7 +121,7 @@ $meta = $Q->render_data();
         <link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
         <link rel="stylesheet" href="plugins/tagging/ITS_tagging.css" type="text/css" media="screen">
         <link rel="stylesheet" href="plugins/rating/ITS_rating.css" type="text/css" media="screen">	
