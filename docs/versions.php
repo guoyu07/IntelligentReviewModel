@@ -107,8 +107,8 @@
 			  <ol>
         <li>"C" SUBMIT error msg in FF</li>
         <li>Fixed in "C" mode - wrong user parameters after SUBMIT/REVIEW</li>
-        <li>Fixed ITS_computeScores() AJAX error: 
-				<div class="error">Fatal error: ITS_computeScores::computeChapterScores() [<a href='its-computescores.computechapterscores'>its-computescores.computechapterscores</a>]: The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition &quot;MDB2_Driver_mysql&quot; of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition in C:\wamp\www\ITS133\classes\ITS_computeScores.php on line 122</div>
+        <li>Fixed ITS_score() AJAX error: 
+				<div class="error">Fatal error: ITS_score::computeChapterScores() [<a href='its-computescores.computechapterscores'>its-computescores.computechapterscores</a>]: The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition &quot;MDB2_Driver_mysql&quot; of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition in C:\wamp\www\ITS133\classes\ITS_score.php on line 122</div>
 				DB mdb2 connection fails under AJAX - fix connects/disconnects for each method
 				</li>
         </ol>

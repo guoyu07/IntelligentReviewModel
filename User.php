@@ -52,7 +52,7 @@ if ($status == 'admin') {
 	<link rel="stylesheet" href="css/login.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
 	<script type="text/javascript">
 	/*
 	$(function() {

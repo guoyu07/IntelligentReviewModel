@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '210c';
-$LAST_UPDATE = 'Nov-30-2012';
+$ITS_version = '210d';
+$LAST_UPDATE = 'Dec-1-2012';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -190,7 +190,7 @@ switch ($status) {
                 $chMax  = $index_max;
         }
         $chArr             = range(1, $chMax);
-        $score             = new ITS_computeScores($id, $role, $chArr, $term, $tset); //,$ch);
+        $score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
         $_SESSION['score'] = $score;
         $str               = $score->renderChapterScores(); //($chMax)         
            
@@ -288,7 +288,7 @@ echo $index_hide;
                 </div>
                 <?php
 //-- TEST -------------------------------------------------->
-//$s = new ITS_computeScores($id);
+//$s = new ITS_score($id);
 //$str = $s->renderLabScores();
 //echo $str;
 ?>

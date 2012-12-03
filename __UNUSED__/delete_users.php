@@ -31,7 +31,7 @@ require_once (INCLUDE_DIR . "User.php");
 	<link rel="stylesheet" href="tagging/ITS_tagging.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="rating/ITS_rating.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/ITS_DEBUG.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_question.css" type="text/css" media="screen">

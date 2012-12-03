@@ -26,7 +26,7 @@ if (!empty($ajax_match)) {
 require_once($path.INCLUDE_DIR."Authentication.php");
 require_once($path.INCLUDE_DIR."common.php");
 require_once($path.INCLUDE_DIR."User.php");
-require_once($path."classes/ITS_computeScores.php");
+require_once($path."classes/ITS_score.php");
 require_once($path."classes/ITS_configure.php");
 include($path."classes/ITS_question.php");
 require_once($path."classes/ITS_query.php");

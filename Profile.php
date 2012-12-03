@@ -152,13 +152,13 @@ if ($status == 'admin' OR $status == 'instructor') {
         $form  = $class.' &nbsp; '.$users.' &nbsp; '.$chapter.' &nbsp; '.$classInfo.$id_str;
 
         //echo '<p>'.$uid.' + '.$ch_max;
-        // SLOW: $score = new ITS_computeScores($uid,$status,$ch_max);
+        // SLOW: $score = new ITS_score($uid,$status,$ch_max);
         // if ($role == 'admin') { $ch = 13; }
         // else                  { $ch = 7;  }
         $chArr = range(1,$ch_max);
    
         // SCORE
-        $score 	 = new ITS_computeScores($uid,$ch,$chArr,$term,$tset);
+        $score 	 = new ITS_score($uid,$ch,$chArr,$term,$tset);
         $str   	 = $score->renderChapterScores($ch_max);
         $myScore = '<div id="scoreContainer"><span>&raquo;&nbsp;User Scores</span></div>'.
 				   '<div id="scoreContainerContent">'.$str.'</div>';

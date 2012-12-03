@@ -1446,7 +1446,11 @@ class ITS_screen2
                 throw new Question_Control_Exception($mdb2->getMessage());
             }
             $current_chapter = $this->chapter_number;
-            // echo '<font color="Red">'.$this->mode.'</font>';//die('rec');
+            //echo '<font color="Red">'.$this->chapter_number.'</font>';//die('rec');
+          
+            if ($current_chapter==8){
+				//$current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
+			}
           
             switch ($this->mode) {
                 case 'survey':

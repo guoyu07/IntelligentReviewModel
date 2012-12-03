@@ -15,7 +15,7 @@ require_once ("classes/ITS_timer.php");
 require_once ("classes/ITS_statistics.php");
 require_once ("classes/ITS_footer.php");
 /*-- SCORING module -----------------------------------*/
-require_once ("classes/ITS_computeScores.php");
+require_once ("classes/ITS_score.php");
 require_once ("classes/ITS_book.php");
 /*-- TAGGING module -----------------------------------*/
 require_once ("tagging/ITS_tagInterface.php");
@@ -82,7 +82,7 @@ $_SESSION['screen'] = $screen;
 	<link rel="stylesheet" href="tagging/ITS_tagging.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="rating/ITS_rating.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/ITS_DEBUG.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_question.css" type="text/css" media="screen">
@@ -173,7 +173,7 @@ else                  {$chMax = $chUser;  }
 /* -- */
 $chArr = range(1,$chMax);
 
-$score = new ITS_computeScores($id,$role,$chArr); //,$ch);
+$score = new ITS_score($id,$role,$chArr); //,$ch);
 $_SESSION['score'] = $score;
 $str = $score->renderChapterScores($chMax);
 //$str = 'score';
@@ -206,7 +206,7 @@ echo $chList;
 </div>
 <?php
 //-- TEST -------------------------------------------------->
-//$s = new ITS_computeScores($id);
+//$s = new ITS_score($id);
 //$str = $s->renderLabScores();
 //echo $str;
 ?>

@@ -19,7 +19,7 @@ require_once ("classes/ITS_survey.php");
 require_once ("classes/ITS_menu.php");
 require_once ("classes/ITS_message.php");
 require_once ("classes/ITS_statistics.php");
-require_once ("classes/ITS_computeScores.php");
+require_once ("classes/ITS_score.php");
 
 require_once ("classes/ITS_screen2.php");
 require_once (INCLUDE_DIR . "common.php");
@@ -114,7 +114,7 @@ if ($status == 'admin') {
 	<link rel="stylesheet" href="tagging/ITS_tagging.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="rating/ITS_rating.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_computeScores.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_test.css" type="text/css" media="screen">
 	

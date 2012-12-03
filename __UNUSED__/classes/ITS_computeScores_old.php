@@ -4,17 +4,17 @@
 ** SCORE ALL (SLOW) VERSION **
 ** STUDENTS: 'MC' ONLY
 
-ITS_computeScores - compute user lab scores.
+ITS_score - compute user lab scores.
 
-		Constructor: ITS_computeScores( ... )
+		Constructor: ITS_score( ... )
 		
-								 ex. $scores = new ITS_computeScores( ... );
+								 ex. $scores = new ITS_score( ... );
 								
 	 Author(s): Gregory A. Krudysz, Nabanita Ghosal
 	 Last Update: Nov-08-2010
 */	 
 //=====================================================================//
-class ITS_computeScores {
+class ITS_score {
 	
 	public function __construct($userid,$status,$ch) {
 	
@@ -92,9 +92,9 @@ class ITS_computeScores {
 			$lab_arr = array();
 			
 			for ($n=0;$n<$N;$n++){
-        $lab_arr[$n] = '<span class="ITS_computeScores">Lab '.($n+1).'</span>';
+        $lab_arr[$n] = '<span class="ITS_score">Lab '.($n+1).'</span>';
       }
-			$lab_arr[$N] = '<span class="ITS_computeScores_Total">TOTAL</span>';
+			$lab_arr[$N] = '<span class="ITS_score_Total">TOTAL</span>';
 			
       $weight = array_fill(0,($N+1),100/($N+1));
       $str = array_merge($lab_arr,$score_arr);
@@ -203,11 +203,11 @@ class ITS_computeScores {
 			$chapter_arr = array();
 			$chapter_arr[] = ''; //"<b>Chapter</b>";
 			for ($n=0;$n<$N;$n++) {
-        	//$chapter_arr[] = '<span class="ITS_computeScores"><a href="Profile.php?ch='.($n+1).'">Ch.'.($n+1).'</a></span>';
-          $chapter_arr[] = '<span class="ITS_computeScores">Ch. '.($n+1).'</span>';
+        	//$chapter_arr[] = '<span class="ITS_score"><a href="Profile.php?ch='.($n+1).'">Ch.'.($n+1).'</a></span>';
+          $chapter_arr[] = '<span class="ITS_score">Ch. '.($n+1).'</span>';
 
 			}
-			$chapter_arr[] = '<span class="ITS_computeScores_Total">TOTAL</span>';
+			$chapter_arr[] = '<span class="ITS_score_Total">TOTAL</span>';
 			
       $weight = array_fill(0,($N+2),100/($N+2));
       $str = array_merge($chapter_arr,$score_arr,$percentageArr,$attemptedQues);
