@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
 $ITS_version = '210d';
-$LAST_UPDATE = 'Dec-1-2012';
+$LAST_UPDATE = 'Dec-7-2012';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -9,12 +9,17 @@ require_once(INCLUDE_DIR . "include.php");
 include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
+
 require_once("classes/ITS_message.php");
 require_once("classes/ITS_query2.php");
+
 require_once("classes/ITS_footer.php");
 require_once("classes/ITS_tag.php");
+
 require_once("classes/ITS_concepts.php");
+
 require_once("classes/ITS_resource.php");
+die('aa1');
 /* -- SCORING module ----------------------------------- */
 require_once("classes/ITS_book.php");
 require_once("plugins/tagging/ITS_tagInterface.php");
@@ -50,6 +55,7 @@ foreach ($close as $Cdate){
 		$index_hide++;
 }
 //echo '<p>'.$index_max.'--'.$index_hide.'</p>';
+
 //##########################################//
 if (isset($_POST['role'])) {
     $role = $_POST['role'];
@@ -69,6 +75,7 @@ $screen    = new ITS_screen2($id, $role, $status, $index_hide + 1, $tset);
 //$message = new ITS_message($screen->lab_number, $screen->lab_active);
 $_SESSION['screen'] = $screen;
 //------------------------------------------//
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
