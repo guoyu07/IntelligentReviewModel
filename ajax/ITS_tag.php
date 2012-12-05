@@ -2,7 +2,7 @@
 /*  ITS_book - script for AJAX ITS_book class
 
 Author(s): Greg Krudysz
-Date: Jun-4-2012        
+Date: Nov-21-2012        
 ---------------------------------------------------------------------*/
 require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
@@ -11,13 +11,11 @@ require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_statistics.php");
 require_once("../classes/ITS_screen2.php");
-
 require_once("../classes/ITS_tag.php");
 //require_once("../classes/ITS_book.php");
 
 session_start();
 //$id = $_SESSION['user']->id();
-//die('aa');
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state, $files_path;
 
@@ -33,8 +31,7 @@ $action = $args[0];
 
 /*
 echo 'action = '.$action.'<p>';
-echo 'data   = '.$Data.'<p>';    die();
-*/
+echo 'data   = '.$Data.'<p>';    die(); */
 
 $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)){throw new Question_Control_Exception($mdb2->getMessage());}
@@ -42,7 +39,7 @@ if (PEAR::isError($mdb2)){throw new Question_Control_Exception($mdb2->getMessage
 //-----------------------------------------------//
 switch ($action){ 
       //-------------------------------------------//
-	  case 'addTAG':
+	  case 'tag_add':
 	  //-------------------------------------------//	  
 		  $data = preg_split('[~]',$Data);
 		  $t    = new ITS_tag('tags');
@@ -50,7 +47,7 @@ switch ($action){
 		  $str  = $tag;
 		  break;
       //-------------------------------------------//
-	  case 'deleteTAG':
+	  case 'tag_del':
 	  //-------------------------------------------//			  
 		  $data = preg_split('[~]',$Data);
 		  $t    = new ITS_tag('tags');
@@ -68,9 +65,8 @@ switch ($action){
 		  $Keyw_tag_list = '';
           $Keyw_tag_arr  = $t->query($data[0],$Ques_tag_arr);     
           if (empty($Keyw_tag_arr[0])) { 
-			  $Keyw_tag_list = $t->add($data[0]);
+			  $Keyw_tag_list = $t->add($data[0], $data[2], $data[1]);
 		  }
-
 		  //die($list);
 		  $str = $Keyw_tag_list;
 		  break;		  
@@ -78,8 +74,8 @@ switch ($action){
 }
 //-----------------------------------------------//
 $mdb2->disconnect();
-echo 'ECHO'.$style.$str;
-
+//echo 'ECHO'.$style.$str;
+echo $str;
 //-----------------------------------------------//
 /*
 $data = preg_split('[,]',$Data);
@@ -87,13 +83,12 @@ $data = preg_split('[,]',$Data);
 $tid   = $data[0];
 $tname = $data[1];
 
-                $ids   = 'SELECT dspfirst_ids FROM dspfirst_map WHERE tag_id='.$tid;
-                $query = 'SELECT meta,content FROM dspfirst WHERE id IN ('.$ids.')';
-                //echo $query;
-                $res = mysql_query($query);
-                if (!$res) {die('Query execution problem in ITS_tag_AJAX: ' . msql_error());}
-                
-                
+$ids   = 'SELECT dspfirst_ids FROM dspfirst_map WHERE tag_id='.$tid;
+$query = 'SELECT meta,content FROM dspfirst WHERE id IN ('.$ids.')';
+//echo $query;
+$res = mysql_query($query);
+if (!$res) {die('Query execution problem in ITS_tag_AJAX: ' . msql_error());}
+                              
     while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
     switch ($row['meta']) {
     case 'paragraph':
@@ -106,7 +101,6 @@ $tname = $data[1];
         echo "default: ".$row['meta'];
         break;
 }
-    
 }
 */
 //-----------------------------------------------//

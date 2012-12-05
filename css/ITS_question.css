@@ -63,3 +63,10 @@ select.ITS_qtype,select.ITS_qtype option{position:relative;border:1px solid blue
 #toolsContainerToggle {clear:both;position:relative;width:91.9%;text-align:left;background-color:#DCDCDC;border-bottom:1px solid #DCDCDC;background:#fff}
 #toolsContainerToggle span{position:relative;color:#666;background-color:#fff;background:#fff;margin:0 1em;padding:0 .5em}
 #toolsContainerToggle span:hover{color:#fff;background-color:#666;cursor:pointer}
+
+TABLE.CPROFILE{position:relative;border:1px solid #aaa;vertical-align:middle;border-collapse:collapse;background:#fff;table-layout:fixed}
+TABLE.CPROFILE TR{color:#000;background-color:#FFF;border-bottom:1px dashed #aaa;padding:5px;border-collapse:collapse;}
+TABLE.CPROFILE TD{padding:0px;border:1px solid #FFF;font-family:Verdana, Arial, Helvetica, sans-serif;text-decoration:none}
+TABLE.CPROFILE A{padding:0px;font-family:"Andale Mono", "Monotype.com", monospace;text-decoration:none;font-weight:bold;outline:0}
+TABLE.CPROFILE TD.sid {padding:5px 10px 5px 5px;color:#666;font-family:monospace}
+TABLE.CPROFILE TH{background-color:#eee;border:1px solid #666;padding:.5em}

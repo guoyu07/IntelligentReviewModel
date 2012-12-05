@@ -8,7 +8,7 @@ ex. $query = new ITS_concepts('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Khyati Shrivastava | May-10-2012
 Last Revision: Khyati Shrivastava, May-10-2012
-Greg Krudysz, Jul-17-2012
+Greg Krudysz, Nov-27-2012
 //=====================================================================*/
 //echo getcwd();
 
@@ -67,15 +67,15 @@ class ITS_concepts
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
-        $query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' ORDER BY name";
+        $query = "SELECT id,name FROM tags WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //die($query);
         $res   = mysql_query($query, $con);  
-        if (!$res) {die('Query execution problem in ITS_question: ' . msql_error());}
+        if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
         $str = '';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
             $row = mysql_fetch_assoc($res);
-            $str .= "<li  id='" . $row['name'] . "' class='selcon'>" . $row['name'] . "</li>";
+            $str .= "<li  id='" . $row['name'] . "' cid='" . $row['id'] . "' class='selcon'>" . $row['name'] . "</li>";
         }
         if ($str != '')
             return "<ul class='conceptLIST'>" . $str . "</ul>";
@@ -100,7 +100,7 @@ class ITS_concepts
         //die($query);
         $res = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         //$concepts_result = mysql_fetch_assoc($res);
         $str = '<table id="ques" class="PROFILE"><tbody><tr><th style="width:5%;"><input type="checkbox" id="chckHead"/></th><th style="width:15%;">No.</th><th style="width:80%;">Question</th></tr>';
@@ -124,7 +124,7 @@ class ITS_concepts
         $returnStr = 'Server returned error initial';
         
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
-        mysql_select_db($this->db_name, $con) or die('Could not select DB');
+        mysql_select_db($this->db_name, $con) or die('Could not select DB in '.get_class($this));
         $ques_ids  = split(',', $tbvalues);
         $tag_names = split(',', $tbvaluesConcp);
         $query     = "SELECT mid FROM module WHERE title = '$moduleName'";
@@ -167,7 +167,7 @@ class ITS_concepts
         
         if (!$res) {
             die('here?' . $query);
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
@@ -201,17 +201,17 @@ class ITS_concepts
     //=====================================================================//
     function SelectedConcContainer($mode){
         //=====================================================================//
-        $str = '<div id="SelectedConcContainer"><table id="seldcon" class="choice"></table>';
+        $str = '<div id="SelectedConcContainer"><table id="seldcon" class="conceptTable"></table>';
         if ($mode == 0) // 0 is for Instructor mode
             $str .= '<input type="button" id="submitConcepts" name="submit" value="Submit Concepts"></div>';
         else if ($mode == 1) // 1 is for Student mode
-            $str .= '<input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div>';
+            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div>';
         return $str;
     }
     //=====================================================================//
     function conceptListContainer(){
     //=====================================================================//
-        $str = '<div id="conceptListContainer">'.$this->getConcepts('A').'</div><div id="errorConceptContainer"></div>';
+        $str = '<div id="conceptListContainer">'.$this->getConcepts('S').'</div><div id="errorConceptContainer"></div>';
         return $str;
     }
     //=====================================================================//
@@ -228,7 +228,7 @@ class ITS_concepts
             $val = strtoupper($row[0]);
             
             if (!fmod($x,15)) { $str .= '<br><br>'; }
-            if ($val == 'A') { $idx_id = 'id="current"'; } 
+            if ($val == 'S') { $idx_id = 'id="current"'; } 
             else 		  					{ $idx_id = ''; }			
             $str .= '<li class="ITS_nav_concept"><a href="#" class="ITS_alph_index" name="chapter" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
         }            
@@ -258,7 +258,7 @@ class ITS_concepts
         $query = "SELECT mid,title FROM module";
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $str = '';
         switch ($choice) {
@@ -278,7 +278,6 @@ class ITS_concepts
                 //if($str!='') 
                 $str = "<div id='moduleListDialogDiv'><select id='moduleListDD' class='moduleListDD'><option value='0'>Create a new module..</option>" . $str . "</select></div>";
                 break;
-            
             default:
                 $str = 'server error';
         }
@@ -293,7 +292,7 @@ class ITS_concepts
         $query = "SELECT qid FROM module_question where mid in (select mid from module where title='$modulesQuestion')";
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         
         //	return $query ;
@@ -311,7 +310,7 @@ class ITS_concepts
         //return $query;
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         $count = 0;
         
@@ -328,7 +327,7 @@ class ITS_concepts
         $res   = mysql_query($query, $con);
         if (!$res) {
             return "No questions for this module";
-            //die('Query execution problem in ITS_question: ' . msql_error());
+            //die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         //$concepts_result = mysql_fetch_assoc($res);
         $str2 = '<table id="ques" class="PROFILE"><tbody><tr><th style="width:5%;"><input type="checkbox" id="chckHead"/>' . '</th><th style="width:80%">Question' //</th><th style="width:15%;">Tags Associated'
@@ -340,7 +339,7 @@ class ITS_concepts
              $query = "SELECT tag_id FROM webct WHERE id=$row['id']";
              $res = mysql_query($query,$con);
              if (!$res) {
-             die('Query execution problem in ITS_question: ' . msql_error());
+             die('Query execution problem in '.get_class($this).': ' . msql_error());
              }
              $row_tags = mysql_fetch_assoc($res);
              $associatedTagsArray = $row_tags['tag_id'];
@@ -369,7 +368,7 @@ class ITS_concepts
         //die($query);
         $res = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         return "Successful deletion";
     }

@@ -755,7 +755,7 @@ $("a.ITS_question_img").fancybox({
                   type : 'inside'
               }
           }
-      });
+      });  
 }
 //*****************************************//
 function getMSG() { 

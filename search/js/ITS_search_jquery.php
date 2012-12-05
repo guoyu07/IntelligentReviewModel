@@ -40,7 +40,7 @@
                 ajax_args: "addTAG", 
                 ajax_data: tid+'~'+tname+'~'+rid+'~'+rname
             }, function(data) {
-                $('#Q_tag_list').append(data);							
+                $('#ITS_TAGS_LIST').append(data);							
             });
             /* remove from list */
             $(this).parent().parent().parent().parent().hide(800, function () {

@@ -1,9 +1,9 @@
 <?php
 //=============================================================//
-$ITS_version = '208b';
-$LAST_UPDATE = 'Nov-1-2012';
+$ITS_version = '210b';
+$LAST_UPDATE = 'Nov-27-2012';
 //=============================================================//
-require_once("config.php"); // #1 include 
+require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 
 include_once("classes/ITS_timer.php");
@@ -14,6 +14,7 @@ require_once("classes/ITS_query2.php");
 require_once("classes/ITS_footer.php");
 require_once("classes/ITS_tag.php");
 require_once("classes/ITS_concepts.php");
+require_once("classes/ITS_resource.php");
 /* -- SCORING module ----------------------------------- */
 require_once("classes/ITS_book.php");
 require_once("plugins/tagging/ITS_tagInterface.php");
@@ -29,7 +30,7 @@ $view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 
 //----- SCHEDULE -----//
 $open  = array(array(8,20),array(8,27),array(9,3),array(9,24),array(10,22),array(10,29),array(11,19),array(11,19));
-$close = array(array(9,24),array(10,1),array(11,5),array(11,12),array(11,26),array(12,3),array(12,10),array(12,10));
+$close = array(array(9,24),array(10,1),array(11,5),array(11,19),array(11,26),array(12,3),array(12,10),array(12,10));
 
 $term_arr = explode('_',$term);
 $tset = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
@@ -42,8 +43,8 @@ foreach ($open as $Odate){
 $index_hide = 0;
 $schedule = array();
 foreach ($close as $Cdate){
-    $close_time = mktime(4, 0, 0, $Cdate[0], $Cdate[1], $term_arr[1]);
-    array_push($schedule,date("M - j", $close_time));  
+    $close_time = mktime(23, 59, 59, $Cdate[0], $Cdate[1], $term_arr[1]);
+    array_push($schedule,date("M - j", $close_time).' @ midnight');  
     //echo '<p>'.date("M-j", $close_time).'</p>';
 	if ($close_time < time())
 		$index_hide++;
@@ -81,10 +82,28 @@ include(INCLUDE_DIR.'stylesheet.php');
 include('js/ITS_jquery.php');
 include(INCLUDE_DIR.'include_fancybox.php');
 ?>	
+<script type="text/javascript" src="js/ITS_concepts.js"></script>
 	<script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
-	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	
+	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
+	<link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
 <script type="text/javascript">
 $(document).ready(function() {
+$(".fancybox").fancybox({
+			  type: 'inline',
+		  closeClick: true,
+		  padding: 5,
+          helpers: {
+	overlay : {
+		closeClick : true,
+		speedOut   : 300,
+		showEarly  : false,
+		css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
+	},			  
+              title : {
+                  type : 'inside'
+              }
+          }
+      });    
 $(".ITS_schedule").fancybox({
 		  type: 'ajax',
 		  closeClick: true,
@@ -100,7 +119,32 @@ $(".ITS_schedule").fancybox({
                   type : 'inside'
               }
           }
-      });    
+      });
+$( "input[name=selectResource]" ).live('click', function(event) {
+	        var field = $(this).val();
+	        var concept = $(this).attr("concept");
+	        //alert(field+'='+concept);
+            $.get("ajax/ITS_resource.php", {
+                ajax_args: "test",
+                ajax_data: concept+'~'+field.toLowerCase()
+            }, function(data) {
+                $('#resourceList').html(data);
+            });
+});     
+$( "input[name=resourceSelect]" ).live('click', function(event) {
+	        var field 	= $(this).attr("field");
+	        var rid  	= $(this).attr("rid");
+	        var concept = $(this).attr("concept");
+	        //alert(field+'~'+rid+'~'+concept);
+			//$('#ITS_resource_'+field.toLowerCase()).html(rid);
+            $.get("ajax/ITS_resource.php", {
+                ajax_args: "select",
+                ajax_data: field.toLowerCase()+'~'+rid
+            }, function(data) {
+                $('#ITS_resource_'+field.toLowerCase()+'_'+concept).html(data);
+                $('#ITS_resource_'+field.toLowerCase()+'_'+concept).attr("rid",rid);
+            });
+});
 });
 </script>
 <script type='text/javascript'>
@@ -113,7 +157,7 @@ $(".ITS_schedule").fancybox({
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
             <div id="menuContainer">
-                <div class="logout"><a href="logout.php">Logout</a></div>
+                <div id="logout" class="logout" uid="<?php echo $id;?>"><a href="logout.php">Logout</a></div>
                 <!--
 	  <div class="icon" id="Minst_icon">I</div>
                <p class="ITS_instruction"><img src="images/matching_example1.png" style="position:relative;max-width:100%"></p>
@@ -174,15 +218,17 @@ switch ($status) {
         $mode   = 'question'; // index | practice | question
         //$chList = '<span id="chText">MODULE</span><ul id="chList">';
         
-        /*     
+        ///*     
         $chList = '<div class="QuestionMode"><select id="QuestionMode">'
         .'<option value="MODULE">Modules</option>'
         .'<option value="CONCEPT" id="showConcepts">Concepts</option></select>'
         .'<input type="button" style="display:none" name="changeConcept" id="changeConcept" value="change Concept"/></div>'
         .'<div class="module_index" id="ModuleListingDiv"></div><div id="chapterListingDiv"><ul id="chList">';
-        */
-        $chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
-        //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
+        //*/
+        //++$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
+        //
+        $chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
+        //++
         $chList .= '<div id="modeContentContainer"><div id="chContainer"><ul id="chList">';
         //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
         

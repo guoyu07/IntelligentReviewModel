@@ -3,8 +3,6 @@ Author(s): Greg Krudysz
 W3C CSS Validator results for ITS.css (CSS level 2.1)
 ======================================================*/
 
-/*.ANDTHIS img:hover {  }*/
-
 .ITS_error { background: #ff9;color: red;font-weight:bold;border:2px solid #000; }
 #slider { z-index: 2; }
 /*
@@ -443,6 +441,7 @@ img.ITS_question_img {
   padding: 0;
   margin: 0.5em 1em;
   max-height: 250px;
+  max-width: 500px;
   text-align:right;
   vertical-align: middle;
   z-index: 3;
@@ -752,6 +751,7 @@ TD.ITS_ANSWER_BOXED SPAN.CHOICE {
 	background: #FFFFFF;
 	white-space: nowrap;
 	display: block;	
+	overflow: hidden;
 }
 TD.ITS_ANSWER_BOXED SPAN.CHOICE PRE.MATLAB {
     display: block;
@@ -1346,13 +1346,7 @@ label.ansCheck_inactive {
 /*==========================================================================
                F O O T E R
 ============================================================================*/
-#footerContainer {
-	clear: both;
-	color: #999;
-	font-size: 80%;
-	padding-top: 5em;
-	text-align: center;
-	border-top: 2px solid #999999;
+#footerContainer {clear: both;color: #999;font-size: 80%;padding-top: 2em;text-align: center;border-top: 2px solid #999999;
 	/*overflow:auto;*/
 }
 div.footer_list {

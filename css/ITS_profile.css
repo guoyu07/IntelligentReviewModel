@@ -9,6 +9,7 @@ option.highlighted{color:#000}
 TABLE.PROFILE{position:relative;width:96%;border:1px solid #aaa;vertical-align:middle;border-collapse:collapse;background:#fff;font-size:8pt;table-layout:fixed;margin:0 2%}
 TABLE.PROFILE TH{font-family:Georgia,Serif;font-size:12pt}
 TD.PROFILE{background-color:#fff;border-right:2px solid #999;border-bottom:4px outset #666;padding:1em 0}
+TR.PROFILE{background-color:#fff;border:1px solid #666;font-size:12pt;padding:.25em}
 TABLE.CPROFILE{position:relative;border:1px solid #aaa;vertical-align:middle;border-collapse:collapse;background:#fff;font-size:8pt;table-layout:fixed}
 TABLE.CPROFILE TR{color:#000;background-color:#FFF;border-bottom:1px dashed #aaa;font-size:9pt;padding:5px}
 TABLE.CPROFILE TD{font-size:9pt;padding:5px;border-right:1px solid #aaa;font-family:Verdana, Arial, Helvetica, sans-serif;text-decoration:none}
@@ -16,7 +17,6 @@ TABLE.CPROFILE A{font-size:9pt;padding:5px;font-family:"Andale Mono", "Monotype.
 TABLE.CPROFILE TD.sid {font-size:9pt;padding:5px 10px 5px 5px;color:#666;font-family:monospace}
 TABLE.CPROFILE TR:hover{background-color:#FF9;font-size:9pt}
 TABLE.PROFILE,TABLE.CPROFILE TH{background-color:#eee;border:1px solid #666;padding:.5em}
-TR.PROFILE{background-color:#fff;border:1px solid #666;font-size:12pt;padding:.25em}
 TABLE.DATA{clear:both;position:relative;width:100%;vertical-align:middle;border-collapse:collapse;background:#fff;margin-top:-10px;padding:0}
 TABLE.DATA td{padding:0}
 #select_class{min-width:130px}

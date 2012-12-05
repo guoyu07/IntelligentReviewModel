@@ -5,3 +5,4 @@
 #navList li a:hover{color:#000}
 #navList li a#current{color:#666;border:2px solid #999;border-bottom:2px solid #FFF}
 #navList li a:link,#navList li a:visited{color:#999}
+.field_label {width:10%;padding:0.25em;text-align:right}

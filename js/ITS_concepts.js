@@ -38,15 +38,31 @@ $(document).ready(function() {
 	/*-------------------------------------------------------------------------*/		
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
-        $('#seldcon tr').each(function() {
-            $(this).find('td').each(function() {
-                if ($(this).text() != 'x')
+        $('.resource_concept').each(function() {
                     tdArray.push($(this).text());
-            });
         });
         var tbvalues = tdArray.join();
         // Ajax call to send questions to replace the question container
-        // alert(tbvalues);
+        //alert(tbvalues);
+        
+        // Save RESOURCE data
+        var id = $('#logout').attr("uid");
+        var concept = $( "input[name=selectResource]" ).attr("concept");
+        var cid = $('#resource_'+concept).attr("cid");
+		var text = $('#ITS_resource_text_'+concept).attr("rid");
+        var equation = $('#ITS_resource_equation_'+concept).attr("rid");
+        var image = $('#ITS_resource_image_'+concept).attr("rid");
+        var example = $('#ITS_resource_example_'+concept).attr("rid");
+        
+        //alert(id+'~'+cid+'~'+text+'~'+equation+'~'+image+'~'+example);
+        $.get('ajax/ITS_resource.php', {
+            ajax_args: "resourceDB",
+            ajax_data: id+'~'+cid+'~'+text+'~'+equation+'~'+image+'~'+example
+        }, function(data) {
+			//alert(data);
+                //$("#contentContainer").html(data);
+        });
+        alert(tbvalues);
         $.get('ajax/ITS_screen2.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues
@@ -190,16 +206,25 @@ $(document).ready(function() {
 	 Selects a concepts in the concept viewer
 	-------------------------------------------------------------------------*/
     $(".selcon").live("click", function() {
-/*-------------------------------------------------------------------------*/		
+	/*-------------------------------------------------------------------------*/		
         $('#errorConceptContainer').html("");
+        var field = this.id;
+        var cid   = $(this).attr("cid");
         var tr = '';
         if ($('#seldcon td:contains(' + this.id + ')').length) {
             $('#errorConceptContainer').html("Concept already selected.");
             return false;
         }
-        tr = '<tr><td>' + this.id + '</td><td class="choice_del">x</td></tr>';
+        //alert(field+' ~ '+cid);
+        tr = '<tr><td width="95%"><div class="resource_concept">' + this.id + '</div><br><br><div id="resource_'+field+'" cid="'+cid+'"></td><td class="choice_del">x</td></tr>';  
         $('#seldcon').append(tr);
         $('#SelectedConcContainer').css('display','block');
+        
+            $.get("ajax/ITS_concepts.php", {
+                resource: this.id +'~'+field
+            }, function(data) {
+                $('#resource_'+field).html(data);
+            });
     });
     /*-------------------------------------------------------------------------*
 	 * When called, the letter clicked on concept viewer is submitted and the 
@@ -207,7 +232,6 @@ $(document).ready(function() {
 	 * ------------------------------------------------------------------------*/
     $(".ITS_alph_index").live("click", function() {
 /*-------------------------------------------------------------------------*/		
-		//
 		var header = $(this).html();
 		$('.ITS_alph_index').each(function(index) {
 			//alert(index);
@@ -297,7 +321,7 @@ $(document).ready(function() {
     $('.modules').live('click', function(event) {
 /*-------------------------------------------------------------------------*/		
         $('input[name=currentModule]').val(this.id);
-//alert('xx');
+		//alert('xx');
         $.post("ajax/ITS_concepts.php", {
             choice: "getModuleQuestion",
             modulesQuestion: this.id
@@ -344,4 +368,5 @@ $(document).ready(function() {
                 $("#ModuleQuestion").html("<br> No Questions");
         });
     });
+/*-------------------------------------------------------------------------*/    
 });

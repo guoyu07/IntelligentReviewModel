@@ -107,9 +107,10 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     $type .= '</select>';
     
+    $tag_chk = 'Tagging<input id="tag_check" type="checkbox">';
     // update SESSION
     $_SESSION['qNum_current'] = $qid;
-    $form                     = $chapter . '&nbsp;&nbsp;' . $type;
+    $form                     = $tag_chk.$chapter . '&nbsp;&nbsp;' . $type;
     //--------------------------------------//
     /*
     // QUERY
@@ -236,7 +237,8 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="css/ITS_tag.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">        
+        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">     
+                <link rel="stylesheet" href="css/ITS.css" type="text/css">      
         <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
 
         <!-- QTI IMPORTER start ----------------------------------->
@@ -264,9 +266,9 @@ if ($status == 'admin' OR $status == 'instructor') {
         </style>    
         <?php
 include INCLUDE_DIR.'stylesheet.php';
+include 'js/ITS_tag_jquery.php';
 include 'js/ITS_search_jquery.php';
 include 'js/ITS_Question_jquery.php';
-include 'js/ITS_search_jquery.php';
 include INCLUDE_DIR.'include_fancybox.php';
 ?>
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	
