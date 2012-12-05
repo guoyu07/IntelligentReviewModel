@@ -243,6 +243,14 @@ switch ($action) {
         $str  = $list;
         break;
     //-------------------------------------------//
+    case 'orderCourse':
+    //-------Added by Mi Seon Park---------------//
+	$data = preg_split('[~]', $Data);
+	$tr   = new ITS_statistics($data[0], $data[1], $data[2]);
+	$list = $tr->render_course($data[3], $data[4]);
+	$str  = $list;
+	break;
+    //-------------------------------------------//
     case 'deleteDialog':
         //-------------------------------------------//
         $id = $Data;

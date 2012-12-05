@@ -57,6 +57,49 @@ class ITS_rating
         return $star_rating;
     }
     //=====================================================================//
+    public function renderDifficulty($qid)
+    {
+	//select difficulty from database
+	$query = 'SELECT difficulty FROM questions_difficulty WHERE q_id = ' . $qid;
+	//connect to database
+	$mdb2 =& MDB2::connect($this->db_dsn);
+	if (PEAR::isError($mdb2)) {
+	    throw new Exception($this->mdb2->getMessage());
+	}
+	$res =& $mdb2->query($query);
+	if (PEAR::isError($res)) {
+	    throw new Question_Control_Exception($res->getMessage());
+	}
+	while ($row =& $res->fetchRow()) {
+	    // Assuming DB's default fetchmode is
+	    // DB_FETCHMODE_ORDERED
+	    //echo $row[0] . "\n"
+	    $difficulty_rate = $row[0] * 10;
+	}
+	if($difficulty_rate){
+	    $difficulty_title = 'Not Rated';
+	    if($difficulty_rate>80){ //78
+		$difficulty_title = 'Very difficult';
+	    }else if($difficulty_rate>60){ //66
+                $difficulty_title = 'Difficult';
+            }else if($difficulty_rate>40){ //54
+		$difficulty_title = 'Moderate';
+	    }else if($difficulty_rate>20){ //42
+                $difficulty_title = 'Easy';
+            }else{
+                $difficulty_title = 'Very easy';
+            }
+	}else{
+	    $difficulty_rate = 0;
+	    $difficulty_title = 'Not Rated';
+	}
+	//$answers = $res->fetchAll();
+	//$difficulty_rate = $answers[$qid][0] * 10;
+	//$difficulty_rate = 50;
+	$difficulty = 'Difficulty: ' . $difficulty_title .'<br />' . '<div class="difficulty-bar orange">' . '<span style="width: ' . $difficulty_rate . '%"></span>' . '</div>';
+	return $difficulty;
+    }
+
 } //eo:class
 //=====================================================================//
 ?>

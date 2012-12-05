@@ -1871,12 +1871,14 @@ class ITS_screen2
         $rateObj = new ITS_rating();
         $rated   = $queryList[$qn][4];
         $rating  = $rateObj->renderRating($rated);
-        $rateBox = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
+        //--- difficulty box added by Mi Seon Park ---//
+        $difficultyBox = $rateObj->renderDifficulty($qid);
+	$rateBox = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
         //--------------------//
         
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
-        $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td></tr></table>';
+        $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
         $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td>' . '<td class="PROFILE" colspan="2">' . $ANSWER . '<BR>' . $feedback . '</td>' . '</tr>';
         //} // eof $qn
         $Estr .= '</table>';
