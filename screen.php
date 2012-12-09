@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '210d';
-$LAST_UPDATE = 'Dec-7-2012';
+$ITS_version = '210e';
+$LAST_UPDATE = 'Dec-9-2012';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -17,7 +17,7 @@ require_once("classes/ITS_footer.php");
 require_once("classes/ITS_tag.php");
 
 require_once("classes/ITS_concepts.php");
-
+die('aa2');
 require_once("classes/ITS_resource.php");
 die('aa1');
 /* -- SCORING module ----------------------------------- */
