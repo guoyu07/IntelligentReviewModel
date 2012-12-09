@@ -207,9 +207,10 @@ class ITS_concepts
         if ($mode == 0) // 0 is for Instructor mode
             $str .= '<input type="button" id="submitConcepts" name="submit" value="Submit Concepts"></div>';
         else if ($mode == 1) // 1 is for Student mode
-            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div><br><br><div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts2" name="getQuesForConcepts2" class="ITS_submit" value="Get Questions 22"></div>';
+            $str .= '<div id="resourceList" class="ITS_meta"></div><input type="button" id="getQuesForConcepts" name="getQuesForConcepts" class="ITS_submit" value="Get Questions"></div><br><br><div id="resourceList" class="ITS_meta"></div></div>';
         
-                $box .= $str . '</div>';
+        $box .= $str . '</div>';
+        
         return $box;
     }
     //=====================================================================//

@@ -29,7 +29,7 @@ class ITS_screen2
     public $style;
     
     public $screen;
-    public $mode; // question | review | survey | concept 
+    public $mode; 		   // question | review | survey | concept 
     public $question_info; // := $Q->Q_answers_permutation;
     
     //--- LAB ---//
@@ -2487,13 +2487,7 @@ class ITS_screen2
                     //echo $resources.'<p>';die('done');
                     */
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-                    $resources                = '<div class="resource_concept">sampling</div><br/><br/>'.
-'<div id="resource_sampling" cid="402"><table class="ITS_resource"><tbody><tr>'.
-'<td id="ITS_resource_text_sampling" rid=""/>'.
-'<td id="ITS_resource_equation_sampling" rid="4001">'.
-'<td id="ITS_resource_image_sampling" rid=""/>'.
-'<td id="ITS_resource_example_sampling" rid="34"></tr><tr></tbody></table></div>'.
-'</td><td class="choice_del">x</td></tr></tbody></table></div>';
+                    $resources                = '';
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
                     $error                    = '<br><div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">
