@@ -17,9 +17,8 @@ require_once("classes/ITS_footer.php");
 require_once("classes/ITS_tag.php");
 
 require_once("classes/ITS_concepts.php");
-
 require_once("classes/ITS_resource.php");
-die('aa22');
+
 /* -- SCORING module ----------------------------------- */
 require_once("classes/ITS_book.php");
 require_once("plugins/tagging/ITS_tagInterface.php");

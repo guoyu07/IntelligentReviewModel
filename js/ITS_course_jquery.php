@@ -9,6 +9,7 @@
       $(".ITS_select").change(function() { document.ece2025.submit(); });
 			$("#select_class").buttonset();
     });
+
 	/*-------------------------------------------------------------------------*/
   $(document).ready(function() { 
      $("#scoreContainer").click(function(){$("#scoreContainerContent").slideToggle("slow");});
@@ -32,7 +33,20 @@
               }
           }
       });
+	/*--------------------Added by Mi Seon Park----------------------------------*/
+	 /*$("#select_option").change(function() { doChange(); }).attr("onchange", function() { doChange(); });
+	function doChange(){
+	    var ch      = $("#select_option").attr("ch");
+	    var orderby = $("#select_option option:selected").text();
+	    $.get('ITS_admin_AJAX.php', { ajax_args: "orderQuestions", ajax_data: ch+'~'+orderby}, function(data) {
+                          //alert(data);
+                                $("#select_option").html(data); 
+                                $("#select_option").change(function() { doChange(); });
+      });   
+	}*/
 	 /*-------------------------------------------------------------------------*/
+	$("#sortProfile").change(function() { doChange(); }).attr("onchange", function() { doChange(); });
+	/*-------------------------------------------------------------------------*/
 	function doChange() {			
       var sid     = $("#sortProfile").attr("sid");
       var section = $("#sortProfile").attr("section");
@@ -40,7 +54,9 @@
       var ch      = $("#sortProfile").attr("ch");
       var orderby = $("#sortProfile option:selected").text();
 			//alert(sid+'~'+orderby);
-      $.get('ITS_admin_AJAX.php', { ajax_args: "orderProfile", ajax_data: sid+'~'+section+'~'+status+'~'+ch+'~'+orderby}, function(data) {
+      $.get('ajax/ITS_admin.php', { 
+		ajax_args: "orderCourse", ajax_data: sid+'~'+section+'~'+status+'~'+ch+'~'+orderby}, function(data) {
+		//ajax_args: "", ajax_data: ch+'~'+orderby}, function(data) {
 			  //alert(data);
 				$("#userProfile").html(data); 
 				$("#sortProfile").change(function() { doChange(); });

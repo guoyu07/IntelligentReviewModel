@@ -531,6 +531,45 @@ PRE.MATLAB_error {
 span.ML_comment { color: green; }
 span.ML_error   { color: red;   }
 
+/*------- Difficulty Rating Bar in Reviews Section by Mi Seon Park -------*/
+.difficulty-bar {
+	background-color: #1a1a1a;
+	height: 20px;
+	padding: 1px;
+	width: 200px;
+	margin: 1px 0;			
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 3px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 3px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 3px #000 inset, 0 1px 0 #444;
+}
+.difficulty-bar span {
+	display: inline-block;
+	height: 100%;	
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        -webkit-transition: width .4s ease-in-out;
+        -moz-transition: width .4s ease-in-out;
+        -ms-transition: width .4s ease-in-out;
+        -o-transition: width .4s ease-in-out;
+        transition: width .4s ease-in-out;    
+}
+.orange span {
+	float:left;
+	background-color: #fecf23;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fecf23), to(#fd9215));
+	background-image: -webkit-linear-gradient(top, #fecf23, #fd9215);
+	background-image: -moz-linear-gradient(top, #fecf23, #fd9215);
+	background-image: -ms-linear-gradient(top, #fecf23, #fd9215);
+	background-image: -o-linear-gradient(top, #fecf23, #fd9215);
+	background-image: linear-gradient(top, #fecf23, #fd9215);  
+}
 /*------- ANSWER ------------------------------------------------ */
 #ITS_ANSWER {
   position: relative;

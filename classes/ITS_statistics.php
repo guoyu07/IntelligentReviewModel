@@ -14,6 +14,7 @@ Methods: 	render_user_answer()
 Author(s): Greg Krudysz | Aug-28-2008
 Last Revision: Nov-27-2012
 //=====================================================================*/
+
 class ITS_statistics {
     //==============================================================================    
     private $id; 		// Stores user id
@@ -1998,6 +1999,79 @@ class ITS_statistics {
             }
         }
         return $Estr;
+    }
+
+    function render_course($chapter, $orderby){
+	$ITSq = new ITS_query();
+	$resource_source = $ITSq->getCategory($chapter);
+	$option_arr = array(
+            'Difficulty',
+            'Score',
+            'Duration',
+            'Number of Skips'
+        );  
+        /*if (isset($_GET['option'])){
+            $ot = $_GET['option'];
+        }else{
+            $ot = $option_arr[0];
+        }*/ 
+            //$term
+        $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Fall_2012' . '" status="' . $this->role . '" ch="' . $chapter . '">';
+        foreach($option_arr as $op){
+            if($orderby == $op){
+                $osel = 'selected="selected"';
+                switch($orderby){
+                    case 'Difficulty': $order_by = 'ORDER BY d.difficulty'; break;
+                    case 'Number of Skips': $order_by = 'ORDER BY m.NumSkips'; break;
+                    case 'Duration': $order_by = 'ORDER BY m.AvgDur'; break;
+                    case 'Score': $order_by = 'ORDER BY m.Avg'; break;
+                    default: $order_by = '';
+                }
+            }else{                      
+                $osel = '';             
+            }                           
+            $option .= '<option ' .$osel. '>' . $op . '</option>';
+        }
+        $option .= '</select>';
+    
+        $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.difficulty, m.Avg, m.AvgDur, m.NumSkips '.
+                 'FROM '.$this->tb_name.', questions_difficulty d, MinedData m '.
+                 'WHERE '.$this->tb_name.'.id=d.q_id AND '.$this->tb_name.'.id=m.question_id AND '.$resource_source. ' '.$order_by;
+        $res   = $this->mdb2->query($query);
+        $ques = $res->fetchAll();
+
+	$Estr = '<table class="PROFILE">'.
+                '<tr><th style="width:4%;">No.</th><th style="width:74%;">Question</th><th style="width:8%;">Category</th><th style="width:14%;">'.$option.'</th></tr>';
+            
+        for ($qn = 0; $qn <= (count($ques)-1); $qn++) {
+            $qid   = $ques[$qn][0];
+            $title = $ques[$qn][1];
+            $cat   = $ques[$qn][2];
+            $dif   = $ques[$qn][3];
+            if($dif == ''){ $dif = '-n/a-';}
+            $avg   = $ques[$qn][4];
+            $avgdur= $ques[$qn][5];
+            $skips = $ques[$qn][6];
+            $Q = new ITS_question($qid, $this->db_name, $this->tb_name);
+            $Q->load_DATA_from_DB($qid);
+            $QUESTION = $Q->render_QUESTION(); //_check($answers[$qn][4]);
+            $Q->get_ANSWERS_data_from_DB();
+            $ANSWER = $Q->render_ANSWERS('a', 2);
+
+            $Estr .= '<tr class="PROFILE" id="tablePROFILE">'.
+                '<td class="PROFILE" >' . ($qn +1) .'<br><br><a href="Question.php?qNum='.$qid.'&sol=1" class="ITS_ADMIN">'.$qid.'</a></td>'.
+                '<td class="PROFILE" >' . $QUESTION.$ANSWER . '</td>'.
+                '<td class="PROFILE" > <b>'.$title.'</b> <hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
+                '<td class="PROFILE" > <font color="brown">difficulty: ' .$dif.'/10</font> <hr class="PROFILE">'.
+                                        'avg score: '.$avg.'%<hr class="PROFILE">'.
+                                        '<font color="blue">avg duration: '.$avgdur.' sec </font><hr class="PROFILE">'.
+                                        '<font color="#666">skips: '.$skips.'</font></td>';
+            $Estr .=  '</tr>';
+        }
+
+        $Estr.= '</table>';
+
+	return $Estr;
     }
     //----------------------------------------------------------------------------
     function render_class_profile($class_name, $chs, $tstart) {
