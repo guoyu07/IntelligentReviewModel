@@ -340,13 +340,6 @@ class ITS_resource
                     //$tList .= '</ul>';
             }
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return '<center>' . $tList . '</center>';
-    }
-=======
-=======
->>>>>>> dev
         return '<center>' . $tList . '</center>';    
 	}
         //=====================================================================//
@@ -360,18 +353,8 @@ class ITS_resource
         if (!$res) {
             die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
-        
-<<<<<<< HEAD
         return $query_str; 
 	}	
-<<<<<<< HEAD
->>>>>>> dev
-=======
->>>>>>> dev
-=======
-        return $query_str;
-	}
->>>>>>> dev
     //=====================================================================//
 } //eo:class
 //=====================================================================//
