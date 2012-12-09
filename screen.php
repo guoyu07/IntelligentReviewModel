@@ -92,6 +92,7 @@ include(INCLUDE_DIR.'include_fancybox.php');
 	<script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
 	<link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
+	<link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />	
 <script type="text/javascript">
 $(document).ready(function() {
 $(".fancybox").fancybox({
@@ -233,9 +234,13 @@ switch ($status) {
         //*/
         //++$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
         //
-        $chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
-        //++
-        $chList .= '<div id="modeContentContainer"><div id="chContainer"><ul id="chList">';
+        $chList = '<div id="modeSelContainer" style="border:1px solid #fff"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
+        $chList .= '<div id="modeContentContainer" style="border:1px solid #fff"><div id="chContainer"><ul id="chList">';
+        //**
+        //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">CONCEPTS</a></li></ul></div>';
+		//$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
+        
+        //**
         //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
         
         //$chList .= '<li><a href="#" class="chapter_index" name="chapter" value="0">Introduction</a></li>';
@@ -268,7 +273,7 @@ switch ($status) {
                 break;
         }
         //$chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
-        $chList .= '</ul></div><div id="coContainer"></div></div>';
+        $chList .= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
 //echo $chList;die('====');
@@ -277,6 +282,7 @@ switch ($status) {
 //$strConcept = '<div id="showConcepts">Concepts</div>';
 //$alph
 echo $chList;
+
 /* FANCYBOX TEST
 <a class="fancybox" href="#inline1" title="ITS &ndash; FAQ">Inline</a>
 <a class="fancybox" href="http://its.vip.gatech.edu/ITS_FILES/SPFIRST/SPFirstPages/SP1_Page_015.png">Ajax</a>
