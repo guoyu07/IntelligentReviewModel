@@ -34,8 +34,8 @@ ol.ITS_enum{list-style-type:decimal}
 #bookNavContainer{position:relative;padding-top:20px;background:#fff;margin:0 5%}
 #chText{float:left;color:#666;margin-top:-20px}
 #showConcepts{float:left;color:#666;margin-top:0px}
-#chContainer{margin-left:auto;margin-right:auto;margin-bottom:0;border-top:2px solid #ddd;background-color:#fff;z-index:1;padding:0}
-#chContainer ul{list-style-type:none;text-align:center;margin-top:-10px;margin-bottom:23px;position:relative;z-index:2;padding:0}
+#chContainer{margin:1em;border-top:2px solid #ddd;background-color:#fff;z-index:1;padding:0;}
+#chContainer ul{list-style-type:none;text-align:center;margin-top:-15px;margin-bottom:23px;position:relative;z-index:2;padding:0}
 #chContainer li{display:inline;text-align:center;font-size:8pt;margin:0 3px}
 #chContainer li a{color:#666;background-color:#FFF;border:2px solid #ddd;text-decoration:none;outline:0;padding:1px 10px}
 #chContainer li a:hover{color:#000;border:2px solid #666}

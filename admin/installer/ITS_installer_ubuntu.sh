@@ -7,9 +7,7 @@
 
 sudo apt-get -y install apache2 php5 libapache2-mod-php5
 sudo /etc/init.d/apache2 restart
-sudo apt-get -y install mysql-server php-pear
-
-sudo apt-get -y install phpmyadmin
+sudo apt-get -y install mysql-server php-pear phpmyadmin
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d
 sudo /etc/init.d/apache2 restart
 sudo chmod 0777 /var/www
@@ -41,6 +39,8 @@ echo "... done ..."
 sudo apt-get -y install texlive-full gedit-latex-plugin texmaker
 
 # COPY mathtex.zip to /usr/lib/cgi-bin
+# cc mathtex.c
+# mv a.out mathtex.cgi
 
 sudo mkdir /var/www/cgi-bin
 chmod 777 /var/www/cgi-bin
@@ -48,8 +48,7 @@ cp /var/www/html/admin/installer/cgi-bin/mimetex.cgi /var/www/cgi-bin/
 cd /var/www/cgi-bin/
 chmod 755 mimetex.cgi
 
-sudo apt-get install linux-kernel-headers
-sudo apt-get install build-essential
+sudo apt-get install linux-kernel-headers build-essential
 # MATHTEX
 # RedHat:
 yum -y install tetex tetex-IEEEtran tetex-afm tetex-dvipost tetex-dvips tetex-fonts tetex-latex tetex-perltex tetex-preview tetex-tex4ht tetex-unicode tetex-xdvi

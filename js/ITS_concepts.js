@@ -297,7 +297,7 @@ $(document).ready(function() {
         // click does not work with Chrome!!
         var s = $(this).html();
         //alert($(this).name); //.id = 'current'; //var s = $(this).val();
-        if (s == "CONCEPT") {		
+        if (s == "PRACTICE") {		
 			$('#nav2 > li > a').html('ASSIGNMENT');
 			$('#nav1 > li > a').html(s);
 			$('#chContainer').hide();

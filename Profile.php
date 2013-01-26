@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Sep-26-2012';
+$LAST_UPDATE = 'Jan-25-2013';
 //--- begin timer ---//
 $mtime     = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -33,11 +33,11 @@ if ($status == 'admin' OR $status == 'instructor') {
     //------- CLASS -------------//
     switch ($status) {
     case 'instructor':
-        $class_arr = array('Fall_2012','Summer_2012','Spring_2012','Fall_2011','Spring_2011','Fall_2010','BMED6787','instructor','ta');
+        $class_arr = array('Spring_2013','Fall_2012','Summer_2012','Spring_2012','Fall_2011','Spring_2011','Fall_2010','BMED6787','instructor','ta');
         $delButton = '';
         break;
     case 'admin':
-        $class_arr = array('Fall_2012','Summer_2012','Spring_2012','Fall_2011','Spring_2011','Fall_2010','BMED6787','admin','instructor','ta');
+        $class_arr = array('Spring_2013','Fall_2012','Summer_2012','Spring_2012','Fall_2011','Spring_2011','Fall_2010','BMED6787','admin','instructor','ta');
         $delButton = '<div id="deleteButton" uid="'.$id.'" class="dialogButton">Clear my<br>Profile</div>'.
                             '<div id="deleteDialog" title="Delete Account Info?" style="display:none">'.
                             '<B>ALL</B> of your ITS records will be permanently deleted and cannot be recovered.<br>'.

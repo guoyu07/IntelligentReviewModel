@@ -3,7 +3,6 @@
 # ITS installer
 # Author(s): Gregory Krudysz
 # Last Revision: July-01-2011
-#
 #=======================================================#
 chmod 0777 /var/www/html
 chmod 755 *

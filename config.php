@@ -4,7 +4,7 @@ $host = $_SERVER['SERVER_NAME'];   //gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
-$term = 'Fall_2012';
+$term = 'Spring_2013';
 $tset = mktime(0, 0, 0, 8, 20, 2012);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
 
 switch ($host) {
@@ -67,7 +67,7 @@ if (PHP_OS == "WINNT") {
     }
     // PATHS
     $MDB2_path = ''; ///usr/share/php/';
-    $tex_path  = '/cgi-bin/mimetex.cgi?\large '; // '/cgi-bin/mathtex.cgi?\Large ';
+    $tex_path  = '/cgi-bin/mathtex.cgi?\large ';
     $QTI_path  = $root.'/FILES/DATA/QTI';
      
     // check if PEAR folder exists
@@ -154,3 +154,5 @@ mysqldump --single-transaction --skip-add-locks its -u root -p > GREG_Warmup.sql
 mysqldump --single-transaction --skip-add-locks -t -u root -p its questions --where="id > 3469" > WQ_questions.sql
 */
 ?>
+
+

@@ -1,8 +1,9 @@
 <?php
 //=============================================================//
-$ITS_version = '210e';
-$LAST_UPDATE = 'Dec-9-2012';
+$ITS_version = '213c';
+$LAST_UPDATE = 'Jan-25-2012';
 //=============================================================//
+
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 
@@ -33,25 +34,91 @@ $status = $_SESSION['user']->status();
 $view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 
 //----- SCHEDULE -----//
-$open  = array(array(8,20),array(8,27),array(9,3),array(9,24),array(10,22),array(10,29),array(11,19),array(11,19));
-$close = array(array(9,24),array(10,1),array(11,5),array(11,19),array(11,26),array(12,3),array(12,10),array(12,10));
+$open  = array(
+    array(
+        8,
+        20
+    ),
+    array(
+        8,
+        27
+    ),
+    array(
+        9,
+        3
+    ),
+    array(
+        9,
+        24
+    ),
+    array(
+        10,
+        22
+    ),
+    array(
+        10,
+        29
+    ),
+    array(
+        11,
+        19
+    ),
+    array(
+        11,
+        19
+    )
+);
+$close = array(
+    array(
+        9,
+        24
+    ),
+    array(
+        10,
+        1
+    ),
+    array(
+        11,
+        5
+    ),
+    array(
+        11,
+        19
+    ),
+    array(
+        11,
+        26
+    ),
+    array(
+        12,
+        3
+    ),
+    array(
+        12,
+        10
+    ),
+    array(
+        12,
+        10
+    )
+);
 
-$term_arr = explode('_',$term);
-$tset = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
+$term_arr  = explode('_', $term);
+$tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
 $index_max = 0;
-foreach ($open as $Odate){
-	$open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
-	if ($open_time < time())
-		$index_max++;
+foreach ($open as $Odate) {
+    $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
+    if ($open_time < time())
+        $index_max++;
 }
 $index_hide = 0;
-$schedule = array();
-foreach ($close as $Cdate){
+$schedule   = array();
+foreach ($close as $Cdate) {
     $close_time = mktime(23, 59, 59, $Cdate[0], $Cdate[1], $term_arr[1]);
-    array_push($schedule,date("M - j", $close_time).' @ midnight');  
+    array_push($schedule, date("M - j", $close_time) . ' @ midnight');
     //echo '<p>'.date("M-j", $close_time).'</p>';
-	if ($close_time < time())
-		$index_hide++;
+    if ($close_time < time())
+        $index_hide++;
 }
 //echo '<p>'.$index_max.'--'.$index_hide.'</p>';
 
@@ -84,10 +151,10 @@ $_SESSION['screen'] = $screen;
         <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
         <title>ITS</title>
 <?php
-include(INCLUDE_DIR.'stylesheet.php');
+include(INCLUDE_DIR . 'stylesheet.php');
 include('js/ITS_jquery.php');
-include(INCLUDE_DIR.'include_fancybox.php');
-?>	
+include(INCLUDE_DIR . 'include_fancybox.php');
+?>
 <script type="text/javascript" src="js/ITS_concepts.js"></script>
 	<script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
@@ -165,7 +232,9 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
             <div id="menuContainer">
-                <div id="logout" class="logout" uid="<?php echo $id;?>"><a href="logout.php">Logout</a></div>
+                <div id="logout" class="logout" uid="<?php
+echo $id;
+?>"><a href="logout.php">Logout</a></div>
                 <!--
 	  <div class="icon" id="Minst_icon">I</div>
                <p class="ITS_instruction"><img src="images/matching_example1.png" style="position:relative;max-width:100%"></p>
@@ -176,7 +245,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
             </div>
             <!-- myScore ---------->
             <?php //die($status);
-          
+
 switch ($status) {
     case 'BMED6787':
         $chUser   = 1;
@@ -200,14 +269,19 @@ switch ($status) {
         $score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
         $_SESSION['score'] = $score;
         $str               = $score->renderChapterScores(); //($chMax)         
-           
+        
         $MyScores .= $str . '</div>';
 }
 echo $MyScores;
+
+//-- TEST -------------------------------------------------->
+//$s = new ITS_score($id);
+//$str = $s->renderLabScores();
+//echo $str;
 ?>
-            <!-- NAVIGATION ----------------------------------------------->
-            <div id="modeContainer">
-                    <?php
+<!-- NAVIGATION ----------------------------------------------->
+<div id="modeContainer">        
+<?php
 /* -------------------- */
 switch ($status) {
     /* ----------------- */
@@ -222,39 +296,46 @@ switch ($status) {
     /* ----------------- */
     default:
         /* ----------------- */
-        $mode   = 'question'; // index | practice | question
+        $mode = 'question'; // index | practice | question
         //$chList = '<span id="chText">MODULE</span><ul id="chList">';
         
-        ///*     
-        $chList = '<div class="QuestionMode"><select id="QuestionMode">'
+        /* OLD */     
+        /*$chList = '<div class="QuestionMode"><select id="QuestionMode">'
         .'<option value="MODULE">Modules</option>'
         .'<option value="CONCEPT" id="showConcepts">Concepts</option></select>'
         .'<input type="button" style="display:none" name="changeConcept" id="changeConcept" value="change Concept"/></div>'
         .'<div class="module_index" id="ModuleListingDiv"></div><div id="chapterListingDiv"><ul id="chList">';
-        //*/
-        //++$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
-        //
-        $chList = '<div id="modeSelContainer" style="border:1px solid #fff"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
-        $chList .= '<div id="modeContentContainer" style="border:1px solid #fff"><div id="chContainer"><ul id="chList">';
+        */
+        /* OLD */
+        //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
+        
+        //$chList = '<div id="modeSelContainer" style="border:1px solid red"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
+        //$chList .= '<div id="modeContentContainer" style="border:1px solid green"><div id="chContainer"><ul id="chList">';
+        //die($chList);
+        //==$chList = '<div class="QuestionMode">';
+        
+        //<div id="chContainer"><ul id="chList">';     
+        
         //**
-        //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">CONCEPTS</a></li></ul></div>';
-		//$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
+        //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">PRACTICE</a></li></ul></div>';
+        //$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
         
         //**
         //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
-        
         //$chList .= '<li><a href="#" class="chapter_index" name="chapter" value="0">Introduction</a></li>';
+        
+        //$chList = '<div id="chContainer"><ul id="chList">';
         switch ($role) {
             case 'admin':
             case 'instructor':
                 for ($i = 1; $i <= $chMax; $i++) {
                     //echo $i.' -- '.($index_hide+1).'<br>';
-                    if ($i == ($index_hide+1)) {
+                    if ($i == ($index_hide + 1)) {
                         $idx_id = 'id="current"';
                     } else {
                         $idx_id = '';
                     }
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="'.$schedule[$i-1].'">' . $i . '</a></li>';
+                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
                 }
                 $view = TRUE;
                 $r    = TRUE; // role
@@ -267,45 +348,21 @@ switch ($status) {
                     } else {
                         $idx_id = '';
                     }
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="'.$schedule[$i].'">' . $chArr[$i] . '</a></li>';
+                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
                 }
                 $r = FALSE;
                 break;
         }
         //$chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
-        $chList .= '</ul></div><div id="coContainer"></div></div>'; //</div>';
+        $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
-//echo $chList;die('====');
-//chapter_index'.$i.'
-//id="chapter_index'.$chArr[$i].'"
-//$strConcept = '<div id="showConcepts">Concepts</div>';
-//$alph
-echo $chList;
-
-/* FANCYBOX TEST
-<a class="fancybox" href="#inline1" title="ITS &ndash; FAQ">Inline</a>
-<a class="fancybox" href="http://its.vip.gatech.edu/ITS_FILES/SPFIRST/SPFirstPages/SP1_Page_015.png">Ajax</a>
-<div id="inline1" style="width:400px;display: none;">
-<h3>Etiam quis mi eu elit</h3>
-<p><?php include 'faq/index.html';?>
-</p>
-</div>
-*/
-?>
-   </div><div id="QuesConcept"></div>
-   <input type="hidden" id="index_hide" value="<?php
-echo $index_hide;
-?>">
-                </div>
-                <?php
-//-- TEST -------------------------------------------------->
-//$s = new ITS_score($id);
-//$str = $s->renderLabScores();
-//echo $str;
-?>
+        $mode = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
+			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
+echo $mode;
+//die('====');
+?>    
             </div>
-            <div id="page">
                 <!-- CONTENT ----------------------------------------------->
                 <?php
 //echo $screen->main();
@@ -320,11 +377,11 @@ $o = $x->main();
 echo $o.'<p>';
 <li id="Practice" name="header" choice_mode ="<?php echo $mode; ?>" view="<?php echo intval($view); ?>" r="<?php echo intval($r); ?>" ch="<?php echo ($index_hide+1); ?>" style="margin-left: 50px;"><a href="#">Practice</a></li>
 */
-//----------------//
 ?>
 <div id="navContainer">
 <ul id="navListQC">                     
-<li id="Question" name="header" view="<?php echo intval($view);
+<li id="Question" name="header" view="<?php
+echo intval($view);
 ?>" r="<?php
 echo intval($r);
 ?>" ch="<?php
@@ -356,7 +413,7 @@ echo '<a class="group" href="excel_icon.png"><img src="excel_icon.png" alt=""/><
 </div>
             <!-- FOOTER -->
           <?php
-include(INCLUDE_DIR.'footer.php');
+include(INCLUDE_DIR . 'footer.php');
 ?>
             <!-- end FOOTER -->
         </div>
