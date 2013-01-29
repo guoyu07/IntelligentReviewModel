@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '213c';
-$LAST_UPDATE = 'Jan-25-2012';
+$ITS_version = '213f';
+$LAST_UPDATE = 'Jan-30-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -36,70 +36,70 @@ $view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 //----- SCHEDULE -----//
 $open  = array(
     array(
-        8,
-        20
+        1,
+        11
     ),
     array(
-        8,
-        27
+        1,
+        11
     ),
     array(
-        9,
-        3
+        2,
+        1
     ),
     array(
-        9,
-        24
+        3,
+        1
     ),
     array(
-        10,
-        22
+        3,
+        1
     ),
     array(
-        10,
-        29
+        3,
+        1
     ),
     array(
-        11,
-        19
+        3,
+        1
     ),
     array(
-        11,
-        19
+        3,
+        1
     )
 );
 $close = array(
     array(
-        9,
-        24
-    ),
-    array(
-        10,
+        2,
         1
     ),
     array(
-        11,
-        5
+        2,
+        8
     ),
     array(
-        11,
-        19
+        4,
+        1
     ),
     array(
-        11,
-        26
+        4,
+        1
     ),
     array(
-        12,
-        3
+        4,
+        1
     ),
     array(
-        12,
-        10
+        4,
+        1
     ),
     array(
-        12,
-        10
+        4,
+        1
+    ),
+    array(
+        4,
+        1
     )
 );
 
@@ -115,7 +115,7 @@ $index_hide = 0;
 $schedule   = array();
 foreach ($close as $Cdate) {
     $close_time = mktime(23, 59, 59, $Cdate[0], $Cdate[1], $term_arr[1]);
-    array_push($schedule, date("M - j", $close_time) . ' @ midnight');
+    array_push($schedule, date("M - j", $close_time) . ' @ 11:59 pm');
     //echo '<p>'.date("M-j", $close_time).'</p>';
     if ($close_time < time())
         $index_hide++;
@@ -319,12 +319,12 @@ switch ($status) {
         //**
         //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">PRACTICE</a></li></ul></div>';
         //$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
-        
         //**
+        
         //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
         //$chList .= '<li><a href="#" class="chapter_index" name="chapter" value="0">Introduction</a></li>';
         
-        //$chList = '<div id="chContainer"><ul id="chList">';
+        $chList = '<div id="chContainer"><ul id="chList">';
         switch ($role) {
             case 'admin':
             case 'instructor':
@@ -357,9 +357,11 @@ switch ($status) {
         $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
-        $mode = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
-			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
-echo $mode;
+		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li>'
+			   .'</ul></div><div id="modeContentContainer">'.$chList.'</div>';
+        /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
+			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';*/
+echo $modeDiv;
 //die('====');
 ?>    
             </div>
@@ -403,11 +405,6 @@ echo ($index_hide + 1);
 $screen->screen       = 4;
 $screen->term_current = $term;
 echo $screen->main($mode);
-/*
-echo '<a class="group" href="excel_icon.png"><img src="excel_icon.png" alt=""/></a>'
-.'<a id="inline" href="#data">This shows content of element who has id="data"</a>'
-.'<div style="display:none"><div name="data">Some title</div></div>';
-*/
 //echo $screen->reviewMode(1,0);
 ?>              
 </div>

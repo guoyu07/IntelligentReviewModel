@@ -22,7 +22,6 @@ if (!empty($ajax_match)) {
     require_once($MDB2_path . 'MDB2.php');
 }
 
-//die(INCLUDE_DIR);
 require_once($path.INCLUDE_DIR."Authentication.php");
 require_once($path.INCLUDE_DIR."common.php");
 require_once($path.INCLUDE_DIR."User.php");

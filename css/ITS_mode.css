@@ -37,13 +37,14 @@
   border-right: 0;
   border: 1px solid #666;
   }
+  /*
 a#current {
   background-color: #fff;
-  margin-left: 10px;
+  margin-left: 30px;
   border-right: 0;
   border: 1px solid #666;
   /*border-right: 1px solid #fff;*/
-  }
+/*  }*/
 #modeContentContainer {
   position: absolute;
   top: 20px;

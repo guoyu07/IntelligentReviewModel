@@ -41,7 +41,7 @@ Instructions for installing GIT on Ubuntu:
 				<ol>
 				<li><code>ssh -X &lt;username&gt;@itsdev5.vip.gatech.edu</li></code>
 				<li><code>cd /home/&lt;username&gt;</li></code>
-				<li><code>git clone &lt;username&gt;@itsdev5.vip.gatech.edu:/opt/git</li></code>
+				<li><code>git clone &lt;username&gt;@itsdev5.vip.gatech.edu:/opt/git/ITS-GT.git html</li></code>
 				<li><code>cd html</li></code>
 				<li><code>git branch dev</li></code>
 				</ol>

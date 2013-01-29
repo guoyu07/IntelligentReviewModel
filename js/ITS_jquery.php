@@ -69,7 +69,7 @@
         });
         /*-------------------------------------------------------------------------*/		
         var ch = $('#Question').attr('ch');
-        //ch = 14; //alert(v+' ~ '+ch);
+        //ch = 14; // alert(v+' ~ '+ch);
         indexUPDATE(ch,v,'Question');
         /*-------------------------------------------------------------------------*/
         $('#Practice').live('click', function() {
@@ -194,7 +194,7 @@
             var qIdx = $("#qAvail"+ch).html();  // Look-up from the Score-board
             //alert('chapter: '+ch+' index: '+qIdx);
 			indexUPDATE(ch,v,'Review');
-			
+			//alert(ch+qIdx);
             $.get('ajax/ITS_screen2.php', {
                 ajax_args: "reviewMode", 
                 ajax_data: ch+','+qIdx
@@ -283,7 +283,7 @@
                 var qMax = $("#qAvail"+ch).html();  // Look-up from the Score-board
                 callback = "reviewUpdate"; 
                 header   = 'Chapter '+ch;
-                //alert(ch+' '+qMax);
+                // alert(ch+' '+qMax);
                 $.get('ajax/ITS_screen2.php', {
                     ajax_args: callback, 
                     ajax_data: ch+','+qMax

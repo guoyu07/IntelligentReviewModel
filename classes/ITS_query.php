@@ -45,6 +45,7 @@ class ITS_query
     function getQuery($qet, $usertable, $ch, $epochtime)
     {
         //=====================================================================//
+        
         if ($ch == 1) {
             $other = '|Complex$';
         } elseif ($ch == 13) {
@@ -78,7 +79,8 @@ class ITS_query
     function getCategory($ch)
     {
         //=====================================================================//  
-        //die($ch);   
+        //die($ch);  
+         
         if ($ch == 1) {
             $other = '|Complex$';
         } elseif ($ch == 13) {
@@ -99,10 +101,10 @@ class ITS_query
                 array_push($match, 'SPEN' . $chr . '$|PreLab0' . $chr . '$|Lab' . $chr . '$|Chapter' . $chr . '$|-Mod' . $chr . '$' . $other);
             }
             $category = implode("|", $match);
-            $query    = 'category REGEXP "(' . $category . ')" AND qtype IN ("MC","M","C")';
+            $query    = 'category REGEXP "(' . $category . ')" AND '.$this->tb_name.'.qtype IN ("MC","M","C")';
             //die($query);
         } else {
-            $query = 'category REGEXP "(SPEN' . $ch . '$|PreLab0' . $ch . '$|Lab' . $ch . '$|Chapter' . $ch . '$|-Mod' . $ch . '$' . $other . ')" AND qtype IN ("MC","M","C")';
+            $query = 'category REGEXP "(SPEN' . $ch . '$|PreLab0' . $ch . '$|Lab' . $ch . '$|Chapter' . $ch . '$|-Mod' . $ch . '$' . $other . ')" AND '.$this->tb_name.'.qtype IN ("MC","M","C")';
         }
         //echo 'UPDATE questions SET verified=1 WHERE '.$query.';<br>';
         //echo $query;

@@ -322,9 +322,10 @@ class ITS_screen2
                 //------------------//
                 //echo 'FREE: '.$this->chapter_number;
                 $this->question_completed = false;
-                //echo $this->mode.' -- '.$this->chapter_number;
+                //
+                //echo $this->mode.' -- '.$this->chapter_number;die('s');
                 //$content_str = 'ch';
-                $content_str              = $this->getChapter($this->mode, $this->chapter_number);
+                $content_str = $this->getChapter($this->mode, $this->chapter_number);
                 //    echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
                 break;
             //------------------//
@@ -1833,7 +1834,7 @@ class ITS_screen2
         } else {
             $this->review_number = $index_new;
         }
-        
+
         $list = '';
         
         //-- LIST of questions (count($answers)-1)
@@ -1842,7 +1843,9 @@ class ITS_screen2
         //die('da'.$this->review_number);
         //echo 'conf: '.$answers[$qn][4].'<p>';
         $qn   = $this->review_number; //count($answers) - 1;
-        $qid  = $queryList[$qn][0]; // echo 'qID: '.$qid;
+        $qid  = $queryList[$qn][0]; // 
+        
+        //echo 'qID: '.$qid;die();
         
         $qtype    = strtolower($queryList[$qn][2]);
         $Nanswers = $queryList[$qn][3];
@@ -1865,19 +1868,20 @@ class ITS_screen2
         
         $Q->Q_answers_permutation = explode(',', $queryList[$qn][5]);
         $ANSWER                   = $Q->render_ANSWERS('a', 0);
-        
+
         $config = 1;
         $dist   = $this->getQuestionDist($qid, $qtype, $score, $Nanswers);
-        
+            
         //--- rating ---------//
         $rateObj = new ITS_rating();
         $rated   = $queryList[$qn][4];
         $rating  = $rateObj->renderRating($rated);
-        //--- difficulty box added by Mi Seon Park ---//
-        $difficultyBox = $rateObj->renderDifficulty($qid);
-	$rateBox = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
-        //--------------------//
         
+        //--- difficulty box ---//
+        $difficultyBox = ''; //$rateObj->renderDifficulty($qid);
+		$rateBox = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
+        //--------------------//
+            
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
         $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
@@ -1921,13 +1925,14 @@ class ITS_screen2
         $this->chapter_number = $chapter;
         $this->mode           = 'review';
         $queryList            = $this->getQuestionQuery($chapter);
-        //var_dump($queryList);die();
+        //
+        //var_dump($queryList);//die();
         
         if (empty($queryList)) {
             $content = '<center><div class="ITS_MESSAGE">You have not yet solved <b>any</b> problems for Assignment ' . $chapter . '.</div></center>';
         } else {
             $Qarr    = $this->reviewQuestion($chapter, $qIndex, $queryList); // $Qarr['qid']['content']       
-            //die('kk1');        
+            //       die($Qarr);        
             $qid     = $Qarr[0];
             $qAvail  = count($queryList);
             $content = $this->getQuestionRef($qid) . $Qarr[1];
@@ -2240,7 +2245,7 @@ class ITS_screen2
             throw new Question_Control_Exception($mdb2->getMessage());
         }
         // echo '<p style="color:blue">'.$resource.'<p>';die('<hr>');
-        
+        //var_dump($resource);die();
         switch ($resource) {
             //-------------------------------//
             case 'review':
@@ -2298,7 +2303,8 @@ class ITS_screen2
                 // AVAILABLE QUESTIONS for chapter
                 //$query = 'SELECT question_id FROM questions WHERE '.$resource_source; //die($query);
                 $query = 'SELECT id FROM ' . $this->tb_name . ' WHERE ' . $resource_source; //die($query);
-                //	echo '<p>'.$query.'<p>'; // die();
+                //	
+                echo '<p>'.$query.'<p>'; // die();
                 // DEBUG: $query = 'SELECT id FROM '.$this->tb_name.' WHERE category IN ("PreLab06","Chapter6","Lab6") AND qtype IN ("M")';
                 $res =& $mdb2->query($query);
                 $qarr = $res->fetchCol();

@@ -5,7 +5,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
 $term = 'Spring_2013';
-$tset = mktime(0, 0, 0, 8, 20, 2012);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
+$tset = mktime(0, 0, 0, 1, 11, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
 
 switch ($host) {
     /*--------- LOCAL -----------------------*/
@@ -70,28 +70,21 @@ if (PHP_OS == "WINNT") {
     $tex_path  = '/cgi-bin/mathtex.cgi?\large ';
     $QTI_path  = $root.'/FILES/DATA/QTI';
      
-    // check if PEAR folder exists
-    // echo '<p style="color:blue">22'.getcwd() . "</p>\n";
-    
-    //echo $_SERVER['PHP_SELF'].'<br>'.dirname($_SERVER['PHP_SELF']).'<br>';
-	//$root = realpath($_SERVER["DOCUMENT_ROOT"]);
     $dir = dirname($_SERVER['PHP_SELF']);
-    //$_ENV['dir'] = $dir;
-    //$t = '/ITS/ajax';
     preg_match('/ajax|admin|search|doc|ITS_FILES/', $dir, $ajax_match);
     //var_dump($ajax_match);//die('s');
     
     if (empty($ajax_match)) { // exclude /ajax dir	
         $MDB2_path = 'FILES/PEAR/';
         $MDB2_dir  = dir(getcwd() . '/' . $MDB2_path);
-        
+
         if (empty($MDB2_dir->handle)) {
             die('<p>in ' . getcwd() . '/config.php:  <font color="red">MISSING <b>PEAR</b> folder</font>.<p>');
         }
         
         $CAS_path = 'FILES/CAS-1.1.1/';
         $CAS_dir  = dir(getcwd() . '/' . $CAS_path);
-        
+  
         if (empty($CAS_dir->handle)) {
             die('<p>in ' . getcwd() . '/config.php:  <font color="red">MISSING <b>CAS</b> folder</font>.<p>');
         }
