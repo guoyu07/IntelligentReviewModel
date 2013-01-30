@@ -103,7 +103,7 @@ class ITS_tag
         $list = $this->getByKeyword($keyword, $rid, $rname);
         
         for ($t = 0; $t < count($list) - 1; $t++) {
-            echo $list[$t][0] . ' ' . $list[$t][0] . ' ' . $rid . ' ' . $rname . '<br>';
+            //echo $list[$t][0] . ' ' . $list[$t][0] . ' ' . $rid . ' ' . $rname . '<br>';
             $tags .= '<div class="ITS_tag"><table><tr><td>' . $list[$t][1] . '</td><td class="tag_add" tid="' . $list[$t][0] . '" tname="' . $list[$t][1] . '" rid="' . $rid . '" rname="' . $rname . '">+1</td></tr></table></div>';
         }
         //die('done');
@@ -143,11 +143,11 @@ class ITS_tag
         $result = mysql_query($query);
         //$tag = '<div class="ITS_tag"><table><tr><td>' . $tname . '</td><td class="tag_del" tid="' . $tid . '" rname="' . $rname . '" rid="' . $rid . '">x-del</td></tr></table></div>';
         //die($tag);
-        return $query;
+        //return $query;
     }
     //  alter table tags change id int auto_increment;
     //=====================================================================//
-    function addTag($tname)
+    function addTag($tname)	
     {
         //=====================================================================// 	  
         //echo 'addTag<br>';

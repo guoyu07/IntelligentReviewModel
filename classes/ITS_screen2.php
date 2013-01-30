@@ -1983,13 +1983,14 @@ class ITS_screen2
         //=====================================================================//
         //---- ADMIN WINDOW ------------------------------------------//
         $qinfo = '';
-        if ($this->term == 'admin') {
-            /* $qinfo = '<table class="ITS_ADMIN" style="float: right;">'.
+        if ($this->term == 'admin' OR $this->term == 'instructor') {
+            /*
+            $qinfo = '<table class="ITS_ADMIN" style="float: right;">'.
             '<tr><th>qid</th><th>type</th><th>ch</th></tr>'.
             '<tr><td><a href="Question.php?qNum='.$qid.'" class="Qnum">'.$qid.'</a></td><td>'.$qtype.'</td><td>'.$resource_name.'</td></tr>'.
-            '</table>'; 
-            */
-            $qinfo .= '';//'<table class="ITS_ADMIN" style="float:right;border:1px solid red">' . '<tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
+            '</table>'; */
+            
+            $qinfo .= '<table class="ITS_ADMIN"><tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
         }
         return $qinfo;
     }
@@ -2533,11 +2534,11 @@ class ITS_screen2
                             20,
                             80
                         ), 'ADMIN');
-                        $admin_str = '<div class="ITS_ADMIN">' . $tb->str . '<br>' . $qEdit . '</div>';
+                        $admin_str = ''; //<div class="ITS_ADMIN">' . $tb->str . '<br>' . $qEdit . '</div>';
                     } else {
                         $admin_str = '';
                     }
-                    $str = $answer; //.$admin_str;
+                    $str = $answer.$admin_str;
                 } else { // none available
                     $NO_QUESTIONS = TRUE;
                 }
