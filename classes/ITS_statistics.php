@@ -12,7 +12,7 @@ Methods: 	render_user_answer()
 			render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Nov-27-2012
+Last Revision: Jan-25-2013
 //=====================================================================*/
 
 class ITS_statistics {
@@ -2000,8 +2000,9 @@ class ITS_statistics {
         }
         return $Estr;
     }
-
+    //----------------------------------------------------------------------------
     function render_course($chapter, $orderby){
+		    //----------------------------------------------------------------------------
 	$ITSq = new ITS_query();
 	$resource_source = $ITSq->getCategory($chapter);
 	$option_arr = array(
@@ -2016,7 +2017,7 @@ class ITS_statistics {
             $ot = $option_arr[0];
         }*/ 
             //$term
-        $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Fall_2012' . '" status="' . $this->role . '" ch="' . $chapter . '">';
+        $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Spring_2013' . '" status="' . $this->role . '" ch="' . $chapter . '">';
         foreach($option_arr as $op){
             if($orderby == $op){
                 $osel = 'selected="selected"';
@@ -2037,6 +2038,8 @@ class ITS_statistics {
         $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.difficulty, m.Avg, m.AvgDur, m.NumSkips '.
                  'FROM '.$this->tb_name.', questions_difficulty d, MinedData m '.
                  'WHERE '.$this->tb_name.'.id=d.q_id AND '.$this->tb_name.'.id=m.question_id AND '.$resource_source. ' '.$order_by;
+        //die($query);
+        
         $res   = $this->mdb2->query($query);
         $ques = $res->fetchAll();
 
@@ -2140,7 +2143,7 @@ class ITS_statistics {
         $sts      = array_fill(0, count($chs) - 1, 0);
         $full_sts = array_fill(0, count($chs) - 1, 0);
         $grade    = array_fill(0, count($chs) - 1, 0);
-        $ptsMax   = 2400;
+        $ptsMax   = 3300;
         $ptsGrade = 30;
         
         foreach ($users as $key => $user) { //$users as $user){
@@ -2163,7 +2166,7 @@ class ITS_statistics {
                 //Score for jth chapter
                 $totalscore[$key][$j] = round($score, 2);
                 if ($totalscore[$key][$j] > 0) {
-                    if ($totalscore[$key][$j] >= 2400) {
+                    if ($totalscore[$key][$j] >= 3300) {
                         $full_sts[$j]++;
                     }
                     $sts[$j]++;
@@ -2241,7 +2244,7 @@ class ITS_statistics {
             $td_sts .= '<td style="text-align:right;font-weight:bold">' . $sts[$t] . '<br>' . round(100 * $sts[$t] / $N) . ' <font color="#669">%</font></td>';
             $td_full_sts .= '<td style="text-align:right;font-weight:bold">' . $full_sts[$t] . '<br>' . round(100 * $full_sts[$t] / $N) . ' <font color="#669">%</font></td>';
         }
-        $Estr .= $header . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>ATTEMPTED</b> / ' . $N . '<br><b>%</b></td>' . $td_sts . '<td colspan="2" style="text-align:center;font-weight:bold">' . $pc . '<br>' . round(100 * $pc / $N) . '<font color="#669">%</font></td>' . '</tr>' . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>WITH FULL CREDIT</b> (2400 pts) / ' . $N . '<br><b>%</b></td>' . $td_full_sts . '<td style="text-align:center;font-weight:bold"></td>' . '</tr>';
+        $Estr .= $header . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>ATTEMPTED</b> / ' . $N . '<br><b>%</b></td>' . $td_sts . '<td colspan="2" style="text-align:center;font-weight:bold">' . $pc . '<br>' . round(100 * $pc / $N) . '<font color="#669">%</font></td>' . '</tr>' . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>WITH FULL CREDIT</b> (3300 pts) / ' . $N . '<br><b>%</b></td>' . $td_full_sts . '<td style="text-align:center;font-weight:bold"></td>' . '</tr>';
         $Estr .= '</table></center>';
         //-- STATS --//
         fclose($fp);

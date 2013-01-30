@@ -7,10 +7,14 @@
  Author(s): Greg Krudysz
 */
 error_reporting(E_ALL);
+require_once("config.php"); // #1 include 
+require_once(INCLUDE_DIR . "include.php");
+
+/*
 require_once("config.php");
 require_once(INCLUDE_DIR . "common.php");
 require_once(INCLUDE_DIR . "User.php");
-
+*/
 session_start();
 //==============================================================================
 // connect to database

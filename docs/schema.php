@@ -9,9 +9,6 @@
 	<link rel="stylesheet" href="css/ITS_versions.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/docs.css">
 	<link rel="stylesheet" href="css/print/ITS_print.css" media="print">
-	<!--[if IE 6]>
-	<link rel="stylesheet" href="css/IE6/ITS.css" type="text/css" media="screen">
-	<![endif]-->
 	<style>
 	body { margin: 5% 0 }
 	.ITS_version td { text-align:right; }
@@ -46,15 +43,6 @@
 		  <!--------------------------------------------------------------------->
 	    <tr>
 	    	    <td>3.</td>
-		  <td>sync_ITS.sh</td>
-			<td>its.vip</td>
-				<td>4:40</td>
-					<td>/ITSdrive <span class="at"> @ </span>its.vip</td>
-						<td>/ITSdrive <span class="at"> @ </span>itsold.vip</td>
-		  </tr>	
-		  <!--------------------------------------------------------------------->
-	    <tr>
-	    	    <td>4.</td>
 		  <td>sync_ITS.sh</td>
 			<td>itsdev2.vip</td>
 				<td>5:10</td>

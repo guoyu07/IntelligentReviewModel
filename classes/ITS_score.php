@@ -9,7 +9,7 @@ ITS_score - compute user scores.
 		NOTE: requires ITS_query() class
 								
 	 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-	 Last Update: Dec-04-2012
+	 Last Update: Jan-25-2013
 //=====================================================================*/
 class ITS_score {
 	
@@ -173,7 +173,7 @@ class ITS_score {
 	//echo 'chapter: '.$this->chapter.'<p>';  
     $ch    = $this->chapter; 		
     $chArr = $this->chapterArray;
-    $ptsMax = 2400;
+    $ptsMax = 3300;
     $ptsGrade = 30;
 
     $chapter_score_arr = $this->computeChapterScores();		

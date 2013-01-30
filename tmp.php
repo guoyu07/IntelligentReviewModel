@@ -13,7 +13,6 @@
   padding: 0;
   width: 177px;
   }
-  
 #navcontainerMain ul {
   margin-top: 0;
   margin-left: 0;
@@ -21,39 +20,34 @@
   list-style-type: none;
   font-family: Arial, Helvetica, sans-serif;
   }
-
 #navcontainerMain li {
   margin-bottom: 8px;
   }
-
 #navcontainerMain a {
   display: block;
   padding: 3px;
   width: 160px;
-  background-color: #ccc;
-  border: 1px solid #666;
-  border-left: 0;
+  background-color: #fff;
+  border: 1px solid #fff;
+  /*border-left: 0;*/
   }
-
 #navcontainerMain a:link, #navlist a:visited {
   color: #000;
   text-decoration: none;
   }
-
 #navcontainerMain a:hover {
   background-color: #fff;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
   border-right: 0;
-  border-left: 1px solid #666;
+  border: 1px solid #666;
   }
-
 a#current {
   background-color: #fff;
   margin-left: 10px;
   border-right: 0;
-  border-left: 1px solid #666;
+  border: 1px solid #666;
+  border-right: 1px solid #fff;
   }
-
 #content {
   position: absolute;
   top: 20px;
@@ -63,19 +57,17 @@ a#current {
   height: 500px;
   width: 500px;
   background-color: #fff;
-  border: 1px solid #666;
+  border-left: 1px solid #666;
   }
-
 </style>
-
 </head>
 
-<body style="background-color:#eee">
+<body style="background-color:#fff">
 
 <div id="navcontainerMain">
 <ul id="navlist">
-<li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>
-<li><a href="#">CONCEPTS</a></li>
+<li id="active"><a href="#">ASSIGNMENTS</a></li>
+<li><a href="#" id="current">CONCEPTS</a></li>
 </ul>
 </div>
 

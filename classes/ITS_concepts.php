@@ -67,7 +67,7 @@ class ITS_concepts
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
-        $query = "SELECT id,name FROM tags WHERE name LIKE '" . $letter . "%' ORDER BY name";
+        $query = "SELECT id,name FROM tags WHERE name LIKE 'introduction%' ORDER BY name";
         //die($query);
         $res   = mysql_query($query, $con);  
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}

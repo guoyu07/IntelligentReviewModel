@@ -16,7 +16,7 @@
 //=====================================================================//
 
 $class_name    = 'Fall_2012';
-$tsquare_file  = 'csv/gradebook-2012-12-04.csv';
+$tsquare_file  = 'csv/gradebook-2012-12-13.csv';
 $its_file      = 'csv/'.$class_name.'_grades.csv';
 $output_file   = 'csv/gradebook-'.date("Y-m-d").'.csv';
 $gradebook     = array();
@@ -51,10 +51,10 @@ if (($handle = fopen($tsquare_file, "r")) !== FALSE) {
 		$gradebook[] = $data;
         ///*
         $num = count($data); 
-        echo "<p style=color:red> $num fields in line $row: <br /></p>\n";
+        //echo "<p style=color:red> $num fields in line $row: <br /></p>\n";
         $row++;
         for ($c=0; $c < $num; $c++) {
-            echo $data[$c] . "<br />\n";
+            //echo $data[$c] . "<br />\n";
         }
         //*/
     }
@@ -74,6 +74,7 @@ if ($handle) {
     if (!feof($handle)) {echo "Error: unexpected fgets() fail\n";}
     fclose($handle);
 }
+
 //--------------------------------------------------------------------//
 // GRADEBOOK with ITS 
 $N = count($its);
@@ -85,24 +86,25 @@ for($k=0;$k<count($gradebook);$k++) {
 	$stop = 0;
 	for( $idx=0;$idx<$N;$idx++ ){  
 		if ($gradebook[$k][0]==$its[$idx][0]){		
-
+			/*
 			$gradebook[$k][14] = $its[$idx][3];
 			$gradebook[$k][15] = $its[$idx][4];
 			$gradebook[$k][16] = $its[$idx][5];
 			$gradebook[$k][17] = $its[$idx][6];
-			$gradebook[$k][18]  = $its[$idx][7];
+			$gradebook[$k][18] = $its[$idx][7];
 			$gradebook[$k][19] = $its[$idx][8];
-			/*
-			$gradebook[$k][11] = $its[$idx][9];
-			$gradebook[$k][12] = $its[$idx][10];
 			*/
-			//echo $gradebook[$k][0].' '.$its[$idx][0].'<br>';
+			$gradebook[$k][21] = $its[$idx][9];
+			$gradebook[$k][22] = $its[$idx][10];
+			//*/
+			//echo $gradebook[$k][21].' '.$its[$idx][10].'<br>';
 			$stop = 1;
 		}
 		if ($stop){break;}
 		//echo $idx.'<br>';
 	}
 }
+//echo '<pre>';print_r($gradebook);echo '</pre>';die('xx');
 //--------------------------------------------------------------------//
 foreach ($gradebook as $student) {	
 	//var_dump($student);echo '<hr>';
