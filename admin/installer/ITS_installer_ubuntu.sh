@@ -5,7 +5,7 @@
 # Last Revision: Jan-27-2013
 #=======================================================#
 
-sudo apt-get -y install apache2 php5 libapache2-mod-php5
+sudo apt-get -y install apache2 php5 libapache2-mod-php5 geany meld
 sudo /etc/init.d/apache2 restart
 sudo apt-get -y install mysql-server php-pear phpmyadmin
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d
@@ -33,6 +33,17 @@ mysql -u root < set_admin_pass.sql
 echo "Load MySQL database ..."
 mysql -u root -D its -pcsip < ITS_05-07-2012.sql
 echo "... done ..."
+
+#-------------------------------------------------------#
+# PYTHON
+#-------------------------------------------------------#
+sudo apt-get install python python-numpy python-scipy
+
+#-------------------------------------------------------#
+# Kerberos Client
+#-------------------------------------------------------#
+sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config
+cccc
 #-------------------------------------------------------#
 # MIMETEX
 #-------------------------------------------------------#
@@ -53,6 +64,59 @@ sudo apt-get install linux-kernel-headers build-essential
 # RedHat:
 yum -y install tetex tetex-IEEEtran tetex-afm tetex-dvipost tetex-dvips tetex-fonts tetex-latex tetex-perltex tetex-preview tetex-tex4ht tetex-unicode tetex-xdvi
 
+#-------------------------------------------------------#
+# Server configuration: 
+#-------------------------------------------------------#
+Alias /icons/ "/var/www/icons/"
+<Directory "/var/www/icons">
+    Options Indexes MultiViews
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+Alias /ITS_FILES/ "/var/www/ITS-RESOURCES/ITS_FILES/"
+<Directory "/var/www/ITS-RESOURCES/ITS_FILES">
+    Options Indexes MultiViews
+    AllowOverride None
+Order allow,deny
+Allow from all
+</Directory>
+
+Alias /VIP/ "/var/www/VIP/"
+<Directory "/var/www/VIP">
+    Options Indexes MultiViews
+    AllowOverride None
+Order allow,deny
+Allow from all
+</Directory>
+
+Alias /VM/ "/var/www/VM/"
+<Directory "/var/www/VM">
+    Options Indexes MultiViews
+    AllowOverride None
+Order allow,deny
+Allow from all
+</Directory>
+
+Alias /git/ "/opt/git/"
+<Directory "/opt/git">
+    Options Indexes MultiViews
+    AllowOverride None
+Order allow,deny
+Allow from all
+</Directory>
+
+Alias /gitweb/ "/var/www/gitweb/"
+    <Directory /var/www/gitweb>
+        Options ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
+        AllowOverride All
+        order allow,deny
+        Allow from all
+        AddHandler cgi-script cgi
+        DirectoryIndex gitweb.cgi
+    </Directory>
+#-------------------------------------------------------#
 # X11 connection rejected because of wrong authentication:
 # /etc/ssh/ssh_config
 # ForwardX11 yes
@@ -72,25 +136,13 @@ chmod 0600 ~/.Xauthority
    25  gedit sudoers
    26  vi sudoers
    27  ll su*
-   28  sudo -i
-   29  sudo -i
-   30  exit
-   31  ls
    32  sudo -i
    33  ls -l ~/.Xauthority
    34  chown gte269x:gte269x ~/.Xauthority
    35  chmod 0600 ~/.Xauthority
    36  ls -l ~/.Xauthority
    37  cd /etc/network/
-   38  ls
-   39  geidt interfaces 
-   40  gedit interfaces 
-   41  ls
    42  gedit interfaces &
-   43  sudo -i
-   44  exit
-   45  clock
-   46  xeyes
    47  sudo apt-get install x11-apps
    48  xeyes
    49  mysql -u root -p
