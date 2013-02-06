@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '214';
-$LAST_UPDATE = 'Feb-1-2013';
+$ITS_version = '214j';
+$LAST_UPDATE = 'Feb-3-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -44,7 +44,7 @@ $open  = array(
         11
     ),
     array(
-        2,
+        3,
         1
     ),
     array(
@@ -363,7 +363,8 @@ switch ($status) {
 			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';*/
 echo $modeDiv;
 //die('====');
-?>    
+?>  
+<input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">  
             </div>
                 <!-- CONTENT ----------------------------------------------->
                 <?php

@@ -43,7 +43,6 @@ sudo apt-get install python python-numpy python-scipy
 # Kerberos Client
 #-------------------------------------------------------#
 sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config
-cccc
 #-------------------------------------------------------#
 # MIMETEX
 #-------------------------------------------------------#
