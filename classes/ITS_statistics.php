@@ -2068,9 +2068,9 @@ class ITS_statistics {
                 '<td class="PROFILE" >' . ($qn +1) .'<br><br><a href="Question.php?qNum='.$qid.'&sol=1" class="ITS_ADMIN">'.$qid.'</a></td>'.
                 '<td class="PROFILE" >' . $QUESTION.$ANSWER . '</td>'.
                 '<td class="PROFILE" > <b>'.$title.'</b> <hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
-                '<td class="PROFILE" > <font color="brown">difficulty: ' .$dif.'/10</font> <hr class="PROFILE">'.
-                                        'avg score: '.$avg.'%<hr class="PROFILE">'.
-                                        '<font color="blue">avg duration: '.$avgdur.' sec </font><hr class="PROFILE">'.
+                '<td class="PROFILE" > <font color="brown">difficulty:<br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
+                                        'avg score:<br>'.(round(10*$avg)/10).'%<hr class="PROFILE">'.
+                                        '<font color="blue">avg dur:<br>'.(round(10*$avgdur)/10).' sec </font><hr class="PROFILE">'.
                                         '<font color="#666">skips: '.$skips.'</font></td>';
             $Estr .=  '</tr>';
         }
