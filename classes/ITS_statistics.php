@@ -12,7 +12,7 @@ Methods: 	render_user_answer()
 			render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Jan-25-2013
+Last Revision: Feb-07-2013
 //=====================================================================*/
 
 class ITS_statistics {
@@ -2006,6 +2006,7 @@ class ITS_statistics {
 	$ITSq = new ITS_query();
 	$resource_source = $ITSq->getCategory($chapter);
 	$option_arr = array(
+			'id',
             'Difficulty',
             'Score',
             'Duration',
@@ -2017,11 +2018,13 @@ class ITS_statistics {
             $ot = $option_arr[0];
         }*/ 
             //$term
+            
         $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Spring_2013' . '" status="' . $this->role . '" ch="' . $chapter . '">';
         foreach($option_arr as $op){
             if($orderby == $op){
                 $osel = 'selected="selected"';
                 switch($orderby){
+					case 'id': $order_by = 'ORDER BY d.q_id'; break;
                     case 'Difficulty': $order_by = 'ORDER BY d.difficulty'; break;
                     case 'Number of Skips': $order_by = 'ORDER BY m.NumSkips'; break;
                     case 'Duration': $order_by = 'ORDER BY m.AvgDur'; break;

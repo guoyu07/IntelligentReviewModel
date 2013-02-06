@@ -1,8 +1,8 @@
 <?php
-$LAST_UPDATE = 'Jan-26-2013';
+$LAST_UPDATE = 'Feb-07-2013';
 /*=====================================================================//
-Author(s): Gregory Krudysz
-Last Revision: Jan-26-2013                       
+Author(s): Gregory Krudysz         
+* Revision: Mi Seon Park: sort capability    Dec-01-2012     
 //=====================================================================*/
 //--- begin timer -----//
 $mtime       = microtime();
@@ -125,8 +125,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     
     if ($course == 'ece2025') {
-        //-------------------added by Mi Seon Park---//
-        $orderby = 'Duration';
+        $orderby = 'id';
         $tr      = new ITS_statistics($id, $course, $status);
         $Estr    = $tr->render_course($ch, $orderby);
     } else {

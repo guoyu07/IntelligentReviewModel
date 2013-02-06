@@ -8,7 +8,7 @@ option.highlighted{color:#000}
 #profile{padding-bottom:15px;font-family:Georgia,Serif}
 TABLE.PROFILE{position:relative;width:96%;border:1px solid #aaa;vertical-align:middle;border-collapse:collapse;background:#fff;font-size:8pt;table-layout:fixed;margin:0 2%}
 TABLE.PROFILE TH{font-family:Georgia,Serif;font-size:12pt}
-TD.PROFILE{background-color:#fff;border-right:2px solid #999;border-bottom:4px outset #666;padding:1em 0}
+TD.PROFILE{background-color:#fff;border-right:2px solid #999;border-bottom:4px outset #666;padding:0.2em 0}
 TABLE.CPROFILE{position:relative;border:1px solid #aaa;vertical-align:middle;border-collapse:collapse;background:#fff;font-size:8pt;table-layout:fixed}
 TABLE.CPROFILE TR{color:#000;background-color:#FFF;border-bottom:1px dashed #aaa;font-size:9pt;padding:5px}
 TABLE.CPROFILE TD{font-size:9pt;padding:5px;border-right:1px solid #aaa;font-family:Verdana, Arial, Helvetica, sans-serif;text-decoration:none}
