@@ -12,7 +12,7 @@ Methods: 	render_user_answer()
 			render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Feb-07-2013
+Last Revision: Feb-11-2013
 //=====================================================================*/
 
 class ITS_statistics {
@@ -333,7 +333,7 @@ class ITS_statistics {
         //----------------------------------------------------------------------------
         //echo $score.' score idx: '.$score_idx.'|'.$config;
         //ITS_debug($answer); //
-        //echo '<hr><pre>';var_dump($score);echo '</pre><hr>';
+        //echo '<hr><pre>';var_dump($answer);echo '</pre><hr>';
         
         $scr = $score[0];
         if (is_array($score[0])) {
@@ -347,8 +347,7 @@ class ITS_statistics {
             //----------------------//
             case 1:
                 //----------------------//
-                $user_ans = '<table class="' . $style . '">' . '<tr><td class="' . $style . ' ITS_TEXT">ANSWER</td><td class="' . $style . '">' . $answer . '</td><td rowspan="2" class="ITS_ghost">' . $dist . '</td></tr>' . 
-                //'<tr><td class="' . $style . ' ITS_TEXT">Accepted Answer</td><td class="' . $style . '">' . $score[1][0] . '</td><td rowspan="2" class="ITS_ghost">' . $dist . '</td></tr>' .
+                $user_ans = '<table class="' . $style . '">' . '<tr><td class="' . $style . ' ITS_TEXT">ANSWER</td><td class="' . $style . '">' . $answer . '</td><td rowspan="2" class="ITS_ghost">' . $dist . '</td></tr>' .
                     '<tr><td class="' . $style . ' ITS_TEXT">SCORE</td><td class="' . $style . '">' . $scr . '</td></tr>' . '</table>';
                 break;
             //----------------------//
@@ -1188,7 +1187,9 @@ class ITS_statistics {
         
         /*echo '<p>SCORE: '.implode(',',$score).'<p>';
         var_dump($score); //die();
-        echo '<p>ANSWER: '.$answer.'<p>';     */
+        
+        echo '<p>ANSWER: '.$answer.'<p><hr>';
+        var_dump($answer);*/
         
         switch (strtolower($qtype)) {
             //-------------------------------
@@ -1266,8 +1267,9 @@ class ITS_statistics {
             case 'c':
                 $scr = $score[0];
                 $ans = '';
-                if (empty($answer)) {
-                    $list[0] = '<span class="TextAlphabet">&nbsp;</span><span class="ITS_null">&nbsp;</span><br>';
+    
+                if (empty($answer) && $answer!=0) {
+                    $list[0] = '<span class="TextAlphabet">&nbsp;YYY</span><span class="ITS_null">&nbsp;XXX</span><br>';
                 } else {
                     $answer = explode(",", $answer);
                     $list   = array();
@@ -1282,7 +1284,7 @@ class ITS_statistics {
                     }
                     for ($a = 0; $a < $sc; $a++) { // count($answer)
                         $msg = '';
-                        if (empty($answer[$a])) {
+                        if (empty($answer[$a]) && $answer[$a]!=0) {
                             $ans_str = '&nbsp;';
                             $class   = 'ITS_null';
                         } else {
@@ -2067,11 +2069,11 @@ class ITS_statistics {
             $Estr .= '<tr class="PROFILE" id="tablePROFILE">'.
                 '<td class="PROFILE" >' . ($qn +1) .'<br><br><a href="Question.php?qNum='.$qid.'&sol=1" class="ITS_ADMIN">'.$qid.'</a></td>'.
                 '<td class="PROFILE" >' . $QUESTION.$ANSWER . '</td>'.
-                '<td class="PROFILE" > <b>'.$title.'</b> <hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
-                '<td class="PROFILE" > <font color="brown">difficulty:<br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
-                                        'avg score:<br>'.(round(10*$avg)/10).'%<hr class="PROFILE">'.
-                                        '<font color="blue">avg dur:<br>'.(round(10*$avgdur)/10).' sec </font><hr class="PROFILE">'.
-                                        '<font color="#666">skips: '.$skips.'</font></td>';
+                '<td class="PROFILE" > <b>'.$title.'</b><hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
+                '<td class="PROFILE" > <font color="brown"><b>difficulty:</b><br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
+                                        '<b>avg score:</b><br>'.(round(10*$avg)/10).'%<hr class="PROFILE">'.
+                                        '<font color="blue"><b>avg dur:</b><br>'.(round(10*$avgdur)/10).' sec </font><hr class="PROFILE">'.
+                                        '<font color="#666"><b>skips:</b> '.$skips.'</font></td>';
             $Estr .=  '</tr>';
         }
 

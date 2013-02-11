@@ -15,7 +15,7 @@
 	 Last Update: Apr-30-2012										   */	 
 //=====================================================================//
 
-$class_name    = 'Fall_2012';
+$class_name    = 'Spring_2012';
 $tsquare_file  = 'csv/gradebook-2012-12-13.csv';
 $its_file      = 'csv/'.$class_name.'_grades.csv';
 $output_file   = 'csv/gradebook-'.date("Y-m-d").'.csv';
