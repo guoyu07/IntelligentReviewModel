@@ -32,7 +32,8 @@ Instructions for connecting MATLAB with a mySQL database on Unix:
 				<br><code>chmod 775 /mnt/disk/</code></li>
 				<li>mount .iso:<code> sudo mount R2011b_UNIX.iso /mnt/disk -t iso9660 -o loop</code></li>
 				<li>install MATLAB: <code>/mnt/disk/install</code></li>
-				<li><b>Open:</b> $MATLAB_PATH/toolbox/local/classpath.txt</li>
+				<li>add MATLAB link: <code>cd /<br>ln -s /usr/local/MATLAB/R2012b/bin/matlab ./matlab</code></li>
+				<li><b>Open:</b> <code>$MATLAB_PATH/toolbox/local/classpath.txt</code></li>
 				<li>Append to <b>classpath.txt</b>: <code>$FULL_PATH/mysql-connector-java-5.1.18/mysql-connector-java-5.1.18-bin.jar</code></li>
 				<li>restart MATLAB</li>
         </ol>
@@ -43,6 +44,7 @@ Instructions for connecting MATLAB with a mySQL database on Unix:
 		  <td>Test</td>
 			<td class="list">
 			  <ol>
+				<li>open MATLAB <code>cd /<br>./matlab</code></li>
 				<li><a href="mysql.m">mysql.m</a></li>
         </ol>
 			</td>

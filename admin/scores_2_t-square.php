@@ -17,8 +17,8 @@
 
 $class_name    = 'Spring_2013';
 $tsquare_file  = 'csv/gradebook-2013_02_11.csv';
-$its_file      = 'csv/'.$class_name.'_grades.csv';
-$output_file   = 'csv/gradebook-'.date("Y-m-d").'.csv';
+$its_file      = 'csv/'.$class_name.'_scores11.csv';
+$output_file   = 'csv/gradebook-'.date("Y-m-d").'_scores.csv';
 $gradebook     = array();
 $its  	 	   = array();
 
@@ -85,10 +85,10 @@ for($k=0;$k<count($gradebook);$k++) {
 	//echo 'key '.$key.'<hr>';
 	$stop = 0;
 	for( $idx=0;$idx<$N;$idx++ ){  
-		if ($gradebook[$k][0]==$its[$idx][0]){		
+		if ($gradebook[$k][0]==$its[$idx][1]){		
 	
-			$gradebook[$k][26] = $its[$idx][3];
-			$gradebook[$k][27] = $its[$idx][4];
+			$gradebook[$k][26] = round(10*$its[$idx][4])/10;
+			$gradebook[$k][27] = round(10*$its[$idx][5])/10;
 			/*
 			$gradebook[$k][16] = $its[$idx][5];
 			$gradebook[$k][17] = $its[$idx][6];
