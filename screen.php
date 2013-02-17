@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '214n';
-$LAST_UPDATE = 'Feb-12-2013';
+$ITS_version = '214p';
+$LAST_UPDATE = 'Feb-25-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -48,23 +48,23 @@ $open  = array(
         8
     ),
     array(
-        3,
+        2,
+        22
+    ),
+    array(
+        4,
         1
     ),
     array(
-        3,
+        4,
         1
     ),
     array(
-        3,
+        4,
         1
     ),
     array(
-        3,
-        1
-    ),
-    array(
-        3,
+        4,
         1
     )
 );
@@ -78,27 +78,27 @@ $close = array(
         8
     ),
     array(
-        2,
-        25
+        3,
+        4
     ),
     array(
-        4,
+        3,
+        8
+    ),
+    array(
+        5,
         1
     ),
     array(
-        4,
+        5,
         1
     ),
     array(
-        4,
+        5,
         1
     ),
     array(
-        4,
-        1
-    ),
-    array(
-        4,
+        5,
         1
     )
 );
@@ -308,13 +308,11 @@ switch ($status) {
         */
         /* OLD */
         //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
-        
-        //$chList = '<div id="modeSelContainer" style="border:1px solid red"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">CONCEPT</a></li></ul></li></ul></div>';
-        //$chList .= '<div id="modeContentContainer" style="border:1px solid green"><div id="chContainer"><ul id="chList">';
-        //die($chList);
-        //==$chList = '<div class="QuestionMode">';
-        
-        //<div id="chContainer"><ul id="chList">';     
+        /* NEW */
+        //$chList2 = '<div id="modeSelContainer" style="border:1px solid red"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">PRACTICE</a></li></ul></li></ul></div>';
+        //$chList2 .= '<div id="modeContentContainer" style="border:1px solid green"><div id="chContainer"><ul id="chList">';
+                /* NEW */
+        //die($chList);    
         
         //**
         //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">PRACTICE</a></li></ul></div>';
@@ -357,8 +355,8 @@ switch ($status) {
         $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
-		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li>'
-			   .'</ul></div><div id="modeContentContainer">'.$chList.'</div>';
+		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
+			   //.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
         /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
 			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';*/
 echo $modeDiv;
@@ -397,7 +395,7 @@ echo intval($r);
 ?>" ch="<?php
 echo ($index_hide + 1);
 ?>" style="margin-left: 50px;"><a href="#">Review</a></li>                      
-                    </ul>
+                    </ul><div id="navListPC"></div>
                 </div>
                 <!-- end div#navContainer -->
                 <?php

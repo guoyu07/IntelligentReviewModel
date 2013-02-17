@@ -47,13 +47,13 @@ a#current {
 /*  }*/
 #modeContentContainer {
   position: absolute;
-  top: 20px;
+  top: 0px;
   left: 176px;
   margin: 0;
   padding: 0;
   height: auto;
   /*min-height: 70px;*/
-  width: 500px;
+  /*width: 500px;*/
   background-color: #fff;
   border: 1px solid #fff;
 }

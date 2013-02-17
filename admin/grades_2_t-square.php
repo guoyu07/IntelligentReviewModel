@@ -12,11 +12,11 @@
  * OUTPUT: $gradebook_ITS.csv  -  to  T-square
 								
 	 Author(s):  Gregory A. Krudysz
-	 Last Update: Feb-11-2013										   */	 
+	 Last Update: Feb-19-2013										   */	 
 //=====================================================================//
 
 $class_name    = 'Spring_2013';
-$tsquare_file  = 'csv/gradebook-2013_02_11.csv';
+$tsquare_file  = 'csv/gradebook-2013_02_19.csv';
 $its_file      = 'csv/'.$class_name.'_grades.csv';
 $output_file   = 'csv/gradebook-'.date("Y-m-d").'.csv';
 $gradebook     = array();
@@ -85,10 +85,10 @@ for($k=0;$k<count($gradebook);$k++) {
 	//echo 'key '.$key.'<hr>';
 	$stop = 0;
 	for( $idx=0;$idx<$N;$idx++ ){  
-		if ($gradebook[$k][0]==$its[$idx][0]){		
+		if ($gradebook[$k][0]==$its[$idx][1]){		
 	
-			$gradebook[$k][26] = $its[$idx][3];
-			$gradebook[$k][27] = $its[$idx][4];
+			$gradebook[$k][26] = $its[$idx][4];
+			$gradebook[$k][27] = $its[$idx][5];
 			/*
 			$gradebook[$k][16] = $its[$idx][5];
 			$gradebook[$k][17] = $its[$idx][6];

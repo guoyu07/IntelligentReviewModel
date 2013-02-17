@@ -12,16 +12,18 @@
  * OUTPUT: $gradebook_ITS.csv  -  to  T-square
 								
 	 Author(s):  Gregory A. Krudysz
-	 Last Update: Feb-11-2013										   */	 
+	 Last Update: Feb-21-2013										   */	 
 //=====================================================================//
 
 $class_name    = 'Spring_2013';
-$tsquare_file  = 'csv/gradebook-2013_02_11.csv';
+$tsquare_file  = 'csv/gradebook-2_20_13.csv';
 $its_file      = 'csv/'.$class_name.'_scores11.csv';
 $output_file   = 'csv/gradebook-'.date("Y-m-d").'_scores.csv';
 $gradebook     = array();
 $its  	 	   = array();
 
+$dp			   = 100;  // dec pts
+$pts 		   = 3300;
 $fp = fopen($output_file,'w');
 //--------------------------------------------------------------------//
 // GRADEBOOK
@@ -81,14 +83,15 @@ $N = count($its);
 for($k=0;$k<count($gradebook);$k++) {
 	//echo $gradebook[$k][0].'   '.$its[$k][1].'<br>';
 	//$key = array_search($gradebook[$k][0], $its);
-	//v/ar_dump($key);
+	//var_dump($key);
 	//echo 'key '.$key.'<hr>';
 	$stop = 0;
 	for( $idx=0;$idx<$N;$idx++ ){  
 		if ($gradebook[$k][0]==$its[$idx][1]){		
 	
-			$gradebook[$k][26] = round(10*$its[$idx][4])/10;
-			$gradebook[$k][27] = round(10*$its[$idx][5])/10;
+			$gradebook[$k][30] = round($dp*30*min($its[$idx][4],$pts)/$pts)/$dp;
+			$gradebook[$k][31] = round($dp*30*min($its[$idx][5],$pts)/$pts)/$dp;
+			
 			/*
 			$gradebook[$k][16] = $its[$idx][5];
 			$gradebook[$k][17] = $its[$idx][6];

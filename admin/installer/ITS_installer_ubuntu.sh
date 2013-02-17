@@ -2,10 +2,10 @@
 #
 # ITS installer
 # Author(s): Gregory Krudysz
-# Last Revision: Jan-27-2013
+# Last Revision: Feb-22-2013
 #=======================================================#
 
-sudo apt-get -y install apache2 php5 libapache2-mod-php5 geany meld
+sudo apt-get -y install apache2 php5 libapache2-mod-php5 python-mysqldb geany meld
 sudo /etc/init.d/apache2 restart
 sudo apt-get -y install mysql-server php-pear phpmyadmin
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d
@@ -23,7 +23,7 @@ echo "Start MySQL ..."
 #/usr/bin/mysqladmin -u root -h itsdev1.vip.gatech.edu password 'csip'
 #
 echo "Set MySQL passwords ..."
-/etc/init.d/mysql stop
+service mysql stop
 mysqld_safe --skip-grant-tables --skip-networking &
 sleep 3
 mysql -u root < set_admin_pass.sql
@@ -43,10 +43,16 @@ sudo apt-get install python python-numpy python-scipy
 # Kerberos Client
 #-------------------------------------------------------#
 sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config
+cp /var/www/html/admin/installer/krb5.conf /etc/krb5.conf
+sudo /etc/init.d/krb5-admin-server restart
+
+
+#/usr/bin/system-config-authentication
+# check the "Enable Kerberos" under the Authentication Tab: run /usr/bin/system-config-authentication
 #-------------------------------------------------------#
-# MIMETEX
+# MATHTEX
 #-------------------------------------------------------#
-sudo apt-get -y install texlive-full gedit-latex-plugin texmaker
+sudo apt-get -y install texlive-full gedit-latex-plugin texmaker linux-kernel-headers build-essential
 
 # COPY mathtex.zip to /usr/lib/cgi-bin
 # cc mathtex.c
@@ -54,11 +60,10 @@ sudo apt-get -y install texlive-full gedit-latex-plugin texmaker
 
 sudo mkdir /var/www/cgi-bin
 chmod 777 /var/www/cgi-bin
-cp /var/www/html/admin/installer/cgi-bin/mimetex.cgi /var/www/cgi-bin/
-cd /var/www/cgi-bin/
-chmod 755 mimetex.cgi
+cp /var/www/html/admin/installer/cgi-bin/mathtex.c /usr/lib/cgi-bin
+sudo cc /usr/lib/cgi-bin/mathtex.c
+sudo /usr/lib/cgi-bin/a.out /usr/lib/cgi-bin/mathtex.cgi 
 
-sudo apt-get install linux-kernel-headers build-essential
 # MATHTEX
 # RedHat:
 yum -y install tetex tetex-IEEEtran tetex-afm tetex-dvipost tetex-dvips tetex-fonts tetex-latex tetex-perltex tetex-preview tetex-tex4ht tetex-unicode tetex-xdvi
@@ -129,9 +134,6 @@ chmod 0600 ~/.Xauthority
    19  sudo ls
    20  su ls
    21  cd /etc/sudoers
-   22  cd etc
-   23  cd /etc
-   24  ls
    25  gedit sudoers
    26  vi sudoers
    27  ll su*

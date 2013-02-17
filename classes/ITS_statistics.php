@@ -12,7 +12,7 @@ Methods: 	render_user_answer()
 			render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Feb-11-2013
+Last Revision: Feb-14-2013
 //=====================================================================*/
 
 class ITS_statistics {
@@ -28,7 +28,7 @@ class ITS_statistics {
     
     function __construct($id, $term, $role)
     {
-        global $db_dsn, $tb_name;
+        global $db_dsn, $tb_name, $tb_question_diff;
         
         $this->id      = $id;
         $this->term    = $term;
@@ -36,6 +36,7 @@ class ITS_statistics {
         $this->db_name = 'its';
         /*$db_name;*/
         $this->tb_name = $tb_name;
+        $this->tb_diff = $tb_question_diff;
         $this->record  = array();
         
         // connect to database
@@ -170,14 +171,7 @@ class ITS_statistics {
                     //----------------------//
             } //eof.switch
             
-            // ACTIVITY TITLE
-            
-            /**NAB EDIT START**/
-            //$tb_title = new ITS_table('ITS_activity',1,1,array($title),array(100),'ITS_feedback_list');
-            //echo $tb_title->str;
-            
-            /**NAB EDIT START**/
-            
+            // ACTIVITY TITLE          
             //echo '<p>'.$activiy_ACTIVE.' | '.$activity_COMPLETE.' | '.$stats_SHOW.'<p>';
             if ($stats_SHOW) {
                 //-- Result: question_id | answered => for user's activity and term
@@ -2003,7 +1997,7 @@ class ITS_statistics {
         return $Estr;
     }
     //----------------------------------------------------------------------------
-    function render_course($chapter, $orderby){
+    function render_course($chapter,$difficulty,$orderby){
 		    //----------------------------------------------------------------------------
 	$ITSq = new ITS_query();
 	$resource_source = $ITSq->getCategory($chapter);
@@ -2020,14 +2014,14 @@ class ITS_statistics {
             $ot = $option_arr[0];
         }*/ 
             //$term
-            
+        
         $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Spring_2013' . '" status="' . $this->role . '" ch="' . $chapter . '">';
         foreach($option_arr as $op){
             if($orderby == $op){
                 $osel = 'selected="selected"';
                 switch($orderby){
 					case 'id': $order_by = 'ORDER BY d.q_id'; break;
-                    case 'Difficulty': $order_by = 'ORDER BY d.difficulty'; break;
+                    case 'Difficulty': $order_by = 'ORDER BY d.'.$difficulty; break;
                     case 'Number of Skips': $order_by = 'ORDER BY m.NumSkips'; break;
                     case 'Duration': $order_by = 'ORDER BY m.AvgDur'; break;
                     case 'Score': $order_by = 'ORDER BY m.Avg'; break;
@@ -2039,11 +2033,16 @@ class ITS_statistics {
             $option .= '<option ' .$osel. '>' . $op . '</option>';
         }
         $option .= '</select>';
-    
-        $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.difficulty, m.Avg, m.AvgDur, m.NumSkips '.
-                 'FROM '.$this->tb_name.', questions_difficulty d, MinedData m '.
+        /*
+        $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.'.$difficulty.', m.Avg, m.AvgDur, m.NumSkips '.
+                 'FROM '.$this->tb_name.', '.$this->tb_diff.' d, MinedData m '.
                  'WHERE '.$this->tb_name.'.id=d.q_id AND '.$this->tb_name.'.id=m.question_id AND '.$resource_source. ' '.$order_by;
-        //die($query);
+        */
+        $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.'.$difficulty.', m.Avg, m.AvgDur, m.NumSkips '.
+                 'FROM '.$this->tb_name.', '.$this->tb_diff.' d, MinedData m '.
+                 'WHERE '.$this->tb_name.'.'.$resource_source. ' '.$order_by;
+        //
+        die($query);
         
         $res   = $this->mdb2->query($query);
         $ques = $res->fetchAll();
@@ -2070,7 +2069,7 @@ class ITS_statistics {
                 '<td class="PROFILE" >' . ($qn +1) .'<br><br><a href="Question.php?qNum='.$qid.'&sol=1" class="ITS_ADMIN">'.$qid.'</a></td>'.
                 '<td class="PROFILE" >' . $QUESTION.$ANSWER . '</td>'.
                 '<td class="PROFILE" > <b>'.$title.'</b><hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
-                '<td class="PROFILE" > <font color="brown"><b>difficulty:</b><br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
+                '<td class="PROFILE" > <font color="brown"><b>'.$difficulty.':</b><br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
                                         '<b>avg score:</b><br>'.(round(10*$avg)/10).'%<hr class="PROFILE">'.
                                         '<font color="blue"><b>avg dur:</b><br>'.(round(10*$avgdur)/10).' sec </font><hr class="PROFILE">'.
                                         '<font color="#666"><b>skips:</b> '.$skips.'</font></td>';

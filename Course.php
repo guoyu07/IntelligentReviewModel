@@ -1,8 +1,8 @@
 <?php
-$LAST_UPDATE = 'Feb-07-2013';
+$LAST_UPDATE = 'Feb-14-2013';
 /*=====================================================================//
 Author(s): Gregory Krudysz         
-* Revision: Mi Seon Park: sort capability    Dec-01-2012     
+* Revision: Mi Seon Park: sort capability    Dec-01-2012  
 //=====================================================================*/
 //--- begin timer -----//
 $mtime       = microtime();
@@ -30,7 +30,7 @@ abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
-$info  =& $_SESSION['user']->info();
+$info =& $_SESSION['user']->info();
 
 if (isset($_GET['c'])) {
     $course = $_GET['c'];
@@ -69,6 +69,35 @@ if ($status == 'admin' OR $status == 'instructor') {
                 $chapter .= '<option value="' . $c . '" ' . $sel . '>' . $c . '</option>';
             }
             $chapter .= '</select>';
+            
+            //------- DIFFICULTY -------------//
+            $query = 'SHOW COLUMNS FROM ' . $tb_question_diff . ' LIKE "difficulty%"';
+            //die($query);
+            $res =& $mdb2->query($query);
+            if (PEAR::isError($res)) {
+                throw new Question_Control_Exception($res->getMessage());
+            }
+            $diff_arr = $res->fetchCol();
+            //var_dump($diff_arr);die('da');      
+            
+            if (isset($_GET['difficulty'])) {
+                $diff = $_GET['difficulty'];
+            } else {
+                $diff = $diff_arr[count($diff_arr)-1];
+            }
+            
+            $difficulty = '<div style="float:right;margin-right:20px">Difficulty: <select class="ITS_select" name="difficulty" id="select_difficulty" onchange="javascript:this.form.submit()"></div>';
+            
+            for ($da = 0; $da < count($diff_arr); $da++) {
+                if ($diff_arr[$da] == $diff) {
+                    $sel = 'selected="selected"';
+                } else {
+                    $sel = '';
+                }
+                $difficulty .= '<option value="' . $diff_arr[$da] . '" ' . $sel . '>' . $diff_arr[$da] . '</option>';
+            }
+            $difficulty .= '</select>';
+            
             //--- QUESTIONS ------------------------------------------//
             $msg       = '';
             $questions = array();
@@ -76,7 +105,7 @@ if ($status == 'admin' OR $status == 'instructor') {
             //--- USERS --- ------------------------------------------//
             $ITSq            = new ITS_query();
             $resource_source = $ITSq->getCategory($ch);
-            $subnav          = '<form id="' . $course . '" name="' . $course . '" action="Course.php" method="GET"><input type="hidden" name="c" value="' . $course . '">' . $chapter . '<noscript><input type="submit" value="Submit"></noscript></form>';
+            $subnav          = '<form id="' . $course . '" name="' . $course . '" action="Course.php" method="GET"><input type="hidden" name="c" value="' . $course . '">' . $chapter . ' ' . $difficulty . '<noscript><input type="submit" value="Submit"></noscript></form>';
             break;
         //=======================================//
         case 'warmup':
@@ -123,11 +152,11 @@ if ($status == 'admin' OR $status == 'instructor') {
         default:
             $resource_source = 'id=1';
     }
-    
+ 
     if ($course == 'ece2025') {
-        $orderby = 'id';
+        $orderby = 'id';  
         $tr      = new ITS_statistics($id, $course, $status);
-        $Estr    = $tr->render_course($ch, $orderby);
+        $Estr    = $tr->render_course($ch, $diff, $orderby);
     } else {
         $query = 'SELECT id,title,category FROM ' . $tb_name . ' WHERE ' . $resource_source;
         $res   = $mdb2->query($query);
@@ -153,10 +182,6 @@ if ($status == 'admin' OR $status == 'instructor') {
         $Estr .= '</table>';
     }
     //echo $Estr;
-}
-
-function render_course($chapter, $orderby)
-{
 }
 
 //--- NAVIGATION ------------------------------// 

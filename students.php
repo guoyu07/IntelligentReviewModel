@@ -4,7 +4,7 @@ T-Square: Left Hand Menu: "Section Info" >> Student Memberships
 students - creates student accounts, courses, sections.
 
 Author(s): Greg Krudysz | Aug-25-2010
-Last Update: Jan-12-2012
+Last Update: Feb-19-2012
 //---------------------------------------------------------------------*/
 //  ALTER TABLE users MODIFY section INT(11);
 //=====================================================================*/
@@ -98,13 +98,13 @@ if (0) { //($datagrid->getRecordCount()>0){
 // NEW CLASS
 //=============================================================
 // var_dump($_POST); echo "<p>"; die();
-$current_term = 'Fall_2012'; //'Fall_2011';   // BMED6787
+$current_term = 'Spring_2013';   // BMED6787
 //echo $_POST['new_class'];
 //echo isset($_POST['new_class']);
 //echo (isset($_POST['new_class']));
 
 //echo '<pre>';var_dump(isset($_POST['new_class']));echo '</pre>';
-$_POST['new_class'] = '/var/www/ITS-GT/SQL/Course/' . $current_term . '.csv';
+$_POST['new_class'] = '/var/www/ITS-RESOURCES/SQL/Course/' . $current_term . '/'. $current_term . '.csv';	   
 //die('<hr>');
 
 if (isset($_POST['new_class'])) {
@@ -148,14 +148,17 @@ if (isset($_POST['new_class'])) {
     $num_users = $res_users[count($res_users) - 1] + 1;
     
     // Write new users to USERS table
-    $filepath = '/var/www/ITS-GT/SQL/Course/' . $current_term . '/' . $filename;
+    $filepath = '/var/www/ITS-RESOURCES/SQL/Course/' . $current_term . '/' . $filename;
     echo '<p>' . $filepath . '<p>';
     $handle   = fopen($filepath, "r");
     //die();
     $returning_users = array();
     $status          = $current_term;
     $tb              = '<table>';
+    
+    //die($handle);
     //$dataT = fgetcsv($handle,300, ",");var_dump($dataT);die('now');
+    
     while (($data = fgetcsv($handle, 300, ",")) !== FALSE) {
         list($lastname, $firstname) = split('[,]', $data[0]);
         if (empty($data[2])) {
