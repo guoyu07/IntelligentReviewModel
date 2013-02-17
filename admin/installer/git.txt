@@ -33,8 +33,12 @@ chmod 775 html
 git clone gte269x@itsdev5.vip.gatech.edu:/home/gte269x/html
 ==============================================================
 
-//--- REMOTE
+//--- REMOTE: CENTRAL
+git push gte269x@itsdev3.vip.gatech.edu:/opt/git/ITS-GT.git HEAD
+
 git remote add mpark47 gte269x@itsdev5.vip.gatech.edu:/home/mpark47/html
+
+
 ==============================================================
 
 NameVirtualHost git.itsdev5.vip.gatech.edu
