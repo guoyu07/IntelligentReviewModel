@@ -1,7 +1,7 @@
 <?php
 /*=============================================================
 Author(s): Gregory Krudysz
-Last Update: Oct-10-2012
+Last Update: Feb-28-2013
 =============================================================*/
 ?>
 <script type="text/javascript">
@@ -82,6 +82,11 @@ $(document).ready(function () {
     $("#scoreContainer").click(function () {
         $("#scoreContainerContent").slideToggle("slow");
     });
+    /*-------------------------------------------------------------------------*/
+    $("#usersContent").hide();
+    $("#usersContainerToggle").live('click', function() {
+		$("#usersContent").slideToggle("slow");
+	});
     /*-------------------------------------------------------------------------*/
     $("#metaContainer").hide();
     $("#metaContainerToggle").live('click', function() {

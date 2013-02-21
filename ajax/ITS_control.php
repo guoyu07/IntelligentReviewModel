@@ -19,6 +19,7 @@ require_once("../classes/ITS_search.php");
 require_once("../classes/ITS_table.php");
 require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
+require_once("../classes/ITS_statistics.php");
 /*
 $style = '<head>'
 .'<script type="text/javascript" src="MathJax/MathJax.js"></script>'
@@ -73,6 +74,7 @@ if (PEAR::isError($mdb2)) {
     throw new Question_Control_Exception($mdb2->getMessage());
 }
 $Q = new ITS_question(1, $db_name, $tb_name);
+$T = new ITS_statistics(1,'Spring_2013','admin');
 $Q->load_DATA_from_DB($qid);
 $qtype = strtolower($Q->Q_question_data['qtype']);
 
@@ -90,8 +92,10 @@ switch ($Control) {
         $nav = '<div id="importQuestionContainer">' . '<form id="QTI2form" action="upload_QTIfile.php" enctype="multipart/form-data" method="post">' . '<table><tr>' . '<td><label for="files">QTI file</label></td>' . '<td><input type="file" name="file" id="file"></td>' . '<td><input id="file_upload" name="file_upload" type="file"></td>' . '<td><input type="submit" name="submit" value="Submit" id="QTIsubmit"></td>' . '</tr></table></form></div>' . $Q->render_QUESTION() . '<p>';
         $Q->get_ANSWERS_data_from_DB();
        
-        $solutionContainers = '<div id="solutionContainer"><span>&raquo;&nbsp;Solutions</span></div><div id="results"></div>';
-        echo $style . $nav . $Q->render_ANSWERS('a', 2) . $solutionContainers .''. $Q->render_data() . $adminNav;
+       // Users pull-down menu
+		$usersContainer     = '<div id="usersContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Users</span></div><div id="usersContent" style="display:none;"><center>'. $T->render_question_users($qid).'</center></div>';
+        $solutionContainers = '<div id="solutionContainer" class="Question_Toggle"><span>&raquo;&nbsp;Solutions</span></div><div id="results"></div>';
+        echo $style . $nav . $Q->render_ANSWERS('a', 2) . $usersContainer.$solutionContainers .''. $Q->render_data() . $adminNav;
         break;
     //-------------------------------------------//
     case 'CANCEL':

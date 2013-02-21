@@ -1,7 +1,7 @@
 <?php
 $LAST_UPDATE = 'Dec-4-2012';
-$term 		 = 'Fall_2012';
-$qid  		 = 3492;
+$term 		 = 'Spring_2013';
+$qid  		 = 3331;
 
 //--- begin timer ---//
 $mtime       = explode(" ", microtime());
@@ -62,7 +62,7 @@ if (1) { //($status == 'admin') {
         */
         //------------------------------------------------//
         //$query = 'SELECT question_id,answered,epochtime,count(*) FROM stats_'.$uid[0].' WHERE score IS NOT NULL AND epochtime IS NOT NULL GROUP BY question_id,answered,epochtime HAVING COUNT(*) > 1';
-        $query  = 'SELECT question_id,answered,epochtime,comment FROM stats_' . $uid[0] . ' WHERE question_id='.$qid.' AND event="chapter"';
+        $query  = 'SELECT question_id,answered,epochtime,comment,score FROM stats_' . $uid[0] . ' WHERE question_id='.$qid.' AND event="chapter"';
         //echo $query;
         $resq   = $mdb2->query($query);
         $record = $resq->fetchAll();
@@ -70,7 +70,7 @@ if (1) { //($status == 'admin') {
         if (!empty($record)) {
             $qtb = '<table class="ITS_backtrace">';
             foreach ($record as $rid) {
-                $qtb .= '<tr><td>' . $rid[0] . '</td><td>' . $rid[1] . '</td><td><font color="brown">' . date("D M j G:i:s T Y", $rid[2]) . '</font></td><td>' . $rid[3] . '</td></tr>';
+                $qtb .= '<tr><td>' . $rid[0] . '</td><td>' . $rid[1] . '</td><td><font color="brown">' . date("D M j G:i:s T Y", $rid[2]) . '</font></td><td>' . $rid[3] . '</td><td><b>score= ' . $rid[4] . '</b></td></tr>';
 				/*
 				if ($rid[3]==''){
 					$query = 'UPDATE stats_' . $uid[0] . ' SET comment="-5" WHERE question_id='.$qid.' AND event="chapter"';
@@ -90,7 +90,7 @@ if (1) { //($status == 'admin') {
 				*/
             }
             $qtb .= '</table>';
-            $tb .= '<tr><td><b>' . $idx . '.</b></td><td>' . $uid[0] . '<br><font color="blue">' . $uid[1] . ',' . $uid[2] . '</td><td>' . $qtb . '</font></td></tr>';
+            $tb .= '<tr><td><b>' . $idx . '.</b></td><td>' . $uid[0] . ' <font color="blue">' . $uid[1] . ',' . $uid[2] . '</td><td>' . $qtb . '</font></td></tr>';
             
             //$query = 'UPDATE stats_' . $uid[0] . ' SET comment="-5" WHERE question_id='.$qid.' AND event="chapter"';
             //echo '<p>'.$query.'</p>';
@@ -105,7 +105,6 @@ if (1) { //($status == 'admin') {
     
     /*
     //--- EACH QUESTION --------------------------------------// 
-    //--------------------------------------------------------//
     //$query = 'SELECT id,question FROM webct WHERE qtype="C"';
     //$users =& $mdb2->queryCol($query);		
     $users = range(1,1200);

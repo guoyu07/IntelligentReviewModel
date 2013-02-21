@@ -1,130 +1,146 @@
 <?php
+/* Author(s): 
+Last Revision: Greg Krudysz, Feb-14-2013 */
+$Dbug = 1;
 //--- begin timer ---//
-$mtime     = explode(" ",microtime());
+$mtime     = explode(" ", microtime());
 $starttime = $mtime[1] + $mtime[0];
 //-------------------//
 
-$file="updateDifficulty.php";
+$file = "updateDifficulty.php";
 echo '<html><body>';
-if($_SERVER["REQUEST_METHOD"]!="POST"){
-	formIn(0,$file);
-}else if(($_POST['pA']+$_POST['pAR']+$_POST['pD']+$_POST['pS'])!=100){
-	formIn(1,$file);
-}else{
-	$Type=$_POST['diff'];
-	$DataTable = "MinedData"; 			//The data table with the mined data
-	$QTable = "questions_difficulty";   //the questions difficulty data table
-	switch($Type){
-		case 1: 	
-			$DifCol = "difficulty";  //The difficulty column to use
-			break;
-		case 2:
-			$DifCol = "difficulty2";  //The difficulty column to use
-			break;
-		case 3:
-			$DifCol = "difficultySTD";  //The difficulty column to use
-			break;
-		case 4:
-			$DifCol = "difficultyDrop_N";
-			$Drop=(int)$_POST['pDrop']/100*840;
-			break;
-		default:	
-			$DifCol = "difficulty";  //The difficulty column to use
-			break;
-	}
-	$connection = SQL_setup();
-	UpdateQID($connection,$QTable,$DataTable,0);
-	CheckField($connection,$QTable,$DifCol,0);
-	
-	switch($Type){
-		case 1: 	
-			runDif($connection,$DataTable,$QTable,$DifCol,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],0);
-			break;
-		case 2:
-			runDif2($connection,$DataTable,$QTable,$DifCol,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],0);
-			break;
-		case 3:
-			runDifSTD($connection,$DataTable,$QTable,$DifCol,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],0);
-			break;
-		case 4:
-			runDifN($connection,$DataTable,$QTable,$DifCol,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],$Drop,0);
-			break;
-		default:	
-			runDif($connection,$DataTable,$QTable,$DifCol,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],0);
-			break;
-	}
-	print "<h2>Form	arguments	in URL</h2><br>\n";	  
-	foreach($_POST as$x=>$value)	{	
-		print	"{$x}:{$value}<br>\n"; 
-	};	
-};
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    formIn(0, $file);
+} else if (($_POST['pA'] + $_POST['pAR'] + $_POST['pD'] + $_POST['pS']) != 100) {
+    formIn(1, $file);
+} else {
+    $Type      = $_POST['diff'];
+    $DataTable = "MinedData"; //The data table with the mined data
+    $QTable    = "questions_difficulty"; //the questions difficulty data table
+    switch ($Type) {
+        case 1:
+            $DifCol = "difficulty"; //The difficulty column to use
+            break;
+        case 2:
+            $DifCol = "difficulty2"; //The difficulty column to use
+            break;
+        case 3:
+            $DifCol = "difficultySTD"; //The difficulty column to use
+            break;
+        case 4:
+            $DifCol = "difficultyDrop_N";
+            $Drop   = (int) $_POST['pDrop'] / 100 * 840;
+            break;
+        default:
+            $DifCol = "difficulty"; //The difficulty column to use
+            break;
+    }
+    $connection = SQL_setup();
+    UpdateQID($connection, $QTable, $DataTable, $Dbug);
+    CheckField($connection, $QTable, $DifCol, $Dbug);
+    
+    switch ($Type) {
+        case 1:
+            runDif($connection, $DataTable, $QTable, $DifCol, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], $Dbug);
+            break;
+        case 2:
+            runDif2($connection, $DataTable, $QTable, $DifCol, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], $Dbug);
+            break;
+        case 3:
+            runDifSTD($connection, $DataTable, $QTable, $DifCol, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], $Dbug);
+            break;
+        case 4:
+            runDifN($connection, $DataTable, $QTable, $DifCol, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], $Drop, $Dbug);
+            break;
+        default:
+            runDif($connection, $DataTable, $QTable, $DifCol, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], $Dbug);
+            break;
+    }
+    print "<h2>Form	arguments	in URL</h2><br>\n";
+    foreach ($_POST as $x => $value) {
+        print "{$x}:{$value}<br>\n";
+    }
+}
 //--- TIMER -------------------------------------------------//
-$mtime     = explode(" ",microtime());
+$mtime     = explode(" ", microtime());
 $endtime   = $mtime[1] + $mtime[0];
 $totaltime = ($endtime - $starttime);
 
-echo '<hr>updated in: '.$totaltime.' sec'; 
+echo '<hr>updated in: ' . $totaltime . ' sec';
 //--- TIMER -------------------------------------------------//
 
 echo '</body></html>';
-
-FUNCTION SQL_setup(){
-	if(!($connection = @ mysql_connect(localhost,root,csip)))
-		echo "connect failed<br>";
-
-	// Select database
-	if(!(mysql_select_db("its",$connection)))
-		echo "select failed<br>\n";  
-	
-	RETURN $connection;
+//------------------------------------------------//
+FUNCTION SQL_setup()
+{
+    //------------------------------------------------//
+    if (!($connection = @mysql_connect(localhost, root, csip)))
+        echo "connect failed<br>";
+    
+    // Select database
+    if (!(mysql_select_db("its", $connection)))
+        echo "select failed<br>\n";
+    
+    RETURN $connection;
 }
-
-FUNCTION formIn($badIn,$file){
-  if($badIn)
-		print '<center><bold><font color="red">The inputs must sum to 100%</font></bold></center><br>';
-  print	"<form	action={$file}	method='POST'>";
-  print '<table align="center">';	
-  print	'<tr><td>% given to Average Score:</td>
-		 <td><input	type="text"	name="pA"	value=40><br></td></tr>';	
-  print	'<tr><td>% given to Average Student Rating:</td>
-		 <td><input	type="text"	name="pAR"	value=10><br></td></tr>';	
-  print	'<tr><td>% given to Duration:</td>
-		 <td><input	type="text"	name="pD"	value=25><br></td></tr>';	
-  print	'<tr><td>% given to Number of Skips:</td>
+//------------------------------------------------//
+FUNCTION formIn($badIn, $file)
+{
+    //------------------------------------------------//
+    if ($badIn)
+        print '<center><bold><font color="red">The inputs must sum to 100%</font></bold></center><br>';
+    print "<form	action={$file}	method='POST'>";
+    print '<table align="center">';
+    print '<tr><td>% given to Average Score:</td>
+		 <td><input	type="text"	name="pA"	value=40><br></td></tr>';
+    print '<tr><td>% given to Average Student Rating:</td>
+		 <td><input	type="text"	name="pAR"	value=10><br></td></tr>';
+    print '<tr><td>% given to Duration:</td>
+		 <td><input	type="text"	name="pD"	value=25><br></td></tr>';
+    print '<tr><td>% given to Number of Skips:</td>
 		 <td><input	type="text"	name="pS"	value=25><br></td></tr>';
-  print	'<tr><td>% of problem to Drop:</td>
-		 <td><input	type="text"	name="pDrop"	value=5><br></td></tr>';	
-  print	'<tr><td>Type of Difficluty:</td>
+    print '<tr><td>% of problem to Drop:</td>
+		 <td><input	type="text"	name="pDrop"	value=5><br></td></tr>';
+    print '<tr><td>Type of Difficluty:</td>
 		 <td><input	type="radio" name="diff" checked="yes"  value=1>Normal Difficulty<br>
 		 <td><input	type="radio" name="diff" value=2>Difficulty with Tags<br>
 		 <td><input	type="radio" name="diff" value=3>Difficulty with STD<br>
 		 <td><input	type="radio" name="diff" value=4>Difficluty with drop N%<br>
 		 </td></tr>';
-		 	 
-  print '<tr><td colspan="2" align="center"><center>
+    
+    print '<tr><td colspan="2" align="center"><center>
 		 <input type="submit"value="Run the difficulty algorithm"></center></td></tr>';
-  print '</table></form><br>';
- }
-
-FUNCTION runDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Dbug){
-	$types = array('M','MC','C','S','P');
-	$total=0;
-	print '<table border=2>';
-	FOREACH($types as $QType){
-		$result=MyQuery("SELECT id,name FROM tags;",$connection,"Failed to get tag IDs and Names",$Dbug);
-		WHILE ($row = mysql_fetch_array($result)){
-			print "<tr><td>&nbsp;{$QType}&nbsp;</td>";
-			print "<td>&nbsp;{$row['name']}&nbsp;</td><td>";
-			if(updateDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$row['id'],$QType,$Dbug))
-				$total=$total+printDif($connection,$QTable,$DifCol,$row['id'],$QType,$Dbug);
-			print "</td></tr>";
-		}	
-	}
-	print "</table><br> <h1><center>{$total}</center></h1>";
-	RETURN 1;
+    print '</table></form><br>';
 }
-
+//------------------------------------------------//
+FUNCTION runDif($connection, $DataTable, $QTable, $DifCol, $pA, $pAR, $pD, $pS, $Dbug)
+{
+    //------------------------------------------------//
+    $types = array(
+        'M',
+        'MC',
+        'C',
+        'S',
+        'P'
+    );
+    $total = 0;
+    print '<table border=2>';
+    FOREACH ($types as $QType) {
+        $result = MyQuery("SELECT id,name FROM tags;", $connection, "Failed to get tag IDs and Names", $Dbug);
+        WHILE ($row = mysql_fetch_array($result)) {
+            //print "<tr><td>&nbsp;{$QType}&nbsp;</td>";
+            //print "<td>&nbsp;{$row['name']}&nbsp;</td><td>";
+            if (updateDif($connection, $DataTable, $QTable, $DifCol, $pA, $pAR, $pD, $pS, $row['id'], $QType, $Dbug))
+                $total = $total + printDif($connection, $QTable, $DifCol, $row['id'], $QType, $Dbug);
+            print "</td></tr>";
+        }
+    }
+    print "</table><br> <h1><center>{$total}</center></h1>";
+    RETURN 1;
+}
+//------------------------------------------------//
 FUNCTION printDif($connection,$QTable,$DifCol,$tag_id,$QType,$Dbug){
+	//------------------------------------------------//
 	$total=0;
 	print "<table border=1><tr>";
 	for($i=0;$i<=9;$i++){
@@ -139,6 +155,7 @@ FUNCTION printDif($connection,$QTable,$DifCol,$tag_id,$QType,$Dbug){
 					AND questions.qtype LIKE '{$QType}'
 					AND {$QTable}.{$DifCol}>{$i}
 					AND {$QTable}.{$DifCol}<=({$i}+1)";
+			
 		$result=MyQuery($query,$connection,"Failed to Count elements",$Dbug);
 		$row = mysql_fetch_array($result);
 		print "<td><center>{$row['NUM']}</center></td>";
@@ -147,8 +164,9 @@ FUNCTION printDif($connection,$QTable,$DifCol,$tag_id,$QType,$Dbug){
 	print "<td><center>{$total}</center></td></tr></table>";
 	RETURN $total;
 }
-
+//------------------------------------------------//
 FUNCTION updateDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_id,$QType,$Dbug){
+	//------------------------------------------------//
 	$ran=1;
 	
 	//Query the database for the min and max bounds
@@ -157,7 +175,7 @@ FUNCTION updateDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_
 				WHERE {$DataTable}.question_id=questions.id 
 				AND questions.qtype LIKE '{$QType}';";
 	/*			 AND questions.tag_id REGEXP '^{$tag_id},|,{$tag_id},|,{$tag_id}$'*/
-				 
+	//die($query);			 
 	if(!($result=MyQuery($query,$connection,"query for mins and maxs failed",$Dbug)))
 		$ran=0;
 		
@@ -171,7 +189,7 @@ FUNCTION updateDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_
 			WHERE {$QTable}.q_id={$DataTable}.question_id 
 			AND questions.qtype LIKE '{$QType}';";
 /*				 AND questions.tag_id REGEXP '^{$tag_id},|,{$tag_id},|,{$tag_id}$'*/
-			die($query);	 
+			//die($query);	 
 	if(!($result=MyQuery($query,$connection,"Difficulty setting failed",$Dbug)))
 		$ran=0;
 /*SELECT questions.id,MinedData.question_id,questions_difficulty.q_id,questions.qtype,questions.tag_id,questions_difficulty.difficulty,
@@ -180,8 +198,9 @@ From questions JOIN questions_difficulty ON questions.id=questions_difficulty.q_
 * */
 	return $ran;	
 }
-
+//------------------------------------------------//
 FUNCTION CheckField($connection,$Table,$Field,$Dbug){
+	//------------------------------------------------//
 	$exist=0;
 	$result=MyQuery("desc {$Table};",$connection,"Table does not exist: {$Table} ",$Dbug);
 	WHILE(($row = mysql_fetch_array($result)) AND !$exist){
@@ -194,23 +213,27 @@ FUNCTION CheckField($connection,$Table,$Field,$Dbug){
 		MyQuery("ALTER TABLE {$Table} ADD COLUMN {$Field} DECIMAL(5,4);",$connection,"Column creation failed",$Dbug);
 	}
 }
-
+//------------------------------------------------//
 FUNCTION UpdateQID($connection,$QTable,$DataTable,$Dbug){
-	$query="INSERT INTO {$QTable}.q_id
-			SELECT question_id FROM {$DataTable} 
+	//------------------------------------------------//
+	$query="INSERT INTO {$QTable} (q_id)
+			SELECT (question_id) FROM {$DataTable} 
 			WHERE {$DataTable}.question_id 
-				NOT IN (SELECT q_id FROM {$QTable});";
+			NOT IN (SELECT q_id FROM {$QTable});";
+//die($query);
 	MyQuery($query,$connection,"Failed to update {$QTable}.q_id field",$Dbug);
 }	
-
+//------------------------------------------------//
 FUNCTION MyQuery($query,$connection,$fail,$Dbug){
+	//------------------------------------------------//
 	if($Dbug)print $query."<br>";
 	if(!($result=@mysql_query($query,$connection)))
 		print "<br><center><h2>{$fail}</h2></center><br>";
 	RETURN $result;
 }
-
+//------------------------------------------------//
 FUNCTION runDif2($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Dbug){
+	//------------------------------------------------//
 	$types = array('M','MC','C','S','P');
 	$total=0;
 	print "<table border=2><tr><td><center>Type</center></td><td><center>Tag</center></td>
@@ -229,8 +252,9 @@ FUNCTION runDif2($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Dbug){
 	print "</table><br> <h1><center>{$total}</center></h1>";
 	RETURN 1;
 }
-
+//------------------------------------------------//
 FUNCTION updateDif2($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_id,$QType,$Dbug){
+	//------------------------------------------------//
 	$ran=1;
 	
 	//Query the database for the min and max bounds
@@ -260,8 +284,9 @@ From questions JOIN questions_difficulty ON questions.id=questions_difficulty.q_
 * */
 	return $ran;	
 }
-
+//------------------------------------------------//
 FUNCTION runDifSTD($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Dbug){
+	//------------------------------------------------//
 	$types = array('M','MC','C','S','P');
 	$total=0;
 	print '<table border=2>';
@@ -279,8 +304,9 @@ FUNCTION runDifSTD($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Dbug
 	print "</table><br> <h1><center>{$total}</center></h1>";
 	RETURN 1;
 }
-
+//------------------------------------------------//
 FUNCTION updateDifSTD($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_id,$QType,$Dbug){
+	//------------------------------------------------//
 	$ran  = 1;
 	$max  = mysql_fetch_array($result);
 	//Query the database for the min and max bounds
@@ -365,8 +391,9 @@ From questions JOIN questions_difficulty ON questions.id=questions_difficulty.q_
 * */
 	return $ran;	
 }
-
+//------------------------------------------------//
 FUNCTION runDifN($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Drop,$Dbug){
+	//------------------------------------------------//
 	$types = array('M','MC','C','S','P');
 	$total=0;
 	
@@ -385,8 +412,9 @@ FUNCTION runDifN($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$Drop,$
 	//print "</table><br> <h1><center>{$total}</center></h1>";
 	RETURN 1;
 }
-
+//------------------------------------------------//
 FUNCTION updateDifN($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_id,$QType,$Drop,$Dbug){
+//------------------------------------------------//
 	$ran  = 1;
 	$max  = mysql_fetch_array($result);
 	//Query the database for the min and max bounds
@@ -522,4 +550,5 @@ From questions JOIN questions_difficulty ON questions.id=questions_difficulty.q_
 * */
 	return $ran;	
 }
+//------------------------------------------------//
 ?>

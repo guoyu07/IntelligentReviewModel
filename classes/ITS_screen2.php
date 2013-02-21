@@ -1844,21 +1844,15 @@ class ITS_screen2
         //die('da'.$this->review_number);
         //echo 'conf: '.$answers[$qn][4].'<p>';
         $qn   = $this->review_number; //count($answers) - 1;
-        $qid  = $queryList[$qn][0]; // 
-        
-        //echo 'qID: '.$qid;die();
+        $qid  = $queryList[$qn][0]; 
         
         $qtype    = strtolower($queryList[$qn][2]);
         $Nanswers = $queryList[$qn][3];
         
         //die($qtype);
         //die($answers[$qn][1]);
-        //die('in it now');
         $tr    = new ITS_statistics($this->id, $this->term, $this->role);
-        //die('in it now 2');
         $score = $tr->get_question_score($qid, $queryList[$qn][1], $queryList[$qn][5], $qtype);
-        //ITS_debug($score);
-        //die('in it now 3');
         $ans   = $tr->render_question_answer($score, $queryList[$qn][1], $qtype, $qn);
         $Q     = new ITS_question($this->id, $this->db_name, $this->tb_name);
         $Q->load_DATA_from_DB($qid);
@@ -1868,7 +1862,7 @@ class ITS_screen2
         $Q->get_ANSWERS_data_from_DB();
         
         $Q->Q_answers_permutation = explode(',', $queryList[$qn][5]);
-        $ANSWER                   = $Q->render_ANSWERS('a', 0);
+        $ANSWER = $Q->render_ANSWERS('a', 0);
 
         $config = 1;
         $dist   = $this->getQuestionDist($qid, $qtype, $score, $Nanswers);
@@ -1886,7 +1880,8 @@ class ITS_screen2
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
         $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
-        $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td>' . '<td class="PROFILE" colspan="2">' . $ANSWER . '<BR>' . $feedback . '</td>' . '</tr>';
+        $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td></tr>' . 
+                 '<tr><td class="PROFILE" colspan="2">' . $ANSWER . '<BR><div class="ITS_FEEDBACK">' . $feedback . '</div></td>' . '</td></tr>';
         //} // eof $qn
         $Estr .= '</table>';
         

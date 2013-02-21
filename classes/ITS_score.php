@@ -21,8 +21,8 @@ class ITS_score {
 		$this->db_dsn  = $db_dsn;
 		$this->tb_name = $tb_name;
 		$this->chapter = $ch;
-		$this->term    = $term; 	// Spring_2012
-		$this->epochtime = $date;   // 1311960440
+		$this->term    = $term; 	  // Spring_2012
+		$this->epochtime = $date;     // 1311960440
 		// array of chapters whose scores are to be displayed
 		$this->chapterArray = $chArr;
 		
@@ -76,7 +76,7 @@ class ITS_score {
 			}
 			$tscore[] = $score;	
 		}
-	//	print_r($tscore);   
+		// print_r($tscore);   
 		return $tscore;		
 	}	
 	//=====================================================================//

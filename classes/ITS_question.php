@@ -513,7 +513,7 @@ class ITS_question
                             case "tag_id":  
                                 break;
                             case "images_id":
-                                $Qtb .= '<tr><th width="5px">' . $field . '</th><td>image here</td></tr>';
+                                $Qtb .= '<tr><th width="5px">' . $field . '</th><td><a href="">'.$this->Q_question_data[$field].'</a></td></tr>';
                                 break;
                             default:
                                 $Qtb .= '<tr><th width="5px">' . $field . '</th><td>' . $this->createEditTable($field, $this->Q_question_data[$field], $style) . '</td></tr>';
@@ -527,8 +527,8 @@ class ITS_question
         $QAtb    = '<table><tr><th>Question</th><th>Answers</th></tr><tr><td>' . $Qtb . '</td><td>' . $tb . '</td></tr></table>';
         $tagtb   = '<div id="tagContainer" style="display: none;"><table class="' . $css . '">' . $dbT . '</table></div>'; 
         //The Tags container
-        $metaTog = '<div id="metaContainerToggle"><span>&raquo;&nbsp;metaData</span></div>';
-        $tagTog  = '<div id="tagContainerToggle"><span>&raquo;&nbsp;Tags</span></div>';
+        $metaTog = '<div id="metaContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;metaData</span></div>';
+        $tagTog  = '<div id="tagContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Tags</span></div>';
         $str     = $tagTog . '' . $tagtb . '' . $metaTog . '<div id="metaContainer" style="display: none;"><center>' . $QAtb . '</center></div>'; //metaData Container
         return $str;
     }

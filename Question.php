@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Oct-10-2012';
+$LAST_UPDATE = 'Feb-28-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz, Khyati Shrivastava
 //Last Revision: Gregory Krudysz, Oct-10-2012
@@ -192,6 +192,8 @@ if ($status == 'admin' OR $status == 'instructor') {
     //--------------------------------------//
 
     $Q = new ITS_question(1, $db_name, $tb_name);
+    $T = new ITS_statistics(1,'Spring_2013',$status);
+    
     //var_dump($qid);
     //die($qid);     
     $Q->load_DATA_from_DB($qid);
@@ -237,6 +239,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="css/ITS_tag.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
+        <link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">     
                 <link rel="stylesheet" href="css/ITS.css" type="text/css">      
         <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
@@ -363,9 +366,14 @@ echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
 if (!empty($qid)) {
     echo $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
 }
-//Solution pull-down menu
-echo '<div id="solutionContainer"><span>&raquo;&nbsp;Solutions</span></div>
-                <div id="results"></div>';
+// id="metaContainer" style="display:none;"
+
+// Users pull-down menu
+echo '<div id="usersContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Users</span></div>'.
+                '<div id="usersContent"><center>'. $T->render_question_users($qid).'</center></div>';
+// Solution pull-down menu
+echo '<div id="solutionContainer" class="Question_Toggle"><span>&raquo;&nbsp;Solutions</span></div>'.
+                '<div id="results">xxx</div>';
 //Tags + metaData pull-down menu
 echo $meta . '<br>' . $adminNav . '</div>';
 ?>

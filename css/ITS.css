@@ -578,6 +578,7 @@ DIV.ITS_ANSWER {
   padding: 1em 0;
   max-width: 100%;
   vertical-align: middle;
+  clear: both;
   /*
     overflow:auto;
     clear: both;
@@ -834,6 +835,7 @@ TD.ansCheck {
  clear: both;
  margin: 1em auto;
 }
+div.ITS_FEEDBACK {clear: both;border:1px solid #FFF}
 /*------- SCORE ----------------------*/
 TABLE.ITS_SCORE {
 	 clear:both;

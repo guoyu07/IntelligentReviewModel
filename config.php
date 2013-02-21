@@ -149,5 +149,3 @@ mysqldump --single-transaction --skip-add-locks its -u root -p > GREG_Warmup.sql
 mysqldump --single-transaction --skip-add-locks -t -u root -p its questions --where="id > 3469" > WQ_questions.sql
 */
 ?>
-
-
