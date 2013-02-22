@@ -5,7 +5,7 @@
 # Last Revision: Feb-22-2013
 #=======================================================#
 
-sudo apt-get -y install apache2 php5 libapache2-mod-php5 python-mysqldb geany meld
+sudo apt-get -y install apache2 php5 libapache2-mod-php5 php5-curl python-mysqldb geany meld
 sudo /etc/init.d/apache2 restart
 sudo apt-get -y install mysql-server php-pear phpmyadmin
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d

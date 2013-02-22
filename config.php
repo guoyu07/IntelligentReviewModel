@@ -60,6 +60,7 @@ if (PHP_OS == "WINNT") {
         case 'itsdev3.vip.gatech.edu':
         case 'itsdev4.vip.gatech.edu':
         case 'itsdev5.vip.gatech.edu':
+        case 'itsdev6.vip.gatech.edu':
         /*---------------------------------------*/
             $files_path = $files_dir;
         /*---------------------------------------*/

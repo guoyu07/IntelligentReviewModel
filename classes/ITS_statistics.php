@@ -12,9 +12,8 @@ Methods: 	render_user_answer()
 			render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Mar-04-2013
+Last Revision: Mar-07-2013
 //=====================================================================*/
-
 class ITS_statistics {
     //==============================================================================    
     private $id; 		// Stores user id
@@ -528,8 +527,7 @@ class ITS_statistics {
     //----------------------------------------------------------------------------
     function get_question_score($qid, $qanswer, $conf, $qtype){
         //----------------------------------------------------------------------------
-        //
-        //echo 'get_question_score'; echo 'qid: '.$qid.'| ans: '.$qanswer.'| conf: '.$conf.' | type: '.$qtype.'<p>'; //die();
+        // echo 'get_question_score'; echo 'qid: '.$qid.'| ans: '.$qanswer.'| conf: '.$conf.' | type: '.$qtype.'<p>'; //die();
         $qtype = strtolower($qtype);
         //die($qtype);
         
@@ -656,131 +654,9 @@ class ITS_statistics {
                 break;
             //-------------------------------
             case 'c':
-                //-------------------------------
-                // user answer:
-                
-                /************ OLD SOLUTION
-                $answer = explode(',', $qanswer);
-                //echo 'qAnswer '.$qanswer.'<p>';
-                
-                $query = 'SELECT * FROM ' . $this->tb_name . '_' . $qtype . ' WHERE id=' . $qid;
-                $res = & $this->mdb2->query($query);
-                if (PEAR :: isError($res)) {
-                throw new Question_Control_Exception($res->getMessage());
-                }
-                $result = $res->fetchRow();
-                //echo $query.'<p>';
-                // Obtain values and range
-                $Nvals = $result[(count($result) - 1)];
-                //echo 'N '.$Nvals.'<p>';				
-                $formula = $result[1]; // formula
-                
-                // IF user-stored value exists, use it in formula, ELSE get min_val{i}
-                // IT DOES NOT EXIST
-                $val_idx = 2;
-                $replace = explode(',',$conf);
-                
-                for ($v = 0; $v <= ($Nvals-1); $v++) {
-                
-                // echo '<p>REPLACE: '.$result[$val_idx].' * '.$replace[$v].'<p>';
-                $formula = str_replace($result[$val_idx], $replace[$v], $formula);
-                $val_idx = $val_idx + 3;
-                }
-                //eval("\$cc = \"$formula\";");
-                //echo $formula.'<p>';
-                //$equation = "(1-0.7**(5+1))/(1-0.7)";
-                $pattern = '/([\d.]+)\*\*[\(]([\d\+\-\*\/]+)[\)]/';
-                $replacement = 'pow($1,$2)';
-                $equation = preg_replace($pattern, $replacement, $formula);
-                //echo  'EQUATION: '.$equation;
-                
-                //$equation = str_replace($result[$val_idx],'pow($1,$2), $equation);
-                eval("\$solution=" . $equation . ";" );
-                //echo  'SOLUTION: '.$solution;
-                if (empty ($formula)) {
-                $solution = 'NO SOLUTION EXISTS';
-                }
-                //eval("\$str = \"$str\";");
-                //else                  { eval("\$solution=" . $formula . ";"); }
-                
-                //DEBUG: echo 'FORMULA '.$formula.'<br>SOLUTION '.$solution.'<p>';
-                
-                if ($solution==0) {
-                $solution = 0;
-                }
-                elseif (empty($solution)) {
-                $solution = NULL;
-                }
-                
-                //DEBUG: echo 'FORMULA '.$formula.'<br>SOLUTION '.$solution.'<p>';
-                // SCORE: (user_answer-solution)/solution
-                $chunks = preg_split("/[\s,=]+/", $answer[0]);
-                //var_dump($chunks);die();
-                for ($a = 0; $a <= count($chunks) - 1; $a++) {
-                //echo $chunks[$a].'<p>';
-                if (is_numeric($chunks[$a])) {
-                //echo '<p>'.$chunks[$a].' | '.$chunks[$a].'<p>';
-                if ($solution==0) {
-                $toll_array[$a] = abs($chunks[$a]);
-                }
-                else {
-                $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
-                }
-                } else {
-                $tmp = '';
-                //echo $chunks[$a];//die();
-                eval ('$tmp="' . $chunks[$a] . '";');
-                //echo $tmp;die();
-                if (is_numeric($tmp)) {
-                $toll_array[$a] = abs(1 - ($tmp / $solution));
-                } else {
-                //die('not num');
-                eval ("\$tmp=\"$chunks[$a]\";");
-                
-                //echo 'SOLUTION: '.$solution.'||<p>';
-                $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
-                //echo '<p>'.$toll_array[$a].' | '.$chunks[$a].'<p>';
-                }
-                }
-                }
-                // obtain highest tolerance
-                // print_r($toll_array);die();
-                sort($toll_array);
-                $toll = $toll_array[0];
-                
-                //echo '<p>score: '.$toll.'</p>';//die();
-                
-                // tolerate 0.02 deviation: 2% + 1e-4
-                $t = 0.02 + 1e-4;
-                //echo '<p><font color="red">| '.$toll.' <= '.($t).' || '.($toll-$t).'</font></p>';
-                
-                if ($toll <= $t) {
-                $scr = 100;
-                }
-                else {
-                $scr = 0;
-                }
-                
-                // Display
-                // DEBUG: echo '<p>score: '.$scr.'</p>';
-                if ($solution < 1) {
-                $sol = sprintf("%1.4f", $solution);
-                $div = trim(sprintf("%1.4f",$solution*0.02));
-                }
-                else {
-                $sol = sprintf("%1.2f", $solution);
-                $div = sprintf("%1.2f",$solution*0.02);
-                }
-                $score = array($scr,array($sol,$div));
-                //echo '--debug---';				
-                //$score = round(100*exp(-3*$toll));
-                //if ($qid==1097){$score=100;};
-                //echo '<p>FORMULA: '.$formula.' -- '.$answer[0].' | '.$solution.' | '.$toll.'<p>';
-                break;
-                //-------------------------------
-                OLD SOLUTION ENDS***/
-                // Khyatis changes start       
+                //-------------------------------                      
                 $toll_lim     = 0.02;
+                $toll_eps  	  = $toll_lim*pow(10,-3);
                 $answer       = explode(',', $qanswer); // becomes an array of answers
                 $answer_count = count($answer);
                 $query        = 'SELECT * FROM ' . $this->tb_name . '_' . $qtype . ' WHERE '.$this->tb_name.'_id=' . $qid;
@@ -798,13 +674,11 @@ class ITS_statistics {
                 for ($i = 0; $i < $answer_count; $i++) {
                     $formula[$i] = $result['formula' . ($i + 1)];
                     $weight[$i]  = $result['weight' . ($i + 1)];
-                    //echo "formulas: ".$formula[$i];
+                    //echo "formulas: ".$formula[$i].'<br>';
                 }
                 // die($conf);
                 // IF user-stored value exists, use it in formula, ELSE get min_val{i}
                 // IT DOES NOT EXIST
-                // print_r($answer_count);   
- // var_dump($conf);        die($conf); /// SOURCE OF PROBLEM CONF
                 $replace = explode(',', $conf);
                 //print_r($replace); die('====');
                 for ($i = 0; $i < $answer_count; $i++) {
@@ -815,9 +689,7 @@ class ITS_statistics {
                     // echo $result[$col] .' | '. $replace[$v] .' | '. $formula[$i];
                     // echo "<br>formula after replacing<br>".$formula[$i].'<br>';
                 }
-                
-                //die('ad');
-                //echo $answer_count;die('done');
+
                 $scoreArr    = array();
                 $scoreArr[0] = 0;
                 for ($i = 0; $i < $answer_count; $i++) {
@@ -825,6 +697,8 @@ class ITS_statistics {
                     $replacement = 'pow($1,$2)';
                     $equation    = preg_replace($pattern, $replacement, $formula[$i]);
                     eval("\$solution=" . $equation . ";");
+                    
+                    //var_dump($solution);
                     if (empty($formula[$i]))
                         $solution = 'NO SOLUTION EXISTS';
                     if ($solution == 0)
@@ -834,14 +708,15 @@ class ITS_statistics {
                         $ansCLEAN = preg_replace('/\s/','',trim($answer[$i]));
                         $chunks = preg_split("/[,=]+/", $ansCLEAN);
                     
-						//var_dump($chunks);//die($ansCLEAN);
+						//var_dump($chunks); die('chunks');//die($solution);
                     
                     for ($a = 0; $a <= count($chunks) - 1; $a++) {
                         if (is_numeric($chunks[$a])) {
-                            if ($solution == 0) {
-                                $toll_array[$a] = abs($chunks[$a]);
+                            if (abs($solution-$chunks[$a])< $toll_lim) {
+								$toll_array[$a] = $toll_lim;
                             } else {
                                 $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
+                                //var_dump($toll_array);die('bb');
                             }
                         } else {
                             $tmp = '';
@@ -853,14 +728,14 @@ class ITS_statistics {
                                 $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
                             }
                         }
-                    }
-                   
+                    }   
+                    
                     // obtain highest tolerance
                     sort($toll_array);
                     $toll = $toll_array[0];
-
+                    //echo $toll .' <= '. $toll_lim.'<br>';die();
                     $k    = $i + 1;
-                    if ($toll < $toll_lim) {
+                    if ($toll <= $toll_lim) {
                         if ($weight[$i] == '') {
                             $scr[$k] = round(100 / $answer_count);
                         } else {
@@ -871,13 +746,15 @@ class ITS_statistics {
                     else {
                         $scr[$k] = 0;
                     }
-                    
                 }
-                //print_r($toll);
-                //echo '<p>FORMULA: '.$formula; //.' -- '.$answer[0].' | '.$solution.' | '.$toll.'<p>';
-                //die('aa');
+                // print_r($scr);
+                //echo '<p>FORMULA: '.$formula.' -- '.$answer[0].' | '.$solution.' | '.$toll.'<p>';
+
                 // Display
-                if ($solution < 1) {
+                if (abs($solution) < $toll_lim) {
+                    $sol = sprintf("%1.4f", $solution);
+                    $div = trim(sprintf("%1.4f", $toll_lim));
+                } elseif ($solution < 1) {
                     $sol = sprintf("%1.4f", $solution);
                     $div = trim(sprintf("%1.4f", $solution * $toll_lim));
                 } else {
@@ -900,13 +777,11 @@ class ITS_statistics {
                 //$score = $scoreArr;
                 //-------------------------------
                 break;
-            // Khyatis changes ends
             default:
                 $score = NULL;
                 //-------------------------------
         }
-        // print_r($score); //
-        // die('aa');
+        // print_r($score); //die('aa');
         return $score;
     }
 	//----------------------------------------------------------------------------
