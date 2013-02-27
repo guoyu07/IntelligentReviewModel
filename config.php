@@ -101,6 +101,7 @@ $db_table_question   = 'question';
 $tb_name             = 'questions';
 $tb_tags             = 'tags';
 $tb_images			 = 'images';
+$tb_question_diff    = 'questions_difficulty';
 
 $question_dir      = "question";
 $question_file_ext = 'html';
@@ -108,7 +109,7 @@ $answer_dir        = "answer";
 $answer_file_ext   = 'html';
 $BNT_dir           = "Debug";
 
-global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $tex_path, $files_path, $dir, $host, $CAS_path, $term, $tset;
+global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $tb_question_diff, $tex_path, $files_path, $dir, $host, $CAS_path, $term, $tset;
 
 /*--- httpd.conf --------------//
 Alias /ITS_FILES/ "/var/www/ITS-RESOURCES/ITS_FILES/"
@@ -129,6 +130,7 @@ echo '</table>';
 	print_r($data);
 	echo '</pre>';
 */
+
 /*
 ALTER TABLE webct DROP COLUMN VIP_tags
 RENAME TABLE webct TO questions

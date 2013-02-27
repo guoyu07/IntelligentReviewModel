@@ -68,7 +68,6 @@ print '">';
 
 print '<select name="filter">';
 
-
 if(!($result = @ mysql_query("DESCRIBE $table",$connection)))
   echo "query failed<br>";
 

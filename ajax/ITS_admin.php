@@ -3,7 +3,7 @@
 ITS_admin_AJAX - script for AJAX admins
 
 Author(s): Greg Krudysz
-Date: Oct-11-2012
+Date: Feb-14-2013
 ---------------------------------------------------------------------*/
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
@@ -230,25 +230,22 @@ switch ($action) {
         $data = preg_split('[~]', $Data);
         //var_dump($data);die();
         
-        $usr  = new ITS_user($data[2]);
-        $list = $usr->add_user($data[0], $data[1], $data[2], $data[3]);
-        $str  = $list;
+        $usr = new ITS_user($data[2]);
+        $str = $usr->add_user($data[0], $data[1], $data[2], $data[3]);
         break;
     //-------------------------------------------//
     case 'orderProfile':
     //-------------------------------------------//
         $data = preg_split('[~]', $Data);
         $tr   = new ITS_statistics($data[0], $data[1], $data[2]);
-        $list = $tr->render_profile2($data[3], $data[4]);
-        $str  = $list;
+        $str  = $tr->render_profile2($data[3], $data[4]);
         break;
     //-------------------------------------------//
     case 'orderCourse':
-    //-------Added by Mi Seon Park---------------//
+    //-------------------------------------------//
 	$data = preg_split('[~]', $Data);
 	$tr   = new ITS_statistics($data[0], $data[1], $data[2]);
-	$list = $tr->render_course($data[3], $data[4]);
-	$str  = $list;
+	$str  = $tr->render_course($data[3], $data[4], $data[5]);
 	break;
     //-------------------------------------------//
     case 'deleteDialog':
@@ -368,8 +365,7 @@ switch ($action) {
                     $Afield_str[$Aidx] = addslashes($value); //htmlspecialchars($value,ENT_QUOTES);    
                     $Aidx++;
             }
-        }
-        
+        }  
 		//echo '<pre>';var_dump($Qfield_str);echo '</pre><br>';
 		
         // QUESTION SQL INSERT

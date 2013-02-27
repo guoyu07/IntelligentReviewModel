@@ -67,7 +67,7 @@ class ITS_concepts
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
-        $query = "SELECT id,name FROM tags WHERE name LIKE 'introduction%' ORDER BY name";
+        $query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
         //die($query);
         $res   = mysql_query($query, $con);  
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
@@ -227,17 +227,16 @@ class ITS_concepts
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
         $res   = mysql_query($query, $con);    
         
-		$str = '<ul class="ITS_nav"><li id="xx"></li>';      
-		/*     
+		$str = '<ul class="ITS_nav"><li id="xx"></li>';          
         for ($x = 1; $x <= mysql_num_rows($res); $x++) {
             $row = mysql_fetch_row($res);
             $val = strtoupper($row[0]);
             
-            if (!fmod($x,15)) { $str .= '<br><br>'; }
-            if ($val == 'S') { $idx_id = 'id="current"'; } 
-            else 		  					{ $idx_id = ''; }			
+            if (!fmod($x,15)) { $str .= '<br><hr>'; }
+            /*if ($val == 'S') { $idx_id = 'id="current"'; } */
+            else 		  	 { $idx_id = ''; }			
             $str .= '<li class="ITS_nav_concept"><a href="#" class="ITS_alph_index" name="chapter" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
-        }            */
+        }       
         $str .= '</ul>';
         return $str;
     }

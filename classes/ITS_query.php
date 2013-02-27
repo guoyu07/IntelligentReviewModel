@@ -70,7 +70,6 @@ class ITS_query
 			$category = 'SPEN' . $ch . '$|PreLab0' . $ch . '$|Lab' . $ch . '$|Chapter' . $ch . '$|-Mod' . $ch . '$' . $other;
 		}
         $query = 'SELECT ' . $qet . ' FROM ' . $usertable . ',' . $this->tb_name . ' WHERE ' . $usertable . '.question_id=' . $this->tb_name . '.id AND current_chapter=' . $ch . ' AND category REGEXP "(' . $category . ')" AND ' . $usertable . '.score IS NOT NULL AND epochtime > ' . $epochtime;
-        //
         //echo '<br>'.$query.'<br>';
         //die($query);
         return $query;

@@ -36,11 +36,14 @@ if (isset($_REQUEST['choice'])) {
             $tbvaluesConcp = $_REQUEST['tbvaluesConcp'];
             $retStr        = $obj->createModule($moduleName, $tbvalues, $tbvaluesConcp);
             break;
-        case 'getConcepts':
+         case 'showLetters':
             $retStr = $obj->showLetters();
+            break;           
+        case 'getConcepts':
             //die($obj->ConcQuesContainer());
             //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer() . $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
-            $retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer(). $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer().'</div>';
+            //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer().'</div>';// $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer().'</div>';
+            $retStr = '<div id="conceptContainer">'.$obj->conceptListContainer() . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
             break;
         case 'getQuestions':
             $retStr = $obj->getQuestionsStudent();

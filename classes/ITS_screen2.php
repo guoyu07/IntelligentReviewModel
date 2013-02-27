@@ -1447,6 +1447,7 @@ class ITS_screen2
                 throw new Question_Control_Exception($mdb2->getMessage());
             }
             $current_chapter = $this->chapter_number;
+            $event = $info[0];
             //echo '<font color="Red">'.$this->chapter_number.'</font>';//die('rec');
           
             if ($current_chapter==8){
@@ -1462,7 +1463,8 @@ class ITS_screen2
                 case 'practice':
                     $current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
                 case 'concept':
-                    $current_chapter = -$current_chapter; // if it is done so that row is not fetched by score module.
+                    //$current_chapter = -$current_chapter; // if it is done so that row is not fetched by score module.
+					$event = $this->mode;
                 //break; <= let it go thru
                 default:
                     if ($info[0] != 'skip') {
@@ -1509,7 +1511,6 @@ class ITS_screen2
                     $perm_str = 'NULL';
                     //-------------------------------//
             }
-            $event = $info[0];
 
             switch ($event) {
                 case 'skip':
@@ -1983,13 +1984,14 @@ class ITS_screen2
         //=====================================================================//
         //---- ADMIN WINDOW ------------------------------------------//
         $qinfo = '';
-        if ($this->term == 'admin') {
-            /* $qinfo = '<table class="ITS_ADMIN" style="float: right;">'.
+        if ($this->term == 'admin' OR $this->term == 'instructor') {
+            /*
+            $qinfo = '<table class="ITS_ADMIN" style="float: right;">'.
             '<tr><th>qid</th><th>type</th><th>ch</th></tr>'.
             '<tr><td><a href="Question.php?qNum='.$qid.'" class="Qnum">'.$qid.'</a></td><td>'.$qtype.'</td><td>'.$resource_name.'</td></tr>'.
-            '</table>'; 
-            */
-            $qinfo .= '';//'<table class="ITS_ADMIN" style="float:right;border:1px solid red">' . '<tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
+            '</table>'; */
+            
+            $qinfo .= '<table class="ITS_ADMIN" style="float:right"><tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
         }
         return $qinfo;
     }
@@ -2245,7 +2247,7 @@ class ITS_screen2
             throw new Question_Control_Exception($mdb2->getMessage());
         }
         // echo '<p style="color:blue">'.$resource.'<p>';die('<hr>');
-        //var_dump($resource);die();
+        //var_dump($resource);//die();
         switch ($resource) {
             //-------------------------------//
             case 'review':
@@ -2303,8 +2305,7 @@ class ITS_screen2
                 // AVAILABLE QUESTIONS for chapter
                 //$query = 'SELECT question_id FROM questions WHERE '.$resource_source; //die($query);
                 $query = 'SELECT id FROM ' . $this->tb_name . ' WHERE ' . $resource_source; //die($query);
-                //	
-                echo '<p>'.$query.'<p>'; // die();
+                // echo '<p>'.$query.'<p>'; //  die();
                 // DEBUG: $query = 'SELECT id FROM '.$this->tb_name.' WHERE category IN ("PreLab06","Chapter6","Lab6") AND qtype IN ("M")';
                 $res =& $mdb2->query($query);
                 $qarr = $res->fetchCol();
@@ -2378,7 +2379,6 @@ class ITS_screen2
                 $ques_arr  = explode(",", $ques_list);
                 
                 // check if already taken
-                // EEE echo 'USER: '.$resource;
                 switch ($resource) {
                     //-------------------------------//
                     case 'practice':
@@ -2533,11 +2533,11 @@ class ITS_screen2
                             20,
                             80
                         ), 'ADMIN');
-                        $admin_str = '<div class="ITS_ADMIN">' . $tb->str . '<br>' . $qEdit . '</div>';
+                        $admin_str = ''; //<div class="ITS_ADMIN">' . $tb->str . '<br>' . $qEdit . '</div>';
                     } else {
                         $admin_str = '';
                     }
-                    $str = $answer; //.$admin_str;
+                    $str = $answer.$admin_str;
                 } else { // none available
                     $NO_QUESTIONS = TRUE;
                 }

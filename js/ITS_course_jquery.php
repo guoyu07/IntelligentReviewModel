@@ -1,6 +1,6 @@
 <?php
 /* ============================================================= */
-  $LAST_UPDATE = 'Aug-28-2012';
+  $LAST_UPDATE = 'Feb-14-2013';
   /* Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -9,7 +9,6 @@
       $(".ITS_select").change(function() { document.ece2025.submit(); });
 			$("#select_class").buttonset();
     });
-
 	/*-------------------------------------------------------------------------*/
   $(document).ready(function() { 
      $("#scoreContainer").click(function(){$("#scoreContainerContent").slideToggle("slow");});
@@ -52,10 +51,11 @@
       var section = $("#sortProfile").attr("section");
       var status  = $("#sortProfile").attr("status");
       var ch      = $("#sortProfile").attr("ch");
+      var diff    = $("#select_difficulty option:selected").text();
       var orderby = $("#sortProfile option:selected").text();
-			//alert(sid+'~'+orderby);
+			//alert(sid+'~'+orderby+'~'+diff);
       $.get('ajax/ITS_admin.php', { 
-		ajax_args: "orderCourse", ajax_data: sid+'~'+section+'~'+status+'~'+ch+'~'+orderby}, function(data) {
+		ajax_args: "orderCourse", ajax_data: sid+'~'+section+'~'+status+'~'+ch+'~'+diff+'~'+orderby}, function(data) {
 		//ajax_args: "", ajax_data: ch+'~'+orderby}, function(data) {
 			  //alert(data);
 				$("#userProfile").html(data); 
