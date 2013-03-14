@@ -1,6 +1,6 @@
 <?php
 /*=============================================================//
-	Last Revision: Sep-5-2012
+	Last Revision: Mar-12-2013
     Author(s): 	   Gregory Krudysz
 //=============================================================*/
 ?>
@@ -47,6 +47,18 @@
 				$("#sortProfile").change(function() { doChange(); });
       });			
     }	
+     /*-------------------------------------------------------------------------*/		
+		 $("#getGradesSubmit").live('click', function (event) {
+	 /*-------------------------------------------------------------------------*/
+	    
+        $.get('ajax/ITS_admin.php', {
+            ajax_args: "getGrades",
+            ajax_data: qid
+        }, function (data) {
+            //alert(data);
+            //$('#ITS_question_container').append(data);
+        });
+    });
 	 /*-------------------------------------------------------------------------*/
   });
 </script>

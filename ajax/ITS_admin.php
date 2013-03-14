@@ -3,11 +3,12 @@
 ITS_admin_AJAX - script for AJAX admins
 
 Author(s): Greg Krudysz
-Date: Feb-14-2013
+Date: Mar-11-2013
 ---------------------------------------------------------------------*/
+$Debug = FALSE;
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
-require_once("../".INCLUDE_DIR."include.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_user.php");
 
 $style = '<head><link type="text/css" href="jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" />' . '<link type="text/css" href="css/ITS_question.css" rel="stylesheet" />' . '</head>';
@@ -16,15 +17,16 @@ session_start();
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state;
 
-//-- Get AJAX arguments
-$args   = preg_split('[,]', $_GET['ajax_args']);
-$action = $args[0];
+    //-- Get AJAX arguments
+    $args = preg_split('[,]', $_GET['ajax_args']);
+    
+    //-- Get AJAX user data
+    //$Data = rawurldecode($_GET['ajax_data']);
+    $Data = $_GET['ajax_data'];
 
-//-- Get AJAX user data
-//$Data = rawurldecode($_GET['ajax_data']);
-$Data = $_GET['ajax_data'];
+$action = $args[0];
 // preprocess before SQL
-$Data = str_replace("'", "&#39;", $Data);
+$Data   = str_replace("'", "&#39;", $Data);
 //$Data = nl2br($Data);
 
 /*
@@ -85,22 +87,22 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'PreviewDialog':
-    //-------------------------------------------// 
+        //-------------------------------------------// 
         $data = preg_split('[~]', $Data);
-        $Q = new ITS_question($student_id, $db_name, $tb_name);
+        $Q    = new ITS_question($student_id, $db_name, $tb_name);
         $Q->load_DATA_from_DB($data[0]);
-		$Q->get_ANSWERS_data_from_DB();
-		$qstr  = $Q->render_QUESTION();
-        $qstr .= $Q->render_ANSWERS('a',2);
+        $Q->get_ANSWERS_data_from_DB();
+        $qstr = $Q->render_QUESTION();
+        $qstr .= $Q->render_ANSWERS('a', 2);
         //width:400px;
-        $str = '<a class="various" href="#inline">Show Preview</a><br></b><div id="inline" style="display: none;">'.$qstr.'</div>';
+        $str = '<a class="various" href="#inline">Show Preview</a><br></b><div id="inline" style="display: none;">' . $qstr . '</div>';
         break;
     //-------------------------------------------//
     case 'PreviewOptions':
-    //-------------------------------------------//    
+        //-------------------------------------------//    
         $data  = preg_split('[~]', $Data);
-        $query = 'SELECT answers,vals FROM ' . $tb_name . ' w,' . $tb_name . '_c l WHERE (w.id=' . $data[0] . ' AND l.'.$tb_name.'_id=' . $data[0] . ')';
-
+        $query = 'SELECT answers,vals FROM ' . $tb_name . ' w,' . $tb_name . '_c l WHERE (w.id=' . $data[0] . ' AND l.' . $tb_name . '_id=' . $data[0] . ')';
+        
         $res =& $mdb2->query($query);
         $meta = $res->fetchRow();
         
@@ -114,7 +116,7 @@ switch ($action) {
         for ($i = 1; $i <= $m; $i++) {
             $fields .= ',val' . $i . ',min_val' . $i . ',max_val' . $i;
         }
-        $query = 'SELECT ' . $fields . ' FROM ' . $tb_name . '_c WHERE '. $tb_name .'_id=' . $data[0];
+        $query = 'SELECT ' . $fields . ' FROM ' . $tb_name . '_c WHERE ' . $tb_name . '_id=' . $data[0];
         //echo $query;die();
         $res =& $mdb2->query($query);
         $meta = $res->fetchRow();
@@ -152,7 +154,7 @@ switch ($action) {
             $formulaes[$k - 1] = $meta[$index];
         }
         //$str .= $query."</tr></table></div>";
-           
+        
         // to display 10 rows of random variables    
         $obj = new ITS_question($data[0], $db_name, $tb_name);
         $res = 0;
@@ -163,15 +165,15 @@ switch ($action) {
                 $res = $obj->returnResult($var, $rand_vals[$i], $formulaes[$j]);
                 $temp_str .= '<td width="20%">' . $res . '</td>';
             }
-            $trs .= '<tr>'.$ss[$i].$temp_str . '</tr>';
+            $trs .= '<tr>' . $ss[$i] . $temp_str . '</tr>';
         }
-	
-        $form_table = '<form class="ITS" action="#" name="OptionForm"><input type="hidden" value="' . $m . '" name="var_count" id="var_count">' . '<input type="hidden" value="' . $n . '" name="formula_count">' . '<tr>' . $td_input_v .$td_input_f . '</tr><tr><td colspan="'.($m+$n).'"><br><div id="errorContainer"></div><br><input type="button" value="Calculate" name="calcResult" id="calcResult" class="ITS_submit"></td></tr></form>';
+        
+        $form_table = '<form class="ITS" action="#" name="OptionForm"><input type="hidden" value="' . $m . '" name="var_count" id="var_count">' . '<input type="hidden" value="' . $n . '" name="formula_count">' . '<tr>' . $td_input_v . $td_input_f . '</tr><tr><td colspan="' . ($m + $n) . '"><br><div id="errorContainer"></div><br><input type="button" value="Calculate" name="calcResult" id="calcResult" class="ITS_submit"></td></tr></form>';
         $str .= $thstring . $th2string . $trs . $form_table . "</table>" . "</div>";
         break;
     //-------------------------------------------//
     case 'uploadImage':
-    //-------------------------------------------//
+        //-------------------------------------------//
         //die('here'); $str = var_dump($_FILES);  
         /*
         $data  = preg_split('[~]',$Data);
@@ -186,10 +188,10 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'getConcept':
-    //-------------------------------------------//
+        //-------------------------------------------//
         $data  = preg_split('[~]', $Data);
         $query = 'SELECT * FROM stats_' . $id; //die($query);
-        $res   =& $mdb2->query($query);
+        $res =& $mdb2->query($query);
         if (PEAR::isError($res)) {
             throw new Question_Control_Exception($res->getMessage());
         }
@@ -226,7 +228,7 @@ switch ($action) {
     break;*/
     //-------------------------------------------//
     case 'addUser':
-    //-------------------------------------------//
+        //-------------------------------------------//
         $data = preg_split('[~]', $Data);
         //var_dump($data);die();
         
@@ -235,18 +237,18 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'orderProfile':
-    //-------------------------------------------//
+        //-------------------------------------------//
         $data = preg_split('[~]', $Data);
         $tr   = new ITS_statistics($data[0], $data[1], $data[2]);
         $str  = $tr->render_profile2($data[3], $data[4]);
         break;
     //-------------------------------------------//
     case 'orderCourse':
-    //-------------------------------------------//
-	$data = preg_split('[~]', $Data);
-	$tr   = new ITS_statistics($data[0], $data[1], $data[2]);
-	$str  = $tr->render_course($data[3], $data[4], $data[5]);
-	break;
+        //-------------------------------------------//
+        $data = preg_split('[~]', $Data);
+        $tr   = new ITS_statistics($data[0], $data[1], $data[2]);
+        $str  = $tr->render_course($data[3], $data[4], $data[5]);
+        break;
     //-------------------------------------------//
     case 'deleteDialog':
         //-------------------------------------------//
@@ -302,14 +304,14 @@ switch ($action) {
         $action     = $data[0]; //var_dump($data);die();
         $type       = $data[1];
         $student_id = 1;
-    
+        
         $obj = new ITS_question($student_id, $db_name, $tb_name);
         //die($type);
         switch ($action) {
             //---------------//
             case 'new':
                 //---------------//
-                $N    = 4; // default number of answers
+                $N                             = 4; // default number of answers
                 $obj->Q_question_data['qtype'] = $type;
                 $obj->load_DATA($Data);
                 break;
@@ -365,15 +367,15 @@ switch ($action) {
                     $Afield_str[$Aidx] = addslashes($value); //htmlspecialchars($value,ENT_QUOTES);    
                     $Aidx++;
             }
-        }  
-		//echo '<pre>';var_dump($Qfield_str);echo '</pre><br>';
-		
+        }
+        //echo '<pre>';var_dump($Qfield_str);echo '</pre><br>';
+        
         // QUESTION SQL INSERT
         // title,question,image,answers,answersConfig,questionConfig,category
         $Qquery_fields = implode(',', $Qfield_key);
         $Qquery_values = implode('","', $Qfield_str);
         
-        $Qquery        = 'INSERT INTO ' . $tb_name . ' (' . $Qquery_fields . ') VALUES("' . $Qquery_values . '");';
+        $Qquery = 'INSERT INTO ' . $tb_name . ' (' . $Qquery_fields . ') VALUES("' . $Qquery_values . '");';
         // DEBUG: 
         //echo $Qquery; //die();mysql_real_escape_string
         //echo '<pre>';var_dump($Qquery);echo '</pre><br>';
@@ -387,7 +389,7 @@ switch ($action) {
         // ANSWER SQL INSERT
         $Aquery_fields = implode(',', $Afield_key);
         $Aquery_values = implode('","', $Afield_str);
-        $Aquery        = 'INSERT INTO ' . $tb_name . '_' . $qtype . ' ( '.$tb_name .'_id,' . $Aquery_fields . ') VALUES(' . $qid . ',"' . $Aquery_values . '");';
+        $Aquery        = 'INSERT INTO ' . $tb_name . '_' . $qtype . ' ( ' . $tb_name . '_id,' . $Aquery_fields . ') VALUES(' . $qid . ',"' . $Aquery_values . '");';
         mysql_query($Aquery);
         //mysql_real_escape_string(). 
         $msg = '<div class="ITS_MESSAGE" name="addQ">Added Question <a href="Question.php?qNum=' . $qid . '">' . $qid . '</a>';
@@ -432,7 +434,7 @@ switch ($action) {
                     NULL
                 );
                 //$obj->load_DATA($data);
-				$str = 'aaa';
+                $str  = 'aaa';
                 break;
             //---------------//
             case 'clone':
@@ -446,24 +448,43 @@ switch ($action) {
         $class = 'text ui-widget-content ui-corner-all ITS_Q';
         $ans   = '<table id="ITS_Qans" class="ITS_Qans">';
         for ($a = 1; $a <= $N; $a++) {
-            if ($a > $obj->Q_answers) {
-                $answerVal = '';
-                $weightVal = '';
-            } else {
-                $answerVal = htmlspecialchars($obj->Q_answers_values[$a - 1]);
-                $weightVal = htmlspecialchars($obj->Q_weights_values[$a - 1]);
-            }
-            $answer_label = '<label for="answer' . $a . '">' . 'answer&nbsp;' . $a . '</label>';
-            $answer_field = '<input type="text" name="answer' . $a . '" id="answer' . $a . '" value="' . $answerVal . '" class="' . $class . '" />';
-            $weight_label = '<label for="weight' . $a . '">' . 'weight&nbsp;' . $a . '</label>';
-            $weight_field = '<input type="text" name="weight' . $a . '" id="weight' . $a . '" value="' . $weightVal . '" class="' . $class . '" />';
-            $ans .= '<tr><td width="10%">' . $answer_label . '</td><td width="60%">' . $answer_field . '</td><td width="10%">' . $weight_label . '</td><td width="5%">' . $weight_field . '</td></tr>';
+        if ($a > $obj->Q_answers) {
+        $answerVal = '';
+        $weightVal = '';
+        } else {
+        $answerVal = htmlspecialchars($obj->Q_answers_values[$a - 1]);
+        $weightVal = htmlspecialchars($obj->Q_weights_values[$a - 1]);
+        }
+        $answer_label = '<label for="answer' . $a . '">' . 'answer&nbsp;' . $a . '</label>';
+        $answer_field = '<input type="text" name="answer' . $a . '" id="answer' . $a . '" value="' . $answerVal . '" class="' . $class . '" />';
+        $weight_label = '<label for="weight' . $a . '">' . 'weight&nbsp;' . $a . '</label>';
+        $weight_field = '<input type="text" name="weight' . $a . '" id="weight' . $a . '" value="' . $weightVal . '" class="' . $class . '" />';
+        $ans .= '<tr><td width="10%">' . $answer_label . '</td><td width="60%">' . $answer_field . '</td><td width="10%">' . $weight_label . '</td><td width="5%">' . $weight_field . '</td></tr>';
         }
         $ans .= '</table>';
         $str = $ans;
         */
         break;
+    //-------------------------------------------//            
+    case 'getGrades':
         //-------------------------------------------//
+        if ($Debug) {
+            if ($_FILES["file"]["error"] > 0) {
+                $Debug = "Error: " . $_FILES["file"]["error"] . "<br>";
+            } else {
+                echo "Upload: " . $_FILES["file"]["name"] . "<br>";
+                echo "Type: " . $_FILES["file"]["type"] . "<br>";
+                echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
+                echo "Stored in: " . $_FILES["file"]["tmp_name"];
+            }
+        }
+        $tsquare_file = $_FILES["file"]["tmp_name"];
+        //
+        var_dump($tsquare_file);die();
+        
+        $s   = new ITS_statistics(1, 'Spring_2013', 'admin');
+        $str = $s->getGrades($tsquare_file, 1);
+        break;
 }
 //-----------------------------------------------//
 $mdb2->disconnect();

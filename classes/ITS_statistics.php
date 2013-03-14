@@ -9,19 +9,20 @@ Constructor: ITS_statistics(student_id,class_term,user_role)
 ex. $ITS_stats = new ITS_statistics(45,'Fall_2009','student');
 
 Methods: 	render_user_answer()				
-			render_question_answer( $score,$answer,$qtype,$index ) 
+render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
 Last Revision: Mar-07-2013
 //=====================================================================*/
-class ITS_statistics {
+class ITS_statistics
+{
     //==============================================================================    
-    private $id; 		// Stores user id
+    private $id; // Stores user id
     private $user_name; // Stores username
-    private $role; 		// user role: admin | inst | student
-    private $term; 		//
-    private $stats; 	// Stores statistical data to be output
-    public $data; 		// Stores all raw data from database
+    private $role; // user role: admin | inst | student
+    private $term; //
+    private $stats; // Stores statistical data to be output
+    public $data; // Stores all raw data from database
     public $hist;
     private $mdb2;
     
@@ -340,8 +341,7 @@ class ITS_statistics {
             //----------------------//
             case 1:
                 //----------------------//
-                $user_ans = '<table class="' . $style . '">' . '<tr><td class="' . $style . ' ITS_TEXT">ANSWER</td><td class="' . $style . '">' . $answer . '</td><td rowspan="2" class="ITS_ghost">' . $dist . '</td></tr>' .
-                    '<tr><td class="' . $style . ' ITS_TEXT">SCORE</td><td class="' . $style . '">' . $scr . '</td></tr>' . '</table>';
+                $user_ans = '<table class="' . $style . '">' . '<tr><td class="' . $style . ' ITS_TEXT">ANSWER</td><td class="' . $style . '">' . $answer . '</td><td rowspan="2" class="ITS_ghost">' . $dist . '</td></tr>' . '<tr><td class="' . $style . ' ITS_TEXT">SCORE</td><td class="' . $style . '">' . $scr . '</td></tr>' . '</table>';
                 break;
             //----------------------//
             case 2: // NO SCORE
@@ -482,42 +482,42 @@ class ITS_statistics {
         //return $data_count;
     }
     //----------------------------------------------------------------------------
-    function get_total_score($score, $qanswer, $qtype){
+    function get_total_score($score, $qanswer, $qtype)
+    {
         //----------------------------------------------------------------------------
         //echo '<p>';//.$score.' '.$qanswer.' '.$qtype;
         //print_r($score); echo '</p>';
         
-                if (is_array($score)) {
-                    $total_score = array_sum($score);
-                }
-                else {
-                    $total_score = $score;
-                }               
+        if (is_array($score)) {
+            $total_score = array_sum($score);
+        } else {
+            $total_score = $score;
+        }
         /*
         switch (strtolower($qtype)) {
-            //-------------------------------
-            case 'm':
-                //-------------------------------
-                // var_dump($score); //die('get_total_score');
-                if (is_array($score)) {
-                    $total_score = array_sum($score);
-                } //$score[0]
-                else {
-                    $total_score = $score;
-                }
-                break;
-            //-------------------------------
-            default:
-            if (is_array($score)) {
-                    $total_score = array_sum($score);
-                } //$score[0]
-                else {
-                    $total_score = $score;
-                }
-            //var_dump($score);//die('xxx');
-              //  $total_score = $score;
-                //-------------------------------
-
+        //-------------------------------
+        case 'm':
+        //-------------------------------
+        // var_dump($score); //die('get_total_score');
+        if (is_array($score)) {
+        $total_score = array_sum($score);
+        } //$score[0]
+        else {
+        $total_score = $score;
+        }
+        break;
+        //-------------------------------
+        default:
+        if (is_array($score)) {
+        $total_score = array_sum($score);
+        } //$score[0]
+        else {
+        $total_score = $score;
+        }
+        //var_dump($score);//die('xxx');
+        //  $total_score = $score;
+        //-------------------------------
+        
         }*/
         // format to display only 2 sig digits
         $total_score = round(100 * $total_score) / 100;
@@ -525,7 +525,8 @@ class ITS_statistics {
         return $total_score;
     }
     //----------------------------------------------------------------------------
-    function get_question_score($qid, $qanswer, $conf, $qtype){
+    function get_question_score($qid, $qanswer, $conf, $qtype)
+    {
         //----------------------------------------------------------------------------
         // echo 'get_question_score'; echo 'qid: '.$qid.'| ans: '.$qanswer.'| conf: '.$conf.' | type: '.$qtype.'<p>'; //die();
         $qtype = strtolower($qtype);
@@ -541,10 +542,10 @@ class ITS_statistics {
                         ''
                     );
                 } else {
-                    $query = 'SELECT weight' . (ord($qanswer) - 64) . ' FROM ' . $this->tb_name . '_' . $qtype . ' WHERE '.$this->tb_name.'_id=' . $qid;
+                    $query = 'SELECT weight' . (ord($qanswer) - 64) . ' FROM ' . $this->tb_name . '_' . $qtype . ' WHERE ' . $this->tb_name . '_id=' . $qid;
                     //$query = 'SELECT weight' . $qanswer . ' FROM ' . $this->tb_name . '_' . $qtype . ' WHERE id=' . $qid;
                     //echo $query;
-
+                    
                     $res =& $this->mdb2->query($query);
                     if (PEAR::isError($res)) {
                         throw new Question_Control_Exception($res->getMessage());
@@ -656,19 +657,19 @@ class ITS_statistics {
             case 'c':
                 //-------------------------------                      
                 $toll_lim     = 0.02;
-                $toll_eps  	  = $toll_lim*pow(10,-3);
+                $toll_eps     = $toll_lim * pow(10, -3);
                 $answer       = explode(',', $qanswer); // becomes an array of answers
                 $answer_count = count($answer);
-                $query        = 'SELECT * FROM ' . $this->tb_name . '_' . $qtype . ' WHERE '.$this->tb_name.'_id=' . $qid;
+                $query        = 'SELECT * FROM ' . $this->tb_name . '_' . $qtype . ' WHERE ' . $this->tb_name . '_id=' . $qid;
                 //die($query);
                 $res =& $this->mdb2->query($query);
                 if (PEAR::isError($res)) {
                     throw new Question_Control_Exception($res->getMessage());
                 }
                 $result = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+                
                 // Obtain values and range
-                $Nvals  = $result['vals']; // number of variables
+                $Nvals = $result['vals']; // number of variables
                 // print_r($Nvals);
                 // die();
                 for ($i = 0; $i < $answer_count; $i++) {
@@ -689,7 +690,7 @@ class ITS_statistics {
                     // echo $result[$col] .' | '. $replace[$v] .' | '. $formula[$i];
                     // echo "<br>formula after replacing<br>".$formula[$i].'<br>';
                 }
-
+                
                 $scoreArr    = array();
                 $scoreArr[0] = 0;
                 for ($i = 0; $i < $answer_count; $i++) {
@@ -705,15 +706,15 @@ class ITS_statistics {
                         $solution = 0;
                     elseif (empty($solution))
                         $solution = NULL;
-                        $ansCLEAN = preg_replace('/\s/','',trim($answer[$i]));
-                        $chunks = preg_split("/[,=]+/", $ansCLEAN);
+                    $ansCLEAN = preg_replace('/\s/', '', trim($answer[$i]));
+                    $chunks   = preg_split("/[,=]+/", $ansCLEAN);
                     
-						//var_dump($chunks); die('chunks');//die($solution);
+                    //var_dump($chunks); die('chunks');//die($solution);
                     
                     for ($a = 0; $a <= count($chunks) - 1; $a++) {
                         if (is_numeric($chunks[$a])) {
-                            if (abs($solution-$chunks[$a])< $toll_lim) {
-								$toll_array[$a] = $toll_lim;
+                            if (abs($solution - $chunks[$a]) < $toll_lim) {
+                                $toll_array[$a] = $toll_lim;
                             } else {
                                 $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
                                 //var_dump($toll_array);die('bb');
@@ -728,7 +729,7 @@ class ITS_statistics {
                                 $toll_array[$a] = abs(1 - ($chunks[$a] / $solution));
                             }
                         }
-                    }   
+                    }
                     
                     // obtain highest tolerance
                     sort($toll_array);
@@ -749,7 +750,7 @@ class ITS_statistics {
                 }
                 // print_r($scr);
                 //echo '<p>FORMULA: '.$formula.' -- '.$answer[0].' | '.$solution.' | '.$toll.'<p>';
-
+                
                 // Display
                 if (abs($solution) < $toll_lim) {
                     $sol = sprintf("%1.4f", $solution);
@@ -784,32 +785,34 @@ class ITS_statistics {
         // print_r($score); //die('aa');
         return $score;
     }
-	//----------------------------------------------------------------------------
-    function get_question_event($qid, $event){
+    //----------------------------------------------------------------------------
+    function get_question_event($qid, $event)
+    {
         //----------------------------------------------------------------------------
         //echo 'get_question_event'; echo 'qid: '.$qid.'| ans: '.$qanswer.'| conf: '.$conf.' | type: '.$qtype.'<p>'; //die();
         $qtype = strtolower($qtype);
-        $query = 'SELECT count(event),sum(duration) FROM stats_'.$this->id.' WHERE question_id=' . $qid.' AND event="'.$event.'"';
+        $query = 'SELECT count(event),sum(duration) FROM stats_' . $this->id . ' WHERE question_id=' . $qid . ' AND event="' . $event . '"';
         //$query = 'SELECT weight' . $qanswer . ' FROM ' . $this->tb_name . '_' . $qtype . ' WHERE id=' . $qid;
         //echo $query;die();
         $res =& $this->mdb2->query($query);
         if (PEAR::isError($res)) {
-			throw new Question_Control_Exception($res->getMessage());
+            throw new Question_Control_Exception($res->getMessage());
         }
         $result = $res->fetchRow();
         
-        if (empty($result[1])) { 
-			$time_skips = '';
-		} else {
-			$time_skips = ' ('.$result[1].' sec)';
-		} 
+        if (empty($result[1])) {
+            $time_skips = '';
+        } else {
+            $time_skips = ' (' . $result[1] . ' sec)';
+        }
         //var_dump($result);
-        $event = '<b>'.$result[0].'</b> '.$time_skips;
+        $event = '<b>' . $result[0] . '</b> ' . $time_skips;
         //print_r($result); die();
-        return $event; 
-	}
+        return $event;
+    }
     //----------------------------------------------------------------------------
-    function get_question_data($qid, $qtype, $user_list_array) {
+    function get_question_data($qid, $qtype, $user_list_array)
+    {
         //----------------------------------------------------------------------------
         //echo count($user_list_array); die();
         $DATA       = array();
@@ -1136,8 +1139,8 @@ class ITS_statistics {
             case 'c':
                 $scr = $score[0];
                 $ans = '';
-    
-                if (empty($answer) && $answer!=0) {
+                
+                if (empty($answer) && $answer != 0) {
                     $list[0] = '<span class="TextAlphabet">&nbsp;YYY</span><span class="ITS_null">&nbsp;XXX</span><br>';
                 } else {
                     $answer = explode(",", $answer);
@@ -1153,7 +1156,7 @@ class ITS_statistics {
                     }
                     for ($a = 0; $a < $sc; $a++) { // count($answer)
                         $msg = '';
-                        if (empty($answer[$a]) && $answer[$a]!=0) {
+                        if (empty($answer[$a]) && $answer[$a] != 0) {
                             $ans_str = '&nbsp;';
                             $class   = 'ITS_null';
                         } else {
@@ -1204,7 +1207,8 @@ class ITS_statistics {
         return $ans;
     }
     //----------------------------------------------------------------------------
-    function get_question_dist($stats, $qid, $qtype, $title, $score){
+    function get_question_dist($stats, $qid, $qtype, $title, $score)
+    {
         //----------------------------------------------------------------------------  
         if (!empty($stats)) {
             $dist = array();
@@ -1216,7 +1220,7 @@ class ITS_statistics {
                     //echo '<pre>';print_r($stats);echo '</pre>';//die('---');
                     // Obtain number of questions
                     $fields = 'L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L18,R19,L20,L21,L22,L23,L24,L25,L26,L27';
-                    $query  = 'SELECT ' . $fields . ' FROM ' . $this->tb_name . '_m WHERE '.$this->tb_name.'_id=' . $qid;
+                    $query  = 'SELECT ' . $fields . ' FROM ' . $this->tb_name . '_m WHERE ' . $this->tb_name . '_id=' . $qid;
                     //die($query);
                     $res =& $this->mdb2->query($query);
                     if (PEAR::isError($res)) {
@@ -1269,7 +1273,7 @@ class ITS_statistics {
                         $st = $stats[$k];
                         //print_r($st);die();
                         
-                        /***************************/                   
+                        /***************************/
                         for ($r = 0; $r < (count($st) - 0); $r++) { ////for ($r = 0; $r < (count($st) - 1); $r++) {
                             $data[$idx] = '<b>' . ($r + 1) . '.</b>';
                             $idx++;
@@ -1333,7 +1337,7 @@ class ITS_statistics {
                     }
                     //-------------------------------
             } //end swtich
-
+            
             $dist_str = array();
             $nn       = count($dist);
             
@@ -1527,7 +1531,7 @@ class ITS_statistics {
                         echo '</pre>';
                         */
                         //$dist[$t] = $this->get_question_dist($stats,$answers[$qn][0],$qtype,$term);
-                        $dist  = $this->get_question_dist($stats, $answers[$qn][0], $qtype, $term, $score);
+                        $dist = $this->get_question_dist($stats, $answers[$qn][0], $qtype, $term, $score);
                     } else {
                         $dist[$t] = '';
                     }
@@ -1572,7 +1576,8 @@ class ITS_statistics {
         }
     }
     //----------------------------------------------------------------------------
-    function render_profile(){
+    function render_profile()
+    {
         //----------------------------------------------------------------------------       
         //ITS_debug();
         //$term = array('Fall_2008','Spring_2009','Fall_2009','Spring_2010');
@@ -1763,13 +1768,13 @@ class ITS_statistics {
                         $tscore = NULL;
                     } else {
                         $config = 1;
-                    } 
+                    }
                     //echo $score.' '.$answers[$qn][1].' '.$qtype.'<p>'; //$timestamp; die();
-
+                    
                     if ($qtype == 'm') {
                         // Obtain number of questions
                         $fields = 'L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L18,R19,L20,L21,L22,L23,L24,L25,L26,L27';
-                        $query  = 'SELECT ' . $fields . ' FROM ' . $this->tb_name . '_m WHERE '.$this->tb_name.'_id=' . $answers[$qn][0];
+                        $query  = 'SELECT ' . $fields . ' FROM ' . $this->tb_name . '_m WHERE ' . $this->tb_name . '_id=' . $answers[$qn][0];
                         //die($query);
                         $res =& $this->mdb2->query($query);
                         if (PEAR::isError($res)) {
@@ -1813,23 +1818,23 @@ class ITS_statistics {
                     $FEEDBACK = $this->render_user_answer($ans, $score, $dist, $config, 0); //##!!
                     
                     //var_dump($skips);die();
-                    $event = '<hr class="PROFILE"><font color="#666">skips: '.$skips.'</font>';
+                    $event = '<hr class="PROFILE"><font color="#666">skips: ' . $skips . '</font>';
                     // EVENT
                     //$event = '';
                     /*
                     if (empty($answers[$qn][8])) {
-                        //$ans = 'EMPTY';
+                    //$ans = 'EMPTY';
                     } else {
-                        switch ($answers[$qn][8]) {
-                            case 'skip':
-                                $event = '<hr class="PROFILE"><font color="#666">SKIP</font>';
-                                //die('xx');
-                                break;
-                            default:
-                                //$ans='';
-                        }
+                    switch ($answers[$qn][8]) {
+                    case 'skip':
+                    $event = '<hr class="PROFILE"><font color="#666">SKIP</font>';
+                    //die('xx');
+                    break;
+                    default:
+                    //$ans='';
+                    }
                     }*/
-
+                    
                     // TIMESTAMP
                     if (empty($answers[$qn][5])) {
                         $timestamp = '';
@@ -1853,7 +1858,7 @@ class ITS_statistics {
                     //style="background-color:#eee"
                     //echo '<p style="color:red">'.$qn.' '.(count($answers)-1).'</p>';                    
                     //echo $ans.$timestamp.$dur.$rating.$action.$tscore.'<br><hr>';                             
-                    $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE" >' . ($qn + 1) . '<br><br><a href="Question.php?qNum=' . $answers[$qn][0] . '" class="ITS_ADMIN" name="Q'.$answers[$qn][0].'">' . $answers[$qn][0] . '</a></td>' . '<td class="PROFILE" >' . $QUESTION . $ANSWER . '</td>' . '<td class="PROFILE" >' . $ans . $timestamp . $dur . $rating . $event . '</td>';
+                    $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE" >' . ($qn + 1) . '<br><br><a href="Question.php?qNum=' . $answers[$qn][0] . '" class="ITS_ADMIN" name="Q' . $answers[$qn][0] . '">' . $answers[$qn][0] . '</a></td>' . '<td class="PROFILE" >' . $QUESTION . $ANSWER . '</td>' . '<td class="PROFILE" >' . $ans . $timestamp . $dur . $rating . $event . '</td>';
                     
                     if (!is_null($tscore)) {
                         $Estr .= '<td class="PROFILE" >' . $tscore . '</td>';
@@ -1871,148 +1876,154 @@ class ITS_statistics {
         }
         return $Estr;
     }
-        //----------------------------------------------------------------------------
-    function render_question_users($qid){
-		    //----------------------------------------------------------------------------
-    //--- QUESTIONS ------------------------------------------//
-    $msg       = '';
-    $questions = array();
-
-    //--- USERS --- ------------------------------------------//
-    $query = 'SELECT id,last_name,first_name FROM users WHERE status="'.$this->term.'" ORDER BY last_name';
-    //die($query);
-                    $res =& $this->mdb2->query($query);
-                if (PEAR::isError($res)) {
-                    throw new Question_Control_Exception($res->getMessage());
-                }
-    $users = $res->fetchAll();
-    $idx   = 1;
-    //class="ITS_backtrace"
-    $tb    = '<table class="CPROFILE"><th class="Num">No.</th><th>Name</th><th>answered</th><th>score</th><th>time</th><th>params</th>';
-    foreach ($users as $uid) {
-        //$query = 'SELECT question_id,answered,epochtime,count(*) FROM stats_'.$uid[0].' WHERE score IS NOT NULL AND epochtime IS NOT NULL GROUP BY question_id,answered,epochtime HAVING COUNT(*) > 1';
-        $query  = 'SELECT question_id,answered,epochtime,comment,score,current_chapter FROM stats_' . $uid[0] . ' WHERE question_id='.$qid.' AND event="chapter"';
-        //echo $query;
-        $resq =& $this->mdb2->query($query);
-                if (PEAR::isError($res)) {
-                    throw new Question_Control_Exception($res->getMessage());
-                }
-        $record = $resq->fetchAll();
-        $ans = '';
-        $scr = '';
-        $tm = '';
-        $par = '';
-        //var_dump($record);
-        if (!empty($record)) {
-            //$qtb = '<table class="ITS">'; //<th>Answered</th><th>Score</th><th>time</th><th>Params</th>';
-            foreach ($record as $rid) {
-				$ans .= $rid[1].'<br>';
-				$scr .= $rid[4].'<br>';
-				$tm  .= date("D M j G:i:s T Y", $rid[2]).'<br>';
-			    $par .= $rid[3].'<br>';
-			                $ch = $rid[5];
-                //$qtb .= '<tr><td>' . $rid[1] . '</td><td>' . $rid[4] . '</td><td>' . date("D M j G:i:s T Y", $rid[2]) . '&nbsp;</td><td>' . $rid[3] . '</td></tr>';
-            }
-
-            //$qtb .= '</table>';
-            $tb .= '<tr><td><b>' . $idx . '.</b></td><td style="text-align:left">&nbsp;&nbsp;<font color="blue"><a href="Profile.php?class='.$this->term.'&sid='.$uid[0].'&ch='.$ch.'#Q'.$qid.'">' . $uid[1] . ',' . $uid[2] . '</a></td><td>' . $ans . '</td><td>' . $scr . '</td><td>' . $tm . '</td><td>' . $par . '</td></tr>';
-            $idx++;
-        }
-        //------------------------------------------------//				
-    }
-    $tb .= '</table>';
-    
-		    return $tb;
-	}
     //----------------------------------------------------------------------------
-    function render_course($chapter,$difficulty,$orderby){
-		    //----------------------------------------------------------------------------
-	$ITSq = new ITS_query();
-	$resource_source = $ITSq->getCategory($chapter);
-	$option_arr = array(
-			'id',
+    function render_question_users($qid)
+    {
+        //----------------------------------------------------------------------------
+        //--- QUESTIONS ------------------------------------------//
+        $msg       = '';
+        $questions = array();
+        
+        //--- USERS --- ------------------------------------------//
+        $query = 'SELECT id,last_name,first_name FROM users WHERE status="' . $this->term . '" ORDER BY last_name';
+        //die($query);
+        $res =& $this->mdb2->query($query);
+        if (PEAR::isError($res)) {
+            throw new Question_Control_Exception($res->getMessage());
+        }
+        $users = $res->fetchAll();
+        $idx   = 1;
+        //class="ITS_backtrace"
+        $tb    = '<table class="CPROFILE"><th class="Num">No.</th><th>Name</th><th>answered</th><th>score</th><th>time</th><th>params</th>';
+        foreach ($users as $uid) {
+            //$query = 'SELECT question_id,answered,epochtime,count(*) FROM stats_'.$uid[0].' WHERE score IS NOT NULL AND epochtime IS NOT NULL GROUP BY question_id,answered,epochtime HAVING COUNT(*) > 1';
+            $query = 'SELECT question_id,answered,epochtime,comment,score,current_chapter FROM stats_' . $uid[0] . ' WHERE question_id=' . $qid . ' AND event="chapter"';
+            //echo $query;
+            $resq =& $this->mdb2->query($query);
+            if (PEAR::isError($res)) {
+                throw new Question_Control_Exception($res->getMessage());
+            }
+            $record = $resq->fetchAll();
+            $ans    = '';
+            $scr    = '';
+            $tm     = '';
+            $par    = '';
+            //var_dump($record);
+            if (!empty($record)) {
+                //$qtb = '<table class="ITS">'; //<th>Answered</th><th>Score</th><th>time</th><th>Params</th>';
+                foreach ($record as $rid) {
+                    $ans .= $rid[1] . '<br>';
+                    $scr .= $rid[4] . '<br>';
+                    $tm .= date("D M j G:i:s T Y", $rid[2]) . '<br>';
+                    $par .= $rid[3] . '<br>';
+                    $ch = $rid[5];
+                    //$qtb .= '<tr><td>' . $rid[1] . '</td><td>' . $rid[4] . '</td><td>' . date("D M j G:i:s T Y", $rid[2]) . '&nbsp;</td><td>' . $rid[3] . '</td></tr>';
+                }
+                
+                //$qtb .= '</table>';
+                $tb .= '<tr><td><b>' . $idx . '.</b></td><td style="text-align:left">&nbsp;&nbsp;<font color="blue"><a href="Profile.php?class=' . $this->term . '&sid=' . $uid[0] . '&ch=' . $ch . '#Q' . $qid . '">' . $uid[1] . ',' . $uid[2] . '</a></td><td>' . $ans . '</td><td>' . $scr . '</td><td>' . $tm . '</td><td>' . $par . '</td></tr>';
+                $idx++;
+            }
+            //------------------------------------------------//				
+        }
+        $tb .= '</table>';
+        
+        return $tb;
+    }
+    //----------------------------------------------------------------------------
+    function render_course($chapter, $difficulty, $orderby)
+    {
+        //----------------------------------------------------------------------------
+        $ITSq            = new ITS_query();
+        $resource_source = $ITSq->getCategory($chapter);
+        $option_arr      = array(
+            'id',
             'Difficulty',
             'Score',
             'Duration',
             'Number of Skips'
-        );  
+        );
         /*if (isset($_GET['option'])){
-            $ot = $_GET['option'];
+        $ot = $_GET['option'];
         }else{
-            $ot = $option_arr[0];
-        }*/ 
-            //$term
+        $ot = $option_arr[0];
+        }*/
+        //$term
         
         $option = '<select name="option" id="sortProfile" sid="' . $this->id . '" section="' . 'Spring_2013' . '" status="' . $this->role . '" ch="' . $chapter . '">';
-        foreach($option_arr as $op){
-            if($orderby == $op){
+        foreach ($option_arr as $op) {
+            if ($orderby == $op) {
                 $osel = 'selected="selected"';
-                switch($orderby){
-					case 'id': $order_by = 'ORDER BY d.q_id'; break;
-                    case 'Difficulty': $order_by = 'ORDER BY d.'.$difficulty; break;
-                    case 'Number of Skips': $order_by = 'ORDER BY m.NumSkips'; break;
-                    case 'Duration': $order_by = 'ORDER BY m.AvgDur'; break;
-                    case 'Score': $order_by = 'ORDER BY m.Avg'; break;
-                    default: $order_by = '';
+                switch ($orderby) {
+                    case 'id':
+                        $order_by = 'ORDER BY d.q_id';
+                        break;
+                    case 'Difficulty':
+                        $order_by = 'ORDER BY d.' . $difficulty;
+                        break;
+                    case 'Number of Skips':
+                        $order_by = 'ORDER BY m.NumSkips';
+                        break;
+                    case 'Duration':
+                        $order_by = 'ORDER BY m.AvgDur';
+                        break;
+                    case 'Score':
+                        $order_by = 'ORDER BY m.Avg';
+                        break;
+                    default:
+                        $order_by = '';
                 }
-            }else{                      
-                $osel = '';             
-            }                           
-            $option .= '<option ' .$osel. '>' . $op . '</option>';
+            } else {
+                $osel = '';
+            }
+            $option .= '<option ' . $osel . '>' . $op . '</option>';
         }
         $option .= '</select>';
         /*
         $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.'.$difficulty.', m.Avg, m.AvgDur, m.NumSkips '.
-                 'FROM '.$this->tb_name.', '.$this->tb_diff.' d, MinedData m '.
-                 'WHERE '.$this->tb_name.'.id=d.q_id AND '.$this->tb_name.'.id=m.question_id AND '.$resource_source. ' '.$order_by;
+        'FROM '.$this->tb_name.', '.$this->tb_diff.' d, MinedData m '.
+        'WHERE '.$this->tb_name.'.id=d.q_id AND '.$this->tb_name.'.id=m.question_id AND '.$resource_source. ' '.$order_by;
         */
-        $query = 'SELECT '.$this->tb_name.'.id, '.$this->tb_name.'.title, '.$this->tb_name.'.category, d.'.$difficulty.', m.Avg, m.AvgDur, m.NumSkips '.
-                 'FROM '.$this->tb_name.', '.$this->tb_diff.' d, MinedData m '.
-                 'WHERE '.$this->tb_name.'.id=d.q_id AND d.q_id=m.question_id AND '.$this->tb_name.'.'.$resource_source. ' '.$order_by;
+        $query = 'SELECT ' . $this->tb_name . '.id, ' . $this->tb_name . '.title, ' . $this->tb_name . '.category, d.' . $difficulty . ', m.Avg, m.AvgDur, m.NumSkips ' . 'FROM ' . $this->tb_name . ', ' . $this->tb_diff . ' d, MinedData m ' . 'WHERE ' . $this->tb_name . '.id=d.q_id AND d.q_id=m.question_id AND ' . $this->tb_name . '.' . $resource_source . ' ' . $order_by;
         //die($query);
         
         //SELECT questions.id, questions.title, questions.category, d.difficultyDrop_N, m.Avg, m.AvgDur, m.NumSkips FROM questions, questions_difficulty d, MinedData m WHERE questions.id=d.q_id AND d.q_id=m.question_id AND questions.category REGEXP "(SPEN1$|PreLab01$|Lab1$|Chapter1$|-Mod1$|Complex$)" AND questions.qtype IN ("MC","M","C") ORDER BY d.q_id
         
-        
-        $res   = $this->mdb2->query($query);
+        $res  = $this->mdb2->query($query);
         $ques = $res->fetchAll();
-
-	$Estr = '<table class="PROFILE">'.
-                '<tr><th class="Num">No.</th><th style="width:74%;">Question</th><th style="width:8%;">Category</th><th style="width:14%;">'.$option.'</th></tr>';
-            
-        for ($qn = 0; $qn <= (count($ques)-1); $qn++) {
+        
+        $Estr = '<table class="PROFILE">' . '<tr><th class="Num">No.</th><th style="width:74%;">Question</th><th style="width:8%;">Category</th><th style="width:14%;">' . $option . '</th></tr>';
+        
+        for ($qn = 0; $qn <= (count($ques) - 1); $qn++) {
             $qid   = $ques[$qn][0];
             $title = $ques[$qn][1];
             $cat   = $ques[$qn][2];
             $dif   = $ques[$qn][3];
-            if($dif == ''){ $dif = '-n/a-';}
-            $avg   = $ques[$qn][4];
-            $avgdur= $ques[$qn][5];
-            $skips = $ques[$qn][6];
-            $Q = new ITS_question($qid, $this->db_name, $this->tb_name);
+            if ($dif == '') {
+                $dif = '-n/a-';
+            }
+            $avg    = $ques[$qn][4];
+            $avgdur = $ques[$qn][5];
+            $skips  = $ques[$qn][6];
+            $Q      = new ITS_question($qid, $this->db_name, $this->tb_name);
             $Q->load_DATA_from_DB($qid);
             $QUESTION = $Q->render_QUESTION(); //_check($answers[$qn][4]);
             $Q->get_ANSWERS_data_from_DB();
             $ANSWER = $Q->render_ANSWERS('a', 2);
-
-            $Estr .= '<tr class="PROFILE" id="tablePROFILE">'.
-                '<td class="PROFILE">' . ($qn +1) .'<br><br><a href="Question.php?qNum='.$qid.'&sol=1" id="'.$qid.'" class="ITS_ADMIN">'.$qid.'</a></td>'.
-                '<td class="PROFILE" >' . $QUESTION.$ANSWER . '</td>'.
-                '<td class="PROFILE" > <b>'.$title.'</b><hr class="PROFILE"> <font color="grey">'.$cat.'</td>'.
-                '<td class="PROFILE" > <font color="brown"><b>'.$difficulty.':</b><br>' .(round(100*$dif)/100).'</font><hr class="PROFILE">'.
-                                        '<b>avg score:</b><br>'.(round(10*$avg)/10).'%<hr class="PROFILE">'.
-                                        '<font color="blue"><b>avg dur:</b><br>'.(round(10*$avgdur)/10).' sec </font><hr class="PROFILE">'.
-                                        '<font color="#666"><b>skips:</b> '.$skips.'</font></td>';
-            $Estr .=  '</tr>';
+            
+            $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE">' . ($qn + 1) . '<br><br><a href="Question.php?qNum=' . $qid . '&sol=1" id="' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td>' . '<td class="PROFILE" >' . $QUESTION . $ANSWER . '</td>' . '<td class="PROFILE" > <b>' . $title . '</b><hr class="PROFILE"> <font color="grey">' . $cat . '</td>' . '<td class="PROFILE" > <font color="brown"><b>' . $difficulty . ':</b><br>' . (round(100 * $dif) / 100) . '</font><hr class="PROFILE">' . '<b>avg score:</b><br>' . (round(10 * $avg) / 10) . '%<hr class="PROFILE">' . '<font color="blue"><b>avg dur:</b><br>' . (round(10 * $avgdur) / 10) . ' sec </font><hr class="PROFILE">' . '<font color="#666"><b>skips:</b> ' . $skips . '</font></td>';
+            $Estr .= '</tr>';
         }
-
-        $Estr.= '</table>';
-
-	return $Estr;
+        
+        $Estr .= '</table>';
+        
+        return $Estr;
     }
     //----------------------------------------------------------------------------
-    function render_class_profile($class_name, $chs, $tstart) {
+    function render_class_profile($class_name, $chs, $tstart)
+    {
         //----------------------------------------------------------------------------
+        
         //echo '<pre>render_class_profile</pre>';die();
         // Set time zone: America/New_York
         date_default_timezone_set('America/New_York');
@@ -2021,20 +2032,20 @@ class ITS_statistics {
         //echo date('l jS \of F Y h:i:s A',$epochtime);die('x');
         
         // Variables
-        $excel_file       = $class_name . '_scores.xls';
-        $excel_worksheet  = $class_name . '_scores.xls';
-        $current_semester = $class_name;
-        $pct              = 0;
-        $pcount           = array();
-        $data             = array();
-        $tscore           = array();
-        $tattempt         = array();
-        $scores           = array();
+        $excel_file      = $this->term . '_scores.xls';
+        $excel_worksheet = $this->term . '_scores.xls';
+        $pct             = 0;
+        $pcount          = array();
+        $data            = array();
+        $tscore          = array();
+        $tattempt        = array();
+        $scores          = array();
+        
+        $fu = '<form action="ajax/ITS_admin.php" method="post" enctype="multipart/form-data">' . '<label for="file">Gradebook:</label><input type="file" name="file" id="file">' . '<input type="submit" name="getGradesSubmit" value="Submit"></form>';
         
         /*echo '<pre>';
         print_r($Nchs);
-        echo '</pre>';
-        die();*/
+        echo '</pre>'; die();*/
         
         $file_path  = 'admin/csv/' . $class_name . '_scores' . $chs[count($chs) - 1] . '.csv';
         $file_path1 = 'admin/csv/' . $class_name . '_grades.csv';
@@ -2042,7 +2053,7 @@ class ITS_statistics {
         // die($file_path);
         $fp         = fopen($file_path, 'w');
         $fp1        = fopen($file_path1, 'w');
-        $query      = 'SELECT id,first_name,last_name,username FROM users WHERE status="' . $current_semester . '" ORDER BY last_name';
+        $query      = 'SELECT id,first_name,last_name,username FROM users WHERE status="' . $this->term . '" ORDER BY last_name';
         //echo $query;die();
         
         $res =& $this->mdb2->query($query);
@@ -2061,7 +2072,7 @@ class ITS_statistics {
         }
         for ($h = 0; $h < count($chs); $h++) {
             if ($h == 8) {
-                $header .= '<th><a href="survey1.php?survey=' . $current_semester . '">Survey</a></th>';
+                $header .= '<th><a href="survey1.php?survey=' . $this->term . '">Survey</a></th>';
             } else {
                 $header .= '<th>A&ndash;' . $chs[$h] . '</th>';
             }
@@ -2072,7 +2083,7 @@ class ITS_statistics {
         $fdate = explode(',', $fdate);
         $fdate = $fdate[0] . ',' . $fdate[1] . '<br>' . $fdate[2];
         
-        $Estr = '<center><div class="file"><a href="' . $file_path . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">scores</font></div>' . '<div class="file"><a href="' . $file_path1 . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">grades</font></div>' . '<table class="CPROFILE">' . $header;
+        $Estr = $fu . '<center><div class="file"><a href="' . $file_path . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">scores</font></div>' . '<div class="file"><a href="' . $file_path1 . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">grades</font></div>' . '<table class="CPROFILE">' . $header;
         
         $sts      = array_fill(0, count($chs) - 1, 0);
         $full_sts = array_fill(0, count($chs) - 1, 0);
@@ -2082,7 +2093,6 @@ class ITS_statistics {
         
         foreach ($users as $key => $user) { //$users as $user){
             //Calculating Scores for this User
-            $s         = new ITS_statistics($user[0], $class_name, 'student');
             $usertable = 'stats_' . $user[0];
             //echo '<p>'.$usertable.'</p>';
             //for every chapter
@@ -2114,9 +2124,8 @@ class ITS_statistics {
             $r2       = mysql_query($q2);
             $pcount[] = mysql_result($r2, 0, "p");
             //echo  $pcount; die();
-            //---
-            //die();
-            $fields   = array(
+            
+            $fields = array(
                 $user[0],
                 $user[3],
                 $user[2],
@@ -2131,7 +2140,7 @@ class ITS_statistics {
                 $totalscore[$key][7],
                 $totalscore[$key][8]
             );
-            $data[]   = $fields;
+            $data[] = $fields;
             
             //print_r($fields);
             fputcsv($fp, $fields);
@@ -2160,7 +2169,7 @@ class ITS_statistics {
                 default:
                     $id_str = '';
             }
-            $Estr .= '<tr>' . $id_str . '<td style="text-align:left"><a href="Profile.php?class=' . $current_semester . '&sid=' . $user[0] . '">' . $user[2] . ', ' . $user[1] . '</a></td>' . $td . '<td>' . (empty($pcount[$key]) ? '' : '<font color="#738">' . $pcount[$key] . '</font>') . '</td></tr>';
+            $Estr .= '<tr>' . $id_str . '<td style="text-align:left"><a href="Profile.php?class=' . $this->term . '&sid=' . $user[0] . '">' . $user[2] . ', ' . $user[1] . '</a></td>' . $td . '<td>' . (empty($pcount[$key]) ? '' : '<font color="#738">' . $pcount[$key] . '</font>') . '</td></tr>';
         } // eof: foreach $users
         //-- STATS --//
         $pc = 0; //count($pcount);
@@ -2186,6 +2195,51 @@ class ITS_statistics {
         return $Estr;
     }
     //----------------------------------------------------------------------------
+    function getGrades($tsquare_file, $A)
+    {
+        //----------------------------------------------------------------------------     
+        $ptsMax    = 3300;
+        $ptsGrade  = 30;
+        $epochtime = mktime(0, 0, 0, 1, 11, 2013);
+        $ITSq      = new ITS_query();
+        
+        $file_path = '../admin/csv/';
+        $file_name = 'ITS-'.$A.'.csv';     
+        $fp        = fopen($file_path.$file_name, 'w');
+        
+        $handle = fopen($users, "r");
+        $row    = 1;
+        if (($handle = fopen($tsquare_file, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if ($data[0] != 'Student ID') {       
+                    $query = 'SELECT id,first_name,last_name FROM users WHERE username="' . $data[0] . '"';
+                    // echo $query;die();
+                    
+                    $res =& $this->mdb2->query($query);
+                    if (PEAR::isError($res)) {
+                        throw new Question_Control_Exception($res->getMessage());
+                    }
+                    $user = $res->fetchAll();
+
+                    $q1    = $ITSq->getQuery('ROUND(SUM(score),2) AS sum', 'stats_' . $user[0][0], $A, $epochtime);
+                    // echo $q1;die();
+                    $r1    = mysql_query($q1);
+                    $score = mysql_result($r1, 0, "sum");
+                    $grade = round($ptsGrade * min($score, $ptsMax) / $ptsMax);               
+                    $grades = array($data[0],$data[1],$grade);
+                } else {
+					$grades = array($data[0],$data[1],'ITS-'.$A);          
+				}
+				fputcsv($fp, $grades);
+            }
+            fclose($handle);
+        }   
+        fclose($fp);
+                
+        $link = '<a href="'.$file_path.$file_name.'">'.$file_name.'</a>';
+		
+        return $link;
+    }
     //==============================================================================
 } //End of class ITS_statistics
 ?>

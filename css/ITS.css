@@ -48,21 +48,26 @@ div.ITS_ghost {
 	height: auto;
 }
 div.ITS_MESSAGE {
-  color: green;
-  padding: 2em 0;
-  text-align: center;
-  font: bold 18px Georgia, sans-serif;
-	width: 100%;
-	min-height: 100px;
+  position:relative;
+  color: #999;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  min-height: 403px;
   vertical-align: middle;
-  border:none;
+  border:1px solid #fff;
+  background-image:url('../css/media/tree.jpg');
+  background-repeat:no-repeat;
+  background-position:right top;
 }
 div.ITS_MESSAGE ul {
   position: relative;
-  margin: 15% 10%;
+  margin: 15% 1%;
   text-align: left;
   font-size: 120%;
   height: 100%;
+  border:none;
+  font: bold 18px Georgia, sans-serif;
 }
 
 #nav1 {padding:0.5em;margin:-5px;border:1px solid #fff;}

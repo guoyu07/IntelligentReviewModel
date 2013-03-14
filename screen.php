@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '215b';
-$LAST_UPDATE = 'Mar-04-2013';
+$ITS_version = '215e';
+$LAST_UPDATE = 'Mar-15-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -83,7 +83,7 @@ $close = array(
     ),
     array(
         3,
-        8
+        11
     ),
     array(
         5,
@@ -120,8 +120,7 @@ foreach ($close as $Cdate) {
     if ($close_time < time())
         $index_hide++;
 }
-//echo '<p>'.$index_max.'--'.$index_hide.'</p>';
-
+// echo '<p>'.$index_max.'--'.$index_hide.'</p>';die();
 //##########################################//
 if (isset($_POST['role'])) {
     $role = $_POST['role'];
@@ -266,6 +265,7 @@ switch ($status) {
                 $chMax  = $index_max;
         }
         $chArr             = range(1, $chMax);
+        //var_dump($chArr);die();
         $score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
         $_SESSION['score'] = $score;
         $str               = $score->renderChapterScores(); //($chMax)         
@@ -341,13 +341,17 @@ switch ($status) {
             default:
                 //var_dump($chArr); die();
                 for ($i = 0; $i < count($chArr); $i++) {
-                    if ($i == ($index_hide + 1)) {
+                    if ($i == $index_max) { // ($index_hide + 1)
                         $idx_id = 'id="current"'; // PRACTICE: = ''
+                        //var_dump($i);die('xx');
                     } else {
                         $idx_id = '';
                     }
+                    //echo $i.'-'.$idx_id.'<p>';
+                    //echo 'a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '"><br>';
                     $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
                 }
+                if ($index_hide==$index_max){$view=FALSE;}
                 $r = FALSE;
                 break;
         }
@@ -360,7 +364,7 @@ switch ($status) {
         /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
 			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';*/
 echo $modeDiv;
-//die('====');
+
 ?>  
 <input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">  
             </div>
@@ -380,20 +384,20 @@ echo $o.'<p>';
 */
 ?>
 <div id="navContainer">
-<ul id="navListQC">                     
+<ul id="navListQC">                    
 <li id="Question" name="header" view="<?php
 echo intval($view);
 ?>" r="<?php
 echo intval($r);
 ?>" ch="<?php
-echo ($index_hide + 1);
+echo ($index_max);
 ?>"><a href="#" id="current">Questions</a></li>
                         <li id="Review"   name="header" view="<?php
 echo intval($view);
 ?>" r="<?php
 echo intval($r);
 ?>" ch="<?php
-echo ($index_hide + 1);
+echo ($index_max);
 ?>" style="margin-left: 50px;"><a href="#">Review</a></li>                      
                     </ul><div id="navListPC"></div>
                 </div>

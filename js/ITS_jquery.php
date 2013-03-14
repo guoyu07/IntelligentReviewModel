@@ -1,6 +1,6 @@
 <?php
 /* =============================================================  /
-  LAST_UPDATE: Aug-27-2012
+  LAST_UPDATE: Mar-14-2013
   Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -69,7 +69,7 @@
         });
         /*-------------------------------------------------------------------------*/		
         var ch = $('#Question').attr('ch');
-        //ch = 14; // alert(v+' ~ '+ch);
+        // ch = 14; // alert(v+' ~ '+ch);
         indexUPDATE(ch,v,'Question');
         /*-------------------------------------------------------------------------*/
         $('#Practice').live('click', function() {
@@ -183,7 +183,7 @@
     
             var header = $(this).attr('id');
             var ch     = $('.chapter_index#current').text();
-
+            
             //alert('header: '+header+' chapter: '+ch);
             //if (ch == 'Survey') { ch = 14; }
             $('[name=header]').each(function(index) {
@@ -607,9 +607,11 @@ if (r==0){
 switch(mode) {
     case 'Question':
         //alert(mode);
+        
         if ( (index) < idx_hide ){
             $(this).css({display: 'none'});
-            if ( ch == (parseInt(index+1)) ){ ch=parseInt(chhide)+1; }
+            //alert(ch +'=='+ (parseInt(index+1)));
+            //if ( ch == (parseInt(index+1)) ){ ch=parseInt(chhide)+1; }
         }
         else {$(this).css({display: 'inline'});}
         break;
@@ -619,7 +621,7 @@ switch(mode) {
         if (ch > idx_hide) { ch = idx_hide; }
         break;
     case 'Review':
-        // alert(index+ ' - ' + idx_hide);
+        //alert(index+ ' - ' + idx_hide);
         $(this).css({display: 'inline'});
         //if (ch > idx_hide) { ch = idx_hide; }
         break;
@@ -655,7 +657,7 @@ $(this).attr('id','');
 //*****************************************//
 function navUPDATE(ch) {
 //*****************************************//
-//alert('navUPDATE: '+ch);
+// alert('navUPDATE: '+ch);
 
 $('.ITS_navigation[name=updateReview_index]').attr("ch",ch);
 var qIdx = $('#slider').slider("option","value");
@@ -761,7 +763,7 @@ $("a.ITS_question_img").fancybox({
 function getMSG() { 
 //*****************************************//
   //var msg = '<h1 style="text-align:left"><ul><li>ITS has closed for graded questions.</li><li><b>Practice</b> section allows for unlimited viewing and does not contribute towards your score.</li><li>Your answers for Chapter 1-7, 9 & 11 are available for review.</li></h1>';				
-  var msg = '<div class="ITS_MESSAGE"><ul><li>ITS Modules 1 - 4 have closed.</li><li>Your answers for Modules 1-4 are available for review.</li></div>';
+  var msg = '<div class="ITS_MESSAGE"><ul><li>ITS Assignments 1 - 4 <br>have closed.</li><li>Your answers <br> are available for review.</li></div>';
   $('#contentContainer').html(msg);
 }
 //*****************************************//

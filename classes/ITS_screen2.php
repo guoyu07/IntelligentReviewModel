@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Sep-5-2012
+Last Revision: Mar-15-2013
 
 SCHEMA:
 screen.php
@@ -29,7 +29,7 @@ class ITS_screen2
     public $style;
     
     public $screen;
-    public $mode; 		   // question | review | survey | concept 
+    public $mode; // question | review | survey | concept 
     public $question_info; // := $Q->Q_answers_permutation;
     
     //--- LAB ---//
@@ -150,8 +150,8 @@ class ITS_screen2
         //echo $header;die();
         //--- CONTENT ---//
         $content_str = $this->getContent();
-        $content    = '<div id="contentContainer">' . $content_str . '</div>';
-        $screen_str = $header . $content;
+        $content     = '<div id="contentContainer">' . $content_str . '</div>';
+        $screen_str  = $header . $content;
         
         return $screen_str;
     }
@@ -325,7 +325,7 @@ class ITS_screen2
                 //
                 //echo $this->mode.' -- '.$this->chapter_number;die('s');
                 //$content_str = 'ch';
-                $content_str = $this->getChapter($this->mode, $this->chapter_number);
+                $content_str              = $this->getChapter($this->mode, $this->chapter_number);
                 //    echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
                 break;
             //------------------//
@@ -375,7 +375,7 @@ class ITS_screen2
         if (!empty($completed[0])) {
             $this->lab_completed = TRUE;
             
-            $str = '<p><center><DIV class="ITS_MESSAGE">' . '<p>You have already completed <b>' . $this->lab_title . $lab_active . '</b>.<p>' . '</DIV></center>';
+            $str = ITS_message('You have already completed <b>' . $this->lab_title . $lab_active . '</b>');
         }
         return $str;
     }
@@ -510,7 +510,7 @@ class ITS_screen2
                     
                     $this->lab_completed = true;
                     
-                    $msg = '<center><DIV class="ITS_MESSAGE" style="background:LemonChiffon">' . '<p>Thanks, your <b>' . ucfirst($this->lab_tag) . '</b> answers have been recorded on <font color="purple">' . $time . '</font>' . '</DIV></center>';
+                    $msg = ITS_message('Thanks, your <b>' . ucfirst($this->lab_tag) . '</b> answers have been recorded on <font color="purple">' . $time . '</font>');
                     
                     $this->lab_index = 1;
                     $index           = $this->getLabIndex();
@@ -712,7 +712,7 @@ class ITS_screen2
                     
                     $this->lab_completed = true;
                     
-                    $msg = '<center><DIV class="ITS_MESSAGE" style="background:LemonChiffon">' . '<p>Thanks, your <b>' . ucfirst($this->lab_tag) . '</b> answers have been recorded on <font color="purple">' . $time . '</font>' . '</DIV></center>';
+                    $msg = ITS_message('Thanks, your <b>' . ucfirst($this->lab_tag) . '</b> answers have been recorded on <font color="purple">' . $time . '</font>');
                     
                     $this->lab_index = 1;
                     $index           = $this->getLabIndex();
@@ -1447,13 +1447,13 @@ class ITS_screen2
                 throw new Question_Control_Exception($mdb2->getMessage());
             }
             $current_chapter = $this->chapter_number;
-            $event = $info[0];
+            $event           = $info[0];
             //echo '<font color="Red">'.$this->chapter_number.'</font>';//die('rec');
-          
-            if ($current_chapter==8){
-				//$current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
-			}
-          
+            
+            if ($current_chapter == 8) {
+                //$current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
+            }
+            
             switch ($this->mode) {
                 case 'survey':
                     $scoreArr = array(
@@ -1463,19 +1463,19 @@ class ITS_screen2
                 case 'practice':
                     $current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
                 case 'concept':
-                    //$current_chapter = -$current_chapter; // if it is done so that row is not fetched by score module.
-					$event = $this->mode;
+                //$current_chapter = -$current_chapter; // if it is done so that row is not fetched by score module.
+                    $event = $this->mode;
                 //break; <= let it go thru
                 default:
                     if ($info[0] != 'skip') {
-					//var_dump($info);die('ds');
-					
+                        //var_dump($info);die('ds');
+                        
                         $config   = $info[1];
                         $tr       = new ITS_statistics($this->id, $this->term, $this->role);
                         $scoreArr = $tr->get_question_score($qid, mysql_real_escape_string($answered), $config, $qtype);
-  //die('ddd');
-  //print_r($scoreArr);
-  //die('aaaa');
+                        //die('ddd');
+                        //print_r($scoreArr);
+                        //die('aaaa');
                     } else {
                         $scoreArr = array(
                             'NULL'
@@ -1483,10 +1483,10 @@ class ITS_screen2
                     }
             }
             //echo 'TIME '.$tstart.'<p>'.date("D M j G:i:s T Y",$tstart);
-                 	//die($tstart);
+            //die($tstart);
             //--- DURATION ---//
             $dur = time() - $tstart;
-
+            
             //--- RATING ---//
             //if (empty($rating)) { $rating = 'NULL'; }
             switch (strtolower($qtype)) {
@@ -1511,7 +1511,7 @@ class ITS_screen2
                     $perm_str = 'NULL';
                     //-------------------------------//
             }
-
+            
             switch ($event) {
                 case 'skip':
                     $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (question_id,current_chapter,epochtime,duration,event) VALUES(' . $qid . ',' . $current_chapter . ',' . $tstart . ',' . $dur . ',"' . $event . '")';
@@ -1521,11 +1521,11 @@ class ITS_screen2
                     }
                     break;
                 default:
-                  //$score = 100;
-                  
+                    //$score = 100;
+                    
                     $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (question_id,current_chapter,answered,comment,score,epochtime,duration,event) VALUES(' . $qid . ',' . $current_chapter . ',"' . mysql_real_escape_string($answered) . '",' . $perm_str . ',' . $score . ',' . $tstart . ',' . $dur . ',"' . $event . '")';
-                  //var_dump($query_str);
-                  //die('done');
+                    //var_dump($query_str);
+                    //die('done');
                     if (!(is_empty($answered))) {
                         //*** Prevent Multiple submissions: - 3. Server: MySQL check for recent (+/- 1 sec ) INSERT with qid ***//
                         $query = 'SELECT question_id,answered,epochtime,count(*) FROM ' . $this->tb_user . $this->id . ' WHERE score IS NOT NULL AND question_id=' . $qid . ' GROUP BY question_id,answered,epochtime HAVING epochtime BETWEEN ' . ($tstart - 1) . ' AND ' . ($tstart + 1);
@@ -1663,7 +1663,7 @@ class ITS_screen2
         $answers = $res->fetchAll();
         //var_dump($answers);
         if (empty($answers)) {
-            $review_str = '<div class="ui-widget">' . '<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">' . '<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>' . 'You have not yet answered <b>any</b> survey questions.' . '</div>' . '</div>';
+            $review_str = '<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;border:2px solid red"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;border:2px solid blue"></span>' . 'You have not yet answered <b>any</b><br> survey questions.' . '</div>' . '</div>';
         } else {
             $this->review_count = count($answers);
             $index_new          = $this->review_number + $delta;
@@ -1835,7 +1835,7 @@ class ITS_screen2
         } else {
             $this->review_number = $index_new;
         }
-
+        
         $list = '';
         
         //-- LIST of questions (count($answers)-1)
@@ -1844,7 +1844,7 @@ class ITS_screen2
         //die('da'.$this->review_number);
         //echo 'conf: '.$answers[$qn][4].'<p>';
         $qn   = $this->review_number; //count($answers) - 1;
-        $qid  = $queryList[$qn][0]; 
+        $qid  = $queryList[$qn][0];
         
         $qtype    = strtolower($queryList[$qn][2]);
         $Nanswers = $queryList[$qn][3];
@@ -1862,11 +1862,11 @@ class ITS_screen2
         $Q->get_ANSWERS_data_from_DB();
         
         $Q->Q_answers_permutation = explode(',', $queryList[$qn][5]);
-        $ANSWER = $Q->render_ANSWERS('a', 0);
-
+        $ANSWER                   = $Q->render_ANSWERS('a', 0);
+        
         $config = 1;
         $dist   = $this->getQuestionDist($qid, $qtype, $score, $Nanswers);
-            
+        
         //--- rating ---------//
         $rateObj = new ITS_rating();
         $rated   = $queryList[$qn][4];
@@ -1874,14 +1874,13 @@ class ITS_screen2
         
         //--- difficulty box ---//
         $difficultyBox = ''; //$rateObj->renderDifficulty($qid);
-		$rateBox = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
+        $rateBox       = '<div id="ratingContainer" qid="' . $qid . '">' . $rating . '</div>';
         //--------------------//
-            
+        
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
         $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
-        $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td></tr>' . 
-                 '<tr><td class="PROFILE" colspan="2">' . $ANSWER . '<BR><div class="ITS_FEEDBACK">' . $feedback . '</div></td>' . '</td></tr>';
+        $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td></tr>' . '<tr><td class="PROFILE" colspan="2">' . $ANSWER . '<BR><div class="ITS_FEEDBACK">' . $feedback . '</div></td>' . '</td></tr>';
         //} // eof $qn
         $Estr .= '</table>';
         
@@ -1903,7 +1902,7 @@ class ITS_screen2
         
         //var_dump($queryList);
         if (empty($queryList)) {
-            $review_str = '<center><div class="ITS_MESSAGE">' . 'You have not yet solved <b>any</b> problems for Assignment ' . $chapter . '.' . '</div></center>';
+            $review_str = ITS_message('You have not yet solved <b>any</b><br> problems for Assignment ' . $chapter);
         } else {
             $Qarr       = $this->reviewQuestion($chapter, $qIndex, $queryList); // $Qarr['qid']['content']
             $qinfo      = $this->getQuestionRef($Qarr[0]);
@@ -1925,7 +1924,7 @@ class ITS_screen2
         //var_dump($queryList);//die();
         
         if (empty($queryList)) {
-            $content = '<center><div class="ITS_MESSAGE">You have not yet solved <b>any</b> problems for Assignment ' . $chapter . '.</div></center>';
+            $content = ITS_message('You have not yet solved <b>any</b><br> problems for Assignment ' . $chapter);
         } else {
             $Qarr    = $this->reviewQuestion($chapter, $qIndex, $queryList); // $Qarr['qid']['content']       
             //       die($Qarr);        
@@ -2145,7 +2144,7 @@ class ITS_screen2
                             //-------------------------------//
                             $ques_arr_rand_key = array_rand($qAvailable, 1);
                             $qid               = 1222; //$qAvailable[$ques_arr_rand_key][0];
-                            $qtype             = 'mc';//s$qAvailable[$ques_arr_rand_key][1];
+                            $qtype             = 'mc'; //s$qAvailable[$ques_arr_rand_key][1];
                             $ch_idx            = $this->chapter_number;
                             $this->mode        = 'concept';
                             //$skip = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" mode="'.$resource.'">';
@@ -2162,7 +2161,7 @@ class ITS_screen2
                     }
                     $qinfo    = $this->getQuestionRef($qid);
                     $question = $this->getQuestion($qid, '');
-               
+                    
                     //echo 'NOW: '.empty($this->question_info);
                     if (empty($this->question_info)) {
                         $cstr = '';
@@ -2177,13 +2176,13 @@ class ITS_screen2
                     }
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
                     $resources = '';
-//<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
-					
-					//$Robj = new ITS_resource('sampling');
-					//$Rstr  = $obj->setResource('sampling',402);   
-					//$Rstr = '<p style="height:0px">&nbsp;</p>';      
-					//$resources .= $Rstr . '</div>';
-					
+                    //<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
+                    
+                    //$Robj = new ITS_resource('sampling');
+                    //$Rstr  = $obj->setResource('sampling',402);   
+                    //$Rstr = '<p style="height:0px">&nbsp;</p>';      
+                    //$resources .= $Rstr . '</div>';
+                    
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
                     $error                    = '<div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">
@@ -2220,8 +2219,7 @@ class ITS_screen2
             }
         }
         if ($NO_QUESTIONS) {
-            $str = '<div class="ITS_MESSAGE">&diams;&nbsp;No more questions available for: <span class="ITS_null">' . $resource_name . '</span> concept questions</div>';
-            //$str = $this->main();
+            $str = ITS_message('No more questions available for: <span class="ITS_null">' . $resource_name . '</span> concept questions');
         }
         $mdb2->disconnect();
         //--------------------//
@@ -2453,7 +2451,7 @@ class ITS_screen2
                     $question = $this->getQuestion($qid, '');
                     //echo 'NOW: '.empty($this->question_info);                   
                     
-//var_dump($this->question_info);die('ggg');
+                    //var_dump($this->question_info);die('ggg');
                     
                     if (empty($this->question_info)) {
                         $cstr = '';
@@ -2532,7 +2530,7 @@ class ITS_screen2
                     } else {
                         $admin_str = '';
                     }
-                    $str = $answer.$admin_str;
+                    $str = $answer . $admin_str;
                 } else { // none available
                     $NO_QUESTIONS = TRUE;
                 }
@@ -2540,8 +2538,7 @@ class ITS_screen2
         }
         
         if ($NO_QUESTIONS) {
-            $str = '<div class="ITS_MESSAGE">&diams;&nbsp;No more questions available for ' . $msg . '.</div>';
-            //$str = $this->main();
+            $str = ITS_message('No more questions available for ' . $msg);
         }
         $mdb2->disconnect();
         //--------------------//
@@ -2746,9 +2743,6 @@ class ITS_screen2
                             $cstr = '';
                         }
                     }
-                    //var_dump($this->question_info);
-                    //var_dump($cstr);
-                    //die('aa');
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
                     $resources                = '';
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
@@ -2790,20 +2784,13 @@ class ITS_screen2
             }
         }
         if ($NO_QUESTIONS) {
-            $str = '<div class="ITS_MESSAGE">&diams;&nbsp;No more questions available for ' . $msg . '.</div>';
-            //$str = $this->main();
+            $str = ITS_message('No more questions <br> available for ' . $msg);
         }
         
         $mdb2->disconnect();
         //--------------------//
         
         return $str;
-    }
-    //=====================================================================//    
-    function footer()
-    {
-        //=====================================================================//
-        echo '<div id="footerContainer"> MY FOOTER </div>';
     }
     //=====================================================================//
 } //eo:class
@@ -2815,5 +2802,9 @@ function is_empty($var, $allow_false = false, $allow_ws = false)
     } else {
         return false;
     }
+}
+function ITS_message($msg)
+{
+    return '<div class="ITS_MESSAGE"><ul><li>' . $msg . '</li></ul></div>';
 }
 ?>
