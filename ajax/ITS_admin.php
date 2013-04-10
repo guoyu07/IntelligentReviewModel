@@ -5,6 +5,7 @@ ITS_admin_AJAX - script for AJAX admins
 Author(s): Greg Krudysz
 Date: Mar-11-2013
 ---------------------------------------------------------------------*/
+
 $Debug = FALSE;
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
@@ -38,7 +39,8 @@ $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)) {
     throw new Question_Control_Exception($mdb2->getMessage());
 }
-
+var_dump($action);
+die('aa');
 //-----------------------------------------------//
 switch ($action) {
     //-------------------------------------------//

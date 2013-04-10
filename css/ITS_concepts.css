@@ -1,5 +1,5 @@
 #conceptContainer{border:1px solid #fff;margin:0;padding:0}
-#conceptListContainer{border:1px solid #fff;margin:0;width:100%;overflow: auto;padding:0}
+#conceptListContainer{border:1px solid #f88;margin:0;width:100%;overflow: auto;padding:0}
 #SelectedConcContainer{padding:1em;border-top:3px solid #eee;margin-top:1em;overflow:auto;display:none}
 #ConcQuesContainer{position:absolute; top:400; height:400px;overflow: auto;}
 #getQuesForConcepts {position:relative;clear: both;margin-top:20px;}
@@ -7,13 +7,14 @@
 .conceptTable {position:relative;width:100%;border:2px solid #999;border-collapse:collapse}
 .conceptTable td {position:relative;border:1px solid #FFF}
 .conceptTable td.choice_del {border:1px solid #999;background-color:#aaa}
-.selcon{display:inline;float:left;font:110% Georgia, serif;text-align:center;margin:0.5em;color:#000;border:2px solid #eee;padding:0.2em}
-.selcon:hover{border:2px solid #000;color:#000;cursor:pointer}
+/*.selcon{font:110% Georgia, serif;text-align:center;color:#000;border:2px solid #eee;}*/
+/*.selcon{font:110% Georgia, serif;text-align:center;color:#000;}*/
+.selcon:hover{color:#000;cursor:pointer} /*border:2px solid #000;*/
 .concept_alph {color:pink;border:1px solid pink;}
 .concept_alph:hover{border:2px solid red;color:#090;cursor:pointer}
 #errorConceptContainer{color:#f00;padding:0;}
 li.ITS_nav_concept {margin:0;padding:0;font-size:5pt}
-li.ITS_nav_concept a{border:2px solid #fff;margin:0;font-size:10pt}
+li.ITS_nav_concept a{border:2px solid #000;margin:0;font-size:10pt}
 
 .resource_concept {float:left;clear:both;text-align:left;font-size:120%;padding:0.2em;font-family: Geneva, Tahoma, Verdana, sans-serif;color:#00a}
 .ITS_resource_box { border:2px solid #999;margin:0;padding:0.15em;overflow:auto;}
@@ -48,7 +49,25 @@ color:#666;
 font-weight:bold;
 line-height:0px;
 text-align:center;
-background:#eee}
+background:#eee
+}
+ul{
+  width:760px;
+  margin-bottom:20px;
+  overflow:hidden;
+  border-top:1px solid #ccc;
+}
+li{
+  line-height:1.5em;
+  border-bottom:1px solid #ccc;
+  float:left;
+  display:inline;
+}
+#double li  { width:50%;} <span class="code-comment">/* 2 col */</span>
+#triple li  { width:33.333%; } <span class="code-comment">/* 3 col */</span>
+#quad li    { width:25%; } <span class="code-comment">/* 4 col */</span>
+#six li     { width:16.666%; } <span class="code-comment">/* 6 col */</span>
+
 /*================= DEBUG =================/
 #conceptContainer{border:3px solid brown;}
 #conceptContainer{background-color:pink}

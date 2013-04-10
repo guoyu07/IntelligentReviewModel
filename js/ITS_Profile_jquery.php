@@ -1,6 +1,6 @@
 <?php
 /*=============================================================//
-	Last Revision: Mar-12-2013
+	Last Revision: Apr-10-2013
     Author(s): 	   Gregory Krudysz
 //=============================================================*/
 ?>
@@ -12,6 +12,9 @@
 	/*-------------------------------------------------------------------------*/
   $(document).ready(function() { 
      $("#scoreContainer").click(function(){$("#scoreContainerContent").slideToggle("slow");});
+         /*-------------------------------------------------------------------------*/
+    $("#gradebookContent").hide();
+    $("#gradebookContainerToggle").live('click', function() {$("#gradebookContent").slideToggle("slow");});
 		/*-------------------------------------------------------------------------*/		
 		 $("#deleteButton").live('click', function(event) {
 		    var uid = $(this).attr("uid");
@@ -50,7 +53,7 @@
      /*-------------------------------------------------------------------------*/		
 		 $("#getGradesSubmit").live('click', function (event) {
 	 /*-------------------------------------------------------------------------*/
-	    
+	    alert('hel');
         $.get('ajax/ITS_admin.php', {
             ajax_args: "getGrades",
             ajax_data: qid
@@ -58,7 +61,7 @@
             //alert(data);
             //$('#ITS_question_container').append(data);
         });
-    });
+    }); 
 	 /*-------------------------------------------------------------------------*/
   });
 </script>

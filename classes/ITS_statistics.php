@@ -17,12 +17,12 @@ Last Revision: Mar-07-2013
 class ITS_statistics
 {
     //==============================================================================    
-    private $id; // Stores user id
+    private $id; 		// Stores user id
     private $user_name; // Stores username
-    private $role; // user role: admin | inst | student
-    private $term; //
-    private $stats; // Stores statistical data to be output
-    public $data; // Stores all raw data from database
+    private $role; 		// user role: admin | inst | student
+    private $term; 
+    private $stats; 	// Stores statistical data to be output
+    public $data; 		// Stores all raw data from database
     public $hist;
     private $mdb2;
     
@@ -2041,7 +2041,18 @@ class ITS_statistics
         $tattempt        = array();
         $scores          = array();
         
-        $fu = '<form action="ajax/ITS_admin.php" method="post" enctype="multipart/form-data">' . '<label for="file">Gradebook:</label><input type="file" name="file" id="file">' . '<input type="submit" name="getGradesSubmit" value="Submit"></form>';
+        $ch_arr = range(1,8);
+    
+    $ch_list = '&nbsp;A-<select class="select_assignment" name="assignment" id="select_assignment">';
+    for ($ch = 0; $ch < count($ch_arr); $ch++) {
+        if ($ch == $ch_arr[$cs]) {
+            $sel             = 'selected="selected"';
+        } else {
+            $sel = '';
+        }
+        $ch_list .= '<option value="' . $ch_arr[$ch] . '" ' . $sel . '>' . $ch_arr[$ch] . '</option>';
+    }
+    $ch_list .= '</select>';
         
         /*echo '<pre>';
         print_r($Nchs);
@@ -2083,7 +2094,12 @@ class ITS_statistics
         $fdate = explode(',', $fdate);
         $fdate = $fdate[0] . ',' . $fdate[1] . '<br>' . $fdate[2];
         
-        $Estr = $fu . '<center><div class="file"><a href="' . $file_path . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">scores</font></div>' . '<div class="file"><a href="' . $file_path1 . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">grades</font></div>' . '<table class="CPROFILE">' . $header;
+        $file =  '<form action="Profile.php" method="post" enctype="multipart/form-data"><p>' . '<input type="file" name="file" id="file" size="10"><p>' .$ch_list. ' <input type="submit" name="getGradesSubmit" value="Submit"></p></p></form>';
+		$Gradebook = '<div class="file2"><div id="gradebookContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Gradebook</span></div>'.
+                '<div id="gradebookContent">'.$file.'</div></div>';
+
+        $Estr = '<center><div class="file"><a href="' . $file_path . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">scores</font></div>' . '<div class="file"><a href="' . $file_path1 . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">grades</font></div>' .
+				$Gradebook. '<table class="CPROFILE">' . $header;
         
         $sts      = array_fill(0, count($chs) - 1, 0);
         $full_sts = array_fill(0, count($chs) - 1, 0);
@@ -2203,8 +2219,8 @@ class ITS_statistics
         $epochtime = mktime(0, 0, 0, 1, 11, 2013);
         $ITSq      = new ITS_query();
         
-        $file_path = '../admin/csv/';
-        $file_name = 'ITS-'.$A.'.csv';     
+        $file_path = 'admin/csv/';
+        $file_name = 'ITS-A'.$A.'.csv';     
         $fp        = fopen($file_path.$file_name, 'w');
         
         $handle = fopen($users, "r");

@@ -1,8 +1,12 @@
 <?php
-$LAST_UPDATE = 'Jan-25-2013';
+$LAST_UPDATE = 'Apr-10-2013';
+//=====================================================================//               
+//Author(s): Gregory Krudysz
+//=====================================================================//
 //--- begin timer ---//
 $mtime       = explode(" ", microtime());
 $starttime   = $mtime[1] + $mtime[0];
+$Debug       = FALSE;
 //-------------------//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -24,12 +28,29 @@ $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
 $info =& $_SESSION['user']->info();
 //------------------------------------------// 
-//echo $_SESSION['screen']-role();
-//echo '<pre>';var_dump($_SESSION);echo '</pre>';
-//$screen = $_SESSION['screen'];
-//echo $screen->status;
+//echo '<pre>';var_dump($_POST);echo '</pre>';die();
 
 if ($status == 'admin' OR $status == 'instructor') {
+    if ($_POST['getGradesSubmit'] == 'Submit') {
+        //--- FILE UPLOAD ---------------------*//  
+        if ($Debug) {
+            if ($_FILES["file"]["error"] > 0) {
+                $Debug = "Error: " . $_FILES["file"]["error"] . "<br>";
+            } else {
+                echo "Upload: " . $_FILES["file"]["name"] . "<br>";
+                echo "Type: " . $_FILES["file"]["type"] . "<br>";
+                echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
+                echo "Stored in: " . $_FILES["file"]["tmp_name"];
+            }
+        }
+        $tsquare_file = $_FILES["file"]["tmp_name"];
+        $A            = $_POST['assignment'];
+        $s            = new ITS_statistics(1, 'Spring_2013', 'admin');
+        $grade_link   = $s->getGrades($tsquare_file, $A);
+        //-------------------------------------*//
+    } else {
+        $grade_link = '';
+    }
     //------- CLASS -------------//
     switch ($status) {
         case 'instructor':
@@ -198,6 +219,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         
         $tr   = new ITS_statistics($uid, $section, $status);
         $list = $tr->render_class_profile($section, $chs, $tset);
+        
         /*
         echo '<pre>';
         print_r($list);
@@ -207,7 +229,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     $current = basename(__FILE__, '.php');
     $ITS_nav = new ITS_navigation($status);
     $nav     = $ITS_nav->render($current, '');
-    //---------------------------------------------//	
+    //---------------------------------------------//	      
 } else {
     // redirect to start page //
     header("Location: http://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/screen.php");
@@ -249,7 +271,8 @@ echo $delButton;
     <div id="maincontent">
 <?php
 //--- PROFILE -----------------------------------------------//
-echo $myScore . '<div id="userProfile">' . $list . '</div>';
+echo $myScore . $grade_link . '<div id="userProfile">' . $list . '</div>';
+
 //--- TIMER -------------------------------------------------//
 $mtime     = explode(" ", microtime());
 $endtime   = $mtime[1] + $mtime[0];
