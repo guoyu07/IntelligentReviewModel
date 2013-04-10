@@ -2094,7 +2094,7 @@ class ITS_statistics
         $fdate = explode(',', $fdate);
         $fdate = $fdate[0] . ',' . $fdate[1] . '<br>' . $fdate[2];
         
-        $file =  '<form action="Profile.php" method="post" enctype="multipart/form-data"><p>' . '<input type="file" name="file" id="file" size="10"><p>' .$ch_list. ' <input type="submit" name="getGradesSubmit" value="Submit"></p></p></form>';
+        $file =  '<form action="Profile.php" method="post" enctype="multipart/form-data"><p style="font-size:70%">Select T-square gradebook file (.csv):<br><input type="file" name="file" id="file" size="10"><p>' .$ch_list. ' <input type="submit" name="getGradesSubmit" value="Submit"></p></p></form>';
 		$Gradebook = '<div class="file2"><div id="gradebookContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Gradebook</span></div>'.
                 '<div id="gradebookContent">'.$file.'</div></div>';
 
@@ -2241,7 +2241,7 @@ class ITS_statistics
                     // echo $q1;die();
                     $r1    = mysql_query($q1);
                     $score = mysql_result($r1, 0, "sum");
-                    $grade = round($ptsGrade * min($score, $ptsMax) / $ptsMax);               
+                    $grade = round(100*$ptsGrade * min($score, $ptsMax) / $ptsMax)/100;        
                     $grades = array($data[0],$data[1],$grade);
                 } else {
 					$grades = array($data[0],$data[1],'ITS-'.$A);          
@@ -2251,7 +2251,7 @@ class ITS_statistics
             fclose($handle);
         }   
         fclose($fp);
-                
+        
         $link = '<a href="'.$file_path.$file_name.'">'.$file_name.'</a>';
 		
         return $link;
