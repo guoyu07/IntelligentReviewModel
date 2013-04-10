@@ -18,6 +18,8 @@ require_once("classes/ITS_message.php");
 require_once("classes/ITS_navigation.php");
 require_once("classes/ITS_footer.php");
 
+global $term, $tset;
+
 //$timer = new ITS_timer();
 session_start();
 
@@ -45,7 +47,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         }
         $tsquare_file = $_FILES["file"]["tmp_name"];
         $A            = $_POST['assignment'];
-        $s            = new ITS_statistics(1, 'Spring_2013', 'admin');
+        $s            = new ITS_statistics(1,$term, 'admin');
         $grade_link   = $s->getGrades($tsquare_file, $A);
         //-------------------------------------*//
     } else {

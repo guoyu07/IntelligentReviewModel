@@ -12,7 +12,7 @@ Methods: 	render_user_answer()
 render_question_answer( $score,$answer,$qtype,$index ) 
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Mar-07-2013
+Last Revision: Apr-10-2013
 //=====================================================================*/
 class ITS_statistics
 {

@@ -1,11 +1,9 @@
 <?php
 /*---------------------------------------------------------------------
-ITS_admin_AJAX - script for AJAX admins
-
+ajax/ITS_admin - script for AJAX ITS_admin.php
 Author(s): Greg Krudysz
-Date: Mar-11-2013
+Date: Apr-10-2013
 ---------------------------------------------------------------------*/
-
 $Debug = FALSE;
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
@@ -18,12 +16,12 @@ session_start();
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state;
 
-    //-- Get AJAX arguments
-    $args = preg_split('[,]', $_GET['ajax_args']);
-    
-    //-- Get AJAX user data
-    //$Data = rawurldecode($_GET['ajax_data']);
-    $Data = $_GET['ajax_data'];
+//-- Get AJAX arguments
+$args = preg_split('[,]', $_GET['ajax_args']);
+
+//-- Get AJAX user data
+//$Data = rawurldecode($_GET['ajax_data']);
+$Data = $_GET['ajax_data'];
 
 $action = $args[0];
 // preprocess before SQL
@@ -466,26 +464,6 @@ switch ($action) {
         $ans .= '</table>';
         $str = $ans;
         */
-        break;
-    //-------------------------------------------//            
-    case 'getGrades':
-        //-------------------------------------------//
-        if ($Debug) {
-            if ($_FILES["file"]["error"] > 0) {
-                $Debug = "Error: " . $_FILES["file"]["error"] . "<br>";
-            } else {
-                echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-                echo "Type: " . $_FILES["file"]["type"] . "<br>";
-                echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-                echo "Stored in: " . $_FILES["file"]["tmp_name"];
-            }
-        }
-        $tsquare_file = $_FILES["file"]["tmp_name"];
-        //
-        var_dump($tsquare_file);die();
-        
-        $s   = new ITS_statistics(1, 'Spring_2013', 'admin');
-        $str = $s->getGrades($tsquare_file, 1);
         break;
 }
 //-----------------------------------------------//

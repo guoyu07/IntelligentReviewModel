@@ -52,19 +52,19 @@ $open  = array(
         22
     ),
     array(
-        4,
+        3,
+        25
+    ),
+    array(
+        3,
+        29
+    ),
+    array(
+        5,
         1
     ),
     array(
-        4,
-        1
-    ),
-    array(
-        4,
-        1
-    ),
-    array(
-        4,
+        5,
         1
     )
 );
@@ -86,12 +86,12 @@ $close = array(
         11
     ),
     array(
-        5,
-        1
+        4,
+        8
     ),
     array(
-        5,
-        1
+        4,
+        15
     ),
     array(
         5,
