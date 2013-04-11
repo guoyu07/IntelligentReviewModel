@@ -37,8 +37,7 @@ $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)) {
     throw new Question_Control_Exception($mdb2->getMessage());
 }
-var_dump($action);
-die('aa');
+//var_dump($action);die('in ajax/ITS_admin');
 //-----------------------------------------------//
 switch ($action) {
     //-------------------------------------------//
