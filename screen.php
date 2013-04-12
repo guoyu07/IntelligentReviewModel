@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '216';
-$LAST_UPDATE = 'Apr-10-2013';
+$ITS_version = '216b';
+$LAST_UPDATE = 'Apr-12-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -60,11 +60,11 @@ $open  = array(
         29
     ),
     array(
-        5,
-        1
+        4,
+        12
     ),
     array(
-        5,
+        6,
         1
     )
 );
@@ -95,10 +95,10 @@ $close = array(
     ),
     array(
         5,
-        1
+        3
     ),
     array(
-        5,
+        6,
         1
     )
 );
@@ -106,16 +106,23 @@ $close = array(
 $term_arr  = explode('_', $term);
 $tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
 $index_max = 0;
-foreach ($open as $Odate) {
+
+foreach ($close as $Odate) {
     $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
     if ($open_time < time())
         $index_max++;
 }
 $index_hide = 0;
 $schedule   = array();
-foreach ($close as $Cdate) {
-    $close_time = mktime(23, 59, 59, $Cdate[0], $Cdate[1], $term_arr[1]);
-    array_push($schedule, date("M - j", $close_time) . ' @ 11:59 pm');
+
+for ($c = 0; $c < count($open); $c++) {
+	if ($c==6){
+    $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
+} else {
+	$close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
+}
+    
+    array_push($schedule, date("M - j @ g:i a", $close_time));
     //echo '<p>'.date("M-j", $close_time).'</p>';
     if ($close_time < time())
         $index_hide++;
@@ -359,10 +366,11 @@ switch ($status) {
         $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
-		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
+		//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
 			   //.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
-        /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
-			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';*/
+        $modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
+			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
+			   //*/
 echo $modeDiv;
 
 ?>  

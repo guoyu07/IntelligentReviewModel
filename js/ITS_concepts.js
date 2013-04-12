@@ -147,7 +147,6 @@ $(document).ready(function () {
         }, function (data) {
             if (data) {
                 var str = '<input type="button" value="Submit" name="subModule" id="subModule"></input>';
-                //alert('hi');
                 $("#moduleNameDialog").val(data);
                 var dialog = $(data).appendTo('#moduleNameDialog');
                 dialog.attr("id", "ModuleNameDivDD");
@@ -264,7 +263,7 @@ $(document).ready(function () {
     $(".ITS_alph_index").live("click", function () {
         /*-------------------------------------------------------------------------*/
         var header = $(this).html();
-        alert(header);
+        /*alert(header);*/
         $('.ITS_alph_index').each(function (index) {
             //alert(index);
             //alert($(this).html());

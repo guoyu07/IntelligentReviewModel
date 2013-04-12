@@ -51,6 +51,7 @@ line-height:0px;
 text-align:center;
 background:#eee
 }
+/*
 ul{
   width:760px;
   margin-bottom:20px;
@@ -62,7 +63,7 @@ li{
   border-bottom:1px solid #ccc;
   float:left;
   display:inline;
-}
+}*/
 #double li  { width:50%;} <span class="code-comment">/* 2 col */</span>
 #triple li  { width:33.333%; } <span class="code-comment">/* 3 col */</span>
 #quad li    { width:25%; } <span class="code-comment">/* 4 col */</span>
