@@ -1,6 +1,6 @@
 <?php
 //=============================================================//
-$ITS_version = '216b';
+$ITS_version = '216c';
 $LAST_UPDATE = 'Apr-12-2013';
 //=============================================================//
 
@@ -116,12 +116,13 @@ $index_hide = 0;
 $schedule   = array();
 
 for ($c = 0; $c < count($open); $c++) {
+	//var_dump($close[$c][1]);die();
 	if ($c==6){
     $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
 } else {
 	$close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
 }
-    
+    //var_dump(date("M - j @ g:i a", $close_time));die();
     array_push($schedule, date("M - j @ g:i a", $close_time));
     //echo '<p>'.date("M-j", $close_time).'</p>';
     if ($close_time < time())
@@ -366,11 +367,11 @@ switch ($status) {
         $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
-		//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
+		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
 			   //.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
-        $modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
+        /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
 			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
-			   //*/
+			   */
 echo $modeDiv;
 
 ?>  
