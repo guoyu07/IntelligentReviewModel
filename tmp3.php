@@ -11,12 +11,12 @@ input[type="radio"].toggle:checked + label.btn:hover {
     background-color: inherit;
     background-position: 0 0;
 }
-div.middle { padding:15px;text-align:middle }
+div.mode { padding:15px;text-align:middle }
 </style>
 </head>
 
 <body style="background-color:#fff">
-<div class="middle">
+<div class="mode">
 <input id="toggle-on" class="toggle" name="toggle" value="false" type="radio" checked
 ><label for="toggle-on" class="btn">ASSIGNMENTS</label
 ><input id="toggle-off" class="toggle" name="toggle" value="true" type="radio"

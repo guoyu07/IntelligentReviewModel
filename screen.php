@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '216c';
-$LAST_UPDATE = 'Apr-12-2013';
+$ITS_version = '216g';
+$LAST_UPDATE = 'Apr-29-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -238,7 +238,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
     <body>
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
-            <div id="menuContainer">
+            <div id="menuContainer"> 
                 <div id="logout" class="logout" uid="<?php
 echo $id;
 ?>"><a href="logout.php">Logout</a></div>
@@ -248,11 +248,17 @@ echo $id;
 		<div class="icon" id="Tag_icon">Tag</div>
 		-->
                 <div class="icon" id="instructionIcon" onClick="ITS_MSG(1)"><tt>?</tt></div>
-                <div class="icon" id="messageIcon"     onClick="ITS_MSG(1)">&para;</div>
+                <div class="icon" id="messageIcon"     onClick="ITS_MSG(1)">&para;</div>            
             </div>
-            <!-- myScore ---------->
-            <?php //die($status);
-
+<!-- MODE ------------->
+<div id="modeContainer">
+<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked>
+<label for="ASSIGNMENTS" class="btn">ASSIGNMENTS</label>
+<input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
+<label for="CONCEPTS" class="btn">CONCEPTS</label>
+</div>          
+<!-- myScore ---------->
+<?php //die($status);
 switch ($status) {
     case 'BMED6787':
         $chUser   = 1;
@@ -288,92 +294,17 @@ echo $MyScores;
 //echo $str;
 ?>
 <!-- NAVIGATION ----------------------------------------------->
-<div id="modeContainer">        
+<div id="navXXContainer" style="border:1px solid red">
 <?php
 /* -------------------- */
-switch ($status) {
-    /* ----------------- */
-    case 'BMED6787':
-        /* ----------------- */
-        $chUser       = 1;
-        $mode         = 'survey';
-        $screen->mode = $mode;
-        $chList       = '<ul id="chList">';
-        $chList .= '<li><a href="#" class="chapter_index" id="Survey02" name="chapter" value="1">Survey</a></li>';
-        break;
-    /* ----------------- */
-    default:
-        /* ----------------- */
-        $mode = 'question'; // index | practice | question
-        //$chList = '<span id="chText">MODULE</span><ul id="chList">';
-        
-        /* OLD */     
-        /*$chList = '<div class="QuestionMode"><select id="QuestionMode">'
-        .'<option value="MODULE">Modules</option>'
-        .'<option value="CONCEPT" id="showConcepts">Concepts</option></select>'
-        .'<input type="button" style="display:none" name="changeConcept" id="changeConcept" value="change Concept"/></div>'
-        .'<div class="module_index" id="ModuleListingDiv"></div><div id="chapterListingDiv"><ul id="chList">';
-        */
-        /* OLD */
-        //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
-        /* NEW */
-        //$chList2 = '<div id="modeSelContainer" style="border:1px solid red"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">PRACTICE</a></li></ul></li></ul></div>';
-        //$chList2 .= '<div id="modeContentContainer" style="border:1px solid green"><div id="chContainer"><ul id="chList">';
-                /* NEW */
-        //die($chList);    
-        
-        //**
-        //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">PRACTICE</a></li></ul></div>';
-        //$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
-        //**
-        
-        //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
-        //$chList .= '<li><a href="#" class="chapter_index" name="chapter" value="0">Introduction</a></li>';
-        
-        $chList = '<div id="chContainer"><ul id="chList">';
-        switch ($role) {
-            case 'admin':
-            case 'instructor':
-                for ($i = 1; $i <= $chMax; $i++) {
-                    //echo $i.' -- '.($index_hide+1).'<br>';
-                    if ($i == ($index_hide + 1)) {
-                        $idx_id = 'id="current"';
-                    } else {
-                        $idx_id = '';
-                    }
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
-                }
-                $view = TRUE;
-                $r    = TRUE; // role
-                break;
-            default:
-                //var_dump($chArr); die();
-                for ($i = 0; $i < count($chArr); $i++) {
-                    if ($i == $index_max) { // ($index_hide + 1)
-                        $idx_id = 'id="current"'; // PRACTICE: = ''
-                        //var_dump($i);die('xx');
-                    } else {
-                        $idx_id = '';
-                    }
-                    //echo $i.'-'.$idx_id.'<p>';
-                    //echo 'a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '"><br>';
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
-                }
-                if ($index_hide==$index_max){$view=FALSE;}
-                $r = FALSE;
-                break;
-        }
-        //$chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
-        $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
-        /* -------------------- */
-}
-		$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
+
+		$modeDiv = '<div id="modeContentContainer">'.$chList.'</div>';
+		//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
 			   //.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
         /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
 			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
 			   */
 echo $modeDiv;
-
 ?>  
 <input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">  
             </div>

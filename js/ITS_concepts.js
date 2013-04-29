@@ -288,9 +288,65 @@ $(document).ready(function () {
         });
     });
     /*-------------------------------------------------------------------------*
-     * In student mode, this function call returns with all matched questions
-     *  for practice
+     * In student mode, this function call returns with all matched questions for practice
      * -------------------------------------------------------------------------*/
+    $('input[type="radio"]').live('click', function (event) {
+        /*-------------------------------------------------------------------------*/
+        // click does not work with Chrome!!
+        var s = $(this).attr('id');
+        //alert(s); //.id = 'current'; //var s = $(this).val();
+        if (s == "CONCEPTS") {
+			$('#navListQC').hide();
+            /*
+			$('#nav2 > li > a').html('ASSIGNMENT');
+			$('#nav1 > li > a').html(s);
+			$('#chContainer').hide();
+			$('#navContainer').hide();
+            $('#chapterListingDiv').hide();
+            $('#changeConcept').show();
+
+            $('#Question').attr('choice_mode', 'concept');
+            $('#Practice').attr('choice_mode', 'concept');
+            $('#Review').attr('choice_mode', 'concept');
+            */
+            $.post("ajax/ITS_concepts.php", {
+                choice: "showLetters"
+            }, function (data) {
+                // TODO: to put in condition to check if data returned is null or no questions
+                $('#modeContentContainer').html(data);
+            });
+            $.post("ajax/ITS_concepts.php", {
+                choice: "getConcepts"
+            }, function (data) {
+                $('#contentContainer').html(data);
+            });
+        } else if (s == "ASSIGNMENTS") {
+			$('#navListQC').show();
+            $('#nav2 > li > a').html('CONCEPT');
+            $('#nav1 > li > a').html(s);
+            $('#coContainer').hide('slow');
+            $('#changeConcept').hide();
+            $('#chContainer').show();
+            $('#navContainer').show();
+            $('#chapterListingDiv').show();
+            $('#Question').attr('choice_mode', 'module');
+            $('#Practice').attr('choice_mode', 'module');
+            $('#Review').attr('choice_mode', 'module');
+            //	alert('calling');
+            $.post("ajax/ITS_concepts.php", {
+                choice: "showLetters"
+            }, function (data) {
+                $('#modeContentContainer').html('xx');
+            });
+            $.get("ajax/ITS_screen2.php", {
+                ajax_args: "changeMode",
+                ajax_data: 'question'
+            }, function (data) {
+                $('#contentContainer').html(data);
+            });
+        }
+    });
+    /*-------------------------------------------------------------------------*/     
     //$('#showConcepts').live('click',function(event){
     //$('#QuestionMode').live('change', function(event) {
     $('a[name=selectMode]').live('click', function (event) {

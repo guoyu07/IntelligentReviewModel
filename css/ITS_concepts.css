@@ -51,24 +51,14 @@ line-height:0px;
 text-align:center;
 background:#eee
 }
-/*
-ul{
-  width:760px;
-  margin-bottom:20px;
-  overflow:hidden;
-  border-top:1px solid #ccc;
-}
-li{
-  line-height:1.5em;
-  border-bottom:1px solid #ccc;
-  float:left;
-  display:inline;
-}*/
-#double li  { width:50%;} <span class="code-comment">/* 2 col */</span>
-#triple li  { width:33.333%; } <span class="code-comment">/* 3 col */</span>
-#quad li    { width:25%; } <span class="code-comment">/* 4 col */</span>
-#six li     { width:16.666%; } <span class="code-comment">/* 6 col */</span>
 
+#conceptColumnContainer { width:100%;text-align: center; }
+.conceptColumn { float: center; margin-top: 7px;display: inline-block;vertical-align:text-top }
+.conceptList { border:1px solid #fff;padding:0;margin:0.5em 1em; text-align:left;list-style-type:none; }
+.conceptList li {color:#666;border:1px solid #fff;padding: 0.5}
+.conceptList li:hover{border:1px dotted #ccc;color:#090;cursor:pointer}
+.conceptScore { float:right;color:#999;font-size:60% }
+.conceptCount {float:left;color:#999;font-size:60% }
 /*================= DEBUG =================/
 #conceptContainer{border:3px solid brown;}
 #conceptContainer{background-color:pink}

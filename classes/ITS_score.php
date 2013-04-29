@@ -9,7 +9,7 @@ ITS_score - compute user scores.
 		NOTE: requires ITS_query() class
 								
 	 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-	 Last Update: Jan-25-2013
+	 Last Update: Apr-29-2013
 //=====================================================================*/
 class ITS_score {
 	
@@ -21,8 +21,8 @@ class ITS_score {
 		$this->db_dsn  = $db_dsn;
 		$this->tb_name = $tb_name;
 		$this->chapter = $ch;
-		$this->term    = $term; 	  // Spring_2012
-		$this->epochtime = $date;     // 1311960440
+		$this->term    = $term;
+		$this->epochtime = $date;   
 		// array of chapters whose scores are to be displayed
 		$this->chapterArray = $chArr;
 		
@@ -205,7 +205,7 @@ class ITS_score {
         //Percentages
         $percentageArr[] = round($s['percent'],2).'<span class="gray"> %</span>';
         //Grade
-        $grade = round($ptsGrade*min($s['score'],$ptsMax)/$ptsMax);
+        $grade = round(10*$ptsGrade*min($s['score'],$ptsMax)/$ptsMax)/10;
         $gradeArr[] = '<span class="gray">'.$grade.'</span> / <span class="gray">'.$ptsGrade.'</span><br><span class="grade">'.(round(1000*($grade/$ptsGrade))/10).'</span><span class="gray"> %</span>';
         $totalGrade = $totalGrade + $grade;
         $idx++;

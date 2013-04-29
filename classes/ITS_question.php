@@ -700,6 +700,8 @@ class ITS_question
                     default:
                         //-------------------------------------------//
                         $inactive = '_inactive'; //print_r($this->Q_answers_permutation);
+                        $R = $this->Q_answers_permutation;
+                        /* DELETE THIS BLOCK: 
                         // Config from DB
                         $query    = 'SELECT comment FROM stats_' . $this->user_id . ' WHERE question_id=' . $this->Q_question_data['id'] . ' AND event<>"skip" ORDER BY id';
                         //echo 'IN MODE=default<p>'.$query; //die();
@@ -710,6 +712,7 @@ class ITS_question
                         $C = mysql_fetch_array($res);
                         //echo 'C<p>'; //print_r($C);//echo count($C); die();
                         $R = explode(',', $C[0]); //$this->Q_answers_permutation;
+                        */
                         //print_r($R);
                         //echo '<p>AFTER SHUFFLE (INACTIVE): '.implode(',',$R).'<p>';die();
                 }

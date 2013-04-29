@@ -1813,6 +1813,7 @@ class ITS_statistics
                     }
                     // Khyatis changes end - march 29 12    					
                     $Q->get_ANSWERS_data_from_DB();
+                    $Q->Q_answers_permutation = explode(',',$answers[$qn][4]);
                     $ANSWER   = $Q->render_ANSWERS('a', 0);
                     $dist     = '-dist-'; //'-dist-';                   
                     $FEEDBACK = $this->render_user_answer($ans, $score, $dist, $config, 0); //##!!

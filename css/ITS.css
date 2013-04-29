@@ -114,6 +114,16 @@ TT { font-family: aerial,sans serif;      }
 TD { text-align: center;border-width: 1px;border-style: none;padding: 0px;}
 img.ITS_LaTeX { position:relative; vertical-align: middle; /*height:100%*/ }
 /*IMG  { max-height:200px;  }*/
+
+/* MODE */
+input[type="radio"].toggle {display: none;color:red}
+input[type="radio"].toggle:checked + label {cursor: default;border:1px solid #999;}
+input[type="radio"].toggle + label {cursor: pointer; width: 3em;padding: 10px;}
+input[type="radio"].toggle:checked + label.btn:hover {
+    background-color: inherit;
+    background-position: 0 0;
+}
+div.modeToggle {text-align:middle }
 /*==========================================================================
 								M A I N
 ============================================================================*/
@@ -129,13 +139,25 @@ img.ITS_LaTeX { position:relative; vertical-align: middle; /*height:100%*/ }
 /*==========================================================================
                M E N U
 ============================================================================*/
-#menuContainer {
+#menuContainer  {
   position: relative;
 	/*margin:10px auto 5px auto;*/
 	text-align: right;
 	padding: 0em;
 	overflow: auto;
 	/*display: inline;*/
+}
+#modeContainer {
+    position: relative;
+	text-align: middle;
+	padding: 1em;
+	overflow: auto;
+}
+#navXXContainer {
+    position: relative;
+	text-align: middle;
+	padding: 0em;
+	overflow: auto;
 }
 #header h1 {
 	position: absolute;
@@ -533,7 +555,7 @@ PRE.MATLAB_error {
 span.ML_comment { color: green; }
 span.ML_error   { color: red;   }
 
-/*------- Difficulty Rating Bar in Reviews Section by Mi Seon Park -------*/
+/*------- Difficulty Rating Bar in Reviews Section -------*/
 .difficulty-bar {
 	background-color: #1a1a1a;
 	height: 20px;
@@ -1470,10 +1492,10 @@ div.logout              {	background: #fff;      }
 #menuContainer        {	background: lime;      }
 #messageContainer     {	background: purple;    }
 #scoreContainer       {	background: gray;      }
-
-#modeContainer		  {	background: black;      }
+#modeContainer		  {	background: pink;      }
 #modeSelContainer	  {	background: lightblue; }
 #modeContentContainer {	background: #00a;      }
+#navContainer         {	background: #f8f;      }
 
 #ITS_QUESTION 		  { background: brown;	   }
 div.ITS_QUESTION 	  { background: orange;    }

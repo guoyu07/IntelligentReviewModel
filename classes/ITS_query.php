@@ -107,7 +107,7 @@ class ITS_query
             $query = 'category REGEXP "(SPEN' . $ch . '$|PreLab0' . $ch . '$|Lab' . $ch . '$|Chapter' . $ch . '$|-Mod' . $ch . '$' . $other . ')" AND '.$this->tb_name.'.qtype IN ("MC","M","C")';
         }
         //echo 'UPDATE questions SET verified=1 WHERE '.$query.';<br>';
-        //echo $query;
+        //echo $query.'<br>';
         //die($query);
         
         return $query;

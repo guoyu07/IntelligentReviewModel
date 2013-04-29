@@ -67,18 +67,36 @@ class ITS_concepts
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
-        $query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
+        //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
+        $query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
+        
+        //ALTER TABLE its.tags DROP question_id
+        //ALTER TABLE its.tags DROP concept_id
+        //ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
+  
         //die($query);
         $res   = mysql_query($query, $con);  
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
-        $str = '';
+        $N = 20; // list items per column
+        $str = '<div id="conceptColumnContainer">';
+        
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
+			$mod = $x % $N;
+			if ($mod==0) { $str .= '<div class="conceptColumn"><ul class="conceptList">'; }
+			//echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
-            $str .= "<li  id='" . $row['name'] . "' cid='" . $row['id'] . "' class='selcon'>" . $row['name'] . "</li>";
+            $str .= '<li  id="' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '</li>';
+            //$str .= ''.$x.'</div>';
+            
+            if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }
         }
+        $str .= '</div>';
+        //echo htmlspecialchars($str);
+        
         if ($str != '')
-            return "<ul class='conceptLIST'>" . $str . "</ul>";
+            //return "<center><ul class='conceptLIST'>" . $str . "</ul></center>";
+            return $str;
         else
             return $str;
     } // End of getConcepts()
