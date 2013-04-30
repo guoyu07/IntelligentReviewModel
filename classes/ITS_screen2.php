@@ -1385,10 +1385,112 @@ class ITS_screen2
         return $navigation;
     }
     //=====================================================================//
-    function renderAssignment($status,$view)
+    function getSchedule()
+    {
+        //=====================================================================//  
+$open  = array(
+    array(
+        1,
+        11
+    ),
+    array(
+        1,
+        11
+    ),
+    array(
+        2,
+        8
+    ),
+    array(
+        2,
+        22
+    ),
+    array(
+        3,
+        25
+    ),
+    array(
+        3,
+        29
+    ),
+    array(
+        4,
+        12
+    ),
+    array(
+        6,
+        1
+    )
+);
+$close = array(
+    array(
+        2,
+        1
+    ),
+    array(
+        2,
+        8
+    ),
+    array(
+        3,
+        4
+    ),
+    array(
+        3,
+        11
+    ),
+    array(
+        4,
+        8
+    ),
+    array(
+        4,
+        15
+    ),
+    array(
+        5,
+        10
+    ),
+    array(
+        6,
+        1
+    )
+);
+
+$term_arr  = explode('_', $this->term);
+$tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
+$index_max = 0;
+
+foreach ($close as $Odate) {
+    $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
+    if ($open_time < time())
+        $index_max++;
+}
+$index_hide = 0;
+$schedule   = array();
+
+for ($c = 0; $c < count($open); $c++) {
+	//var_dump($close[$c][1]);die();
+	if ($c==6){
+    $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
+} else {
+	$close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
+}
+    //var_dump(date("M - j @ g:i a", $close_time));die();
+    array_push($schedule, date("M - j @ g:i a", $close_time));
+    //echo '<p>'.date("M-j", $close_time).'</p>';
+    if ($close_time < time())
+        $index_hide++;
+}
+return $schedule;  
+ }   
+    //=====================================================================//
+    function renderAssignment($status,$view,$role,$chArr,$chMax,$index_max,$index_hide,$schedule)
     {
         //=====================================================================//    
-    
+        //echo '$status , $view , $role , $chMax , $index_max , $index_hide <br>';
+        //echo $status.'-'.$view.'-'.$role.'-'.$chMax.'-'.$index_max.'-'.$index_hide.'<br>';
+
     switch ($status) {
     /* ----------------- */
     case 'BMED6787':
@@ -1403,37 +1505,13 @@ class ITS_screen2
     default:
         /* ----------------- */
         $mode = 'question'; // index | practice | question
-        //$chList = '<span id="chText">MODULE</span><ul id="chList">';
-        
-        /* OLD */     
-        /*$chList = '<div class="QuestionMode"><select id="QuestionMode">'
-        .'<option value="MODULE">Modules</option>'
-        .'<option value="CONCEPT" id="showConcepts">Concepts</option></select>'
-        .'<input type="button" style="display:none" name="changeConcept" id="changeConcept" value="change Concept"/></div>'
-        .'<div class="module_index" id="ModuleListingDiv"></div><div id="chapterListingDiv"><ul id="chList">';
-        */
-        /* OLD */
-        //$chList = '<div id="modeSelContainer"><ul id="nav1" class="ITS_nav"><li><a href="faq/ITS_schedule_tb.html" id="current" data-fancybox-type="iframe" class="ITS_schedule" name="selectMode" title="ECE 2026 &ndash; Fall 2012<br>ITS Schedule | <a href=faq target=_blank>ITS - FAQ</a>">ASSIGNMENT</a></li></ul></div>';
-        /* NEW */
-        //$chList2 = '<div id="modeSelContainer" style="border:1px solid red"><ul id="nav1" class="ITS_nav"><li><a href="#" id="current" name="selectMode">ASSIGNMENT</a><ul id="nav2"><li><a href="#" name="selectMode">PRACTICE</a></li></ul></li></ul></div>';
-        //$chList2 .= '<div id="modeContentContainer" style="border:1px solid green"><div id="chContainer"><ul id="chList">';
-                /* NEW */
-        //die($chList);    
-        
-        //**
-        //$chList = '<div id="navcontainerMain"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li><li><a href="#">PRACTICE</a></li></ul></div>';
-        //$chList .= '<div id="content"><div id="chContainer"><ul id="chList">';
-        //**
-        
-        //$chList = '<span id="chText">MODULE</span><ul id="chList" class="ITS_nav">';
-        //$chList .= '<li><a href="#" class="chapter_index" name="chapter" value="0">Introduction</a></li>';
         
         $chList = '<div id="chContainer"><ul id="chList">';
         switch ($role) {
             case 'admin':
             case 'instructor':
                 for ($i = 1; $i <= $chMax; $i++) {
-                    //echo $i.' -- '.($index_hide+1).'<br>';
+                    // echo $i.' -- '.($index_hide+1).'<br>';
                     if ($i == ($index_hide + 1)) {
                         $idx_id = 'id="current"';
                     } else {
@@ -1465,6 +1543,10 @@ class ITS_screen2
         $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
         /* -------------------- */
 }
+
+//echo htmlspecialchars($chList); die();
+return $chList;
+
 }
     //=====================================================================//
     function exercisesContent()

@@ -321,6 +321,7 @@ $(document).ready(function () {
                 $('#contentContainer').html(data);
             });
         } else if (s == "ASSIGNMENTS") {
+			var r = $(this).attr('r');
 			$('#navListQC').show();
             $('#nav2 > li > a').html('CONCEPT');
             $('#nav1 > li > a').html(s);
@@ -333,10 +334,11 @@ $(document).ready(function () {
             $('#Practice').attr('choice_mode', 'module');
             $('#Review').attr('choice_mode', 'module');
             //	alert('calling');
-            $.post("ajax/ITS_concepts.php", {
-                choice: "showLetters"
+            $.post("ajax/ITS_screen2.php", {
+                ajax_args: "showAssignments",
+                ajax_data: r
             }, function (data) {
-                $('#modeContentContainer').html('xx');
+                $('#modeContentContainer').html(data);
             });
             $.get("ajax/ITS_screen2.php", {
                 ajax_args: "changeMode",

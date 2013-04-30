@@ -31,103 +31,8 @@ abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
-$view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 
-//----- SCHEDULE -----//
-$open  = array(
-    array(
-        1,
-        11
-    ),
-    array(
-        1,
-        11
-    ),
-    array(
-        2,
-        8
-    ),
-    array(
-        2,
-        22
-    ),
-    array(
-        3,
-        25
-    ),
-    array(
-        3,
-        29
-    ),
-    array(
-        4,
-        12
-    ),
-    array(
-        6,
-        1
-    )
-);
-$close = array(
-    array(
-        2,
-        1
-    ),
-    array(
-        2,
-        8
-    ),
-    array(
-        3,
-        4
-    ),
-    array(
-        3,
-        11
-    ),
-    array(
-        4,
-        8
-    ),
-    array(
-        4,
-        15
-    ),
-    array(
-        5,
-        3
-    ),
-    array(
-        6,
-        1
-    )
-);
-
-$term_arr  = explode('_', $term);
-$tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
-$index_max = 0;
-
-foreach ($close as $Odate) {
-    $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
-    if ($open_time < time())
-        $index_max++;
-}
-$index_hide = 0;
-$schedule   = array();
-
-for ($c = 0; $c < count($open); $c++) {
-	//var_dump($close[$c][1]);die();
-	if ($c==6){
-    $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
-} else {
-	$close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
-}
-    //var_dump(date("M - j @ g:i a", $close_time));die();
-    array_push($schedule, date("M - j @ g:i a", $close_time));
-    //echo '<p>'.date("M-j", $close_time).'</p>';
-    if ($close_time < time())
-        $index_hide++;
-}
+// SCHEDULE
 // echo '<p>'.$index_max.'--'.$index_hide.'</p>';die();
 //##########################################//
 if (isset($_POST['role'])) {
@@ -143,7 +48,7 @@ if (isset($_POST['role'])) {
     }
 }
 
-$screen    = new ITS_screen2($id, $role, $status, $index_hide + 1, $tset);
+$screen             = new ITS_screen2($id, $role, $status, $index_hide + 1, $tset);
 //$menu    = new ITS_menu(); //echo $menu->main();
 //$message = new ITS_message($screen->lab_number, $screen->lab_active);
 $_SESSION['screen'] = $screen;
@@ -252,40 +157,33 @@ echo $id;
             </div>
 <!-- MODE ------------->
 <div id="modeContainer">
-<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked>
+<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked r="<?php $role;?>">
 <label for="ASSIGNMENTS" class="btn">ASSIGNMENTS</label>
 <input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
 <label for="CONCEPTS" class="btn">CONCEPTS</label>
 </div>          
 <!-- myScore ---------->
-<?php //die($status);
-switch ($status) {
-    case 'BMED6787':
-        $chUser   = 1;
-        $MyScores = '';
+<?php
+$MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">';
+
+switch ($role) {
+    case 'admin':
+    case 'instructor':
+        $chUser = 1;
+        $chMax  = 11;
         break;
     default:
-        /* -- */
-        $MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">';
-        
-        switch ($role) {
-            case 'admin':
-            case 'instructor':
-                $chUser = 1;
-                $chMax  = 11;
-                break;
-            default:
-                $chUser = 1;
-                $chMax  = $index_max;
-        }
-        $chArr             = range(1, $chMax);
-        //var_dump($chArr);die();
-        $score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
-        $_SESSION['score'] = $score;
-        $str               = $score->renderChapterScores(); //($chMax)         
-        
-        $MyScores .= $str . '</div>';
+        $chUser = 1;
+        $chMax  = $index_max;
 }
+$chArr             = range(1, $chMax);
+//var_dump($chArr);die();
+$score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
+$_SESSION['score'] = $score;
+$str               = $score->renderChapterScores(); //($chMax)         
+
+$MyScores .= $str . '</div>';
+
 echo $MyScores;
 
 //-- TEST -------------------------------------------------->
@@ -298,15 +196,21 @@ echo $MyScores;
 <?php
 /* -------------------- */
 
-		$modeDiv = '<div id="modeContentContainer">'.$chList.'</div>';
-		//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
-			   //.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
-        /*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
-			   .'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
-			   */
+$view     = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
+$schedule = $screen->getSchedule();
+$chList   = $screen->renderAssignment($status, $view, $role, $chArr, $chMax, $index_max, $index_hide, $schedule);
+
+$modeDiv = '<div id="modeContentContainer">' . $chList . '</div>';
+//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
+//.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
+/*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
+.'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
+*/
 echo $modeDiv;
 ?>  
-<input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">  
+<input type="hidden" id="index_hide" value="<?php
+echo $index_hide;
+?>">  
             </div>
                 <!-- CONTENT ----------------------------------------------->
                 <?php

@@ -78,7 +78,7 @@ class ITS_concepts
         $res   = mysql_query($query, $con);  
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
-        $N = 20; // list items per column
+        $N = 10; // list items per column
         $str = '<div id="conceptColumnContainer">';
         
         for ($x = 0; $x < mysql_num_rows($res); $x++) {

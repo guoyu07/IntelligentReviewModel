@@ -395,6 +395,14 @@ switch ($action) {
         $screen->mode = $Data;
         $str          = $screen->getContent();
         break;
+    //-------------------------------------------//
+    case 'showAssignments':
+        //-------------------------------------------//
+        // $status, $view, $role, $chArr, $chMax, $index_max, $index_hide, $schedule
+        
+        $schedule = $screen->getSchedule();
+        $str      = $screen->renderAssignment('admin', TRUE, 'admin', $chArr, $chMax, $index_max, $index_hide, $schedule);
+        break;        
 }
 //-----------------------------------------------//
 echo $style . $str;
