@@ -35,7 +35,7 @@ var ch = sessionStorage.getItem('chapter');
 var m  = sessionStorage.getItem('meta');
 // DEBUG: alert(ch+'  '+m);
 // -- ITS_AJAX(php_file,php_arguments,user_data,js_file,target_obj) -- //
-ITS_AJAX('ajax/ITS_screen2.php','newChapter',ch,ITS_screen,'contentContainer');
+ITS_AJAX('ajax/ITS_screen.php','newChapter',ch,ITS_screen,'contentContainer');
 //ITS_AJAX('ITS_book_AJAX.php',non_obj.name,ch+','+m,ITS_book,'page'); //bookContainer 
 return false;
 }

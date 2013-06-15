@@ -1,7 +1,7 @@
 <?php
 //=====================================================================//
 /*
-ITS_screen2 - creates user ITS screen.
+ITS_screen - creates user ITS screen.
 
 		Constructor: ITS_screen(name,rows,cols,data,width)
 		
@@ -30,7 +30,7 @@ require_once("ITS_rating.php");
 //RATING END
 /*----------------------------------------------------*/
 
-class ITS_screen2 {
+class ITS_screen {
 
 		public $id;
 		public $term;
@@ -834,7 +834,7 @@ class ITS_screen2 {
 	 //echo 'pperm: '.implode($Q->question_info);
 	 
 	 // DEGUG *****************************************************
-	 //echo '----<p>ITS_screen2::getQuestion *mode='.$mode.' - *perm=';
+	 //echo '----<p>ITS_screen::getQuestion *mode='.$mode.' - *perm=';
 	 //var_dump($Q->Q_answers_permutation);
 	 //echo 'end of perm<p>-----';
 	 // DEGUG *****************************************************
@@ -1918,7 +1918,7 @@ class ITS_screen2 {
 							
 							//echo '<p>++++ '.$qid.' + '.$qtype.' ++++<p>';
 							//==>>	$qid = 1196; $qtype = 'MC';
-							//if ($this->role == 'admin') { echo 'ITS_screen2::getChapter '.$qid.'<p>'; }
+							//if ($this->role == 'admin') { echo 'ITS_screen::getChapter '.$qid.'<p>'; }
 							
               //echo $qAvailable[$ques_arr_rand_key[0]] . "\n";
 							//---- ADMIN WINDOW ------------------------------------------//

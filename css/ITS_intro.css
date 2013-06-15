@@ -8,7 +8,7 @@
 #navigation li a:hover{color:#000;border-color:#FFD700}
 #content{clear:left;color:#555;border-top:2px solid #999;margin:0;padding:10% 5%}
 #content h2{color:#000;font-size:120%;margin:0 0 .5em}
-ul.list_intro li{font-size:18pt;list-style-type:square;padding:.5em}
+ul.list_intro li{font-size:18pt;list-style-type:square;padding:.5em;text-align:left}
 div.loginContainer{background:#fff;color:#999}
 input{border:2px solid #999;padding:.25em}
 input:focus{border:2px solid #000;color:#000}

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.5.22, for debian-linux-gnu (i686)
+-- MySQL dump 10.13  Distrib 5.5.22, for debian-screen-gnu (i686)
 --
 -- Host: localhost    Database: its
 -- ------------------------------------------------------

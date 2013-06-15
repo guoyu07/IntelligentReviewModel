@@ -7,6 +7,16 @@ Date: Mar-17-2010
 
 //obj.childNodes[1].style.display = 'block';
 //-------------------------------------------------//
+function ITS_obj_timer() {
+//-------------------------------------------------//
+
+var date1 = new Date();
+var ms1 = date1.getTime();
+
+sessionStorage.setItem('TIME0',ms1);
+alert(ms1);
+}
+//-------------------------------------------------//
 function ITS_menu(obj){
 //-------------------------------------------------//
  var str = '<img src="phpimg/ITS_stem.php?t=s&d=1,1,2,1&title=y[n]" class="ITS_pzplot" onClick="ITS_plot_reset(this.parentNode)">';
@@ -98,7 +108,7 @@ non_obj.name        = '';
 sel_obj.onclick     = non_obj.onclick;
 non_obj.onclick     = '';
 
-ITS_AJAX('ITS_screen_AJAX.php','updateConcept',non_obj.innerHTML,ITS_screen,'contentContainer');
+ITS_AJAX('ajax/ITS_screen.php','updateConcept',non_obj.innerHTML,ITS_screen,'contentContainer');
 }
 //-------------------------------------------------//
 function ITS_content_select(non_obj){
@@ -123,16 +133,7 @@ var class_info = non_obj_name.split("_");
 var class_fcn  = class_info[0];
 var class_prop = class_info[1];
 
-
-/** -- timer -- **//*
-var date2 = new Date();
-var milliseconds2 = date2.getTime();
-
-var difference = milliseconds2 - milliseconds1;
-alert(difference);
-/** -- timer -- **/
-//alert(class_fcn+' - '+class_prop);
-ITS_AJAX('ITS_screen_AJAX.php',class_fcn,class_prop+','+non_obj.innerHTML,ITS_screen,'contentContainer'); 
+ITS_AJAX('ajax/ITS_screen.php',class_fcn,class_prop+','+non_obj.innerHTML,ITS_screen,'contentContainer'); 
 
 return false;
 }
@@ -164,6 +165,12 @@ var qid = non_obj.attributes.getNamedItem("qid").value;
 var qn = non_obj.attributes.getNamedItem("n").value;
 
 var ans = String.fromCharCode(64+parseInt(qn));  
+//alert(ans);
+// remove session item IF NOT NULL
+if (sessionStorage.getItem('ITS_LAB_'+qid)) {
+	 var itemx = sessionStorage.removeItem('ITS_LAB_'+qid); 
+}
+// save session item
 sessionStorage.setItem('ITS_LAB_'+qid,ans);
 //alert('ANSWER: '+'ITS_LAB_'+qid,ans);
 
@@ -191,26 +198,27 @@ var difference = milliseconds2 - milliseconds1;
 alert(difference);
 /** -- timer -- **/
 //alert(class_fcn+' - '+class_prop);
-//ITS_AJAX('ITS_screen_AJAX.php',class_fcn,class_prop+','+non_obj.innerHTML,ITS_screen,'contentContainer'); 
+//ITS_AJAX('ajax/ITS_screen.php',class_fcn,class_prop+','+non_obj.innerHTML,ITS_screen,'contentContainer'); 
 
 return false;
 }
 //-------------------------------------------------//
 function ITS_content_nav(obj,nav){
 //-------------------------------------------------//
+alert('gotcha');
 var obj_name = obj.attributes.getNamedItem("name").value;
 var class_info = obj_name.split("_");
 var class_fcn  = class_info[0];
 var class_prop = class_info[1];
-ITS_AJAX('ITS_screen_AJAX.php',class_fcn,class_prop+','+nav,ITS_screen,'contentContainer');
+ITS_AJAX('ajax/ITS_screen.php',class_fcn,class_prop+','+nav,ITS_screen,'contentContainer');
 }
 //-------------------------------------------------//
 function ITS_Q(screen){
 //-------------------------------------------------//
  //alert('Under construction ...');
 
- ITS_AJAX('ITS_screen_AJAX.php','updateHeader',screen,ITS_screen,'headerContainer');
- str = "ITS_AJAX('ITS_screen_AJAX.php','getContent',"+screen+",ITS_screen,'contentContainer');"
+ ITS_AJAX('ajax/ITS_screen.php','updateHeader',screen,ITS_screen,'headerContainer');
+ str = "ITS_AJAX('ajax/ITS_screen.php','getContent',"+screen+",ITS_screen,'contentContainer');"
  setTimeout(str,250); 
 	
  return false;
@@ -238,9 +246,45 @@ function NAV_MOUSE(obj,button){
  obj.src = 'phpimg/ITS_button.php?o='+button;
 }
 //-------------------------------------------------//
-function ITS_lab_submit(obj,qid,qtype){
+function ITS_match_box(obj){
 //-------------------------------------------------//
+//$("#check_1_2").attr("checked", true).button("refresh");
+//$("#check_1_2").css('ui-state-active');
+  var L = 7;
+  var check_info = $(obj).attr("id").split("_");
+  
+  for(var c = 1; c <= L; c++) {
+    if ( c!=check_info[2] ) { 
+        //alert('#check_'+check_info[1]+'_'+c);
+  			$('#check_'+check_info[1]+'_'+c).attr("checked",false).button("refresh"); //$(obj).is(':checked')
+    }
+  }
+  for(var r = 1; r <= L; r++) {
+      if ( r!=check_info[1]) { 
+    	  $('#check_'+r+'_'+check_info[2]).attr("checked",false).button("refresh"); 
+    	}
+  }
+}
+//-------------------------------------------------//
+function ITS_question_submit(obj,qid,qtype){
+//-------------------------------------------------//
+
+/* --- DEBUG ---
+for (i=0; i<sessionStorage.length; i++) {
+ alert(sessionStorage.getItem(i));
+} --- DEBUG --- */
+
+//alert('ITS_question_submit');
+/*
+var ms1 = sessionStorage.getItem('TIME0');
+var date2 = new Date();
+var ms2 = date2.getTime();
+var difference = ms2 - ms1;
+sessionStorage.removeItem('TIME0');
+alert('diff: '+difference);
+*/
 //alert(qid+' - '+qtype);
+
 var chosen = '';
 switch (qtype.toUpperCase()) {
  //----------//
@@ -252,6 +296,33 @@ switch (qtype.toUpperCase()) {
  //----------//
  case 'M':
  //----------//
+ 
+ var L = $("li[name=matchingLeft]").length;                // no. left choices
+ var M = $("INPUT[@name='check'][type='checkbox']").length; // no. matrix elements
+ var values = new Array();
+
+  for(var r = 0; r < M/L; r++) {
+	  for(var c = 1; c <= L; c++) {
+    	  if ($('#check_'+(r+1)+'_'+c).attr("checked")) { 
+				  values[r] = c; 
+				}
+    }
+		if (values[r] == null) { values[r] = ''; };
+  }
+	chosen = values.join();
+	//alert(chosen);
+ //values = 
+ //$("form#" + id + " INPUT[@name=" + name + "][type='checkbox']").attr('checked',true).button("refresh"); 
+ //alert(values.length);
+ /*
+ var x=document.getElementsByName('radio');
+ for (i=0; i<x.length; i++) {
+	  alert(x[i].checked+' '+x[i].id);
+		//values[i] = x[i].value;
+    //if (x[i].value) { chosen[i] = x[i].value; }	
+  }
+	*/
+ /*
   var values = new Array();
   var x=document.getElementsByName('ITS_'+qid);				
   for (i=0; i<x.length; i++) {
@@ -259,7 +330,7 @@ switch (qtype.toUpperCase()) {
 		values[i] = x[i].value;
     //if (x[i].value) { chosen[i] = x[i].value; }	
   }
-	chosen = values.join();
+	chosen = values.join();*/
 	break;
  //----------//
  case 'MC':
@@ -270,13 +341,20 @@ switch (qtype.toUpperCase()) {
     if (x[i].checked) { chosen = x[i].value; }
   }*/
 	chosen = sessionStorage.getItem('ITS_LAB_'+qid);
+	var rmItem = sessionStorage.removeItem('ITS_LAB_'+qid);
+
 	//alert('SUBMIT: '+'ITS_LAB_'+qid);
   break;
 	//----------//
 }	
 //alert(chosen);
-if (chosen){
 /*
+if (chosen){
+
+// Hide error message
+//var err_msg=document.getElementById('errorContainerContent');
+//alert(err_msg.visibility);
+
   for (i=0; i<x.length; i++) {
     var y=document.getElementById('TextAlphabet'+x[i].value);
 	  if (x[i].checked) { // chosen
@@ -288,16 +366,49 @@ if (chosen){
     }
 	}
 	*/
-	//alert(chosen);
-	//alert(qid);
-	ITS_AJAX('ITS_screen_AJAX.php','recordAnswer',qid+'~'+qtype+'~'+chosen,ITS_screen,'contentContainer');
+	/*
+	//alert(qid+'~'+qtype+'~'+chosen);
+	//--------------------------//
+	ITS_AJAX('ajax/ITS_screen.php','recordChapterAnswer',qid+'~'+qtype+'~'+chosen,ITS_screen,'contentContainer'); //'contentContainer');
+	//ITS_AJAX('ajax/ITS_screen.php','updateScores','~',ITS_screen,'scoreContainerContent');
+	
+	//--- update Scores using AJAX ---//
+	var updateScores = new ajaxObject('scoreContainerContent','ITS_screen_AJAX2.php');
+	updateScores.update('doc=updateScores.txt&ajax_args=updateScores&ajax_data=');
+	
+	//alert('ajax_data='+qid+','+qtype+','+chosen);
+	
+	//--- show Answer using AJAX ---//
+	//var showAnswer = new ajaxObject('navBoxContainer','ITS_screen_AJAX2.php');
+	//showAnswer.update('doc=updateScores.txt&ajax_args=showAnswer&ajax_data='+qid+','+qtype+','+chosen);	
+	//-------------------------// 
 } else {
-  ITS_AJAX('ITS_screen_AJAX.php','message','Select an answer.',ITS_screen,'errorContainer');
+  ITS_AJAX('ajax/ITS_screen.php','message','<div id="errorContainerContent">Select an answer.</div>',ITS_screen,'errorContainer');
+}*/
 }
+//-------------------------------------------------//
+function JQTsubmit(obj) {
+//-------------------------------------------------//
+//alert(obj.id);
+ITS_AJAX('JQT_AJAX.php','test','',ITS_screen,'demoContainer');
+$("input.check").button("refresh");
+}
+//-------------------------------------------------//
+function ITS_question_next(){
+//-------------------------------------------------//
+ alert('ITS_question_next');
+ ITS_AJAX('ajax/ITS_screen.php','getContent','',ITS_screen,'contentContainer');
+}
+//-------------------------------------------------//
+function ITS_review_next(delta){
+//-------------------------------------------------//
+//alert(ITS_review_next);
+ ITS_AJAX('ajax/ITS_screen.php','reviewMode',delta,ITS_screen,'reviewContainer');
 }
 //-------------------------------------------------//
 function ITS_submit(obj,qid){
 //-------------------------------------------------//
+alert('ITS_submit');
 var x=document.getElementsByName('ITS_'+qid)				
 var chosen = '';
 
@@ -316,16 +427,43 @@ if (chosen){
 		   y.style.color = "silver";
     }
 	}
-	ITS_AJAX('ITS_screen_AJAX.php','getAnswer',qid+','+chosen,ITS_screen,'answerContainer');
+	ITS_AJAX('ajax/ITS_screen.php','getAnswer',qid+','+chosen,ITS_screen,'answerContainer');
+	//alert('hello');
 } else {
-  ITS_AJAX('ITS_screen_AJAX.php','message','Select an answer.',ITS_screen,'errorContainer');
+  ITS_AJAX('ajax/ITS_screen.php','message','<span id="errorContainerContent">Select an answer.</span>',ITS_screen,'errorContainer');
 }
 }
 //-------------------------------------------------//
 function ITS_screen(obj,txt){
 //-------------------------------------------------//
+//$(obj).live{$("input.check").button("refresh"); };
+//$("input.check").addClass("ui-state-hover");
+//$( "input.check" ).button();
+/*
+alert($("input.check").attr("id"));
+  var filename = "jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css";
+  var fileref = document.createElement("link");
+  fileref.setAttribute("rel", "stylesheet");
+  fileref.setAttribute("type", "text/css");
+  fileref.setAttribute("href", filename);
+
+   document.getElementsByTagName("head")[0].appendChild(fileref);
+	 */
+	/*
+$("#"+obj).css('border','1px solid blue');
+
+$(function() {
+  $("#selectable").selectable();
+  $("#sortable1").sortable({ connectWith: '.connectedSortable'}).disableSelection();
+  $( "input.check" ).button();
+});
+*/
 	   var ta_obj = document.getElementById(obj);
 		 ta_obj.innerHTML = txt;
+		 ITS_screen_close();
+		 
+//if (!document.getElementById) document.write('<link rel="stylesheet" type="jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css">');
+		 
 		  /*
 		 switch (obj) {
  		 	 //----------//

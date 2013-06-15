@@ -709,11 +709,12 @@ class ITS_question
                         if (!$res) {
             die('Query execution problem in '.get_class($this).': ' . msql_error());
                         }
+                        
                         $C = mysql_fetch_array($res);
                         //echo 'C<p>'; //print_r($C);//echo count($C); die();
                         $R = explode(',', $C[0]); //$this->Q_answers_permutation;
-                        */
-                        //print_r($R);
+                        */ 
+                        //echo '<hr>';print_r($R); echo '<br>';print_r($RR);echo '<hr>';
                         //echo '<p>AFTER SHUFFLE (INACTIVE): '.implode(',',$R).'<p>';die();
                 }
                 
@@ -1360,7 +1361,13 @@ function latexCheck($str, $path)
     //------>> $pattern	= "/\\$\\$(.*?)\\$\\$/im";
     //$replacement = '<div style="border:1px solid red">LaTeX</div>';
     //die('src="' . $path . '${1}"');
-    $replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . ' ${1}"/>';
+    
+    //--- mathtex solution ---//
+    //$replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . ' ${1}"/>';
+    //var_dump($path); die();
+    //------------------------//
+    
+    $replacement = '\(${1}\)';
     /*
     echo '<span style="color:blue">'.$str.'</span><br>'; //
     echo '<span style="color:green">'.$pattern.'</span><br>'; //

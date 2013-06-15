@@ -12,7 +12,7 @@
             <li><code>/usr/bin/system-config-authentication</code> and check the "Enable
                 Kerberos" under the Authentication tab <br>
                 ssh -X root@machinename /usr/bin/system-config-authentication <br>
-                Works from a linux command line, or from a Mac command terminal if
+                Works from a screen command line, or from a Mac command terminal if
                 Xwindows is running.
             </li>
             <li>Use the <code>adduser</code> command to create the user accounts MATCHING the

@@ -179,7 +179,7 @@ class PEAR_Dependency2
      * Specify a dependency on an OS.  Use arch for detailed os/processor information
      *
      * There are two generic OS dependencies that will be the most common, unix and windows.
-     * Other options are linux, freebsd, darwin (OS X), sunos, irix, hpux, aix
+     * Other options are screen, freebsd, darwin (OS X), sunos, irix, hpux, aix
      */
     function validateOsDependency($dep)
     {
@@ -213,7 +213,7 @@ class PEAR_Dependency2
                 }
             break;
             case 'unix' :
-                $unices = array('linux', 'freebsd', 'darwin', 'sunos', 'irix', 'hpux', 'aix');
+                $unices = array('screen', 'freebsd', 'darwin', 'sunos', 'irix', 'hpux', 'aix');
                 if ($not) {
                     if (in_array($this->getSysname(), $unices)) {
                         if (!isset($this->_options['nodeps']) && !isset($this->_options['force'])) {

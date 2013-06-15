@@ -14,7 +14,7 @@ if (isset($_SESSION['auth']) && $_SESSION['auth']->authenticated()){
 	
 	header("Location: http://" . $_SERVER['HTTP_HOST']
 			. rtrim(dirname($_SERVER['PHP_SELF']), '/\\')
-			. "/screen.php");
+			. "/index.php");
 	//print "ITS>auth.php> already logged in";die();
 	exit;
 }
@@ -73,7 +73,7 @@ else{	// login successful
 	/* redirect to index page */
 	header("Location: http://" . $_SERVER['HTTP_HOST']
 			. rtrim(dirname($_SERVER['PHP_SELF']), '/\\')
-			. "/screen.php");
+			. "/index.php");
 	exit;
 }
 ?>

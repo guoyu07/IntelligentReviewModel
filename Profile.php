@@ -20,6 +20,7 @@ require_once("classes/ITS_footer.php");
 
 global $term, $tset;
 
+
 //$timer = new ITS_timer();
 session_start();
 
@@ -57,6 +58,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     switch ($status) {
         case 'instructor':
             $class_arr = array(
+                'Summer_2013',
                 'Spring_2013',
                 'Fall_2012',
                 'Summer_2012',
@@ -72,6 +74,7 @@ if ($status == 'admin' OR $status == 'instructor') {
             break;
         case 'admin':
             $class_arr = array(
+                'Summer_2013',            
                 'Spring_2013',
                 'Fall_2012',
                 'Summer_2012',

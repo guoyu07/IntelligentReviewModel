@@ -55,7 +55,7 @@ $(document).ready(function() {
     
             //$('#coContainer').html(tbdivs);
             //$('#coContainer').show();
-                        $.get('ajax/ITS_screen2.php', {
+                        $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues
         }, function(data) {
@@ -102,7 +102,7 @@ $(document).ready(function() {
         // ----------------- //
         alert(tbvalues);
         */
-        $.get('ajax/ITS_screen2.php', {
+        $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: field
         }, function(data) {
@@ -341,7 +341,7 @@ $(document).ready(function() {
             $('#Practice').attr('choice_mode', 'module');
             $('#Review').attr('choice_mode', 'module');
             //	alert('calling');
-            $.get("ajax/ITS_screen2.php", {
+            $.get("ajax/ITS_screen.php", {
                 ajax_args: "changeMode",
                 ajax_data: 'question'
             }, function(data) {

@@ -1,5 +1,5 @@
 #conceptContainer{border:1px solid #fff;margin:0;padding:0}
-#conceptListContainer{border:1px solid #f88;margin:0;width:100%;overflow: auto;padding:0}
+#conceptListContainer{border:1px solid #fff;margin:0;width:100%;overflow: auto;padding:0}
 #SelectedConcContainer{padding:1em;border-top:3px solid #eee;margin-top:1em;overflow:auto;display:none}
 #ConcQuesContainer{position:absolute; top:400; height:400px;overflow: auto;}
 #getQuesForConcepts {position:relative;clear: both;margin-top:20px;}
@@ -13,8 +13,6 @@
 .concept_alph {color:pink;border:1px solid pink;}
 .concept_alph:hover{border:2px solid red;color:#090;cursor:pointer}
 #errorConceptContainer{color:#f00;padding:0;}
-li.ITS_nav_concept {margin:0;padding:0;font-size:5pt}
-li.ITS_nav_concept a{border:2px solid #000;margin:0;font-size:10pt}
 
 .resource_concept {float:left;clear:both;text-align:left;font-size:120%;padding:0.2em;font-family: Geneva, Tahoma, Verdana, sans-serif;color:#00a}
 .ITS_resource_box { border:2px solid #999;margin:0;padding:0.15em;overflow:auto;}
@@ -52,14 +50,14 @@ text-align:center;
 background:#eee
 }
 
-#conceptColumnContainer { width:100%;text-align: center; }
-.conceptColumn { float: center; margin-top: 7px;display: inline-block;vertical-align:text-top }
+#conceptColumnContainer { width:100%;text-align: center;}
+.conceptColumn { float: center;display: inline-block;vertical-align:text-top }
 .conceptList { border:1px solid #fff;padding:0;margin:0.5em 1em; text-align:left;list-style-type:none; }
 .conceptList li {color:#666;border:1px solid #fff;padding: 0.5}
 .conceptList li:hover{border:1px dotted #ccc;color:#090;cursor:pointer}
 .conceptScore { float:right;color:#999;font-size:60% }
-.conceptCount {float:left;color:#999;font-size:60% }
-
+.conceptCount {float:right;color:#bbb;font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;margin-left:2em }
+hr.concept { border:1px solid #ddd;margin:0.5em 1em }
 /*================= DEBUG =================/
 #conceptContainer{border:3px solid brown;}
 #conceptContainer{background-color:pink}

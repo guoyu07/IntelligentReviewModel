@@ -5,7 +5,7 @@
 # Last Revision: Feb-22-2013
 #=======================================================#
 
-sudo apt-get -y install apache2 php5 libapache2-mod-php5 php5-curl python-mysqldb geany meld
+sudo apt-get -y install apache2 php5 libapache2-mod-php5 php5-curl python-mysqldb geany meld vim
 sudo /etc/init.d/apache2 restart
 sudo apt-get -y install mysql-server php-pear phpmyadmin
 sudo cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d
@@ -52,7 +52,7 @@ sudo /etc/init.d/krb5-admin-server restart
 #-------------------------------------------------------#
 # MATHTEX
 #-------------------------------------------------------#
-sudo apt-get -y install texlive-full gedit-latex-plugin texmaker linux-kernel-headers build-essential
+sudo apt-get -y install texlive-full gedit-latex-plugin texmaker screen-kernel-headers build-essential
 
 # COPY mathtex.zip to /usr/lib/cgi-bin
 # cc mathtex.c

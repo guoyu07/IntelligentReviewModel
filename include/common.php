@@ -8,7 +8,8 @@ function abort_if_unauthenticated() {
 
 	if (!isset($_SESSION['auth']) || !$_SESSION['auth']->authenticated()){
 		/* close session */
-		//echo "rejected";
+		//
+		echo "rejected";
 
 		$_SESSION = array();
 		
@@ -36,13 +37,7 @@ function ITS_debug($info){
   echo '</table></div>';
   * */
 }
-//==============================================================================
-function ITS_LaTeX($str){
-//==============================================================================
-$img_str = "<img src=/cgi-bin/mimetex.exe?".rawURLencode($str)." border=0 align=middle>";
 
-return $img_str;
-}
 //==============================================================================
 function answering_history($user_id) {
 //==============================================================================
@@ -54,7 +49,7 @@ function answering_history($user_id) {
 	$mdb2 =& MDB2::connect($db_dsn);
 	if (PEAR::isError($mdb2)){ die($mdb2->getMessage()); }
 	
-	$query = "SELECT name,question_id,answered,score FROM stats_$user_id LEFT JOIN question ON stats_$user_id.question_id=question.id LEFT JOIN concept ON question.concept_id=concept.id";
+	$query = "SELECT name,question_id,answered,score FROM stats_$user_id LEFT JOIN questions ON stats_$user_id.question_id=question.id LEFT JOIN concept ON questions.concept_id=concept.id";
 	$res =& $mdb2->query($query);
 	if (PEAR::isError($res)) {die($res->getMessage());}
 /*

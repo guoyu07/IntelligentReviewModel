@@ -8,7 +8,7 @@ include("classes/ITS_timer.php");
 
 require_once("config.php");
 require_once("classes/ITS_statistics.php");
-require_once("classes/ITS_screen2.php");
+require_once("classes/ITS_screen.php");
 require_once("classes/ITS_book.php");
 require_once("classes/ITS_footer.php");
 require_once(INCLUDE_DIR . "common.php");

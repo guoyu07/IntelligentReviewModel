@@ -54,7 +54,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
         if (function_exists('posix_isatty') && !posix_isatty(1)) {
             // output is being redirected to a file or through a pipe
         } elseif ($term) {
-            if (preg_match('/^(xterm|vt220|linux)/', $term)) {
+            if (preg_match('/^(xterm|vt220|screen)/', $term)) {
                 $this->term['bold']   = sprintf("%c%c%c%c", 27, 91, 49, 109);
                 $this->term['normal'] = sprintf("%c%c%c", 27, 91, 109);
             } elseif (preg_match('/^vt100/', $term)) {

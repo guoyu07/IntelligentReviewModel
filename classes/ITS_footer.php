@@ -1,10 +1,10 @@
 <?php
 /*=====================================================================//
-ITS_screen - creates user ITS screen.
+ITS_footer - creates a footer.
 
 Constructor: ITS_footer(name,rows,cols,data,width)
 
-ex. $ITS_table = new ITS_footer();
+ex. $footer = new ITS_footer();
 
 Author(s): Greg Krudysz |  Aug-24-2012
 //=====================================================================*/
@@ -22,21 +22,7 @@ class ITS_footer
         $this->status  = $status;
         $this->date    = $date;
         $this->runtime = $runtime;
-        /*
-        $this->role    = $role;
-        $this->db_name = $db_name;
-        $this->tb_name = $tb_name;
-        $this->tb_user = $db_table_user_state;
-        
-        $this->record  = array();
-        $this->db_dsn  = $db_dsn;
-        
-        // connect to database
-        $mdb2 =& MDB2::connect($db_dsn);
-        if (PEAR::isError($mdb2)){ throw new Exception($this->mdb2->getMessage()); }
-        
-        $this->mdb2 = $mdb2;
-        */
+
         self::main($status, $date, $runtime);
     }
     //=====================================================================//
@@ -47,10 +33,17 @@ class ITS_footer
         if (!empty($this->runtime)) {
             $footer .= '<li>Page created in ' . round($this->runtime, 2) . ' secs</li>';
         }
-        
-        $footer .= '<li>krudysz<b>&Dagger;</b>ece.gatech.edu <b>+</b> jim.mcclellan<b>&Dagger;</b>ece.gatech.edu</li>' . '<li></li></ul>' . '</div>';
+        $emails = $this->emails();
+        $footer .= '<li>'.$emails.'</li>' . '<li></li></ul>' . '</div>';
         
         return $footer;
+    }
+    //=====================================================================//
+    function emails(){
+    //=====================================================================//
+        $emails = 'krudysz<b>&Dagger;</b>ece.gatech.edu <b>+</b> jim.mcclellan<b>&Dagger;</b>ece.gatech.edu';
+        
+        return $emails;
     }
     //=====================================================================//
 }

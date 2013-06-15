@@ -3,14 +3,15 @@
  SQL_2_default_users.php
  This file replaces USERS with an ALIAS
  Date: Nov-02-10
- Last Update: Feb-21-2012
+ Last Update: May-29-2013
  Author(s): Greg Krudysz
 */
-error_reporting(E_ALL);
-require_once("config.php"); // #1 include 
+
+require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 
 /*
+error_reporting(E_ALL);
 require_once("config.php");
 require_once(INCLUDE_DIR . "common.php");
 require_once(INCLUDE_DIR . "User.php");

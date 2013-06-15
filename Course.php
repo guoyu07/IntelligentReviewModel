@@ -152,7 +152,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         default:
             $resource_source = 'id=1';
     }
- 
+    
     if ($course == 'ece2025') {
         $orderby = 'id';  
         $tr      = new ITS_statistics($id, $course, $status);
@@ -208,7 +208,7 @@ $nav     = $ITS_nav->render($current, $course);
         <script src="js/ITS_admin.js"></script>
         <script src="js/AJAX.js"></script>
         <script src="js/ITS_AJAX.js"></script>
-        <script src="js/ITS_screen2.js"></script>
+        <script src="js/ITS_screen.js"></script>
         <script src="js/ITS_QControl.js"></script>
         <script src="js/ITS_book.js"></script>
         <script src="tagging/ITS_tagging.js"></script>

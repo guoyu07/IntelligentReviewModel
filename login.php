@@ -1,13 +1,12 @@
 <?php 
 /*
-login.php - LOCAL login for ITS 
-
 Author(s): Greg Krudysz
-Last Update: Jul-26-2011
+Last Update: Jun-05-2013
 =============================================*/
 error_reporting(E_ALL);
 require_once("config.php");
 require_once(INCLUDE_DIR . "Authentication.php");
+require_once("classes/ITS_footer.php");
 
 session_start();
 
@@ -16,7 +15,7 @@ if (isset($_SESSION['auth']) && $_SESSION['auth']->authenticated()){
 	/* redirect to index page */
 	header("Location: http://" . $_SERVER['HTTP_HOST']
 			. rtrim(dirname($_SERVER['PHP_SELF']), '/\\')
-			. "/screen.php");
+			. "/index.php");
 	exit;
 }
 session_destroy();
@@ -24,8 +23,10 @@ session_destroy();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-<title>Intelligent Tutoring System - Login</title>
+<title>Quid</title>
 <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/ITS_index4.css" />
+	<link rel="stylesheet" type="text/css" href="css/ITS_intro.css" />	
 <script>
 function sf(){document.f.username.focus();}
 function submitf(obj){
@@ -37,12 +38,7 @@ function submitf(obj){
 
 <body onload="sf()">
 <center>
-<p>
-<h1>I<font color="gray">ntelligent</font> T<font
-color="gray">utoring</font> S<font color="gray">ystem</font><br /></h1>
-<p>
 <?php
-echo '<img src="'.$tex_path.'\Longleftrightarrow" alt="."></p>';
 if (isset($_REQUEST['ask_info'])){
   $msg = 'Please enter username and password<br />';
 }
@@ -52,27 +48,54 @@ elseif (isset($_REQUEST['failed'])){
 else{
   $msg = 'Please Login<br />';
 }
-//<input type="submit" value="Login">
 ?>
-<form action="auth.php" method="post" name="f">
-<table class="login" align="center" cellpadding="3" cellspacing="0">
-  <tr class="login"><td class="wbot" colspan="2" align="center"><b><?php echo $msg; ?></b>
-  <tr class="login"><td align="right"><b>GT&nbsp;Account</b>
-  <td><input class="login" name="username" type="text" value="gte269x">
-  <tr class="login"><td align="right"><b>Password</b>
-  <td><input class="login" name="password" type="password" value="gte269x">
-  <tr><td class="wtop" colspan="2" align="center">
-  <tr><td colspan="2" align="center">
-</table>
+<div id="container">
+	<div id="header"></div>
+	<!-- div #navigation -->
+	<div id="navigation">
+		<ul>
+			<li><a href="login.php" id="gtlogo"><img src="css/media/gtbuzz.jpg">GT Login</a></li>
+			<li style="float:left"><div class="loginContainer">
+			<form action="auth.php" method="post" name="f">
+			<table>
+			<tr><td>Username:</td><td>Password:</td></tr>
+			<tr><td><input class="login" name="username" type="text" value="gte269x"></td><td><input class="login" name="password" type="password" value="gte269x"></td><td><div class="login" onClick="submitf(this)">Login</div></td></tr>
+			</table></form></div></li>
+		</ul>
+
+	</div>
+	<!-- end div #navigation -->
+	<div id="content">
+		<p><div style="font-size:400%;"><font color="gray">QUID</font></div></p>
 <p>
-<div class="login" onClick="submitf(this)">Login</div>
+<ul class="list_intro">
+<li>
+<font color="gray">QUID</font> is a web-based Q+A system designed to enhance a
+student's conceptual understanding by providing many
+problem-centered exercises.</li>
+<li>The system can be keyed to a course textbook
+for knowledge representation and can track each student's problem
+solving proficiency in terms of concepts.</li>
+</ul>
 </p>
-</form>
-<table style="border:1px solid #999" class="ITS">
-<tr><td>Greg</td><td>gte269x</td></tr>
-<tr><td>admin</td><td>iaia3</td></tr>
-<tr><td>student</td><td>isis3</td></tr>
-</table>
-</center>
+	</div>
+	<!-- div#FOOTER -->
+	<div id="footer">
+	<center>
+		<p>
+  krudysz<b>&Dagger;</b>ece.gatech.edu <b>+</b> jim.mcclellan<b>&Dagger;</b>ece.gatech.edu
+  	</p>
+	<p>
+School of Electrical and Computer Engineering <br>
+Georgia Institute of Technology, Atlanta, GA 30332-0250
+</p>
+  		<b>QUID@GT</b> is supported in part by the National Science Foundation Award No. 1041343
+	<br>"Collaborative Research: CI-Team Implementation Project: The Signal Processing Education Network"<br>
+	</center><br>
+Copyright &copy; QUID@GT, 2009-2013
+	</div>
+<!-- end div#FOOTER -->
+</div>
+<!-- end div#container -->
 </body>
 </html>

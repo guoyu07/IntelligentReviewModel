@@ -50,12 +50,6 @@ div.navContainer{background:#fff;border:1px solid #fff}
 div.navContent{border:1px solid #fff}
 .headering,a:visited{color:blue}
 #menuContainer,#messageContainer,#messageContainer span,#contentContainer,div.ITS_question_text,div.ITS_ANSWER,div.logout{background:#fff}
-dt {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 17px;
-}
-.citation-list {
-    color: #666;
-    font-style: italic;
-}
+dt {font-size: 15px;font-weight: bold;margin-bottom: 17px;}
+.citation-list {color: #666;font-style: italic;}
+.mail {color:#00a;font: bold 100% Verdana;}

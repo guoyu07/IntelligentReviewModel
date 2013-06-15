@@ -7,11 +7,9 @@ Constructor: ITS_concepts(ch)
 ex. $query = new ITS_concepts('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Khyati Shrivastava | May-10-2012
-Last Revision: Khyati Shrivastava, May-10-2012
-Greg Krudysz, Nov-27-2012
-//=====================================================================*/
-//echo getcwd();
+Last Revision: Greg Krudysz, Nov-27-2012
 
+//=====================================================================*/
 /*
 if(isset($_REQUEST['tbvalues'])){
 $tbvalues = $_REQUEST['tbvalues'];
@@ -68,7 +66,22 @@ class ITS_concepts
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
-        $query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
+        //$query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
+        if ($letter=='ALL') { $where = ''; }
+        else { $where = ' WHERE t.name LIKE "'. $letter .'%"'; }
+        
+        $query = 'SELECT t.name, COUNT(qt.tags_id) AS count
+  FROM
+    tags t
+  LEFT JOIN
+    questions_tags qt
+    ON
+       qt.tags_id = t.id
+    '. $where .'     
+  GROUP BY
+     t.id
+   ORDER BY
+	 count DESC';
         
         //ALTER TABLE its.tags DROP question_id
         //ALTER TABLE its.tags DROP concept_id
@@ -79,14 +92,15 @@ class ITS_concepts
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
         $N = 10; // list items per column
-        $str = '<div id="conceptColumnContainer">';
         
+        $str = '<div id="conceptColumnContainer">';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
 			$mod = $x % $N;
 			if ($mod==0) { $str .= '<div class="conceptColumn"><ul class="conceptList">'; }
 			//echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
-            $str .= '<li  id="' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '</li>';
+            if (empty($row['count'])) { $row['count'] = '&ndash;'; }
+            $str .= '<li  id="' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
             //$str .= ''.$x.'</div>';
             
             if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }
@@ -245,15 +259,15 @@ class ITS_concepts
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
         $res   = mysql_query($query, $con);    
         
-		$str = '<ul class="ITS_nav"><li id="xx"></li>';          
+		$str = '<ul class="nav"><li><a href="#" name="ITS_alph_index" value="ALL">ALL</a></li>';          
         for ($x = 1; $x <= mysql_num_rows($res); $x++) {
             $row = mysql_fetch_row($res);
             $val = strtoupper($row[0]);
             
-            if (!fmod($x,15)) { $str .= '<br><hr>'; }
-            /*if ($val == 'S') { $idx_id = 'id="current"'; } */
-            else 		  	 { $idx_id = ''; }			
-            $str .= '<li class="ITS_nav_concept"><a href="#" class="ITS_alph_index" name="chapter" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
+            if (!fmod($x,15)) { $str .= '<br><hr class="concept">'; }
+            if ($val == 'S') { $idx_id = 'id="current"'; }
+            else 		  	 { $idx_id = ''; }		
+            $str .= '<li><a href="#" name="ITS_alph_index" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
         }       
         $str .= '</ul>';
         return $str;
@@ -267,7 +281,7 @@ class ITS_concepts
     $index_hide = 4;
     $role = 'student';
     $mode = 'concQuestion';
-    $screen = new ITS_screen2($id, $role, $status,$index_hide+1);
+    $screen = new ITS_screen($id, $role, $status,$index_hide+1);
     //return 'yey';   
     $screen->screen = 5;
     $screen->term_current = 'Spring_2012';

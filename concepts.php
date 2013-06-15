@@ -2,7 +2,7 @@
 
 require_once ("config.php");
 include("classes/ITS_concepts.php");
-//include("ajax/ITS_screen2.php");
+//include("ajax/ITS_screen.php");
 //die('xxd');
 ?>
 <head>

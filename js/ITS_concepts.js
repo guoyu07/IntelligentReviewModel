@@ -52,7 +52,7 @@ $(document).ready(function () {
 
         //$('#coContainer').html(tbdivs);
         //$('#coContainer').show();
-        $.get('ajax/ITS_screen2.php', {
+        $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: tbvalues
         }, function (data) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
     $('.selcon').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
         var field = this.id;
-        $('#navListPC').html(field+'<hr>');
+        $('#navListPC').html('<h3>'+field+'</h3><hr>');
         
         //alert(field);
         /*
@@ -101,7 +101,7 @@ $(document).ready(function () {
         // ----------------- //
         alert(tbvalues);
         */
-        $.get('ajax/ITS_screen2.php', {
+        $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: field
         }, function (data) {
@@ -257,18 +257,13 @@ $(document).ready(function () {
         });
     });
     /*-------------------------------------------------------------------------*
-     * When called, the letter clicked on concept viewer is submitted and the 
-     * function returns matching concepts
+     * Called when letter clicked on
      * ------------------------------------------------------------------------*/
-    $(".ITS_alph_index").live("click", function () {
+    $('[name="ITS_alph_index"]').live("click", function () {
         /*-------------------------------------------------------------------------*/
         var header = $(this).html();
-        /*alert(header);*/
-        $('.ITS_alph_index').each(function (index) {
-            //alert(index);
-            //alert($(this).html());
-            //$(this).children("a").attr('id','');
-
+        //alert(header);
+        $('[name="ITS_alph_index"]').each(function (index) {
             if ($(this).html() == header) {
                 $(this).attr('id', 'current');
             } else {
@@ -279,9 +274,8 @@ $(document).ready(function () {
         $.get("ajax/ITS_concepts.php", {
             letter: $(this).html()
         }, function (data) {
-            //alert(data);
             if (data) {
-                $("#conceptListContainer").html(data);
+                $("#contentContainer").html(data); //conceptListContainer
             } else {
                 $("#conceptContainer").html("<br> No Concepts Available");
             }
@@ -296,7 +290,7 @@ $(document).ready(function () {
         var s = $(this).attr('id');
         //alert(s); //.id = 'current'; //var s = $(this).val();
         if (s == "CONCEPTS") {
-			$('#navListQC').hide();
+			$('#navListQC').append('<div');
             /*
 			$('#nav2 > li > a').html('ASSIGNMENT');
 			$('#nav1 > li > a').html(s);
@@ -334,24 +328,26 @@ $(document).ready(function () {
             $('#Practice').attr('choice_mode', 'module');
             $('#Review').attr('choice_mode', 'module');
             //	alert('calling');
-            $.post("ajax/ITS_screen2.php", {
+            $.get("ajax/ITS_screen.php", {
                 ajax_args: "showAssignments",
                 ajax_data: r
             }, function (data) {
+				//alert(data);
                 $('#modeContentContainer').html(data);
             });
-            $.get("ajax/ITS_screen2.php", {
+ /*
+            $.get("ajax/ITS_screen.php", {
                 ajax_args: "changeMode",
                 ajax_data: 'question'
             }, function (data) {
                 $('#contentContainer').html(data);
-            });
+            });*/
         }
     });
     /*-------------------------------------------------------------------------*/     
     //$('#showConcepts').live('click',function(event){
     //$('#QuestionMode').live('change', function(event) {
-    $('a[name=selectMode]').live('click', function (event) {
+    $('a[name=selectModeXXX]').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
         // click does not work with Chrome!!
         var s = $(this).html();
@@ -394,7 +390,7 @@ $(document).ready(function () {
             $('#Practice').attr('choice_mode', 'module');
             $('#Review').attr('choice_mode', 'module');
             //	alert('calling');
-            $.get("ajax/ITS_screen2.php", {
+            $.get("ajax/ITS_screen.php", {
                 ajax_args: "changeMode",
                 ajax_data: 'question'
             }, function (data) {

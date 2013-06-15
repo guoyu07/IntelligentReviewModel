@@ -17,7 +17,7 @@ require_once ("classes/ITS_statistics.php");
 require_once ("classes/ITS_score.php");
 require_once ("classes/ITS_footer.php");
 
-require_once ("classes/ITS_screen2.php");
+require_once ("classes/ITS_screen.php");
 require_once (INCLUDE_DIR . "common.php");
 require_once (INCLUDE_DIR . "User.php");
 
@@ -111,7 +111,7 @@ if ($status == 'admin') {
   <script src="js/ITS_admin.js"></script>
 	<script src="js/AJAX.js"></script>
   <script src="js/ITS_AJAX.js"></script>
-  <script src="js/ITS_screen2.js"></script>
+  <script src="js/ITS_screen.js"></script>
 	<script src="js/ITS_QControl.js"></script>
 	<script src="js/ITS_book.js"></script>
 	<script src="tagging/ITS_tagging.js"></script>

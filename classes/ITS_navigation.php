@@ -7,7 +7,7 @@ ITS_navigation - navigation class for tabs.
 			ex. $nav = new ITS_navigation( ... );
 								
 	 Author(s):  Gregory A. Krudysz
-	 Last Update: May-18-2012
+	 Last Update: Jun-05-2013
 //=====================================================================*/
 class ITS_navigation {
 	
@@ -30,7 +30,7 @@ class ITS_navigation {
     default:
 		$tabArr = array( 
 		array('Logout','logout.php'),
-		array('ITS','screen.php'),
+		array('ITS','index.php'),
 		array('Question','Question.php'),
 		array('Image','Image.php'),		
 		array('Profile','Profile.php'));

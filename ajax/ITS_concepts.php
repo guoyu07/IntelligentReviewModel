@@ -43,7 +43,7 @@ if (isset($_REQUEST['choice'])) {
             //die($obj->ConcQuesContainer());
             //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer() . $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
             //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer().'</div>';// $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer().'</div>';
-            $retStr = '<div id="conceptContainer">'.$obj->conceptListContainer() . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
+            $retStr = '<div id="navConcept"></div><div id="conceptContainer">'.$obj->conceptListContainer() . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
             break;
         case 'getQuestions':
             $retStr = $obj->getQuestionsStudent();

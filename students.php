@@ -1,10 +1,11 @@
 <?php
 /*=====================================================================//
-T-Square: Left Hand Menu: "Section Info" >> Student Memberships
+T-Square: Left Hand Menu: "Section Info" >> Student Memberships 
+* ( may need to add it from "Site Info" >> Edit Tools )
 students - creates student accounts, courses, sections.
 
 Author(s): Greg Krudysz | Aug-25-2010
-Last Update: Feb-19-2012
+Last Update: May-15-2013
 //---------------------------------------------------------------------*/
 //  ALTER TABLE users MODIFY section INT(11);
 //=====================================================================*/
@@ -98,14 +99,16 @@ if (0) { //($datagrid->getRecordCount()>0){
 // NEW CLASS
 //=============================================================
 // var_dump($_POST); echo "<p>"; die();
-$current_term = 'Spring_2013';   // BMED6787
+$current_term = 'Summer_2013';   // BMED6787
 //echo $_POST['new_class'];
 //echo isset($_POST['new_class']);
 //echo (isset($_POST['new_class']));
 
 //echo '<pre>';var_dump(isset($_POST['new_class']));echo '</pre>';
-$_POST['new_class'] = '/var/www/ITS-RESOURCES/SQL/Course/' . $current_term . '/'. $current_term . '.csv';	   
-//die('<hr>');
+//$_POST['new_class'] = '/var/www/html218/' . $current_term . '/'. $current_term . '.csv';	
+
+$_POST['new_class'] = '/var/www/'.$current_term . '.csv';   
+//die($_POST['new_class'].'<hr>');
 
 if (isset($_POST['new_class'])) {
     //echo 'hello'; die();
@@ -148,7 +151,9 @@ if (isset($_POST['new_class'])) {
     $num_users = $res_users[count($res_users) - 1] + 1;
     
     // Write new users to USERS table
-    $filepath = '/var/www/ITS-RESOURCES/SQL/Course/' . $current_term . '/' . $filename;
+    //$filepath = '/var/www/ITS-RESOURCES/SQL/Course/' . $current_term . '/' . $filename;
+    $filepath = '/var/www/' . $filename;
+    
     echo '<p>' . $filepath . '<p>';
     $handle   = fopen($filepath, "r");
     //die();
@@ -193,7 +198,8 @@ if (isset($_POST['new_class'])) {
         $users[] = $data[1];
         
         $query = 'SELECT id,status,first_name,last_name,section FROM users WHERE username="' . $data[1] . '"';
-        //echo '<p>'.$query.'</p>';	
+        //
+        echo '<p>'.$query.'</p>';	
         $res_u =& $mdb2->queryRow($query);
         
         // IF user already exists => update semester, ELSE insert new

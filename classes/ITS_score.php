@@ -9,7 +9,7 @@ ITS_score - compute user scores.
 		NOTE: requires ITS_query() class
 								
 	 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-	 Last Update: Apr-29-2013
+	 Last Update: May-15-2013
 //=====================================================================*/
 class ITS_score {
 	
@@ -187,7 +187,8 @@ class ITS_score {
 		$score_arr[] = "<b>Score</b>";
 	    $attemptedQues[] = '<span class="ITS_smallFont">Attempted / Available</span><br><b>Questions</b>';
 	    $percentageArr[] = "<b>Percentage</b>";
-	    $gradeArr[]      = "<b>Grade</b>";
+	    $note = 'Grade = '.$ptsGrade.'*( min( Score , '.$ptsMax.' ) / '.$ptsMax.' )';
+	    $gradeArr[]      = '<span class="grade" style="cursor:help" title="'.$note.'">Grade</span>';
 		
 		$total_score = 0;
 		$total_attemptQues = 0;

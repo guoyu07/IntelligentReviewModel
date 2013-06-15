@@ -192,7 +192,7 @@ if ($status == 'admin') {
     <script src="js/ITS_admin.js"></script>
 	<script src="js/AJAX.js"></script>
     <script src="js/ITS_AJAX.js"></script>
-    <script src="js/ITS_screen2.js"></script>
+    <script src="js/ITS_screen.js"></script>
 	<script src="js/ITS_QControl.js"></script>
 	<script src="js/ITS_book.js"></script>
 	<script src="tagging/ITS_tagging.js"></script>

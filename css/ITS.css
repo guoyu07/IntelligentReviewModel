@@ -77,12 +77,13 @@ div.ITS_MESSAGE ul {
 #nav1 li ul {position: absolute;width: 10em;left: -999em;}
 #nav1 li:hover ul {left: auto;}
 
-/*.ITS_nav { overflow:auto;}*/
-.ITS_nav ul{list-style-type:none;text-align:center;margin-top:-10px;margin-bottom:23px;position:relative;z-index:3;padding:0}
-.ITS_nav li{display:inline;text-align:center;font-size:8pt;margin:0 3px}
-.ITS_nav li a{color:#666;background-color:#FFF;border:2px solid #ddd;text-decoration:none;outline:0;padding:1px 10px}
-.ITS_nav li a:hover{color:#000;border:2px solid #666}
-.ITS_nav li a#current{color:#666;border:0px solid #999;background-color:#FFF;z-index:2}
+/* Navigation Index */
+ul.nav {list-style-type:none;text-align:center;margin-top:-15px;margin-bottom:23px;position:relative;z-index:2;padding:0;font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;}
+ul.nav li{display:inline;text-align:center;font-size:8pt;margin:0 3px}
+ul.nav li a{color:#666;background-color:#FFF;border:2px solid #ddd;text-decoration:none;outline:0;padding:1px 10px}
+ul.nav li a:hover{color:#000;border:2px solid #666}
+ul.nav li a#current{color:#666;font-weight:700;font-size:medium;border:2px solid #666;background-color:#FFF}
+
 /*font-weight:700;font-size:medium;*/
 table.choice {border:1px solid #999;border-collapse:collapse}
 table.choice td {border:1px solid #999;padding:0.25em}
@@ -117,13 +118,19 @@ img.ITS_LaTeX { position:relative; vertical-align: middle; /*height:100%*/ }
 
 /* MODE */
 input[type="radio"].toggle {display: none;color:red}
-input[type="radio"].toggle:checked + label {cursor: default;border:1px solid #999;}
+input[type="radio"].toggle:checked + label {cursor: pointer;border:1px solid #999;}
 input[type="radio"].toggle + label {cursor: pointer; width: 3em;padding: 10px;}
 input[type="radio"].toggle:checked + label.btn:hover {
     background-color: inherit;
     background-position: 0 0;
 }
 div.modeToggle {text-align:middle }
+.rounded-corners {
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
 /*==========================================================================
 								M A I N
 ============================================================================*/
@@ -139,7 +146,7 @@ div.modeToggle {text-align:middle }
 /*==========================================================================
                M E N U
 ============================================================================*/
-#menuContainer  {
+#menuContainer {
   position: relative;
 	/*margin:10px auto 5px auto;*/
 	text-align: right;
@@ -151,12 +158,6 @@ div.modeToggle {text-align:middle }
     position: relative;
 	text-align: middle;
 	padding: 1em;
-	overflow: auto;
-}
-#navXXContainer {
-    position: relative;
-	text-align: middle;
-	padding: 0em;
 	overflow: auto;
 }
 #header h1 {
@@ -186,24 +187,6 @@ div.icon:active {
 /*==========================================================================
                M E S S A G E
 ============================================================================*/
-/*
-#messageContainer {
- float: left;
- text-align: left;
- padding: 5px;
- border: 1px solid #666;
- background: #eee;
- width: 70%;
-}
-#messageContainerContent {
- float: left;
- text-align: left;
- padding: 5px;
- border: 1px solid #666;
- background: #eee;
- width: 70%;
-}*/
-/**---**/
 #messageContainer {
   clear: both;
   position: relative;
@@ -344,34 +327,6 @@ div.ITS_screen_L:active {
 	border: 1px solid #fff;
 	padding: 0.5em 0;
 }
-.ITS_alph_index{font:12pt Georgia, serif;color:#999;border:2px solid #fff;padding:0.3em}
-.ITS_alph_index:hover{border:2px solid #000;color:#000;cursor:pointer;}
-
-UL.alphIndex {position: relative;height: 100px;border: 2px solid silver;}
-ul#navlistIdx {
-  position: relative;
-	height: 100px;
-  list-style-type: none;
-  text-align: center;
-  padding: 5px;
-	display: inline;
-}
-ul#navlistIdx li {
-  position: relative;
-  list-style-type: none;
-  text-align: center;
-  padding: 0.25em 0.5em;
-	margin: 2px; /* between spacing */
-	display: inline;
-	border: 1px solid #fff;
-}
-ul#navlistIdx li:hover {
-  color: #fff;
-	background-color: #666;
-	cursor: pointer;
-}
-ul#navlistIdx li.active {border: 1px solid #666;}
-ul#navlistIdx li.active:hover {border: 1px solid #666;}
 /*==========================================================================
                C O N T E N T
 ============================================================================*/
@@ -1487,7 +1442,7 @@ div.navContent 			{   border: 1px solid #fff;}
 /*#footerContainer        {	background: #fff;     }/**/
 div.logout              {	background: #fff;      }
 
-/*================= DEBUG =================/
+/*================= DEBUG =================*/
 #pageContainer        {	background: pink;      }
 #menuContainer        {	background: lime;      }
 #messageContainer     {	background: purple;    }
@@ -1511,14 +1466,14 @@ TD.ITS_QUESTION 	  { background: #eef;      }
 #logout               {	background: red;       }
 #frameContainer		  {	background: magenta;   }
 
-/* QUESTION + ANSWER /
+/* QUESTION + ANSWER */
 #ITS_QUESTION 				{ border: 3px solid blue; }
 #ITS_ANSWER 				{ border: 3px solid red;	}
 div.ITS_QUESTION 			{ border: 3px solid #88e;}
 div.ITS_ANSWER 				{ border: 3px solid pink;	}
 .FEEDBACK 					{ border: 2px dashed olive; }/**/
 
-/* FOOTER /
+/* FOOTER */
 #footer_list 					{ border: 2px solid green;  }
 ul.footer 						{ border: 3px solid red;	}
 div.footer_list 				{ border: 3px solid pink;	}/**/

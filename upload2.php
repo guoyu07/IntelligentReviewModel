@@ -14,7 +14,7 @@ require_once($MDB2_path.'MDB2.php');
 include("classes/ITS_table.php");
 include("classes/ITS_configure.php");
 include("classes/ITS_question.php");
-include("classes/ITS_screen2.php");
+include("classes/ITS_screen.php");
 include("classes/ITS_users.php");
 
 //include("jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js");

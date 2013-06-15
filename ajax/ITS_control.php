@@ -3,7 +3,7 @@
 when in 'Edit' mode, called from js/ITS_QControl.js
 
 Author(s): Greg Krudysz
-Last Update: Oct-19-2012
+Last Update: Jun-04-2013
 ----------------------------------------------------------------------*/
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
@@ -12,7 +12,7 @@ header("Pragma: no-cache");
 
 require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
-require_once("../classes/ITS_screen2.php");
+require_once("../classes/ITS_screen.php");
 require_once("../classes/ITS_query.php");
 require_once("../classes/ITS_tag.php");
 require_once("../classes/ITS_search.php");
@@ -20,35 +20,7 @@ require_once("../classes/ITS_table.php");
 require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_statistics.php");
-/*
-$style = '<head>'
-.'<script type="text/javascript" src="MathJax/MathJax.js"></script>'
-.'<link type="text/css" href="jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="stylesheet" />'
-.'</head>';
-*/
-/*
-$style = "<head>
-<script type='text/javascript' src='js/jqueryFB/source/jquery.fancybox.pack.js'></script>
-<script type='text/javascript' src='js/jqueryFB/source/jquery.fancybox.js?v=2.1.0'></script>
-<link rel='stylesheet' type='text/css' href='js/jqueryFB/source/jquery.fancybox.css?v=2.1.0' media='screen' />
-<script type='text/javascript'>$(document).ready(function() {$('a.ITS_question_img').fancybox({
-	      type: 'image',
-		  closeClick: true,
-		  aspectRatio: true,
-		  padding: 5,
-          helpers: {
-	overlay : {
-		closeClick : true,
-		speedOut   : 300,
-		showEarly  : false,
-		css        : { 'background' : 'rgba(255, 255, 255, 0)'}
-	},			  
-              title : {
-                  type : 'inside'
-              }
-          }
-      });)</script></head>";
-*/
+
 $style = '';
 session_start();
 //===================================================================//

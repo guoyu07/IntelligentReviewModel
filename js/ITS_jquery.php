@@ -29,13 +29,14 @@
                 //var rate  = $("#ITS_rate").value();
                 //alert('saved rate: '+rate);
                 //alert('val: '+rate);
-                //$.get('ajax/ITS_screen2.php', { ajax_args: "rating", ajax_data: value}, function(data){
+                //$.get('ajax/ITS_screen.php', { ajax_args: "rating", ajax_data: value}, function(data){
                 //	rate = data;  //$("#ajax_response").html(rate);
                 //});
             }		
         });
         //-------------fancy box-----------------//
 		imageBox();
+		mathJax();
         //--------------rating-------------------//
         $(".icon#Minst_icon").change(function(){
             $(this).css("background-color","red");
@@ -98,12 +99,13 @@
             var ch = $('.chapter_index#current').text().replace(/^\s+|\s+$/g,""); // need to trim white spaces
             //alert('#Practice: updated ch '+ch);
             
-            $.get('ajax/ITS_screen2.php', {
+            $.get('ajax/ITS_screen.php', {
                 ajax_args: "practiceMode", 
                 ajax_data: ch
             }, function(data) {
                 $('#contentContainer').html(data);
                 imageBox();
+                mathJax();
                 var qid = $('#ratingContainer').attr('qid');
                 ratingUPDATE(qid);	// update rating module (style, rendering & state)								
             });
@@ -112,14 +114,16 @@
         $('#Question').live('click', function() {
             var v = $(this).attr('view');
             var header = $(this).attr('id');
-       
+			mathJax();
+			
 			if($(this).attr('choice_mode')=='concept'){
-				$.get('ajax/ITS_screen2.php',{
+				$.get('ajax/ITS_screen.php',{
 				ajax_args: "nextQuestion", 
 				ajax_data: 'concept'
 				}, function(data) {
 					$('#contentContainer').html(data); 
 					imageBox();
+					mathJax();
 				});
 				$('[name=header]').each(function(index) {
                 if ($(this).attr('id') == header){
@@ -165,14 +169,15 @@
                     //alert('text: '+$(this).text() +'='+ ch);
                 });
                 indexUPDATE(ch,v,'Question');
-                $.get('ajax/ITS_screen2.php', {
+                $.get('ajax/ITS_screen.php', {
                     ajax_args: "newChapter", 
                     ajax_data: ch+',question'
                 }, function(data) {
                     $('#contentContainer').html(data);
                     var qid = $('#ratingContainer').attr('qid');
                     ratingUPDATE(qid);	// update rating module (style, rendering & state)	
-                    imageBox();							
+                    imageBox();						
+                    mathJax();	
                 });
             }
         });
@@ -195,7 +200,7 @@
             //alert('chapter: '+ch+' index: '+qIdx);
 			indexUPDATE(ch,v,'Review');
 			//alert(ch+qIdx);
-            $.get('ajax/ITS_screen2.php', {
+            $.get('ajax/ITS_screen.php', {
                 ajax_args: "reviewMode", 
                 ajax_data: ch+','+qIdx
             }, function(data) {      		   
@@ -204,6 +209,7 @@
                 var qid = $('#ratingContainer').attr('qid');
                 ratingUPDATE(qid);	// update rating module (style, rendering & state)	
                 imageBox();	
+                mathJax();
 
                 //------------- slider -------------//
                 var qN   = $("#N1").attr('qN');
@@ -233,12 +239,13 @@
                     //alert(current);
                     var callback = "newChapter"; 
                     var header   = 'Chapter '+ch; 
-                    $.get('ajax/ITS_screen2.php', {
+                    $.get('ajax/ITS_screen.php', {
                         ajax_args: callback, 
                         ajax_data: ch+','+mode.toLowerCase()
                     }, function(data) {
                         $('#contentContainer').html(data);	
                         imageBox();		
+                        mathJax();
                     });
                     break;				
                 //----------//
@@ -258,12 +265,13 @@
                         callback = "newChapter";
                         header = 'Chapter '+ch;
                     }		
-                    $.get('ajax/ITS_screen2.php', {
+                    $.get('ajax/ITS_screen.php', {
                         ajax_args: callback, 
                         ajax_data: ch.toLowerCase()+','+mode.toLowerCase()
                     }, function(data) {
                         $('#contentContainer').html(data);		
 						imageBox();
+						mathJax();
                     });
                 }
                 break;
@@ -272,7 +280,7 @@
             //----------//
             if (ch == 'Survey') {
                 header = ch; 
-                $.get('ajax/ITS_screen2.php', {
+                $.get('ajax/ITS_screen.php', {
                     ajax_args: "surveyMode", 
                     ajax_data: ch+',0'
                 }, function(data) {
@@ -284,13 +292,14 @@
                 callback = "reviewUpdate"; 
                 header   = 'Chapter '+ch;
                 // alert(ch+' '+qMax);
-                $.get('ajax/ITS_screen2.php', {
+                $.get('ajax/ITS_screen.php', {
                     ajax_args: callback, 
                     ajax_data: ch+','+qMax
                 }, function(data) {
                     $('#N2').html(data);
                     slider(ch,qMax);
                     imageBox();
+                    mathJax();
                     navUPDATE(ch);
                     if (qMax>0) {
                         $('#N1').css({display: 'block'});
@@ -315,18 +324,19 @@ $('.ITS_navigation[name=updateReview_index]').live('click', function(event) {
     var ch  = $(this).attr("ch");
     var del = $(this).attr("del"); //alert(ch+' | '+del);		
     if (ch == 'Survey') {
-        $.get('ajax/ITS_screen2.php', {
+        $.get('ajax/ITS_screen.php', {
             ajax_args: "surveyMode", 
             ajax_data: ch+','+del
         }, function(data) {
             $('#contentContainer').html(data);
             imageBox();			
+            mathJax();
         });			
     }
     else {
         var idx = parseInt(del) + parseInt($( "#slider" ).slider("option","value")) - 1;
         //alert(idx);
-        $.get('ajax/ITS_screen2.php', {
+        $.get('ajax/ITS_screen.php', {
             ajax_args: "reviewUpdate", 
             ajax_data: ch+','+idx
         }, function(data) {
@@ -338,6 +348,7 @@ $('.ITS_navigation[name=updateReview_index]').live('click', function(event) {
             var qid = $('#ratingContainer').attr('qid');
             ratingUPDATE(qid);	
             imageBox();			
+            mathJax();
         });
     }
 });
@@ -345,12 +356,13 @@ $('.ITS_navigation[name=updateReview_index]').live('click', function(event) {
 $('.ITS_navigation[name=update_index]').live('click', function(event) {
     var mode  = $(this).attr("mode");  //alert(mode);
     //alert('.ITS_navigation[name=update_index]: mode('+mode+')');
-    $.get('ajax/ITS_screen2.php', {
+    $.get('ajax/ITS_screen.php', {
         ajax_args: "getContent",
         ajax_data: mode
     }, function(data) {
         $('#contentContainer').html(data);
         imageBox();
+        mathJax();
     });
 });
 /*-------------------------------------------------------------------------*//*
@@ -479,17 +491,18 @@ var c = $(this).attr("c");
 
 switch (mode) {
 case 'survey':
-    $.get('ajax/ITS_screen2.php', {
+    $.get('ajax/ITS_screen.php', {
         ajax_args: "recordSurveyAnswer", 
         ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode
     }, function(data) {
         $('#contentContainer').html(data);
         imageBox();
+        mathJax();
     });
     break;
 default:
     //alert(qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode);
-    $.get('ajax/ITS_screen2.php', {
+    $.get('ajax/ITS_screen.php', {
         ajax_args: "recordChapterAnswer", 
         ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode
     }, function(data) {
@@ -499,11 +512,12 @@ default:
         $('#ITS_nav_next').css({display: 'block'});
         ratingUPDATE(qid);
         imageBox();
+        mathJax();
         //$("#dialog").dialog({ autoOpen: false, resizable: false, width:425 });
     });							
 }	
 //--- update Scores ---//
-$.get('ajax/ITS_screen2.php', {
+$.get('ajax/ITS_screen.php', {
 ajax_args: "updateScores", 
 ajax_data: ''
 }, function(data) {
@@ -537,7 +551,7 @@ $(this).attr('disabled', false);
             var chosen = values.join();
                                     //alert(qid+'~'+qtype+'~'+chosen);
 
-            $.get('ajax/ITS_screen2.php', { ajax_args: "recordChapterAnswer", ajax_data: qid+'~'+qtype+'~'+chosen}, function(data) {
+            $.get('ajax/ITS_screen.php', { ajax_args: "recordChapterAnswer", ajax_data: qid+'~'+qtype+'~'+chosen}, function(data) {
                                         //alert($(this).data('chosen'));
                 $('#contentContainer').html(data);
                                                     $('.check').button();  			
@@ -553,22 +567,25 @@ $('#ITS_skip').live('click', function() {
     var t      = $(this).attr("t");
     var mode   = $(this).attr("mode");
 
-//alert(ch+' '+qid+' '+qtype+' '+t+' '+mode);
-$.get('ajax/ITS_screen2.php',{
+//
+alert(ch+' '+qid+' '+qtype+' '+t+' '+mode);
+$.get('ajax/ITS_screen.php',{
 	ajax_args: "skip", 
 	ajax_data: qid+'~'+qtype+'~'+ch+'~'+t+'~'+mode
 	}, function(data) {
 		$('#contentContainer').html(data); 
-	// Should be executed only in case the mode is concept - check if it works both ways
-		$.get('ajax/ITS_screen2.php',{
-		ajax_args: "co", 
+	// when in "Concepts" mode
+	//alert(data);
+		$.get('ajax/ITS_screen.php',{
+		ajax_args: "concept", 
 		ajax_data: qid
 		},
 		function(data){
-			//alert(data);
+			alert(data);
 			$('#QuesConcept').html(data);
 		});
 		imageBox();
+		mathJax();
 	});
 });
 /*-------------------------------------------------------------------------*/
@@ -584,7 +601,7 @@ $.each(myOptions, function(val, text) {
 });*/
 /*-------------------------------------------------------------------------*/
  /*       $('#resBoxContainer').live('click', function() {
-            $.get('ajax/ITS_screen2.php', {
+            $.get('ajax/ITS_screen.php', {
                 ajax_args: "getResource", 
                 ajax_data: ''
             }, function(data) {
@@ -700,7 +717,7 @@ callback: function(ui, type, value){
 if (value) {
     //alert('qid: '+qid+' rate: '+value);
     //--- update rating ---//
-    $.get('ajax/ITS_screen2.php', {
+    $.get('ajax/ITS_screen.php', {
         ajax_args: "recordRating", 
         ajax_data: qid+'~'+value
     }, function(data) {
@@ -719,7 +736,7 @@ function slider(ch,qN) {
                     max: qN,
                     step: 1,
                     slide: function( event, ui ) { $( "#reviewNavTxt" ).html( ui.value + " / " + $(this).slider("option","max")) },
-                    stop: function( event, ui ) { $.get('ajax/ITS_screen2.php', {
+                    stop: function( event, ui ) { $.get('ajax/ITS_screen.php', {
                             ajax_args: "reviewUpdate",
                             ajax_data: ch+','+(ui.value-1)
                         }, function(data) {
@@ -730,6 +747,7 @@ function slider(ch,qN) {
 
                             $('#N2').html(data);
                             imageBox();
+                            mathJax();
                             //$("#ITS_rate").css({display: 'block'});
                             var qid = $('#ratingContainer').attr('qid');
                             //alert(ch+' | '+qN+' | '+qMax+' | qid='+qid);
@@ -758,6 +776,11 @@ $("a.ITS_question_img").fancybox({
               }
           }
       });  
+}
+//*****************************************//
+function mathJax() { 
+//*****************************************//
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 //*****************************************//
 function getMSG() { 

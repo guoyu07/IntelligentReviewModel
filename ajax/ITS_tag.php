@@ -10,7 +10,7 @@ require_once("../classes/ITS_table.php");
 require_once("../classes/ITS_configure.php");
 require_once("../classes/ITS_question.php");
 require_once("../classes/ITS_statistics.php");
-require_once("../classes/ITS_screen2.php");
+require_once("../classes/ITS_screen.php");
 require_once("../classes/ITS_tag.php");
 //require_once("../classes/ITS_book.php");
 
