@@ -73,15 +73,17 @@ if (agree)
 			});
 		});		           
         /*-------------------------------------------------------------------------*/ 
-        $('.tagref').live('click', function(event) {  
+        $('.tagrefXX').live('click', function(event) {  
+			alert('ss');
 			var tid   = $(this).attr('tid');
 			var tname = $(this).html();
+			/*
 			$.get('ajax/ITS_tag.php', {
                 ajax_args: "practiceMode", 
                 ajax_data: tid+','+tname
             }, function(data) {
                 $('div.taginfo').html(data);							
-            });
+            });*/
 		if ($("div.taginfo").is(":hidden")) {
 			$("div.taginfo").slideDown("slow");
 		} else {

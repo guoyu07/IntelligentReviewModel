@@ -11,9 +11,10 @@
 .tag_del_DB:hover{cursor:pointer;color: #FFF;background:#e77;}
 
 
+
 .tag_sep {margin:5px;border-top:2px solid #999}
-.tagref{text-decoration:underline;color:red;}
-.tagref:hover{color:red;cursor:pointer;}
+.tagref{color:#444;}
+.tagref:hover{color:#00f;background:#FF9;cursor:pointer;}
 .taginfo{display:none;}
 .clear{clear:both}
 

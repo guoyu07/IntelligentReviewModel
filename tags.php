@@ -9,7 +9,6 @@ require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
 require_once("classes/ITS_screen.php");
 
-die('ss');
 $timer = new ITS_timer();
 session_start();
 

@@ -299,45 +299,6 @@ class ITS_question
     {
         //=====================================================================//
         $ques_str = $this->Q_question_data['question'];
-        /*
-        $query_tag_id = "SELECT tag_id FROM " . $this->tb_name ." WHERE id=" . $this->Q_question_data['id'];
-        $res = mysql_query($query_tag_id);
-        if (!$res) {die('Query execution problem in ITS_question: ' . msql_error());}
-        $tag_ids = mysql_result($res,0);
-        
-        //$query  = 'SELECT id,name FROM tags WHERE id IN ('.$tag_id.')';
-        //echo $tag_id;
-        //echo array_map('intval',$tag_id);
-        //die();
-        $query  = 'SELECT id,name FROM tags WHERE id IN ('.$tag_ids.')';
-        
-        // array_map('intval',$tag_id)
-        //echo $query;
-        $res = mysql_query($query);
-        if (!$res) {die('Query execution problem in ITS_question: ' . msql_error());}
-        //var_dump($tags);
-        //die();
-        //--- REGEXP ---//
-        /*$tag_list = '';
-        echo '<pre>';
-        print_r($tags);
-        echo '</pre>';
-        echo count($tags);    
-        //die();	
-        
-        while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-        $tag_href = '<a class="tagref" tid="'.$row['id'].'">'.$row['name'].'</a>';
-        //$pattern = '/(\w+) (\d+), (\d+)/i';
-        //$replacement = '${1}1,$3';
-        //echo $tag_href;
-        $ques_str = str_ireplace($row['name'],$tag_href,strtolower($ques_str));
-        $tag_list .= '<hr><div class="taginfo">'.$row['name'].'</div>';
-        }
-        $ques_str .=  $tag_list;
-        */
-        //-------------//
-        
-        //--DEBUG--// echo '<pre>';print_r('<font color=green>'.$ques_str.'</font>');echo '</pre>';
         
         //echo $TABLE_QUESTION.'<hr>';
         //--- IMAGE ----------------//

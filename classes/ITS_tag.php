@@ -109,10 +109,8 @@ class ITS_tag
                 die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
             }
             $tagList = '';
-            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-                //$tagList .= '<span class="ITS_tag"><a href="Tags.php?tid=' . $row["id"] . '">' .  . '</a></span>';
-                
-                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB');
+            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {               
+                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB',true);
             }
             
             $tList .= '<tr><td class="DATA_list">' . chr(65 + $l) . '</td><td class="DATA_list2">' . $tagList . '</td></tr>';
@@ -207,24 +205,30 @@ class ITS_tag
         return $tid;
     }
     //=====================================================================//
-    function render($tid, $tag, $rid, $rname, $type)
+    function render($tid, $tag, $rid, $rname, $type, $link_flag)
     {
         //=====================================================================// 
         switch ($type) {
             case 'add':
                 $icon       = '+';
+                $sel_class = '';
                 $icon_class = 'tag_add';
                 break;
             case 'delete':
                 $icon       = 'x';
+                $sel_class = '';
                 $icon_class = 'tag_del';
                 break;
             case 'deleteDB':
                 $icon       = 'x';
+                $sel_class = 'tagref';
                 $icon_class = 'tag_del_DB';
                 break;
         }
-        $tag = '<div class="ITS_tags"><table><tr><td>' . $tag . '</td><td class="' . $icon_class . '" tag="' . $tag . '" tid="' . $tid . '" tname="' . $this->tb_tags . '" rname="' . $rname . '" rid="' . $rid . '">' . $icon . '</td></tr></table></div>';
+        if ($link_flag) { $t = '<a href="Tags.php?tid=' . $tid . '">' . $tag . '</a>'; }
+        else 			{ $t = $tag; }
+  
+        $tag = '<div class="ITS_tags"><table><tr><td>' . $t . '</td><td class="' . $icon_class . '" tag="' . $tag . '" tid="' . $tid . '" tname="' . $this->tb_tags . '" rname="' . $rname . '" rid="' . $rid . '">' . $icon . '</td></tr></table></div>';
         
         return $tag;
     }

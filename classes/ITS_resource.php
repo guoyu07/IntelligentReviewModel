@@ -354,7 +354,20 @@ class ITS_resource
             die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
         return $query_str; 
-	}	
+	}
+        //=====================================================================//
+    public function getQuestions($tag_id)
+    {
+        //=====================================================================//   
+        /*
+        $query = 'SELECT questions FROM  WHERE id='.$rid;
+
+        $res    = mysql_query($query_str);
+        if (!$res) {
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
+        }
+        return $query_str;*/ 
+	}			
     //=====================================================================//
 } //eo:class
 //=====================================================================//

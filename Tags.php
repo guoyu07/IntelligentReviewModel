@@ -14,7 +14,6 @@ require_once("classes/ITS_search.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_timer.php");
 require_once("classes/ITS_tag.php");
-
 require_once("classes/ITS_resource.php");
 
 session_start();
@@ -95,7 +94,7 @@ $form = $chapter . '&nbsp;&nbsp;' . $type;
 if (isset($_GET['tid'])) {
   $tag = $_GET['tid'];
   $robj = new ITS_resource($id,$tag);
-  $RR = $robj->renderContainer();
+  $rList = $robj->renderContainer();
 } else {
 	$qid = 5;
 	$tobj = new ITS_tag('tags');
@@ -103,49 +102,11 @@ if (isset($_GET['tid'])) {
 }
 /*
   // QUERY
-  $ALL = $ch_max+1;
-  switch ($ch) {
-  case 0:
-  $query_chapter = 'AND category NOT IN (';
-  for ($n=1;$n<=$ch_max;$n++) {
-  if ($n < 10) { $nn = '0'.$n; }
-  else         { $nn = $n;     }
-  $query_chapter .= '"PreLab'.$nn.'","Lab'.$nn.'","Chapter'.$nn.'"';
-  if ($n<$ch_max) { $sep = ','; }
-  else 						{ $sep = ')'; }
-  $query_chapter .= $sep;
-  }
-  break;
-  case $ALL: $query_chapter = ''; break;
-  default:
-  if ($ch < 10) { $chs = '0'.$ch; }
-  else          { $chs = $ch;  }
-  $query_chapter = 'AND category IN ("PreLab'.$chs.'","Lab'.$ch.'","Chapter'.$ch.'")';
-  }
-  switch ($qt) {
-  case 0:  $query_type = 'qtype IN ("MC","M","C","S","P") '; break;
-  default: $query_type = 'qtype = "'.$Qtype_db[$qt].'" ';
-  }
-  $qindex = 0;
-  // look for LIST of question
-  //$query = 'SELECT id,title,image,category,tag_id FROM webct WHERE '.$query_type.$query_chapter;
-  $query = 'SELECT id,title,image,category,answers FROM webct WHERE '.$query_type.$query_chapter;
-  //echo $query; die();
 
   $res =& $mdb2->query($query);
   if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
   $qs = $res->fetchAll();
 
-  if (empty($qs[$qindex][1])) { $title = '';              }
-  else 												{ $title = $qs[$qindex][1]; }
-  if (empty($qs[$qindex][2])) { $image = '';              }
-  else 												{ $image = $qs[$qindex][2]; }
-  if (empty($qs[$qindex][3])) { $category = '';              }
-  else 												{ $category = $qs[$qindex][3]; }
-  if (empty($qs[$qindex][4])) { $answers  = '';              }
-  else 												{ $answers  = $qs[$qindex][4]; }
-  if (empty($qs[$qindex][5])) { $tags = ''; }
-  else {
   $query = 'SELECT name FROM tags WHERE id IN ('.$qs[$qindex][5].')';  //echo $query;
   $res =& $mdb2->query($query);
   if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
@@ -202,14 +163,10 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
         <script src="js/ITS_AJAX.js"></script>
         <script src="js/ITS_QControl.js"></script>
         <title>Tags</title>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
 <?php 
-include 'js/ITS_Question_jquery.php';
-include 'js/ITS_resource_jquery.php';
-include 'js/ITS_search_jquery.php';
-include 'js/ITS_tag_jquery.php';
-include INCLUDE_DIR.'stylesheet.php';
 include INCLUDE_DIR.'include_fancybox.php';
+include INCLUDE_DIR.'stylesheet.php';
+include 'js/ITS_tag_jquery.php';
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -245,7 +202,7 @@ $(document).ready(function() {
         <div id="maincontent">
             <div id="ITS_question_container">
 <?php
-//echo $RR;
+echo $rList;
 echo $tList;
 //echo '<div id="metaContainer" class="ITS_meta">'.$tList.'</div><p>';
 echo '</div><br>';

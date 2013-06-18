@@ -7,7 +7,7 @@ ITS_navigation - navigation class for tabs.
 			ex. $nav = new ITS_navigation( ... );
 								
 	 Author(s):  Gregory A. Krudysz
-	 Last Update: Jun-05-2013
+	 Last Update: Jun-21-2013
 //=====================================================================*/
 class ITS_navigation {
 	
@@ -25,8 +25,9 @@ class ITS_navigation {
 	switch ($this->status) {
     case 'admin':		
 		$Arr = array( array('User','User.php'),
-		array('Database','DB.php'),
-		array('Logs','Logs.php') );
+		array('Tags','Tags.php'));
+		/*array('Database','DB.php'),
+		array('Logs','Logs.php') );*/
     default:
 		$tabArr = array( 
 		array('Logout','logout.php'),
@@ -43,6 +44,12 @@ class ITS_navigation {
 	//=====================================================================//
     $tabArr = $this->tabArr;
 	switch ($current) {
+    case 'footer':
+    	$qArr = array( 
+		array('Course','Course.php'),	
+				 );      
+    	$tabArr = array_merge($qArr,array_slice($tabArr, 2));
+        break;	
     case 'Question':
     	$qArr = array( 
 		array('Course','Course.php'),
