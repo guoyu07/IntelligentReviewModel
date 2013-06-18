@@ -58,6 +58,14 @@ class ITS_concepts
         $this->db_name = $dsn[6];
         //   echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
+    //=====================================================================//
+    function getConceptNav($concept){
+        //=====================================================================//    
+    
+        $str = '<div class="navConcept">'.$concept.'</div><span class="navConceptInfo"><span class="todo">concept info here</span></span><br><hr>';
+        
+        return $str;
+	}
     //=====================================================================//	
     // Returns all concepts at the highest level
     function getConcepts($letter){
@@ -82,7 +90,7 @@ class ITS_concepts
      t.id
    ORDER BY
 	 count DESC';
-        
+
         //ALTER TABLE its.tags DROP question_id
         //ALTER TABLE its.tags DROP concept_id
         //ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
@@ -100,7 +108,7 @@ class ITS_concepts
 			//echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
             if (empty($row['count'])) { $row['count'] = '&ndash;'; }
-            $str .= '<li  id="' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
+            $str .= '<li  id="con_' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
             //$str .= ''.$x.'</div>';
             
             if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }
@@ -425,7 +433,13 @@ class ITS_concepts
     $res = mysql_query($query,$con);
     }
     }
-    //=====================================================================//
     */
+    //=====================================================================//
+    public function updateScore(){
+    //=====================================================================//
+        $str = '<span class="todo">concept scoreboard here</span>';
+        return $str;
+    }	
+    
 } // eof class
 ?>

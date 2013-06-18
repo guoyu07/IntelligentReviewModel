@@ -58,6 +58,10 @@ background:#eee
 .conceptScore { float:right;color:#999;font-size:60% }
 .conceptCount {float:right;color:#bbb;font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;margin-left:2em }
 hr.concept { border:1px solid #ddd;margin:0.5em 1em }
+div.navConcept {float:left;font: 110% georgia, times, "times new roman", serif;text-align: left;color: blue;} 
+span.navConceptInfo {float:right;border:1px solid #99f; } 
+
+
 /*================= DEBUG =================/
 #conceptContainer{border:3px solid brown;}
 #conceptContainer{background-color:pink}

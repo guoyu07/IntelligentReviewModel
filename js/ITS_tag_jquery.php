@@ -1,14 +1,37 @@
 <?php
 /* =============================================================
   Author(s): Gregory Krudysz
-  Last Update: Nov-21-2012
+  Last Update: Jun-21-2013
 /* ============================================================= */
 ?>
 <script type="text/javascript">
     $(document).ready(function() { 
 		/*-------------------------------------------------------------------------*/ 
-        $('.tag_del').live('click', function() { 
-			
+        $('.tag_del_DB').live('click', function(event) {
+			var tid   = $(this).attr('tid');
+			var tname = $(this).attr('tname');
+			var rid   = $(this).attr('rid');
+			var rname = $(this).attr('rname');
+			//alert(tid+'~'+tname+'~'+rid+'~'+rname);			
+
+var agree=confirm("Are you sure you want to delete this tag \n and all its linked resources?");
+if (agree)
+{
+				$.get('ajax/ITS_tag.php', {
+                ajax_args: "tag_del_DB", 
+                ajax_data: tid+'~'+tname+'~'+rname
+            }, function(data) {
+				//$('.innertube').append(data);	
+                //$('div.taginfo').html(data);							
+            });
+          
+			$(this).parent().parent().parent().parent().hide(800, function () {	
+				$(this).remove();
+			});
+}
+		});   
+		/*-------------------------------------------------------------------------*/ 		
+        $('.tag_del').live('click', function(event) { 
 			var tid   = $(this).attr('tid');
 			var tname = $(this).attr('tname');
 			var rid   = $(this).attr('rid');
@@ -27,9 +50,9 @@
 			$(this).parent().parent().parent().parent().hide(800, function () {	
 				$(this).remove();
 			});
-		});   
+		});  		
 		/*-------------------------------------------------------------------------*/ 
-        $('.tag_add').live('click', function() { 
+        $('.tag_add').live('click', function(event) { 
 			// alert('tag_add');
 			var tid   = $(this).attr('tid');
 			var tag   = $(this).attr('tag');
@@ -50,7 +73,7 @@
 			});
 		});		           
         /*-------------------------------------------------------------------------*/ 
-        $('.tagref').live('click', function() {  
+        $('.tagref').live('click', function(event) {  
 			var tid   = $(this).attr('tid');
 			var tname = $(this).html();
 			$.get('ajax/ITS_tag.php', {

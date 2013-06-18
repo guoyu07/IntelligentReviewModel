@@ -6,17 +6,15 @@ $LAST_UPDATE = 'Apr-10-2013';
 //=====================================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
-require_once("classes/ITS_navigation.php");
+
+require_once("classes/ITS_concepts.php");
 require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
-require_once("classes/ITS_search.php");
-include_once("classes/ITS_timer.php");
-require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
-require_once("classes/ITS_footer.php");
+require_once("classes/ITS_search.php");
+require_once("classes/ITS_survey.php");
+require_once("classes/ITS_timer.php");
 require_once("classes/ITS_tag.php");
-require_once("classes/ITS_concepts.php");
 
 session_start();
 // return to login page if not logged in
@@ -226,22 +224,13 @@ if ($status == 'admin' OR $status == 'instructor') {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
-		<META HTTP-EQUIV="Expires" 	    CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
-        <META HTTP-EQUIV="Pragma"       CONTENT="no-cache">
-        <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
         <script src="js/ITS_AJAX.js"></script>
         <script src="js/ITS_QControl.js"></script>
         <title>Questions Database</title>
-        <link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css" media="screen">    
         <link rel="stylesheet" href="css/ITS_questionCreate.css" type="text/css" media="screen">    
-        <link rel="stylesheet" href="css/ITS_index4.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_tag.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
-        <link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">     
-                <link rel="stylesheet" href="css/ITS.css" type="text/css">      
+        <link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">  
         <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
 
         <!-- QTI IMPORTER start ----------------------------------->
@@ -256,17 +245,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="plugins/CodeMirror-2.0/lib/codemirror.css">
         <script src="plugins/CodeMirror-2.0/mode/javascript/javascript.js"></script>
         <link rel="stylesheet" href="plugins/CodeMirror-2.0/mode/javascript/javascript.css">
-        <!------------------------------------------------->
-        <style>
-            #dialog-form { background: red; }
-            .ui-dialog-form { background: #e1e; }
-            .ui-widget-header { background: red; border: 2px solid #666; }
-            .ui-dialog-title { background: #aaa;}
-            .ui-dialog-titlebar { background: #aaa; border: 2px solid #666; color: #fff; font-size:12pt}
-            .ui-dialog-content  { text-align: left; color: #000; padding: 0.5em; }
-            .ui-button-text { color: #00a; }
-            #myDialog { background: #fff; border-bottom: 2px solid #666; zindex: 5;}
-        </style>    
+        <!------------------------------------------------->  
         <?php
 include INCLUDE_DIR.'stylesheet.php';
 include 'js/ITS_tag_jquery.php';
@@ -409,8 +388,8 @@ echo $meta . '<br>' . $adminNav . '</div>';
 				<!-- QTI EXPORTER Many end **********************************-->
 <?php
 //--- FOOTER ------------------------------------------------//
-$ftr = new ITS_footer($status, $LAST_UPDATE, '');
-echo $ftr->main();
+$ftr = new ITS_footer($status, $LAST_UPDATE,'');
+echo '<p>'.$ftr->main().'</p>';
 //-----------------------------------------------------------//
 ?>
            </div>

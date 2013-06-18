@@ -8,7 +8,7 @@ Constructor: ITS_resource( ... )
 ex. $r = new ITS_resource( ... );
 
 Author(s): Greg Krudysz
-Last Update: Nov-27-2012	 
+Last Update: Nov-27-2012
 //=====================================================================*/
 class ITS_resource
 {

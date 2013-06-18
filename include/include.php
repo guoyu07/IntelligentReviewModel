@@ -1,7 +1,7 @@
 <?php
 /*----------------------------------------/
 Author(s): Gregory Krudysz
-Last Update: Nov-1-2012
+Last Update: Jul-21-2013
 /----------------------------------------*/
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
@@ -26,12 +26,13 @@ if (!empty($ajax_match)) {
 require_once($path.INCLUDE_DIR."Authentication.php");
 require_once($path.INCLUDE_DIR."common.php");
 require_once($path.INCLUDE_DIR."User.php");
-require_once($path."classes/ITS_score.php");
 require_once($path."classes/ITS_configure.php");
 require_once($path."classes/ITS_question.php");
 require_once($path."classes/ITS_query.php");
-require_once($path."classes/ITS_screen.php");
+require_once($path."classes/ITS_navigation.php");
 require_once($path."classes/ITS_rating.php");
+require_once($path."classes/ITS_screen.php");
+require_once($path."classes/ITS_score.php");
 require_once($path."classes/ITS_statistics.php");
 require_once($path."classes/ITS_table.php");
 ?>

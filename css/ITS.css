@@ -7,6 +7,7 @@ body { margin: 0 2%;
 	font: 120% arial, sans-serif; text-align: center;color: black;background: #fff;
 }
 .ITS_error { background: #ff9;color: red;font-weight:bold;border:2px solid #000; }
+.todo {  background: #ff9;color: green;border:2px solid #000; padding:0.5em }
 #slider { z-index: 2; }
 /*
 #N1 { border: 2px solid red; }
@@ -1029,6 +1030,7 @@ TD.ITS_header {
 	width: 100%;
 	margin: 0.5em auto;
 	border: none;
+	background-color: #fff;
 }
 div.navContent {
   clear: both;
@@ -1425,7 +1427,7 @@ div.footer_col {
  color: #666;
  background: #ffd700;
 }
-/*================= COLORS ================#dcdcdc;*/
+/*================= COLORS ================#dcdcdc;/
 body 					{	background: #fff;      } 
 #pageContainer          {	background: #fff;      }
 #menuContainer          {	background: #fff;      }
@@ -1442,7 +1444,7 @@ div.navContent 			{   border: 1px solid #fff;}
 /*#footerContainer        {	background: #fff;     }/**/
 div.logout              {	background: #fff;      }
 
-/*================= DEBUG =================*/
+/*================= DEBUG =================/
 #pageContainer        {	background: pink;      }
 #menuContainer        {	background: lime;      }
 #messageContainer     {	background: purple;    }
@@ -1466,14 +1468,14 @@ TD.ITS_QUESTION 	  { background: #eef;      }
 #logout               {	background: red;       }
 #frameContainer		  {	background: magenta;   }
 
-/* QUESTION + ANSWER */
+/* QUESTION + ANSWER /
 #ITS_QUESTION 				{ border: 3px solid blue; }
 #ITS_ANSWER 				{ border: 3px solid red;	}
 div.ITS_QUESTION 			{ border: 3px solid #88e;}
 div.ITS_ANSWER 				{ border: 3px solid pink;	}
 .FEEDBACK 					{ border: 2px dashed olive; }/**/
 
-/* FOOTER */
+/* FOOTER /
 #footer_list 					{ border: 2px solid green;  }
 ul.footer 						{ border: 3px solid red;	}
 div.footer_list 				{ border: 3px solid pink;	}/**/

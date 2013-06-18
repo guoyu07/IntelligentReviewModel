@@ -18,7 +18,10 @@ TABLE.CPROFILE TD.sid {font-size:9pt;padding:5px 10px 5px 5px;color:#666;font-fa
 TABLE.CPROFILE TR:hover{background-color:#FF9;font-size:9pt}
 TABLE.PROFILE,TABLE.CPROFILE TH{background-color:#eee;border:1px solid #666;padding:.5em}
 TABLE.DATA{clear:both;position:relative;width:100%;vertical-align:middle;border-collapse:collapse;background:#fff;margin-top:-10px;padding:0}
-TABLE.DATA td{padding:0}
+TABLE.DATA td {padding:0.5em}
+.DATA_list { border-bottom:2px solid #999;border-right:2px solid #999;padding:20px; }
+.DATA_list2 { border-bottom:2px solid #999 }
+/**/
 #select_class{min-width:130px}
 #select_user{min-width:200px}
 #select_user option:focus{color:red}

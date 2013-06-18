@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '220e';
-$LAST_UPDATE = 'Jun-15-2013';
+$ITS_version = '220f';
+$LAST_UPDATE = 'Jun-21-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -34,16 +34,18 @@ if (!isset($_SESSION['auth'])) {
 }*/
 
 session_start();
-//die('xx');
 abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
 $view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 //##########################################//
-if (isset($_POST['role'])) {
-    $role = $_POST['role'];
+
+if (isset($_GET['role'])) {
+    $role = $_GET['role'];
 } else {
+	
+//var_dump($_GET['role']);
     switch ($status) {
         case 'admin':
             $role = 'admin';
@@ -55,7 +57,7 @@ if (isset($_POST['role'])) {
 }
 $ss = implode(',',array($id, $role, $status, $index_hide + 1, $tset));
 
-$screen    = new ITS_screen($id, $role, $status, $index_hide + 1, $tset);
+$screen    = new ITS_screen($id, $term, $role, $index_hide + 1, $tset);
 //$menu    = new ITS_menu(); //echo $menu->main();
 //$message = new ITS_message($screen->lab_number, $screen->lab_active);
 $_SESSION['screen'] = $screen;
@@ -225,19 +227,14 @@ echo $MyScores;
 /* -------------------- */
 
 $view     = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
-$schedule = $screen->getSchedule();
-$chList   = $screen->renderAssignment($status, $view, $role, $chArr, $chMax, $index_max, $index_hide, $schedule);
+$schdlArr = $screen->getSchedule($term);
+$chList   = $screen->renderAssignment($status, $view, $role, $chArr, $chMax, $schdl_ar);
 
 $modeDiv  = '<div id="modeContentContainer">' . $chList . '</div>';
-//$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active" style="color:#999">ASSIGNMENTS</li></div><div id="modeContentContainer">'.$chList.'</div>';
-//.'<li id="CON" style="color:#999"><a name="selectMode">PRACTICE</a></li></ul></div><div style="border:1px solid #fff" id="modeContentContainer">'.$chList.'</div>';
-/*$modeDiv = '<div id="navModeContainer"><ul id="navlist"><li id="active"><a href="#" id="current">ASSIGNMENTS</a></li>'
-.'<li><a href="#" name="selectMode">PRACTICE</a></li></ul></div><div id="modeContentContainer">'.$chList.'</div>';
-*/
 echo $modeDiv;
 //die('====');
 ?>  
-<input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">  
+<input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">
             </div>
                 <!-- CONTENT ----------------------------------------------->
                 <?php
@@ -255,23 +252,8 @@ echo $o.'<p>';
 */
 ?>
 <div id="navContainer">
-<ul id="navListQC">                     
-<li id="Question" name="header" view="<?php
-echo intval($view);
-?>" r="<?php
-echo intval($r);
-?>" ch="<?php
-echo ($index_hide + 1);
-?>"><a href="#" id="current">Questions</a></li>
-                        <li id="Review"   name="header" view="<?php
-echo intval($view);
-?>" r="<?php
-echo intval($r);
-?>" ch="<?php
-echo ($index_hide + 1);
-?>" style="margin-left: 50px;"><a href="#">Review</a></li>                      
-                    </ul>
-                </div>
+<?php echo $screen->getTab(($index_hide + 1),$role,$view);?>
+</div>
                 <!-- end div#navContainer -->
                 <?php
 //echo '<ul><li>ITS Modules 1 - 4 have closed.</li><li>Your answers for Modules 1-4 are available for review.</li></ul>';

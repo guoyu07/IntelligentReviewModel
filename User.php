@@ -36,6 +36,9 @@ if ($status == 'admin') {
     $ITS_nav = new ITS_navigation($status);
     $nav     = $ITS_nav->render($current);
     //---------------------------------------------//		
+}else{
+    // redirect to start page //
+    header("Location: http://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/index.php");
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

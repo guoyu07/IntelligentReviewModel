@@ -1,8 +1,8 @@
-<?php
+ <?php
 /*=====================================================================//
 ITS_screen - creates user ITS screen.
 
-Constructor: ITS_screen(name,rows,cols,data,width)
+Constructor: ITS_screen($id, $term, $role, $idx, $date)
 
 ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
@@ -15,7 +15,7 @@ screen.php
 - getScreen()        // draw screen
 -- getContent()      // draw content 
 ---- getChapter()    // setup chapter mode
------ getQuestion()  // draws question			 
+----- getQuestion()  // draws question            
 //=====================================================================*/
 
 class ITS_screen
@@ -71,7 +71,7 @@ class ITS_screen
         $this->tb_name = $tb_name;
         $this->tb_user = $db_table_user_state;
         
-        $this->epochtime = $date;       
+        $this->epochtime = $date;
         //echo 'TIME '.$this->epochtime.'<p>'.date("D M j G:i:s T Y",$this->epochtime);die();
         
         $this->record = array();
@@ -151,7 +151,7 @@ class ITS_screen
         return $screen_str;
     }
     //*********************************************************************//
-    //                    H E A D E R																			 //
+    //                    H E A D E R                                                                             //
     //*********************************************************************//
     //=====================================================================//
     function getHeader($screen)
@@ -196,7 +196,7 @@ class ITS_screen
                 //------------------//
                 $Nlabs = $this->lab_number;
                 
-                //--- build index list ---//               
+                //--- build index list ---//              
                 /*
                 $strIdx = '<ul class="nav">';
                 for ($n=0;$n<count($this->lab_questions);$n++){
@@ -316,7 +316,7 @@ class ITS_screen
                 //------------------//
                 //echo 'FREE: '.$this->chapter_number;
                 $this->question_completed = false;
-				//echo $this->mode.' -- '.$this->chapter_number;die('s');
+                //echo $this->mode.' -- '.$this->chapter_number;die('s');
                 //$content_str = 'ch';
                 $content_str              = $this->getChapter($this->mode, $this->chapter_number);
                 //    echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
@@ -335,7 +335,7 @@ class ITS_screen
         return $content_str;
     }
     //*********************************************************************//
-    //                    L A B     																			 //
+    //                    L A B                                                                                  //
     //*********************************************************************//
     //=====================================================================//
     function lab_check($lab_active)
@@ -414,12 +414,12 @@ class ITS_screen
         //=====================================================================//
         
         /*  IF ACTIVE:
-        |	  		         IF NOT COMPLETED 
+        |                       IF NOT COMPLETED 
         IF IN INDEX -> FORM ( QUESTION )
         ELSE        -> MESSAGE "thanks, completed"
-        |   						 ELSE      -> MESSAGE "completed"
-        |		ELSE INACTIVE:
-        |    						 STATS ( QUESTION )   
+        |                            ELSE      -> MESSAGE "completed"
+        |        ELSE INACTIVE:
+        |                             STATS ( QUESTION )  
         *----------------------------------------------------------*/
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
@@ -482,7 +482,7 @@ class ITS_screen
                     .'<div id="tagContainer" class="tagContainer">'.$tags.'</div>'
                     .'<div id="ratingContainer" class="ratingContainer">'.$rating.'</div>'
                     .'<div id="answerContainer">'.$submit.'</div>'
-                    .'</div></form>';		
+                    .'</div></form>';        
                     */
                     $answer = $form . $question . '<div id="errorContainer" class="ITS_message"></div>' . '<div id="tagContainer" class="tagContainer">' . $tags . '</div>' . '<div style="border:1px solid pink" id="ratingContainer" class="ratingContainer">' . $rating . '</div>' . $submit . '</form>';
                     
@@ -605,12 +605,12 @@ class ITS_screen
     {
         //=====================================================================// 
         /*  IF ACTIVE:
-        |	  		         IF NOT COMPLETED 
+        |                       IF NOT COMPLETED 
         IF IN INDEX -> FORM ( QUESTION )
         ELSE        -> MESSAGE "thanks, completed"
-        |   						 ELSE      -> MESSAGE "completed"
-        |		ELSE INACTIVE:
-        |    						 STATS ( QUESTION )   
+        |                            ELSE      -> MESSAGE "completed"
+        |        ELSE INACTIVE:
+        |                             STATS ( QUESTION )  
         *----------------------------------------------------------*/
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
@@ -683,7 +683,7 @@ class ITS_screen
                     .'<div id="tagContainer" class="tagContainer">'.$tags.'</div>'
                     .'<div id="ratingContainer" class="ratingContainer">'.$rating.'</div>'
                     .'<div id="answerContainer">'.$submit.'</div>'
-                    .'</div></form>';		
+                    .'</div></form>';        
                     */
                     $answer = $form . $question . '<div id="errorContainer" class="ITS_message"></div>' . '<div id="tagContainer" class="tagContainer">' . $tags . '</div>' . '<div id="ratingContainer" class="ratingContainer">' . $rating . '</div>' . $submit . '</form>';
                     
@@ -850,6 +850,15 @@ class ITS_screen
         //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
         
         return $question;
+    }
+    //=====================================================================//
+    function getTab($ch, $role, $view)
+    {
+        //=====================================================================//    
+        
+        $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . 'r="' . intval($r) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($r) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
+        
+        return $tab;
     }
     //=====================================================================//
     function getQuestion($Qnum, $conf)
@@ -1050,7 +1059,7 @@ class ITS_screen
         /*
         $col = 0;
         $str = $str.'<ul class='.$class.'>';
-        for ($c=0;$c < count($concepts);$c++ ) {		
+        for ($c=0;$c < count($concepts);$c++ ) {        
         $str = $str.'<li>'.$concepts[$c][0].'</li>';
         }
         $str = $str.'</ul>';
@@ -1360,10 +1369,10 @@ class ITS_screen
         
         //$navigation = '<div id=navigationContainer></div>'
         
-        /*		$navigation = '<ul id="navQuestion">'
+        /*        $navigation = '<ul id="navQuestion">'
         .'<li>'.$prev.'</li>'
         .'<li class="navContent">'.$nav_content.'</li>'
-        .'<li>'.$next.'</li>'	  
+        .'<li>'.$next.'</li>'      
         .'</ul>';
         
         $n = '<div id="navcontainer">'
@@ -1378,169 +1387,176 @@ class ITS_screen
         return $navigation;
     }
     //=====================================================================//
-    function getSchedule()
+    function getSchedule($term)
     {
         //=====================================================================//  
-$open  = array(
-    array(
-        5,
-        14
-    ),
-    array(
-        5,
-        20
-    ),
-    array(
-        5,
-        20
-    ),
-    array(
-        6,
-        3
-    ),
-    array(
-        6,
-        10
-    ),
-    array(
-        6,
-        17
-    ),
-    array(
-        7,
-        8
-    ),
-    array(
-        7,
-        22
-    )
-);
-$close = array(
-    array(
-        6,
-        3
-    ),
-    array(
-        6,
-        10
-    ),
-    array(
-        6,
-        10
-    ),
-    array(
-        6,
-        17
-    ),
-    array(
-        7,
-        1
-    ),
-    array(
-        7,
-        10
-    ),
-    array(
-        7,
-        31
-    ),
-    array(
-        7,
-        31
-    )
-);
+        $open  = array(
+            array(
+                5,
+                14
+            ),
+            array(
+                5,
+                20
+            ),
+            array(
+                5,
+                20
+            ),
+            array(
+                6,
+                3
+            ),
+            array(
+                6,
+                10
+            ),
+            array(
+                6,
+                17
+            ),
+            array(
+                7,
+                8
+            ),
+            array(
+                7,
+                22
+            )
+        );
+        $close = array(
+            array(
+                6,
+                3
+            ),
+            array(
+                6,
+                10
+            ),
+            array(
+                6,
+                10
+            ),
+            array(
+                6,
+                17
+            ),
+            array(
+                7,
+                1
+            ),
+            array(
+                7,
+                10
+            ),
+            array(
+                7,
+                31
+            ),
+            array(
+                7,
+                31
+            )
+        );
+        
+        $term_arr  = explode('_', $this->term);
+        $tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
+        $index_max = 0;
+        
+        foreach ($close as $Odate) {
+            $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
+            if ($open_time < time())
+                $index_max++;
+        }
+        $index_hide = 0;
+        $schedule   = array();
+        
+        for ($c = 0; $c < count($open); $c++) {
+            //var_dump($close[$c][1]);die();
+            if ($c == 6) {
+                $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
+            } else {
+                $close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
+            }
+            //var_dump(date("M - j @ g:i a", $close_time));die();
+            array_push($schedule, date("M - j @ g:i a", $close_time));
+            //echo '<p>'.date("M-j", $close_time).'</p>';
+            if ($close_time < time())
+                $index_hide++;
+        }
+        //echo $index_max.' - '.$index_hide;die();
+        $schedule_arr = array($index_max,$index_hide,$schedule);
 
-$term_arr  = explode('_', $this->term);
-$tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
-$index_max = 0;
-
-foreach ($close as $Odate) {
-    $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
-    if ($open_time < time())
-        $index_max++;
-}
-$index_hide = 0;
-$schedule   = array();
-
-for ($c = 0; $c < count($open); $c++) {
-	//var_dump($close[$c][1]);die();
-	if ($c==6){
-    $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
-} else {
-	$close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
-}
-    //var_dump(date("M - j @ g:i a", $close_time));die();
-    array_push($schedule, date("M - j @ g:i a", $close_time));
-    //echo '<p>'.date("M-j", $close_time).'</p>';
-    if ($close_time < time())
-        $index_hide++;
-}
-return $schedule;  
- }   
+        return $schedule_arr;
+    }
     //=====================================================================//
-    function renderAssignment($status,$view,$role,$chArr,$chMax,$index_max,$index_hide,$schedule)
+    function renderAssignment($status, $view, $role, $chArr, $chMax, $scheduleArr)
     {
         //=====================================================================//    
-        //echo '$status , $view , $role , $chMax , $index_max , $index_hide <br>';
-        //echo $status.'-'.$view.'-'.$role.'-'.$chMax.'-'.$index_max.'-'.$index_hide.'<br>';
-
-    switch ($status) {
-    /* ----------------- */
-    case 'BMED6787':
-        /* ----------------- */
-        $chUser     = 1;
-        $mode       = 'survey';
-        $this->mode = $mode;
-        $chList     = '<ul id="chList">';
-        $chList    .= '<li><a href="#" class="nav_index" id="Survey02" name="chapter" value="1">Survey</a></li>';
-        break;
-    /* ----------------- */
-    default:
-        /* ----------------- */
-        $mode = 'question'; // index | practice | question
+        $index_max = $scheduleArr[0];
+        $index_hide = $scheduleArr[1];
+        $schedule = $scheduleArr[2]; 
         
-        $chList = '<div id="chContainer"><ul id="chList" class="nav">';
-        switch ($role) {
-            case 'admin':
-            case 'instructor':
-                for ($i = 1; $i <= $chMax; $i++) {
-                    // echo $i.' -- '.($index_hide+1).'<br>';
-                    if ($i == ($index_hide + 1)) {
-                        $idx_id = 'id="current"';
-                    } else {
-                        $idx_id = '';
-                    }
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
-                }
-                $view = TRUE;
-                $r    = TRUE; // role
+        switch ($status) {
+            /* ----------------- */
+            case 'BMED6787':
+                /* ----------------- */
+                $chUser     = 1;
+                $mode       = 'survey';
+                $this->mode = $mode;
+                $chList     = '<ul id="chList">';
+                $chList .= '<li><a href="#" class="nav_index" id="Survey02" name="chapter" value="1">Survey</a></li>';
                 break;
+            /* ----------------- */
             default:
-                //var_dump($chArr); die();
-                for ($i = 0; $i < count($chArr); $i++) {
-                    if ($i == $index_max) { // ($index_hide + 1)
-                        $idx_id = 'id="current"'; // PRACTICE: = ''
-                        //var_dump($i);die('xx');
-                    } else {
-                        $idx_id = '';
-                    }
-                    //echo $i.'-'.$idx_id.'<p>';
-                    //echo 'a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '"><br>';
-                    $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
+                /* ----------------- */
+                $mode   = 'question'; // index | practice | question      
+                $oc     = '<a id="single_image" href="VIP/' . $this->term . '/schedule.png" class="ITS_question_img">schedule</a>';
+                $chList = '<div id="chContainer"><ul id="chList" class="nav"><li style="margin-right:2em;">' . $oc . '</li>';
+                
+                switch ($role) {
+                    case 'admin':
+                    case 'instructor':
+                        for ($i = 1; $i <= $chMax; $i++) {
+                            // echo $i.' -- '.($index_hide+1).'<br>';
+                            if ($i == ($index_hide + 1)) {
+                                $idx_id = 'id="current"';
+                            } else {
+                                $idx_id = '';
+                            }
+                            $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
+                        }
+                        $view = TRUE;
+                        $r    = TRUE; // role
+                        break;
+                    default:
+                        //var_dump($chArr); die();
+                        for ($i = 0; $i < count($chArr); $i++) {
+                            if ($i == $index_max) { // ($index_hide + 1)
+                                $idx_id = 'id="current"'; // PRACTICE: = ''
+                                //var_dump($i);die('xx');
+                            } else {
+                                $idx_id = '';
+                            }
+                            //echo $i.'-'.$idx_id.'<p>';
+                            //echo 'a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '"><br>';
+                            $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
+                        }
+                        if ($index_hide == $index_max) {
+                            $view = FALSE;
+                        }
+                        $r = FALSE;
+                        break;
                 }
-                if ($index_hide==$index_max){$view=FALSE;}
-                $r = FALSE;
-                break;
+                $chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
+                $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
+                /* -------------------- */
         }
-        $chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
-        $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
-        /* -------------------- */
-}
-
-//echo htmlspecialchars($chList); die();
-return $chList;
-
-}
+        
+        //echo htmlspecialchars($chList); die();
+        return $chList;
+        
+    }
     //=====================================================================//
     function exercisesContent()
     {
@@ -1572,7 +1588,7 @@ return $chList;
     //=====================================================================//
     function recordQuestion($qid, $qtype, $answered, $info, $tstart)
     {
-        //=====================================================================//     
+        //=====================================================================//    
         /*** BACK-TRACE ***/
         //echo '<table class="ITS_backtrace">';
         //array_walk( debug_backtrace(), create_function( '$a,$b', 'print "<tr><td><font color=\"blue\">". basename( $a[\'file\'] ). "</b></font></td><td><font color=\"red\">{$a[\'line\']}</font></td><td><font color=\"green\">{$a[\'function\']}()</font></td><td>". dirname( $a[\'file\'] ). "/</td></tr>";' ) );
@@ -1772,7 +1788,7 @@ return $chList;
         } else {
             //DEBUG: echo 'SCORE: '.$answers[$qn][0].' | '.$answers[$qn][1].'<p>';
             $score = $tr->get_question_score($qid, $answered, $config, $qtype);
-            //	ITS_debug($score);          
+            //    ITS_debug($score);          
             $index = count($score) - 1;
             $ans   = $tr->render_question_answer($score, $answered, $qtype, $index);
             //$tscore = $this->get_total_score($score,$answers[$qn][1],$qtype);
@@ -1781,11 +1797,11 @@ return $chList;
             $dist  = $this->getQuestionDist($qid, $qtype, $score, $Q->Q_question_data['answers']);
         }
         //echo '<p>score: '.$score.'<p>';      
-        //--- rating ---//                       
+        //--- rating ---//                      
         $rateObj = new ITS_rating();
         $rating  = $rateObj->renderRating('');
         $rateBox = '<div id="ratingContainer">' . $rating . '</div>';
-        //--------------//   
+        //--------------//  
         $list    = $tr->render_user_answer($ans, $score, $dist . $rateBox, 0, $index);
         
         return $list;
@@ -1895,7 +1911,7 @@ return $chList;
             case 'MC':
             //case 'M': NEEDS WORK !! ==> wrong stats: adjust for conf
             
-            /*	$sc = 0;
+            /*    $sc = 0;
             foreach ( $score as $s ) {
             if (!is_null($s)) { $sc++; }
             } //echo $sc;
@@ -2082,7 +2098,7 @@ return $chList;
         if (empty($queryList)) {
             $content = ITS_message('You have not yet solved <b>any</b><br> problems for Assignment ' . $chapter);
         } else {
-            $Qarr    = $this->reviewQuestion($chapter, $qIndex, $queryList); // $Qarr['qid']['content']       
+            $Qarr    = $this->reviewQuestion($chapter, $qIndex, $queryList); // $Qarr['qid']['content']      
             //       die($Qarr);        
             $qid     = $Qarr[0];
             $qAvail  = count($queryList);
@@ -2111,7 +2127,7 @@ return $chList;
         
         $query = 'SELECT answered from stats_'.$this->id.' WHERE question_id='.$qid; 
         //echo $query; 
-        $res   =& $mdb2->query($query);	
+        $res   =& $mdb2->query($query);    
         if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
         $answer = $res->fetchCol(); //var_dump($answer);
         
@@ -2195,6 +2211,9 @@ return $chList;
     function getConcQues($resource, $resource_name)
     {
         //=====================================================================//
+        
+        //echo $resource.' '.$resource_name.'<br>';
+        
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
         // connect to database
@@ -2203,7 +2222,7 @@ return $chList;
             throw new Question_Control_Exception($mdb2->getMessage());
         }
         $msg = '';
-
+        
         switch ($resource) {
             //-------------------------------//
             case 'review':
@@ -2215,7 +2234,7 @@ return $chList;
                 //-------------------------------//
                 $msg             = 'Concept based questions';
                 $resource_source = $ITSq->getConceptQuestion($resource_name);
-                // AVAILABLE QUESTIONS for chapter
+                // AVAILABLE QUESTIONS for concept
                 $query           = $resource_source;
                 $res =& $mdb2->query($query);
                 $qarr = $res->fetchCol();
@@ -2249,12 +2268,15 @@ return $chList;
                     case 'concept':
                         //-------------------------------//
                         $query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")';
-                        // echo($query);
+                        // 
+                        //echo($query);die();
                         $res =& $mdb2->query($query);
                         $qAvailable = $res->fetchAll();
                         $K          = count($qAvailable);
+                        
                         if (empty($K)) { // ALL QUESTIONS TAKEN
-                            //die('questions were all taken');
+                            //
+                            die('No more questions available for <b>' . $resource_name . '</b> concept.');
                             $queryP = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ')';
                             $resP =& $mdb2->query($queryP);
                             $qAvailable = $resP->fetchAll();
@@ -2299,8 +2321,8 @@ return $chList;
                         case 'concept':
                             //-------------------------------//
                             $ques_arr_rand_key = array_rand($qAvailable, 1);
-                            $qid               = 1222; //$qAvailable[$ques_arr_rand_key][0];
-                            $qtype             = 'mc'; //s$qAvailable[$ques_arr_rand_key][1];
+                            $qid               = $qAvailable[$ques_arr_rand_key][0];
+                            $qtype             = $qAvailable[$ques_arr_rand_key][1];
                             $ch_idx            = $this->chapter_number;
                             $this->mode        = 'concept';
                             //$skip = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" mode="'.$resource.'">';
@@ -2335,7 +2357,7 @@ return $chList;
                     //<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
                     
                     //$Robj = new ITS_resource('sampling');
-                    //$Rstr  = $obj->setResource('sampling',402);   
+                    //$Rstr  = $obj->setResource('sampling',402);  
                     //$Rstr = '<p style="height:0px">&nbsp;</p>';      
                     //$resources .= $Rstr . '</div>';
                     
@@ -2387,7 +2409,7 @@ return $chList;
     {
         //=====================================================================//
         
-        //echo '<p style="color:brown">getChapter(): '.$resource.' | '.$resource_name.'</p>';die();   
+        //echo '<p style="color:brown">getChapter(): '.$resource.' | '.$resource_name.'</p>';die();  
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
         
@@ -2469,7 +2491,7 @@ return $chList;
                 $msg             = 'Assignment ' . $resource_name;
                 //    echo $msg;
                 $resource_source = $ITSq->getCategory($resource_name);
-                //	echo('GET CHAPTER :: case question: '.$this->screen." : ".$this->mode." : ".$msg);
+                //    echo('GET CHAPTER :: case question: '.$this->screen." : ".$this->mode." : ".$msg);
                 
                 // AVAILABLE QUESTIONS for chapter
                 $query = 'SELECT id FROM ' . $this->tb_name . ' WHERE ' . $resource_source;
@@ -2497,7 +2519,7 @@ return $chList;
         $n++;
         }
         }*/
-        //	
+        //    
         //var_dump($qarr);die('xx');
         if (empty($qarr)) {
             $NO_QUESTIONS = TRUE;
@@ -2600,13 +2622,13 @@ return $chList;
                             break;
                     }
                     //echo '<p>++++ '.$qid.' + '.$qtype.' ++++<p>';die();
-                    //==>>	$qid = 1196; $qtype = 'MC';
+                    //==>>    $qid = 1196; $qtype = 'MC';
                     //if ($this->role == 'admin') { echo 'ITS_screen::getChapter '.$qid.'<p>'; }
                     
                     //echo $qAvailable[$ques_arr_rand_key[0]] . "\n";
                     $qinfo    = $this->getQuestionRef($qid);
                     $question = $this->getQuestion($qid, '');
-                    //echo 'NOW: '.empty($this->question_info);                   
+                    //echo 'NOW: '.empty($this->question_info);                  
                     
                     //var_dump($this->question_info);die('ggg');
                     
@@ -2657,7 +2679,7 @@ return $chList;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     
                     /*-- TAGGING START --/
-                    $tagBox = new ITS_tagInterface();					
+                    $tagBox = new ITS_tagInterface();                    
                     $tags   = $tagBox->displayTags($this->id,$qid,$tagBox->getTags($qid));
                     //$stags  = $tagBox->createSearchAddBox($this->id,$qid);
                     $answer = '<br>'.$answer.$tags.$stags.'<br>';//*/
@@ -2692,8 +2714,8 @@ return $chList;
         }
         
         if ($NO_QUESTIONS) {
-			var_dump($msg);
-									die($msg);
+            var_dump($msg);
+            die($msg);
             $str = ITS_message('No more questions available for ' . $msg);
         }
         $mdb2->disconnect();
@@ -2766,7 +2788,7 @@ return $chList;
                 // AVAILABLE QUESTIONS for chapter
                 //$query = 'SELECT question_id FROM questions WHERE '.$resource_source; //die($query);
                 $query = 'SELECT id FROM ' . $this->tb_name . ' WHERE ' . $resource_source; //die($query);
-                //	echo '<p>'.$query.'<p>'; // die();
+                //    echo '<p>'.$query.'<p>'; // die();
                 // DEBUG: $query = 'SELECT id FROM '.$this->tb_name.' WHERE category IN ("PreLab06","Chapter6","Lab6") AND qtype IN ("M")';
                 $res =& $mdb2->query($query);
                 $qarr = $res->fetchCol();
@@ -2780,7 +2802,7 @@ return $chList;
                 $msg             = 'Assignment ' . $resource_name;
                 //    echo $msg;
                 $resource_source = $ITSq->getCategory($resource_name);
-                //	echo('GET CHAPTER :: case question: '.$this->screen." : ".$this->mode." : ".$msg);
+                //    echo('GET CHAPTER :: case question: '.$this->screen." : ".$this->mode." : ".$msg);
                 
                 // AVAILABLE QUESTIONS for chapter
                 $query = 'SELECT id FROM ' . $this->tb_name . ' WHERE ' . $resource_source;
@@ -2880,7 +2902,7 @@ return $chList;
                             break;
                     }
                     //echo '<p>++++ '.$qid.' + '.$qtype.' ++++<p>';die();
-                    //==>>	$qid = 1196; $qtype = 'MC';
+                    //==>>    $qid = 1196; $qtype = 'MC';
                     //if ($this->role == 'admin') { echo 'ITS_screen::getChapter '.$qid.'<p>'; }
                     
                     //echo $qAvailable[$ques_arr_rand_key[0]] . "\n";
@@ -2963,4 +2985,4 @@ function ITS_message($msg)
 {
     return '<div class="ITS_MESSAGE"><ul><li>' . $msg . '</li></ul></div>';
 }
-?>
+?> 

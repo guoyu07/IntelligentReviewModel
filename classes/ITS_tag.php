@@ -1,13 +1,13 @@
-<?php
+ <?php
 /*=====================================================================//
 ITS_tag - tag related.
 
-Constructor: ITS_tag()	
+Constructor: ITS_tag()    
 ex. $ITS_tag = new ITS_tag();
 
 API: * getByResource($resource_table, $resource_id,$tags_table_extra)
 
-Author(s): Greg Krudysz |  Nov-21-2012 						   
+Author(s): Greg Krudysz |  Jun-21-2013                            
 //=====================================================================*/
 
 class ITS_tag
@@ -36,10 +36,10 @@ class ITS_tag
     {
         //=====================================================================//
         $query_tag_id = 'SELECT ' . $this->tb_tags . '_id FROM ' . $rtb . '_' . $this->tb_tags . ' WHERE ' . $rtb . '_id=' . $rid;
-        //die($query_tag_id);
+        // die($query_tag_id);
         $res          = mysql_query($query_tag_id);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
             $arr[] = $row[$this->tb_tags . '_id'];
@@ -52,7 +52,7 @@ class ITS_tag
     function getByKeyword($keyword, $exclude)
     {
         /* arr[id][name] */
-        //=====================================================================// 	  
+        //=====================================================================//      
         //$query = "SELECT id,name FROM ".$this->tb_tags." WHERE name LIKE '$keyword%' ORDER BY name";
         //echo 'getByKeyword<br>';
         if (!empty($exclude)) {
@@ -64,7 +64,7 @@ class ITS_tag
         //die($query);
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         
         while ($arr[] = mysql_fetch_array($res, MYSQL_NUM));
@@ -75,7 +75,7 @@ class ITS_tag
     function query($keyword, $exclude)
     {
         /* arr[id][name] */
-        //=====================================================================// 	  
+        //=====================================================================//      
         //echo 'query<br>';
         if (!empty($exclude)) {
             $filter = ' AND id IN (' . implode(",", $exclude) . ')';
@@ -86,7 +86,7 @@ class ITS_tag
         $query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE name="' . $keyword . '"' . $filter;
         $res   = mysql_query($query);
         if (!$res) {
-            die('Query execution problem in ITS_question: ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         
         while ($arr[] = mysql_fetch_array($res, MYSQL_NUM));
@@ -95,24 +95,50 @@ class ITS_tag
         return $arr;
     }
     //=====================================================================//
-    function query2($keyword, $rid, $rname)
+    function query2($rname)
     {
-        //=====================================================================// 	  
-        //echo 'query2<br>';
+        //=====================================================================//      
         
-        $list = $this->getByKeyword($keyword, $rid, $rname);
-        
-        for ($t = 0; $t < count($list) - 1; $t++) {
-            //echo $list[$t][0] . ' ' . $list[$t][0] . ' ' . $rid . ' ' . $rname . '<br>';
-            $tags .= '<div class="ITS_tag"><table><tr><td>' . $list[$t][1] . '</td><td class="tag_add" tid="' . $list[$t][0] . '" tname="' . $list[$t][1] . '" rid="' . $rid . '" rname="' . $rname . '">+1</td></tr></table></div>';
+        $tList = '<table class="DATA">';
+        for ($l = 0; $l < 26; $l++) {
+            $query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE name LIKE "' . chr(65 + $l) . '%" ORDER BY name';
+            // echo $query; die($query);
+            
+            $res = mysql_query($query);
+            if (!$res) {
+                die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+            }
+            $tagList = '';
+            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+                //$tagList .= '<span class="ITS_tag"><a href="Tags.php?tid=' . $row["id"] . '">' .  . '</a></span>';
+                
+                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB');
+            }
+            
+            $tList .= '<tr><td class="DATA_list">' . chr(65 + $l) . '</td><td class="DATA_list2">' . $tagList . '</td></tr>';
         }
-        //die('done');
-        return $tags;
+			$query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE name REGEXP "^[^A-Za-z]" ORDER BY name';
+            // echo $query; die($query);
+            
+            $res = mysql_query($query);
+            if (!$res) {
+                die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+            }
+            $tagList = '';
+            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB');
+            }
+            
+            $tList .= '<tr><td class="DATA_list">OTHER</td><td class="DATA_list2">' . $tagList . '</td></tr>';
+        
+        $tList .= '</table>';
+        
+        return $tList;
     }
     //=====================================================================//
     function add($keyword, $rid, $rname)
     {
-        //=====================================================================// 	  
+        //=====================================================================//      
         $tag = $this->render(0, $keyword, $rid, $rname, 'add');
         
         return $tag;
@@ -125,11 +151,12 @@ class ITS_tag
         if ($tid == 0) { // new tag
             $tid = $this->addTag($tag);
         }
-        $query  = 'INSERT IGNORE INTO ' . $rname . '_' . $this->tb_tags . ' (' . $rname . '_id,' . $this->tb_tags . '_id) VALUES (' . $rid . ',' . $tid . ')';
+        $query = 'INSERT IGNORE INTO ' . $rname . '_' . $this->tb_tags . ' (' . $rname . '_id,' . $this->tb_tags . '_id) VALUES (' . $rid . ',' . $tid . ')';
         //echo time().'<p>ITS_tags:addToQues: '.$query.'</p>';die();
-        $result = mysql_query($query);
-        //$query.' : '.
-        $tag = $this->render($tid, $tag,$rid,$rname,'delete');
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
+        $tag = $this->render($tid, $tag, $rid, $rname, 'delete');
         
         return $tag;
     }
@@ -140,22 +167,42 @@ class ITS_tag
         $query = 'DELETE FROM ' . $rname . '_' . $this->tb_tags . ' WHERE ' . $rname . '_id=' . $rid . ' AND ' . $tname . '_id=' . $tid;
         //echo 'ITS_tags:addToQues: <br>'.$query;die();
         
-        $result = mysql_query($query);
-        //$tag = '<div class="ITS_tag"><table><tr><td>' . $tname . '</td><td class="tag_del" tid="' . $tid . '" rname="' . $rname . '" rid="' . $rid . '">x-del</td></tr></table></div>';
-        //die($tag);
-        //return $query;
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
+    }
+    //=====================================================================//
+    function deleteFromDB($tid, $tname, $rname)
+    {
+        //=====================================================================//
+        // 1. Delete from associated resource_source
+        $query = 'DELETE FROM ' . $rname . '_' . $this->tb_tags . ' WHERE ' . $tname . '_id=' . $tid;
+        $res   = mysql_query($query);
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
+        
+        //2. Delete from tags 
+        $query = 'DELETE FROM ' . $this->tb_tags . ' WHERE id=' . $tid;
+        $res   = mysql_query($query);
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
+        
+        return $query;
     }
     //  alter table tags change id int auto_increment;
     //=====================================================================//
-    function addTag($tname)	
+    function addTag($tname)
     {
-        //=====================================================================// 	  
+        //=====================================================================//      
         //echo 'addTag<br>';
-        $query  = 'INSERT INTO ' . $this->tb_tags . ' (name) VALUES ("' . $tname . '")';
-        //echo $query;die();
-        $result = mysql_query($query);
+        $query = 'INSERT INTO ' . $this->tb_tags . ' (name) VALUES ("' . $tname . '")';
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
         //if( !mysql_query($query) ){echo '<br>'.$query;} 
-        $tid    = mysql_insert_id();
+        $tid = mysql_insert_id();
         //die($tid);
         return $tid;
     }
@@ -169,11 +216,16 @@ class ITS_tag
                 $icon_class = 'tag_add';
                 break;
             case 'delete':
-                $icon       = 'x'; //$tid.'-'.$tag.'-'.$rid.'-'.$rname;
+                $icon       = 'x';
                 $icon_class = 'tag_del';
                 break;
+            case 'deleteDB':
+                $icon       = 'x';
+                $icon_class = 'tag_del_DB';
+                break;
         }
-        $tag = '<div class="ITS_tags"><table><tr><td>' . $tag . '</td><td class="' . $icon_class . '" tag="'.$tag.'" tid="' . $tid . '" tname="' . $this->tb_tags . '" rname="' . $rname . '" rid="' . $rid . '">' . $icon . '</td></tr></table></div>';
+        $tag = '<div class="ITS_tags"><table><tr><td>' . $tag . '</td><td class="' . $icon_class . '" tag="' . $tag . '" tid="' . $tid . '" tname="' . $this->tb_tags . '" rname="' . $rname . '" rid="' . $rid . '">' . $icon . '</td></tr></table></div>';
+        
         return $tag;
     }
     //=====================================================================//
@@ -187,7 +239,7 @@ class ITS_tag
             //die($query); 
             $res   = mysql_query($query);
             if (!$res) {
-                die('Query execution problem in ITS_question: ' . msql_error());
+                die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
             }
             while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
                 $tag_list .= $this->render($row['id'], $row['name'], $rid, $rtable, $type);
@@ -197,7 +249,7 @@ class ITS_tag
         return $tag_list;
     }
     //=====================================================================//
-    function render2($arr, $rid, $rtable, $tname,$type)
+    function render2($arr, $rid, $rtable, $tname, $type)
     {
         //=====================================================================// 
         //echo 'render2<br>';
@@ -278,7 +330,7 @@ class ITS_tag
                     break;
                 //----------------------//
                 case 'image': // NO SCORE
-                    //----------------------//			
+                    //----------------------//            
                     $tags = ''; //array();
                     for ($t = 0; $t <= count($name) - 1; $t++) {
                         $tags .= '<span class="ITS_tag">' . $name[$t][0] . '</span>';

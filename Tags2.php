@@ -99,81 +99,8 @@ if (isset($_GET['tid'])) {
 } else {
 	$qid = 5;
 	$tobj = new ITS_tag('tags');
-    $tList = $tobj->query2('questions');
+    $tList = $tobj->query2();
 }
-/*
-  // QUERY
-  $ALL = $ch_max+1;
-  switch ($ch) {
-  case 0:
-  $query_chapter = 'AND category NOT IN (';
-  for ($n=1;$n<=$ch_max;$n++) {
-  if ($n < 10) { $nn = '0'.$n; }
-  else         { $nn = $n;     }
-  $query_chapter .= '"PreLab'.$nn.'","Lab'.$nn.'","Chapter'.$nn.'"';
-  if ($n<$ch_max) { $sep = ','; }
-  else 						{ $sep = ')'; }
-  $query_chapter .= $sep;
-  }
-  break;
-  case $ALL: $query_chapter = ''; break;
-  default:
-  if ($ch < 10) { $chs = '0'.$ch; }
-  else          { $chs = $ch;  }
-  $query_chapter = 'AND category IN ("PreLab'.$chs.'","Lab'.$ch.'","Chapter'.$ch.'")';
-  }
-  switch ($qt) {
-  case 0:  $query_type = 'qtype IN ("MC","M","C","S","P") '; break;
-  default: $query_type = 'qtype = "'.$Qtype_db[$qt].'" ';
-  }
-  $qindex = 0;
-  // look for LIST of question
-  //$query = 'SELECT id,title,image,category,tag_id FROM webct WHERE '.$query_type.$query_chapter;
-  $query = 'SELECT id,title,image,category,answers FROM webct WHERE '.$query_type.$query_chapter;
-  //echo $query; die();
-
-  $res =& $mdb2->query($query);
-  if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-  $qs = $res->fetchAll();
-
-  if (empty($qs[$qindex][1])) { $title = '';              }
-  else 												{ $title = $qs[$qindex][1]; }
-  if (empty($qs[$qindex][2])) { $image = '';              }
-  else 												{ $image = $qs[$qindex][2]; }
-  if (empty($qs[$qindex][3])) { $category = '';              }
-  else 												{ $category = $qs[$qindex][3]; }
-  if (empty($qs[$qindex][4])) { $answers  = '';              }
-  else 												{ $answers  = $qs[$qindex][4]; }
-  if (empty($qs[$qindex][5])) { $tags = ''; }
-  else {
-  $query = 'SELECT name FROM tags WHERE id IN ('.$qs[$qindex][5].')';  //echo $query;
-  $res =& $mdb2->query($query);
-  if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-  $tagNames  = $res->fetchCol();
-  $tags = implode(',',$tagNames);
-  }
-
-  $Nqs = count($qs);
-  /// QUERY SEARCH
-  if ($Nqs){
-
-  $qid = $qs[$qindex][0];
-  $tagList = '';
-  if (!empty($tags)) {
-  for ($i=0; $i < count($tagNames); $i++) {
-  //$tagList .= '<input type="button" class="logout" value="'.$tagNames[$i].'">';
-  $tagList .= '<span class="ITS_tag">'.$tagNames[$i].'</span>';
-  }
-  }
-
-  //$tb = new ITS_table('qs',round(sqrt($Nqs)),round(sqrt($Nqs)),$qs,array(),'ITS_ANSWER');
-  //echo $tb->str;
-  //echo implode(', ',$qs).'<p>';
-  //--------------------------------------//
-  }
-  else { $qid = ''; $meta = '<p><b>- nothing found -</b>'; }
- */
-//$mdb2->disconnect();
 //--------------------------------------//
 //'<div class="ITS_navigate">'
 $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" onclick="ITS_QCONTROL(\'PREV\',\'ITS_question_container\')"  name="prev_question" value="<<" qid="' . $qid . '">' .
@@ -203,27 +130,15 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
         <script src="js/ITS_QControl.js"></script>
         <title>Tags</title>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-<?php 
-include 'js/ITS_Question_jquery.php';
-include 'js/ITS_resource_jquery.php';
-include 'js/ITS_search_jquery.php';
+<?php
 include 'js/ITS_tag_jquery.php';
 include INCLUDE_DIR.'stylesheet.php';
 include INCLUDE_DIR.'include_fancybox.php';
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	/* This is basic - uses default settings */
-	$("a#fbimage").fancybox();	
-	$( "input[name=selectResource]" ).live('click', function(event) {
-	        var field = $(this).val();
-            $.get("ajax/ITS_resource.php", {
-                ajax_args: "test",
-                ajax_data: '402~'+field
-            }, function(data) {
-                $('#resourceContainer').html(data);
-            });
-});
+	$('.tag_del_DB').live('click', function(event) {
+			alert('sss'); }); 
 });
 </script>  
     </head>
@@ -245,14 +160,11 @@ $(document).ready(function() {
         <div id="maincontent">
             <div id="ITS_question_container">
 <?php
-//echo $RR;
-echo $tList;
-//echo '<div id="metaContainer" class="ITS_meta">'.$tList.'</div><p>';
+//$Q2 = new ITS_question2();
+//echo $Q2->render_list();
+echo $RR;
+echo '<div id="metaContainer" class="ITS_meta">'.$tList.'</div><p>';
 echo '</div><br>';
-
-//--- FOOTER ------------------------------------------------//
-$ftr = new ITS_footer($status, $LAST_UPDATE,'');
-echo '<p>'.$ftr->main().'</p>';
 //-----------------------------------------------------------//
 ?>
            </div>

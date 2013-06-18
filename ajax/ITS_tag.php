@@ -53,7 +53,15 @@ switch ($action){
 		  $t    = new ITS_tag('tags');
 		  $tag  = $t->deleteFromQues($data[0],$data[1],$data[2],$data[3]);
 		  $str  = $tag;
-		  break;		  
+		  break;		
+      //-------------------------------------------//
+	  case 'tag_del_DB':
+	  //-------------------------------------------//			  
+		  $data = preg_split('[~]',$Data);
+		  $t    = new ITS_tag('tags');
+		  $tag  = $t->deleteFromDB($data[0],$data[1],$data[2]);
+		  $str  = $tag;
+		  break;			    
     //-------------------------------------------//
 	  case 'submit':
 	  //-------------------------------------------//

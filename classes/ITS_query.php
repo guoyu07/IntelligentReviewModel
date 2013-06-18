@@ -113,20 +113,19 @@ class ITS_query
         return $query;
     }
     //=====================================================================//
-    function getConceptQuestion($tbvalues)
+    function getConceptQuestion($concept)
     {
         //=====================================================================//  
-        $arr_val  = split(',', $tbvalues);
+        $arr_val  = split(',', $concept);
         $str_vals = "'" . $arr_val[0] . "'";
         for ($i = 1; $i < sizeof($arr_val); $i++) {
             $str_vals .= ",'" . $arr_val[$i] . "'";
         }
         //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.tag_id in (SELECT tag_id FROM SPFindex i WHERE i.name in (".$str_vals."))";
         //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.id IN (SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT tags_id FROM SPFindex i WHERE i.name IN (".strtolower($str_vals).")))";
-        $query = "SELECT id FROM questions WHERE id IN (SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT id FROM tags i WHERE i.name IN (" . strtolower($str_vals) . ")) ) AND verified=1";
-        //".$this->tb_name."
-        //echo '<div style="color:red">'.$query.'</div>';//
-        //die();
+        $query = "SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT id FROM tags i WHERE i.name IN (" . strtolower($str_vals) . "))"; //AND verified=1";
+        //echo '<div style="color:red">'.$query.'</div>';//die();
+        
         return $query;
     }
     //=====================================================================//

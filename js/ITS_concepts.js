@@ -65,10 +65,9 @@ $(document).ready(function () {
     //$('#getQuesForConcepts').live('click', function(event) {
     $('.selcon').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
-        var field = this.id;
-        $('#navListPC').html('<h3>'+field+'</h3><hr>');
-        
-        //alert(field);
+        var id = (this.id).split('_');
+        var field = id[1];
+          
         /*
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
@@ -101,6 +100,20 @@ $(document).ready(function () {
         // ----------------- //
         alert(tbvalues);
         */
+        $('#errorConceptContainer').html("");
+        $('#navContainer').show();
+
+        $.post("ajax/ITS_concepts.php", {
+            choice: 'getConceptNav',
+            ajax_data: field
+        }, function (data) {
+			//alert(data);
+            if (data) {
+                $("#navContainer").html(data);
+            } else {
+                $("#navContainer").html("<br> No Concepts Available");
+            }
+        });
         $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: field
@@ -270,12 +283,12 @@ $(document).ready(function () {
                 $(this).attr('id', '');
             }
         });
-        $('#errorConceptContainer').html("");
+		$('#navContainer').hide();
         $.get("ajax/ITS_concepts.php", {
             letter: $(this).html()
         }, function (data) {
             if (data) {
-                $("#contentContainer").html(data); //conceptListContainer
+                $("#contentContainer").html(data);
             } else {
                 $("#conceptContainer").html("<br> No Concepts Available");
             }
@@ -291,11 +304,11 @@ $(document).ready(function () {
         //alert(s); //.id = 'current'; //var s = $(this).val();
         if (s == "CONCEPTS") {
 			$('#navListQC').append('<div');
+			$('#navContainer').hide();
             /*
 			$('#nav2 > li > a').html('ASSIGNMENT');
 			$('#nav1 > li > a').html(s);
 			$('#chContainer').hide();
-			$('#navContainer').hide();
             $('#chapterListingDiv').hide();
             $('#changeConcept').show();
 
@@ -303,6 +316,12 @@ $(document).ready(function () {
             $('#Practice').attr('choice_mode', 'concept');
             $('#Review').attr('choice_mode', 'concept');
             */
+            /* scoreContainer */        
+            $.post("ajax/ITS_concepts.php", {
+                choice: "updateScore"
+            }, function (data) {
+                $('#scoreContainerContent').html(data);
+            });
             $.post("ajax/ITS_concepts.php", {
                 choice: "showLetters"
             }, function (data) {
@@ -316,18 +335,29 @@ $(document).ready(function () {
             });
         } else if (s == "ASSIGNMENTS") {
 			var r = $(this).attr('r');
+			$('#navContainer').show();
+			/*
 			$('#navListQC').show();
             $('#nav2 > li > a').html('CONCEPT');
             $('#nav1 > li > a').html(s);
             $('#coContainer').hide('slow');
             $('#changeConcept').hide();
             $('#chContainer').show();
-            $('#navContainer').show();
             $('#chapterListingDiv').show();
             $('#Question').attr('choice_mode', 'module');
             $('#Practice').attr('choice_mode', 'module');
             $('#Review').attr('choice_mode', 'module');
-            //	alert('calling');
+            */
+            mathJax();
+            
+            /* scoreContainer */
+            $.get('ajax/ITS_screen.php', {
+ajax_args: "updateScores", 
+ajax_data: ''
+            }, function (data) {
+                $('#scoreContainerContent').html(data);
+            });
+
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "showAssignments",
                 ajax_data: r
@@ -335,13 +365,12 @@ $(document).ready(function () {
 				//alert(data);
                 $('#modeContentContainer').html(data);
             });
- /*
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "changeMode",
                 ajax_data: 'question'
             }, function (data) {
                 $('#contentContainer').html(data);
-            });*/
+            });
         }
     });
     /*-------------------------------------------------------------------------*/     

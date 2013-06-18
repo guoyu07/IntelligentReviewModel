@@ -38,7 +38,11 @@ if (isset($_REQUEST['choice'])) {
             break;
          case 'showLetters':
             $retStr = $obj->showLetters();
-            break;           
+            break;  
+        case 'getConceptNav': 
+			$concept = $_REQUEST['ajax_data'];
+			$retStr = $obj->getConceptNav($concept);      
+			break;     
         case 'getConcepts':
             //die($obj->ConcQuesContainer());
             //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer() . $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
@@ -60,6 +64,9 @@ if (isset($_REQUEST['choice'])) {
         case 'getModuleDDList':
             $retStr = $obj->moduleList(1);
             break;
+        case 'updateScore':
+            $retStr = $obj->updateScore();
+            break;            
         default:
     }
     echo $retStr;
