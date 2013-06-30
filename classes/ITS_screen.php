@@ -22,15 +22,15 @@ class ITS_screen
 {
     public $id;
     public $term;
-    public $term_current;
     public $role;
     public $tb_name;
     public $record;
     public $style;
+    public $view;
     
     public $screen;
-    public $mode; // question | review | survey | concept 
-    public $question_info; // := $Q->Q_answers_permutation;
+    public $mode; 		   // question | review | survey | concept 
+    public $question_info;
     
     //--- LAB ---//
     public $lab_active;
@@ -87,6 +87,7 @@ class ITS_screen
         
         // STATE
         // $this->screen = 2;
+        $this->view   		  	  = true; // FALSE => "Question" tab closed
         $this->mode               = 'question'; //'question' | 'review'
         $this->review_number      = 0;
         $this->review_count       = 0;
@@ -111,8 +112,8 @@ class ITS_screen
         $this->appendix_number = 3;
         
         // set EXERCISES parameters
-        $this->exe_active = 2; // ch.2
-        $this->con_active = 8; // ch.2
+        $this->exe_active = 2;
+        $this->con_active = 8; 
         
         // set CONCEPTS parameters
         $this->concept_active = 2;
@@ -852,15 +853,6 @@ class ITS_screen
         return $question;
     }
     //=====================================================================//
-    function getTab($ch, $role, $view)
-    {
-        //=====================================================================//    
-        
-        $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . 'r="' . intval($r) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($r) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
-        
-        return $tab;
-    }
-    //=====================================================================//
     function getQuestion($Qnum, $conf)
     {
         //=====================================================================//
@@ -1369,7 +1361,8 @@ class ITS_screen
         
         //$navigation = '<div id=navigationContainer></div>'
         
-        /*        $navigation = '<ul id="navQuestion">'
+        /* 
+        $navigation = '<ul id="navQuestion">'
         .'<li>'.$prev.'</li>'
         .'<li class="navContent">'.$nav_content.'</li>'
         .'<li>'.$next.'</li>'      
@@ -1463,10 +1456,12 @@ class ITS_screen
         $tset      = mktime(4, 0, 0, $open[0][0], $open[0][1], $term_arr[1]);
         $index_max = 0;
         
-        foreach ($close as $Odate) {
+        foreach ($open as $Odate) {
             $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
-            if ($open_time < time())
+            //echo $open_time .'<'. time() .'='.($open_time < time()).'<br>';
+            if ($open_time < time()){               
                 $index_max++;
+                }
         }
         $index_hide = 0;
         $schedule   = array();
@@ -1484,53 +1479,55 @@ class ITS_screen
             if ($close_time < time())
                 $index_hide++;
         }
-        //echo $index_max.' - '.$index_hide;die();
+        
+		//echo '<pre>';print_r($chArr); echo '</pre>';die();
         $schedule_arr = array($index_max,$index_hide,$schedule);
 
         return $schedule_arr;
     }
     //=====================================================================//
-    function renderAssignment($status, $view, $role, $chArr, $chMax, $scheduleArr)
+    function getAssignment($scheduleArr)
     {
         //=====================================================================//    
-        $index_max = $scheduleArr[0];
+        $index_max  = $scheduleArr[0];
         $index_hide = $scheduleArr[1];
-        $schedule = $scheduleArr[2]; 
+        $schedule   = $scheduleArr[2];
         
-        switch ($status) {
+        switch ($this->status) {
             /* ----------------- */
             case 'BMED6787':
                 /* ----------------- */
-                $chUser     = 1;
                 $mode       = 'survey';
                 $this->mode = $mode;
-                $chList     = '<ul id="chList">';
-                $chList .= '<li><a href="#" class="nav_index" id="Survey02" name="chapter" value="1">Survey</a></li>';
+                $chList .= '<ul id="chList"><li><a href="#" class="nav_index" id="Survey02" name="chapter" value="1">Survey</a></li>';
                 break;
             /* ----------------- */
             default:
                 /* ----------------- */
                 $mode   = 'question'; // index | practice | question      
                 $oc     = '<a id="single_image" href="VIP/' . $this->term . '/schedule.png" class="ITS_question_img">schedule</a>';
-                $chList = '<div id="chContainer"><ul id="chList" class="nav"><li style="margin-right:2em;">' . $oc . '</li>';
+                $chList = '<ul id="chList" class="nav" ih="'.$index_hide.'"><li style="margin-right:2em;">' . $oc . '</li>';
                 
-                switch ($role) {
+                switch ($this->role) {
                     case 'admin':
                     case 'instructor':
+                    $chMax  = 11;
+                    $chArr  = range(1, $chMax);
                         for ($i = 1; $i <= $chMax; $i++) {
                             // echo $i.' -- '.($index_hide+1).'<br>';
-                            if ($i == ($index_hide + 1)) {
+                            if ($i == ($index_hide)) {
                                 $idx_id = 'id="current"';
                             } else {
                                 $idx_id = '';
                             }
                             $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
                         }
-                        $view = TRUE;
+                        $this->view = TRUE;
                         $r    = TRUE; // role
                         break;
                     default:
-                        //var_dump($chArr); die();
+                        $chMax  = $index_max;
+                        $chArr  = range(1, $chMax);
                         for ($i = 0; $i < count($chArr); $i++) {
                             if ($i == $index_max) { // ($index_hide + 1)
                                 $idx_id = 'id="current"'; // PRACTICE: = ''
@@ -1538,25 +1535,37 @@ class ITS_screen
                             } else {
                                 $idx_id = '';
                             }
-                            //echo $i.'-'.$idx_id.'<p>';
                             //echo 'a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '"><br>';
                             $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $chArr[$i] . '" title="' . $schedule[$i] . '">' . $chArr[$i] . '</a></li>';
                         }
+                        //echo $index_hide .'=='. $index_max;die();
                         if ($index_hide == $index_max) {
-                            $view = FALSE;
+                            $this->view = FALSE;
                         }
                         $r = FALSE;
                         break;
                 }
-                $chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
-                $chList .= '</ul></div>'; //.= '</ul></div><div id="coContainer"></div></div>'; //</div>';
+                //$chList .= '<li><a href="#" class="survey_index" id="current" name="chapter" value="1">Survey</a></li>';
+                $chList .= '</ul><hr class="chapter">';
                 /* -------------------- */
         }
+        $this->role = $r;
+        //echo var_dump($this->view);die();
         
-        //echo htmlspecialchars($chList); die();
-        return $chList;
-        
+        $A = array($chList,$chArr,$r,$this->view);
+
+        return $A;
     }
+    //=====================================================================//
+    function getTab($ch,$role,$view)
+    {
+    //=====================================================================//
+        // var_dump(intval($this->view));die();
+        $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
+        
+        //echo htmlentities($tab); die();
+        return $tab;
+    }    
     //=====================================================================//
     function exercisesContent()
     {
@@ -1577,6 +1586,7 @@ class ITS_screen
         //$preview = $preview.$Q->render_ANSWERS('a');
         $preview = '<DIV class="ITS_PREVIEW">'.$preview.'</DIV>';
         */
+        
         $preview = '';
         $tb_labs = new ITS_table('ITS_activity', 1, 1, array(
             $tb_index
@@ -1810,8 +1820,7 @@ class ITS_screen
     function surveyMode($chapter, $delta)
     {
         //=====================================================================//
-        //echo 'surveyMode';
-        //echo  'MODE '.$this->mode;
+        //echo 'surveyMode MODE '.$this->mode;
         $chapter              = 14;
         $this->chapter_number = $chapter;
         $this->mode           = 'survey';
@@ -1923,7 +1932,7 @@ class ITS_screen
                 if (PEAR::isError($mdb2)) {
                     throw new Exception($this->mdb2->getMessage());
                 }
-                $query = 'SELECT id FROM users WHERE status="' . $this->term_current . '"';
+                $query = 'SELECT id FROM users WHERE status="' . $this->term . '"';
                 
                 $res =& $mdb2->query($query);
                 if (PEAR::isError($res)) {
@@ -1938,7 +1947,7 @@ class ITS_screen
                 $DATA  = $tr->get_question_data($qid, $qtype, $pop);
                 $stats = $tr->get_question_stats($DATA, $qtype, $Nanswers);
                 $dist  = $tr->get_question_dist($stats, $qid, $qtype, array(
-                    $this->term_current
+                    $this->term
                 ), $score);
                 break;
             default:
@@ -2150,7 +2159,8 @@ class ITS_screen
         //=====================================================================//
         //---- ADMIN WINDOW ------------------------------------------//
         $qinfo = '';
-        if ($this->term == 'admin' OR $this->term == 'instructor') {
+        //var_dump($this->role);
+        if ($this->role == 'admin' OR $this->role == 'instructor') {
             /*
             $qinfo = '<table class="ITS_ADMIN" style="float: right;">'.
             '<tr><th>qid</th><th>type</th><th>ch</th></tr>'.
@@ -2159,6 +2169,7 @@ class ITS_screen
             
             $qinfo .= '<table class="ITS_ADMIN" style="float:right"><tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
         }
+ 
         return $qinfo;
     }
     //=====================================================================//
@@ -2238,7 +2249,7 @@ class ITS_screen
                 $query           = $resource_source;
                 $res =& $mdb2->query($query);
                 $qarr = $res->fetchCol();
-                //var_dump($qarr);
+                // var_dump($qarr);
                 break;
             //-------------------------------//
             case 'concQuestion':
@@ -2268,8 +2279,7 @@ class ITS_screen
                     case 'concept':
                         //-------------------------------//
                         $query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")';
-                        // 
-                        //echo($query);die();
+                        //  echo($query);die();
                         $res =& $mdb2->query($query);
                         $qAvailable = $res->fetchAll();
                         $K          = count($qAvailable);
@@ -2304,7 +2314,6 @@ class ITS_screen
                 //echo '<div class="ITS_ADMIN">' . $K . '</div>';
                 if ($K) { // section questions available
                     // choose random question from ALL POSSIBLE QUESTIONS
-                    // $qAvailable = array(581); //492,1211,1212);
                     //----
                     switch ($resource) {
                         //-------------------------------//
@@ -2369,10 +2378,12 @@ class ITS_screen
                     $_SESSION['ITSQ_' . $qid] = $token;
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
                     //***---------------------------------------------------------------------------------***//                    
-                    $form                     = $qinfo . $question . $error /*$rateBox*/ . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+                    $form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     $answer                   = $form . $skip . $resources;
-                    //die('aa');
+                    
+                    // die($this->role);
+                    
                     if ($this->role == 'admin') {
                         $qEdit     = '<input type="button" onclick="javascript:ITS_QCONTROL_EDITMODE(this)" name="editMode" value="Edit" status="true">';
                         //$available_str = '<span class="ITS_available">Available: '.$K.'</span>';
@@ -2455,7 +2466,7 @@ class ITS_screen
                 $msg                      = 'Survey';
                 $this->question_completed = FALSE;
                 $la                       = sprintf("%02d", $resource_name);
-                $term                     = $this->term_current; //'Spring_2011';
+                $term                     = $this->term;
                 //die($term);
                 $this->lab_tag            = 'survey';
                 $query                    = 'SELECT question_id,qtype,answers,qorder FROM activity,' . $this->tb_name . ' WHERE term="' . $term . '" AND name="' . $this->lab_tag . $la . '" AND activity.question_id=' . $this->tb_name . '.id ORDER BY qorder';
@@ -2659,7 +2670,7 @@ class ITS_screen
                     $x = new ITS_book('dspfirst',$ch,$meta,$tex_path);
                     $o = $x->main();
                     $resources = $tabs.'<div id="bookContainer">'.$o.'</div>';
-                    //echo $resources.'<p>';die('done');
+                    echo $resources.'<p>';die('done');
                     */
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
                     $resources                = '';
@@ -2671,7 +2682,7 @@ class ITS_screen
                     $_SESSION['ITSQ_' . $qid] = $token;
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
                     //***---------------------------------------------------------------------------------***//                    
-                    $form                     = $qinfo . $question . $error /*$rateBox*/ . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+                    $form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
@@ -2714,8 +2725,7 @@ class ITS_screen
         }
         
         if ($NO_QUESTIONS) {
-            var_dump($msg);
-            die($msg);
+            //var_dump($msg);die($msg);
             $str = ITS_message('No more questions available for ' . $msg);
         }
         $mdb2->disconnect();
@@ -2766,7 +2776,7 @@ class ITS_screen
                 $msg                      = 'Survey';
                 $this->question_completed = FALSE;
                 $la                       = sprintf("%02d", $resource_name);
-                $term                     = $this->term_current; //'Spring_2011';
+                $term                     = $this->term;
                 //die($term);
                 $this->lab_tag            = 'survey';
                 $query                    = 'SELECT question_id,qtype,answers,qorder FROM activity,' . $this->tb_name . ' WHERE term="' . $term . '" AND name="' . $this->lab_tag . $la . '" AND activity.question_id=' . $this->tb_name . '.id ORDER BY qorder';

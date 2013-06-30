@@ -3,11 +3,11 @@
 when in 'Edit' mode, called from ITS_QControl.js
 
 Author(s): Greg Krudysz
-Date: Jun-05-2013
----------------------------------------------------------------------*/																																																																																																																																																																																																																																																																																																																																																																		
+Date: Jul-2-2013
+---------------------------------------------------------------------*/
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
-require_once("../".INCLUDE_DIR."include.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 $style = '';
 
 session_start();
@@ -19,8 +19,8 @@ global $db_dsn, $db_name, $tb_name, $db_table_user_state;
 // AJAX
 //---------------------------------------//
 $args = preg_split('[,]', $_GET['ajax_args']); //-- Get AJAX arguments
-$Data = rawurldecode($_GET['ajax_data']);      //-- Get AJAX user data
-$Data = str_replace("'", "&#39;", $Data);      //-- preprocess before SQL
+$Data = rawurldecode($_GET['ajax_data']); //-- Get AJAX user data
+$Data = str_replace("'", "&#39;", $Data); //-- preprocess before SQL
 //$Data = nl2br($Data);
 
 // return to login page if not logged in
@@ -174,7 +174,7 @@ switch ($action) {
         //var_dump($Data);//die();
         $data = preg_split('[~]', $Data);
         //echo $data[0].' -- '.$data[1].' -- '.$data[2].'<p>';
-
+        
         $screen->recordQuestion($data[0], $data[1], $data[2]);
         //$screen->lab_index = $screen->lab_index + 1;
         //$str = $screen->getContent();
@@ -195,9 +195,11 @@ switch ($action) {
             'chapter'
         );
         if (!empty($data[3])) {
-			//die('add');
+            //die('add');
             array_push($info, $data[3]);
-        }else{ print_r($data[3]); }
+        } else {
+            print_r($data[3]);
+        }
         // print_r($data);die('hhh');
         $screen->recordQuestion($data[0], $data[1], $data[2], $info, $data[5]); //$screen->question_info);
         
@@ -207,7 +209,7 @@ switch ($action) {
         $ques                       = $screen->getQuestion($data[0], $data[3]); // (qid,conf)
         $ans                        = $screen->getAnswer($data[0], $data[1], $data[2], $data[3]);
         $nav                        = $screen->getNavigation($ans, $data[0]);
-        $str                        = $ques . $nav;  
+        $str                        = $ques . $nav;
         break;
     //-------------------------------------------//
     case 'recordSurveyAnswer':
@@ -231,7 +233,9 @@ switch ($action) {
         //-------------------------------------------//
         $data = preg_split('[~]', $Data);
         //echo $data[0].' -- '.$data[1].' -- '.$data[2].' -- '.$data[3].' -- '.$data[4].'<p>';
-        $info = array('skip');
+        $info = array(
+            'skip'
+        );
         $screen->recordQuestion($data[0], $data[1], 'skip', $info, $data[3]); //$screen->question_info);
         $screen->mode = $data[4];
         $str          = $screen->getContent();
@@ -264,7 +268,7 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'showAnswer':
-        //-------------------------------------------//	
+        //-------------------------------------------//    
         $data       = preg_split('[,]', $Data);
         //getAnswer($qid,$qtype,$answered);
         $answer_str = $screen->getAnswer($data[0], $data[1], $data[2]);
@@ -296,25 +300,25 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'showFigures':
-    //-------------------------------------------//	
+        //-------------------------------------------//    
         $str = $screen->showFigures($Data);
         break;
     //-------------------------------------------//
     case 'showPage':
-    //-------------------------------------------//
+        //-------------------------------------------//
         $str = $screen->showPage($Data);
         break;
     //-------------------------------------------//
     case 'newChapter':
-    //-------------------------------------------//
+        //-------------------------------------------//
         $data = preg_split('[,]', $Data);
         //var_dump($data);die();
         $str  = $screen->newChapter($data[0], $data[1]);
         //die('add2');
         break;
-    //-------------------------------------------//			
+    //-------------------------------------------//            
     case 'getResource':
-        //-------------------------------------------//	
+        //-------------------------------------------//    
         $query = 'SELECT tag_id FROM ' . $tb_name . ' WHERE id=404';
         $res =& $mdb2->queryRow($query);
         $tags = explode(',', $res[0]);
@@ -337,7 +341,7 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'getQuestionsForConcepts':
-    //-------------------------------------------//	
+        //-------------------------------------------//    
         $screen->question_completed = false;
         $screen->mode               = 'concept';
         $screen->concepts           = $Data;
@@ -346,7 +350,7 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'concept':
-    //-------------------------------------------//		
+        //-------------------------------------------//        
         $str = $screen->getConceptFor1Question($Data[0]);
         break;
     //-------------------------------------------//
@@ -363,11 +367,16 @@ switch ($action) {
         break;
     //-------------------------------------------//
     case 'showAssignments':
-        //-------------------------------------------//
-        //$status, $view, $role, $chArr, $chMax, $index_max, $index_hide, $schedule
-        
-        $schedule = $screen->getSchedule();
-        $str      = $screen->renderAssignment('admin', TRUE, 'admin', $chArr, $chMax, $index_max, $index_hide, $schedule);
+        //-------------------------------------------//                        
+        $S    = $screen->getSchedule($screen->term);
+        $A    = $screen->getAssignment($S);
+        $str  = $A[0];
+        break;
+    //-------------------------------------------//
+    case 'showTab':
+        //-------------------------------------------//                        
+        $data = preg_split('[,]', $Data);
+        $str = $screen->getTab($data[0], $data[1],$data[2]);
         break;        
 }
 //-----------------------------------------------//

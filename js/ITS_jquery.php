@@ -1,6 +1,6 @@
 <?php
 /* =============================================================  /
-  LAST_UPDATE: Mar-14-2013
+  LAST_UPDATE: Jul-1-2013
   Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -12,7 +12,7 @@
           if (d.getHours()>=4) { chhide = 3; }
           else 				   { chhide = 2; }
         */
-        var v = $('#Question').attr('view');  
+        var v = $('#Question').attr('view');
         if (v==0){ getMSG(); }
         //$("#chapter_index4").css({background: '#ffff88',border: '2px solid #666666'}); 
         //--------------rating-------------------//
@@ -70,7 +70,7 @@
         });
         /*-------------------------------------------------------------------------*/		
         var ch = $('#Question').attr('ch');
-        // ch = 14; // alert(v+' ~ '+ch);
+        //alert(v+' ~ '+ch);
         indexUPDATE(ch,v,'Question');
         /*-------------------------------------------------------------------------*/
         $('#Practice').live('click', function() {
@@ -114,7 +114,6 @@
         $('#Question').live('click', function() {
             var v = $(this).attr('view');
             var header = $(this).attr('id');
-			mathJax();
 			
 			if($(this).attr('choice_mode')=='concept'){
 				$.get('ajax/ITS_screen.php',{
@@ -141,10 +140,8 @@
 			}
 			
 		    var ch = $('.chapter_index#current').text(); //$(this).text().replace(/^\s+|\s+$/g,""); // need to trim white spaces
-            var chhide = $('#index_hide').attr('value');   
+            var chhide = $('#chList').attr('ih');   
             
-            //var ch = $('#accor div h3 a span[name=Question]').attr('ch');
-            //alert('ch: '+ch+' '+header);
             $('[name=header]').each(function(index) {
                 if ($(this).attr('id') == header){
                     $(this).children("a").attr('id','current');
@@ -155,9 +152,9 @@
             });
             
            if (v==0) {  // 0 => "Q" tab is deactivated 
+     
                getMSG();
 			}
-         
 			else {
                 $('.chapter_index').each(function(index) {
                     // update style: closed chapters invisible
@@ -167,17 +164,17 @@
                         }
                     }
                     //alert('text: '+$(this).text() +'='+ ch);
-                });
+                });				      
                 indexUPDATE(ch,v,'Question');
                 $.get('ajax/ITS_screen.php', {
                     ajax_args: "newChapter", 
                     ajax_data: ch+',question'
                 }, function(data) {
                     $('#contentContainer').html(data);
+                    mathJax();
                     var qid = $('#ratingContainer').attr('qid');
                     ratingUPDATE(qid);	// update rating module (style, rendering & state)	
-                    imageBox();						
-                    mathJax();	
+                    imageBox();			
                 });
             }
         });
@@ -227,8 +224,8 @@
             var v  = $('#Question').attr('view');
         //    alert(ch+' '+v);
             var mode = $('[name=header] a#current').parent().attr('id');
-            //if(mode=='concept')
-		//		alert(mode);
+            // if(mode=='concept')
+			// alert(mode);
             indexUPDATE(ch,v,mode);
             
             //alert(mode);
@@ -567,8 +564,7 @@ $('#ITS_skip').live('click', function() {
     var t      = $(this).attr("t");
     var mode   = $(this).attr("mode");
 
-//
-alert(ch+' '+qid+' '+qtype+' '+t+' '+mode);
+//alert(ch+' '+qid+' '+qtype+' '+t+' '+mode);
 $.get('ajax/ITS_screen.php',{
 	ajax_args: "skip", 
 	ajax_data: qid+'~'+qtype+'~'+ch+'~'+t+'~'+mode
@@ -581,7 +577,7 @@ $.get('ajax/ITS_screen.php',{
 		ajax_data: qid
 		},
 		function(data){
-			alert(data);
+			//alert(data);
 			$('#QuesConcept').html(data);
 		});
 		imageBox();
@@ -614,9 +610,9 @@ $.each(myOptions, function(val, text) {
 //*****************************************//
 function indexUPDATE(ch,v,mode) {
 //*****************************************//
-var idx_hide = $('#index_hide').attr('value');
+var idx_hide = $('#chList').attr('ih');
 var r = $('#Question').attr('r');
-//alert('DEBUG: ch '+ch+', view Q? '+v+', hide '+idx_hide+', role '+r+', mode '+mode);
+//alert('DEBUG: "ch" '+ch+', "view Q?" '+v+' , "hide" '+idx_hide+', "role" '+r+', "mode" '+mode);
 
 $('.chapter_index').each(function(index) {
 // INDEX HIDE
@@ -624,7 +620,7 @@ if (r==0){
 switch(mode) {
     case 'Question':
         //alert(mode);
-        
+        //alert(index +'=='+ idx_hide);
         if ( (index) < idx_hide ){
             $(this).css({display: 'none'});
             //alert(ch +'=='+ (parseInt(index+1)));
@@ -653,24 +649,6 @@ else 				   {$(this).attr('id','');}
 
 });
 }
-
-/*>>> DELETE ???
-var idx_hide = $('#index_hide').attr('value');
-alert(idx_hide+' '+v);
-$('.chapter_index').each(function(index) {
-// INDEX HIDE
-if (!(v)) {
-	alert('ss'); 
-	if ( (index) < idx_hide ){$(this).css({display: 'none'});} }
-if ($(this).text()==ch){
-$(this).attr('id','current');
-}
-else                   {
-$(this).attr('id','');
-}
-});
-}
->>>*/
 //*****************************************//
 function navUPDATE(ch) {
 //*****************************************//

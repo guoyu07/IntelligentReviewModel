@@ -8,7 +8,7 @@ Constructor: ITS_resource( ... )
 ex. $r = new ITS_resource( ... );
 
 Author(s): Greg Krudysz
-Last Update: Nov-27-2012
+Last Update: Jun-22-2013
 //=====================================================================*/
 class ITS_resource
 {
@@ -356,18 +356,37 @@ class ITS_resource
         return $query_str; 
 	}
         //=====================================================================//
-    public function getQuestions($tag_id)
+	public function getQuestions($tag_id)
     {
-        //=====================================================================//   
-        /*
-        $query = 'SELECT questions FROM  WHERE id='.$rid;
-
-        $res    = mysql_query($query_str);
+        //=====================================================================//  
+        $query = 'SELECT id,question,title,category FROM questions AS q,questions_tags AS qt WHERE q.id =qt.questions_id AND qt.tags_id='.$tag_id;
+        //echo $query.'<br>';die();
+        $res    = mysql_query($query);
         if (!$res) {
             die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
-        return $query_str;*/ 
-	}			
+        
+        $qn = 1;
+        $Estr  = '<table class="PROFILE">' . '<tr><th>No.</th><th style="width:77%;">Title</th><th style="width:14%;">Category</th></tr>';
+        while ($row = MySQL_fetch_array($res)) {
+                        //echo '<pre>';var_dump($row);echo '</pre>';die();
+                    //$str .= $row['id'].$row['title'].$row['category'].'<br>';    
+           $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE" >' . ($qn) . '.&nbsp;<a href="Question.php?qNum=' . $row['id'] . '&sol=1" class="ITS_ADMIN">' . $row['id'] . '</a></td>' . '<td class="PROFILE"><div style="text-align:left;color:blue;font-size:105%;border-bottom:2px dashed #999;width:100%">' . $row['title'] . '</div><br><p style="color: grey">'.$row['question'].'</p></td>' . '<td class="PROFILE" ><p style="color: grey">' . $row['category'] . '</p></td></tr>';    
+        $qn++;
+        }
+        $Estr .= '</table>';                    
+            
+/*
+            $Q     = new ITS_question($qid, $db_name, $tb_name);
+            $Q->load_DATA_from_DB($qid);
+            //echo $qid;
+            $QUESTION = $Q->render_QUESTION(); //_check($answers[$qn][4]);
+            $Q->get_ANSWERS_data_from_DB();
+            $ANSWER = $Q->render_ANSWERS('a', 2);
+            */
+                        
+        return $Estr;
+    }			
     //=====================================================================//
 } //eo:class
 //=====================================================================//

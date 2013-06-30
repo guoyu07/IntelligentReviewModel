@@ -92,9 +92,10 @@ $form = $chapter . '&nbsp;&nbsp;' . $type;
 //--------------------------------------//
 
 if (isset($_GET['tid'])) {
-  $tag = $_GET['tid'];
-  $robj = new ITS_resource($id,$tag);
-  $rList = $robj->renderContainer();
+  $tid = $_GET['tid'];
+  $robj = new ITS_resource($id,$tid);
+  //$rList = $robj->renderContainer();
+  $rList = $robj->getQuestions($tid);
 } else {
 	$qid = 5;
 	$tobj = new ITS_tag('tags');

@@ -68,15 +68,19 @@ class ITS_concepts
 	}
     //=====================================================================//	
     // Returns all concepts at the highest level
-    function getConcepts($letter){
+    function getConcepts($letter,$all_flag) {
+		// $all_flag = 1 // print all concepts available, even with no questions
     //=====================================================================//	
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
         //$query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
+            
         if ($letter=='ALL') { $where = ''; }
         else { $where = ' WHERE t.name LIKE "'. $letter .'%"'; }
+        if ($all_flag) { $having = ''; }
+        else { $having = ' HAVING count>0 '; }
         
         $query = 'SELECT t.name, COUNT(qt.tags_id) AS count
   FROM
@@ -88,14 +92,15 @@ class ITS_concepts
     '. $where .'     
   GROUP BY
      t.id
+    '. $having .' 
    ORDER BY
 	 count DESC';
 
-        //ALTER TABLE its.tags DROP question_id
-        //ALTER TABLE its.tags DROP concept_id
-        //ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
+        // ALTER TABLE its.tags DROP question_id
+        // ALTER TABLE its.tags DROP concept_id
+        // ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
   
-        //die($query);
+        // die($query);
         $res   = mysql_query($query, $con);  
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
@@ -121,7 +126,7 @@ class ITS_concepts
             return $str;
         else
             return $str;
-    } // End of getConcepts()
+    }
     //=====================================================================//
     // returns all questions when given a set of concepts to be matched with tags associated with the questions
     function getRelatedQuestions($tbvalues){
@@ -134,7 +139,7 @@ class ITS_concepts
         for ($i = 1; $i < sizeof($arr_val); $i++) {
             $str_vals .= ",'" . $arr_val[$i] . "'";
         }
-        $query = "SELECT id,question FROM questions w where w.id in (select questions_id from questions_tags q where q.tags_id in (SELECT tags_id FROM SPFindex i where i.name in (" . $str_vals . ")))";
+        $query = "SELECT id,question FROM questions w WHERE w.id IN (select questions_id from questions_tags q where q.tags_id IN (SELECT tags_id FROM SPFindex i WHERE i.name IN (" . $str_vals . ")))";
         //SELECT id,question FROM questions w where w.id IN (select questions_id from questions_tags q where q.tags_id in (SELECT tags_id FROM SPFindex i where i.name IN ('Matlab')));
         
         //die($query);
@@ -254,9 +259,15 @@ class ITS_concepts
         return $box;
     }
     //=====================================================================//
-    function conceptListContainer(){
+    function conceptListContainer($letter,$role){
     //=====================================================================//
-        $str = '<div id="conceptListContainer">'.$this->getConcepts('S').'</div><div id="errorConceptContainer"></div>';
+     
+        $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
+
+        //print_r($role_flag);die();
+        
+        $str = '<div id="conceptListContainer">'.$this->getConcepts($letter,$role_flag).'</div><div id="errorConceptContainer"></div>';
+        
         return $str;
     }
     //=====================================================================//
@@ -266,6 +277,7 @@ class ITS_concepts
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
         $res   = mysql_query($query, $con);    
+        $rand  = rand(1,mysql_num_rows($res));
         
 		$str = '<ul class="nav"><li><a href="#" name="ITS_alph_index" value="ALL">ALL</a></li>';          
         for ($x = 1; $x <= mysql_num_rows($res); $x++) {
@@ -273,28 +285,12 @@ class ITS_concepts
             $val = strtoupper($row[0]);
             
             if (!fmod($x,15)) { $str .= '<br><hr class="concept">'; }
-            if ($val == 'S') { $idx_id = 'id="current"'; }
-            else 		  	 { $idx_id = ''; }		
+            $idx_id = ($x == $rand) ? 'id="current"' : '';	
             $str .= '<li><a href="#" name="ITS_alph_index" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
         }       
         $str .= '</ul>';
         return $str;
     }
-    /*	
-    //=====================================================================// 
-    function getQuestionsStudent(){
-    //=====================================================================//
-    $status = 'active';
-    $id = 1;
-    $index_hide = 4;
-    $role = 'student';
-    $mode = 'concQuestion';
-    $screen = new ITS_screen($id, $role, $status,$index_hide+1);
-    //return 'yey';   
-    $screen->screen = 5;
-    $screen->term_current = 'Spring_2012';
-    return $screen->main($mode);     
-    }*/
     //=====================================================================//
     function moduleList($choice){ // switch case ->? 0 for 1st page, 1 for drop down
         //=====================================================================//

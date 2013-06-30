@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    /*-------------------------------------------------------------------------/	
-	* Submits the concepts selected and will return a set of questions matching the condition	
+    /*-------------------------------------------------------------------------/    
+    * Submits the concepts selected and will return a set of questions matching the condition    
    /*-------------------------------------------------------------------------*/
     $('#submitConcepts').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
@@ -14,7 +14,7 @@ $(document).ready(function () {
             });
         });
         var tbvalues = tdArray.join();
-        //	alert(tbvalues);
+        //    alert(tbvalues);
         // Ajax call to display questions
         $.post("ajax/ITS_concepts.php", {
             //data to be sent in request
@@ -84,7 +84,7 @@ $(document).ready(function () {
         var id = $('#logout').attr("uid");
         var concept = $( "input[name=selectResource]" ).attr("concept");
         var cid = $('#resource_'+concept).attr("cid");
-		var text = $('#ITS_resource_text_'+concept).attr("rid");
+        var text = $('#ITS_resource_text_'+concept).attr("rid");
         var equation = $('#ITS_resource_equation_'+concept).attr("rid");
         var image = $('#ITS_resource_image_'+concept).attr("rid");
         var example = $('#ITS_resource_example_'+concept).attr("rid");
@@ -94,7 +94,7 @@ $(document).ready(function () {
             ajax_args: "resourceDB",
             ajax_data: id+'~'+cid+'~'+text+'~'+equation+'~'+image+'~'+example
         }, function(data) {
-			//alert(data);
+            //alert(data);
                 //$("#contentContainer").html(data);
         });
         // ----------------- //
@@ -107,24 +107,29 @@ $(document).ready(function () {
             choice: 'getConceptNav',
             ajax_data: field
         }, function (data) {
-			//alert(data);
+            //alert(data);
             if (data) {
                 $("#navContainer").html(data);
             } else {
                 $("#navContainer").html("<br> No Concepts Available");
             }
         });
+        
         $.get('ajax/ITS_screen.php', {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: field
         }, function (data) {
+			//alert(data);
             //var tbdivs = tdArray.join('</span><span class="CHOICE">');
             //tbdivs = '<span class="CHOICE">' + tbdivs + '</span>';
             //alert(tbdivs);
             //$('#coContainer').html(tbdivs);
             //$('#coContainer').show();
-            //	alert(data);
-            if (data) $("#contentContainer").html(data);
+            //    alert(data);
+            if (data) {
+				$("#contentContainer").html(data);
+				mathJax();
+			}
             else $("#contentContainer").html("There was some error in the request");
         });
     });
@@ -176,15 +181,15 @@ $(document).ready(function () {
                         dialog.dialog("option", "close", "slide");
                     }
                 });
-                //alert($('#ModuleNameDivDD'));															
+                //alert($('#ModuleNameDivDD'));                                                            
                 $('#ModuleNameDivDD').append(str);
                 alert($('#subModule'));
             } else $("#ConcQuesContainer").html("There was some error in the request");
         });
     });
-    /*-------------------------------------------------------------------------		
-	 	 Create a module with selected questions and entered module name
-	-------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------        
+          Create a module with selected questions and entered module name
+    -------------------------------------------------------------------------*/
     $('#subModule').live('click', function () {
         /*-------------------------------------------------------------------------*/
         var moduleName = $('#moduleListDD').val();
@@ -199,7 +204,7 @@ $(document).ready(function () {
             tdArrayQ.push($(this).val());
         });
         var tbvaluesQ = tdArrayQ.join();
-        //	alert("TB values: "+tbvaluesQ);
+        // alert("TB values: "+tbvaluesQ);
         var tdArray = new Array();
         $('#seldcon tr').each(function () {
             $(this).find('td').each(function () {
@@ -220,7 +225,7 @@ $(document).ready(function () {
         });
         $('#ModuleNameDivDD').remove();
     });
-    /*-------------------------------------------------------------------------*		
+    /*-------------------------------------------------------------------------*        
      * Triggers when a module name is selected from the dropdown at module 
      * creation
      *-------------------------------------------------------------------------*/
@@ -233,9 +238,9 @@ $(document).ready(function () {
             $('#ModuleNameDivDD').append(str);
         }
     });
-    /*-------------------------------------------------------------------------		
-	 Checks or unchecks all table rows when the head is checked or unchecked
-	-------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------        
+     Checks or unchecks all table rows when the head is checked or unchecked
+    -------------------------------------------------------------------------*/
     $('#chckHead').live("click", function () {
         /*-------------------------------------------------------------------------*/
         if (this.checked == false) {
@@ -244,9 +249,9 @@ $(document).ready(function () {
             $('.chcktbl:not(:checked)').attr('checked', true);
         }
     });
-    /*-------------------------------------------------------------------------		
-	 Selects a concepts in the concept viewer
-	-------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------        
+     Selects a concepts in the concept viewer
+    -------------------------------------------------------------------------*/
     $(".selconXX").live("click", function () {
         /*-------------------------------------------------------------------------*/
         $('#errorConceptContainer').html("");
@@ -275,6 +280,8 @@ $(document).ready(function () {
     $('[name="ITS_alph_index"]').live("click", function () {
         /*-------------------------------------------------------------------------*/
         var header = $(this).html();
+        var role = $('#myselectid option:selected').text();
+        
         //alert(header);
         $('[name="ITS_alph_index"]').each(function (index) {
             if ($(this).html() == header) {
@@ -283,14 +290,15 @@ $(document).ready(function () {
                 $(this).attr('id', '');
             }
         });
-		$('#navContainer').hide();
+        $('#navContainer').hide();
         $.get("ajax/ITS_concepts.php", {
-            letter: $(this).html()
+            letter: $(this).html(),
+             role: role
         }, function (data) {
             if (data) {
                 $("#contentContainer").html(data);
             } else {
-                $("#conceptContainer").html("<br> No Concepts Available");
+                $("#conceptContainer").html("<br>No Concepts Available");
             }
         });
     });
@@ -299,23 +307,13 @@ $(document).ready(function () {
      * -------------------------------------------------------------------------*/
     $('input[type="radio"]').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
-        // click does not work with Chrome!!
+        // click does not work with Chrome !!
         var s = $(this).attr('id');
+        var role = $('#myselectid option:selected').text();
+        
         //alert(s); //.id = 'current'; //var s = $(this).val();
         if (s == "CONCEPTS") {
-			$('#navListQC').append('<div');
-			$('#navContainer').hide();
-            /*
-			$('#nav2 > li > a').html('ASSIGNMENT');
-			$('#nav1 > li > a').html(s);
-			$('#chContainer').hide();
-            $('#chapterListingDiv').hide();
-            $('#changeConcept').show();
-
-            $('#Question').attr('choice_mode', 'concept');
-            $('#Practice').attr('choice_mode', 'concept');
-            $('#Review').attr('choice_mode', 'concept');
-            */
+            $('#navContainer').hide();
             /* scoreContainer */        
             $.post("ajax/ITS_concepts.php", {
                 choice: "updateScore"
@@ -323,107 +321,52 @@ $(document).ready(function () {
                 $('#scoreContainerContent').html(data);
             });
             $.post("ajax/ITS_concepts.php", {
-                choice: "showLetters"
+                choice: "showLetters",
             }, function (data) {
-                // TODO: to put in condition to check if data returned is null or no questions
                 $('#modeContentContainer').html(data);
-            });
+                            var letter=$('#current[name=ITS_alph_index]').text();
+            //alert(letter);
             $.post("ajax/ITS_concepts.php", {
-                choice: "getConcepts"
+                choice: "getConcepts",
+                index: letter,
+                role: role
             }, function (data) {
                 $('#contentContainer').html(data);
             });
+            });
         } else if (s == "ASSIGNMENTS") {
-			var r = $(this).attr('r');
-			$('#navContainer').show();
-			/*
-			$('#navListQC').show();
-            $('#nav2 > li > a').html('CONCEPT');
-            $('#nav1 > li > a').html(s);
-            $('#coContainer').hide('slow');
-            $('#changeConcept').hide();
-            $('#chContainer').show();
-            $('#chapterListingDiv').show();
-            $('#Question').attr('choice_mode', 'module');
-            $('#Practice').attr('choice_mode', 'module');
-            $('#Review').attr('choice_mode', 'module');
-            */
-            mathJax();
-            
+            var role = $(this).attr('r');
             /* scoreContainer */
             $.get('ajax/ITS_screen.php', {
-ajax_args: "updateScores", 
-ajax_data: ''
+				ajax_args: "updateScores", 
+				ajax_data: ''
             }, function (data) {
                 $('#scoreContainerContent').html(data);
             });
-
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "showAssignments",
-                ajax_data: r
-            }, function (data) {
-				//alert(data);
+                ajax_data: role
+            }, function (data) {        
                 $('#modeContentContainer').html(data);
-            });
-            $.get("ajax/ITS_screen.php", {
-                ajax_args: "changeMode",
-                ajax_data: 'question'
-            }, function (data) {
-                $('#contentContainer').html(data);
-            });
-        }
-    });
-    /*-------------------------------------------------------------------------*/     
-    //$('#showConcepts').live('click',function(event){
-    //$('#QuestionMode').live('change', function(event) {
-    $('a[name=selectModeXXX]').live('click', function (event) {
-        /*-------------------------------------------------------------------------*/
-        // click does not work with Chrome!!
-        var s = $(this).html();
-        //alert($(this).name); //.id = 'current'; //var s = $(this).val();
-        if (s == "PRACTICE") {
-			$('#navListQC').hide();
-            /*
-			$('#nav2 > li > a').html('ASSIGNMENT');
-			$('#nav1 > li > a').html(s);
-			$('#chContainer').hide();
-			$('#navContainer').hide();
-            $('#chapterListingDiv').hide();
-            $('#changeConcept').show();
 
-            $('#Question').attr('choice_mode', 'concept');
-            $('#Practice').attr('choice_mode', 'concept');
-            $('#Review').attr('choice_mode', 'concept');
-            */
-            $.post("ajax/ITS_concepts.php", {
-                choice: "showLetters"
-            }, function (data) {
-                // TODO: to put in condition to check if data returned is null or no questions
-                $('#modeContentContainer').html(data);
+                var ch = $('.chapter_index#current').text();
+				var view = 1;
+            $.get("ajax/ITS_screen.php", {
+                ajax_args: "showTab",
+                ajax_data: ch+','+role+','+view
+            }, function (data) {        
+                $('#navContainer').html(data);
+                // alert($('#Question').attr('r'));
+                indexUPDATE(ch,view,'Question');
+                $('#navContainer').show();
+            });     
             });
-            $.post("ajax/ITS_concepts.php", {
-                choice: "getConcepts"
-            }, function (data) {
-                $('#contentContainer').html(data);
-            });
-        } else if (s == "ASSIGNMENT") {
-			$('#navListQC').show();
-            $('#nav2 > li > a').html('CONCEPT');
-            $('#nav1 > li > a').html(s);
-            $('#coContainer').hide('slow');
-            $('#changeConcept').hide();
-            $('#chContainer').show();
-            $('#navContainer').show();
-            $('#chapterListingDiv').show();
-            $('#Question').attr('choice_mode', 'module');
-            $('#Practice').attr('choice_mode', 'module');
-            $('#Review').attr('choice_mode', 'module');
-            //	alert('calling');
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "changeMode",
                 ajax_data: 'question'
             }, function (data) {
                 $('#contentContainer').html(data);
+                mathJax();
             });
         }
     });
@@ -439,7 +382,7 @@ ajax_data: ''
         });
     });
     /*-------------------------------------------------------------------------
-	  Displays the questions in a tabular form for the selected module
+      Displays the questions in a tabular form for the selected module
 /*-------------------------------------------------------------------------*/
     $('.modules').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
@@ -466,7 +409,7 @@ ajax_data: ''
             tdArrayQ.push($(this).val());
         });
         if (tdArrayQ.length == 0) {
-            alert('No Questions selected');
+            //alert('No Questions selected');
             return false;
         }
         var tbvaluesQ = tdArrayQ.join();

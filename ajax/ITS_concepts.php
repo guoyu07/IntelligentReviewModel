@@ -14,18 +14,18 @@ require_once("../classes/ITS_resource.php");
 
 if (isset($_REQUEST['letter'])) {
     $letter = $_REQUEST['letter'];
+    $role   = $_REQUEST['role'];
+    $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
     $obj    = new ITS_concepts();
-    $retStr = $obj->getConcepts($letter);
+    $retStr = $obj->getConcepts($letter,$role_flag);
     echo $retStr;
 }
 if (isset($_REQUEST['choice'])) {
     $choice = $_REQUEST['choice'];
     $obj    = new ITS_concepts();
+    
+    //var_dump($choice);
     switch ($choice) {
-        /*	case 'ShowConceptByLetter':
-        $letter = $_REQUEST['letter'];
-        $retStr = 'yes';// $obj->getConcepts($letter);
-        break;*/
         case 'submitConcepts':
             $tbvalues = $_REQUEST['tbvalues'];
             $retStr   = $obj->getRelatedQuestions($tbvalues);
@@ -38,16 +38,15 @@ if (isset($_REQUEST['choice'])) {
             break;
          case 'showLetters':
             $retStr = $obj->showLetters();
-            break;  
+            break;
         case 'getConceptNav': 
 			$concept = $_REQUEST['ajax_data'];
 			$retStr = $obj->getConceptNav($concept);      
 			break;     
         case 'getConcepts':
-            //die($obj->ConcQuesContainer());
-            //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer() . $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
-            //$retStr .= '<div id="conceptContainer">'.$obj->conceptListContainer().'</div>';// $obj->SelectedConcContainer(1) . $obj->ConcQuesContainer().'</div>';
-            $retStr = '<div id="navConcept"></div><div id="conceptContainer">'.$obj->conceptListContainer() . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
+			$role   = $_REQUEST['role'];
+			$letter = $_REQUEST['index'];
+            $retStr = '<div id="navConcept"></div><div id="conceptContainer">'.$obj->conceptListContainer($letter,$role) . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
             break;
         case 'getQuestions':
             $retStr = $obj->getQuestionsStudent();

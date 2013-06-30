@@ -40,16 +40,9 @@
 #modeContentContainer {
   position: relative;
   margin: 0;
-  padding: 0;
+  padding-bottom: 1em;
   height: auto;
   background-color: #fff;
-  border: 1px solid #fff;
+  border: 0px solid #fff;
 }
 #modeSelContainer {float:left;margin:0;padding:0;width:20%;height:3em;background-color:#fff;}
-#modeXXContainer {  clear: both;
-  position: relative;
-	background-color: #fff;
-	width: 100%; /* important */
-	height: 100px;
-	border: 1px solid #fff;
-	background-color: #fff; overflow: auto;}

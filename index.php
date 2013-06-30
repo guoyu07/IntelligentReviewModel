@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '221';
-$LAST_UPDATE = 'Jun-21-2013';
+$ITS_version = '221g';
+$LAST_UPDATE = 'Jul-3-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -29,8 +29,8 @@ require_once("plugins/tagging/ITS_tagInterface.php");
 //include('login.php');
 /*
 if (!isset($_SESSION['auth'])) {
-	include('login.php');
-	exit;
+include('login.php');
+exit;
 }*/
 
 session_start();
@@ -38,14 +38,11 @@ abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
-$view   = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
 //##########################################//
 
 if (isset($_GET['role'])) {
     $role = $_GET['role'];
 } else {
-	
-//var_dump($_GET['role']);
     switch ($status) {
         case 'admin':
             $role = 'admin';
@@ -55,22 +52,27 @@ if (isset($_GET['role'])) {
             break;
     }
 }
-$ss = implode(',',array($id, $role, $status, $index_hide + 1, $tset));
+$screen = new ITS_screen($id, $term, $role, 1, $tset);
+$S      = $screen->getSchedule($term);
+$A      = $screen->getAssignment($S);
 
-$screen    = new ITS_screen($id, $term, $role, $index_hide + 1, $tset);
+$chList = $A[0];
+$chArr  = $A[1];
+$r      = $A[2];
+$view   = $A[3];
+
 //$menu    = new ITS_menu(); //echo $menu->main();
 //$message = new ITS_message($screen->lab_number, $screen->lab_active);
 $_SESSION['screen'] = $screen;
 //------------------------------------------//
-
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
-        <META HTTP-EQUIV="Expires" 	    CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
+        <META HTTP-EQUIV="Expires"         CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
         <META HTTP-EQUIV="Pragma"       CONTENT="no-cache">
         <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
-		<meta http-equiv="X-UA-Compatible" CONTENT="IE=edge" />
+        <meta http-equiv="X-UA-Compatible" CONTENT="IE=edge" />
         <title>ITS</title>
 <?php
 include(INCLUDE_DIR . 'stylesheet.php');
@@ -88,63 +90,63 @@ include(INCLUDE_DIR . 'include_fancybox.php');
 <script type="text/javascript" src="js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <script type="text/javascript" src="js/ITS_concepts.js"></script>
-	<script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
-	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
-	<link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
-	<link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />	
-	
+    <script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
+    <link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
+    <link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />    
+    
 <script type="text/javascript">
 $(document).ready(function() {
 $(".fancybox").fancybox({
-			  type: 'inline',
-		  closeClick: true,
-		  padding: 5,
+              type: 'inline',
+          closeClick: true,
+          padding: 5,
           helpers: {
-	overlay : {
-		closeClick : true,
-		speedOut   : 300,
-		showEarly  : false,
-		css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
-	},			  
+    overlay : {
+        closeClick : true,
+        speedOut   : 300,
+        showEarly  : false,
+        css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
+    },              
               title : {
                   type : 'inside'
               }
           }
 });    
 $(".ITS_schedule").fancybox({
-		  type: 'ajax',
-		  closeClick: true,
-		  padding: 5,
+          type: 'ajax',
+          closeClick: true,
+          padding: 5,
           helpers: {
-		overlay : {
-		closeClick : true,
-		speedOut   : 300,
-		showEarly  : false,
-		css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
-	},			  
+        overlay : {
+        closeClick : true,
+        speedOut   : 300,
+        showEarly  : false,
+        css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
+    },              
               title : {
                   type : 'inside'
               }
           }
       });
 $( "input[name=selectResource]" ).live('click', function(event) {
-	        var field = $(this).val();
-	        var concept = $(this).attr("concept");
-	        //alert(field+'='+concept);
+            var field = $(this).val();
+            var concept = $(this).attr("concept");
+            //alert(field+'='+concept);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "test",
                 ajax_data: concept+'~'+field.toLowerCase()
             }, function(data) {
                 $('#resourceList').html(data);
             });
-});     
+});    
 $( "input[name=resourceSelect]" ).live('click', function(event) {
-	        var field 	= $(this).attr("field");
-	        var rid  	= $(this).attr("rid");
-	        var concept = $(this).attr("concept");
-	        //alert(field+'~'+rid+'~'+concept);
-	        alert(field.toLowerCase()+'~'+rid);
-			//$('#ITS_resource_'+field.toLowerCase()).html(rid);
+            var field     = $(this).attr("field");
+            var rid      = $(this).attr("rid");
+            var concept = $(this).attr("concept");
+            //alert(field+'~'+rid+'~'+concept);
+            alert(field.toLowerCase()+'~'+rid);
+            //$('#ITS_resource_'+field.toLowerCase()).html(rid);
             $.get("ajax/ITS_resource.php", {
                 ajax_args: "select",
                 ajax_data: field.toLowerCase()+'~'+rid
@@ -162,7 +164,7 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
 </script>
     </head>
     <body>
-		<noscript>
+        <noscript>
 <div style="color:#CC0000; text-align:center">
 <b>Warning: <a href="http://quid.gatech.edu/">ITS</a>
 requires JavaScript to process the mathematics on this page.<br />
@@ -170,7 +172,7 @@ If your browser supports JavaScript, be sure it is enabled.</b>
 </div>
 <hr>
 </noscript>
-		
+        
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
             <div id="menuContainer">
@@ -178,97 +180,70 @@ If your browser supports JavaScript, be sure it is enabled.</b>
 echo $id;
 ?>"><a href="logout.php">Logout</a></div>
                 <!--
-	  <div class="icon" id="Minst_icon">I</div>
+      <div class="icon" id="Minst_icon">I</div>
                <p class="ITS_instruction"><img src="images/matching_example1.png" style="position:relative;max-width:100%"></p>
-		<div class="icon" id="Tag_icon">Tag</div>
-		-->
+        <div class="icon" id="Tag_icon">Tag</div>
+        -->
                 <div class="icon" id="instructionIcon" onClick="ITS_MSG(1)"><tt>?</tt></div>
                 <div class="icon" id="messageIcon"     onClick="ITS_MSG(1)">&para;</div>
             </div>
 <!-- MODE ------------->
 <div id="modeContainer">
-	<input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
+    <input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
 <label for="CONCEPTS" class="btn rounded-corners">CONCEPTS</label>
-<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked r="<?php echo $role;?>">
+<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked r="<?php
+echo intval($r);
+?>">
 <label for="ASSIGNMENTS" class="btn rounded-corners">ASSIGNMENTS</label>
 </div>          
 <!-- myScore ---------->
 <?php
 $MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">';
 
-switch ($role) {
-    case 'admin':
-    case 'instructor':
-        $chUser = 1;
-        $chMax  = 11;
-        break;
-    default:
-        $chUser = 1;
-        $chMax  = $index_max;
-}
-$chArr             = range(1, $chMax);
 //var_dump($chArr);die();
-$score             = new ITS_score($id, $role, $chArr, $term, $tset); //,$ch);
+$score             = new ITS_score($id, $role, $chArr, $term, $tset);
 $_SESSION['score'] = $score;
-$str               = $score->renderChapterScores(); //($chMax)         
+$str               = $score->renderChapterScores(); //($chMax)        
 
 $MyScores .= $str . '</div>';
-
 echo $MyScores;
-
-//-- TEST -------------------------------------------------->
-//$s = new ITS_score($id);
-//$str = $s->renderLabScores();
-//echo $str;
 ?>
-<!-- NAVIGATION ----------------------------------------------->
-<div id="modeContainer">        
+      
+<div id="modeContentContainer">
 <?php
-/* -------------------- */
-
-$view     = TRUE; // VIEW: TRUE | FALSE => "Question" tab closed
-$schdlArr = $screen->getSchedule($term);
-$chList   = $screen->renderAssignment($status, $view, $role, $chArr, $chMax, $schdl_ar);
-
-$modeDiv  = '<div id="modeContentContainer">' . $chList . '</div>';
-echo $modeDiv;
-//die('====');
-?>  
-<input type="hidden" id="index_hide" value="<?php echo $index_hide;?>">
-            </div>
-                <!-- CONTENT ----------------------------------------------->
-                <?php
+echo $chList;
+?>
+</div>
+<!-- NAVIGATION ----------------------------------------------->
+<?php
 //echo $screen->main();
 //--- resources ---//
 //$arr = array(2,"",NULL);
 //echo array_sum($arr);die('done');
-//--------$screen->chapter_number = $chUser;
 $meta = 'image';
 /*
 $x = new ITS_book('dspfirst',$ch,$meta,$tex_path);
 $o = $x->main();
 echo $o.'<p>';
-<li id="Practice" name="header" choice_mode ="<?php echo $mode; ?>" view="<?php echo intval($view); ?>" r="<?php echo intval($r); ?>" ch="<?php echo ($index_hide+1); ?>" style="margin-left: 50px;"><a href="#">Practice</a></li>
 */
 ?>
 <div id="navContainer">
-<?php echo $screen->getTab(($index_hide + 1),$role,$view);?>
+<?php
+echo $screen->getTab($S[0], $r, $view);
+?>
 </div>
-                <!-- end div#navContainer -->
-                <?php
-//echo '<ul><li>ITS Modules 1 - 4 have closed.</li><li>Your answers for Modules 1-4 are available for review.</li></ul>';
-
-$mode = 'question';
-$screen->screen       = 4;
-$screen->term_current = $term;
+<!-- end div#navContainer -->
+<!-- CONTENT -------------------------------------------------->
+<?php
+$mode           = 'question';
+$screen->screen = 4;
 echo $screen->main($mode);
-//echo $screen->reviewMode(1,0);
 ?>              
 </div>
-          <?php
+<?php
 include(INCLUDE_DIR . 'footer.php');
 ?>
-            <!-- FOOTER end -->
+           <!-- FOOTER end -->
         </div>
         <!-- end div#page -->
     </body>
