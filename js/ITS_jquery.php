@@ -418,7 +418,6 @@ $('span[name=ITS_MC]').live('click', function() {
 });
 /*-------------------------------------------------------------------------*/
 $('#ITS_submit').live('click', function() {
-	//alert('a');
     //*** Prevent Multiple submissions: - 1. Client: disable button/form ***//
     //$(this).attr('disabled', true);
     //***//
@@ -427,9 +426,14 @@ $('#ITS_submit').live('click', function() {
     var qtype  = $(this).attr("qtype");
     var t      = $(this).attr("t");
     var mode   = $(this).attr("mode");
+    
     var values = new Array();
 	var isempty_c=true;
-    // alert(ch+' '+qid+' '+qtype+' '+values+' '+t+' '+mode);
+	
+	if (mode=="concept"){ var tid = $('.navConcept').attr("tid"); }
+	else { tid = ''; }
+     
+    //alert(ch+' '+qid+' '+qtype+' '+values+' '+t+' '+mode+' '+tid);
     switch (qtype.toUpperCase()) {
         //----------//
         case 'M':
@@ -484,13 +488,13 @@ var chosen = values.join();
 if (chosen&&isempty_c) {
 var c = $(this).attr("c");
 //alert($(this).attr("id"));
-//alert(ch+'~'+qid+'~'+qtype+'~'+chosen+'~'+c+'~'+t+'~ rate: '+rating+'~'+mode);
+//alert(ch+'~'+qid+'~'+qtype+'~'+chosen+'~'+c+'~'+t+'~ rate: '+rating+'~'+mode+'~'+tid);
 
 switch (mode) {
 case 'survey':
     $.get('ajax/ITS_screen.php', {
         ajax_args: "recordSurveyAnswer", 
-        ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode
+        ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid
     }, function(data) {
         $('#contentContainer').html(data);
         imageBox();
@@ -498,10 +502,10 @@ case 'survey':
     });
     break;
 default:
-    //alert(qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode);
+    //alert(qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid);
     $.get('ajax/ITS_screen.php', {
         ajax_args: "recordChapterAnswer", 
-        ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode
+        ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid
     }, function(data) {
         //alert($(this).data('chosen'));
         $('#contentContainer').html(data);
@@ -563,21 +567,21 @@ $('#ITS_skip').live('click', function() {
     var qtype  = $(this).attr("qtype");
     var t      = $(this).attr("t");
     var mode   = $(this).attr("mode");
+    
+    if (mode=="concept"){ var tid = $('.navConcept').attr("tid"); }
+	else { tid = ''; }
 
-//alert(ch+' '+qid+' '+qtype+' '+t+' '+mode);
+//alert(ch+' '+qid+' '+qtype+' '+t+' '+mode+'~'+tid);
 $.get('ajax/ITS_screen.php',{
 	ajax_args: "skip", 
-	ajax_data: qid+'~'+qtype+'~'+ch+'~'+t+'~'+mode
+	ajax_data: qid+'~'+qtype+'~'+ch+'~'+t+'~'+mode+'~'+tid
 	}, function(data) {
 		$('#contentContainer').html(data); 
-	// when in "Concepts" mode
-	//alert(data);
 		$.get('ajax/ITS_screen.php',{
 		ajax_args: "concept", 
 		ajax_data: qid
 		},
 		function(data){
-			//alert(data);
 			$('#QuesConcept').html(data);
 		});
 		imageBox();

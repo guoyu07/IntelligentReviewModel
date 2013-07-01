@@ -201,7 +201,7 @@ switch ($action) {
             print_r($data[3]);
         }
         // print_r($data);die('hhh');
-        $screen->recordQuestion($data[0], $data[1], $data[2], $info, $data[5]); //$screen->question_info);
+        $screen->recordQuestion($data[0], $data[1], $data[2], $info, $data[5], $data[7]);
         
         //$str = $screen->getContent();
         $screen->question_completed = true;
@@ -236,7 +236,7 @@ switch ($action) {
         $info = array(
             'skip'
         );
-        $screen->recordQuestion($data[0], $data[1], 'skip', $info, $data[3]); //$screen->question_info);
+        $screen->recordQuestion($data[0], $data[1], 'skip', $info, $data[3],$data[5]);
         $screen->mode = $data[4];
         $str          = $screen->getContent();
         break;

@@ -1,4 +1,4 @@
- <?php
+<?php
 /*=====================================================================//
 ITS_screen - creates user ITS screen.
 
@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Jun-05-2013
+Last Revision: Jul-6-2013
 
 SCHEMA:
 screen.php
@@ -29,7 +29,7 @@ class ITS_screen
     public $view;
     
     public $screen;
-    public $mode; 		   // question | review | survey | concept 
+    public $mode; // question | review | survey | concept 
     public $question_info;
     
     //--- LAB ---//
@@ -87,7 +87,7 @@ class ITS_screen
         
         // STATE
         // $this->screen = 2;
-        $this->view   		  	  = true; // FALSE => "Question" tab closed
+        $this->view               = true; // FALSE => "Question" tab closed
         $this->mode               = 'question'; //'question' | 'review'
         $this->review_number      = 0;
         $this->review_count       = 0;
@@ -113,7 +113,7 @@ class ITS_screen
         
         // set EXERCISES parameters
         $this->exe_active = 2;
-        $this->con_active = 8; 
+        $this->con_active = 8;
         
         // set CONCEPTS parameters
         $this->concept_active = 2;
@@ -1459,9 +1459,9 @@ class ITS_screen
         foreach ($open as $Odate) {
             $open_time = mktime(4, 0, 0, $Odate[0], $Odate[1], $term_arr[1]);
             //echo $open_time .'<'. time() .'='.($open_time < time()).'<br>';
-            if ($open_time < time()){               
+            if ($open_time < time()) {
                 $index_max++;
-                }
+            }
         }
         $index_hide = 0;
         $schedule   = array();
@@ -1480,9 +1480,13 @@ class ITS_screen
                 $index_hide++;
         }
         
-		//echo '<pre>';print_r($chArr); echo '</pre>';die();
-        $schedule_arr = array($index_max,$index_hide,$schedule);
-
+        //echo '<pre>';print_r($chArr); echo '</pre>';die();
+        $schedule_arr = array(
+            $index_max,
+            $index_hide,
+            $schedule
+        );
+        
         return $schedule_arr;
     }
     //=====================================================================//
@@ -1506,13 +1510,13 @@ class ITS_screen
                 /* ----------------- */
                 $mode   = 'question'; // index | practice | question      
                 $oc     = '<a id="single_image" href="VIP/' . $this->term . '/schedule.png" class="ITS_question_img">schedule</a>';
-                $chList = '<ul id="chList" class="nav" ih="'.$index_hide.'"><li style="margin-right:2em;">' . $oc . '</li>';
+                $chList = '<ul id="chList" class="nav" ih="' . $index_hide . '"><li style="margin-right:2em;">' . $oc . '</li>';
                 
                 switch ($this->role) {
                     case 'admin':
                     case 'instructor':
-                    $chMax  = 11;
-                    $chArr  = range(1, $chMax);
+                        $chMax = 11;
+                        $chArr = range(1, $chMax);
                         for ($i = 1; $i <= $chMax; $i++) {
                             // echo $i.' -- '.($index_hide+1).'<br>';
                             if ($i == ($index_hide)) {
@@ -1523,11 +1527,11 @@ class ITS_screen
                             $chList .= '<li><a href="#" class="chapter_index" name="chapter" ' . $idx_id . ' value="' . $i . '" title="' . $schedule[$i - 1] . '">' . $i . '</a></li>';
                         }
                         $this->view = TRUE;
-                        $r    = TRUE; // role
+                        $r          = TRUE; // role
                         break;
                     default:
-                        $chMax  = $index_max;
-                        $chArr  = range(1, $chMax);
+                        $chMax = $index_max;
+                        $chArr = range(1, $chMax);
                         for ($i = 0; $i < count($chArr); $i++) {
                             if ($i == $index_max) { // ($index_hide + 1)
                                 $idx_id = 'id="current"'; // PRACTICE: = ''
@@ -1552,20 +1556,25 @@ class ITS_screen
         $this->role = $r;
         //echo var_dump($this->view);die();
         
-        $A = array($chList,$chArr,$r,$this->view);
-
+        $A = array(
+            $chList,
+            $chArr,
+            $r,
+            $this->view
+        );
+        
         return $A;
     }
     //=====================================================================//
-    function getTab($ch,$role,$view)
+    function getTab($ch, $role, $view)
     {
-    //=====================================================================//
+        //=====================================================================//
         // var_dump(intval($this->view));die();
         $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
         
         //echo htmlentities($tab); die();
         return $tab;
-    }    
+    }
     //=====================================================================//
     function exercisesContent()
     {
@@ -1596,7 +1605,7 @@ class ITS_screen
         return $tb_labs->str;
     }
     //=====================================================================//
-    function recordQuestion($qid, $qtype, $answered, $info, $tstart)
+    function recordQuestion($qid, $qtype, $answered, $info, $tstart, $tag_id)
     {
         //=====================================================================//    
         /*** BACK-TRACE ***/
@@ -1636,6 +1645,8 @@ class ITS_screen
                 //$current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
             }
             
+            // var_dump($this->mode);  echo '<hr><Br>';
+            
             switch ($this->mode) {
                 case 'survey':
                     $scoreArr = array(
@@ -1645,25 +1656,36 @@ class ITS_screen
                 case 'practice':
                     $current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
                 case 'concept':
-                //$current_chapter = -$current_chapter; // if it is done so that row is not fetched by score module.
-                    $event = $this->mode;
+                    $event = ($info[0] == 'skip') ? $info[0] : $this->mode;
                 //break; <= let it go thru
-                default:
+                default: // question
                     if ($info[0] != 'skip') {
-                        //var_dump($info);die('ds');
+                        // var_dump($info);die('ds');
                         
                         $config   = $info[1];
                         $tr       = new ITS_statistics($this->id, $this->term, $this->role);
                         $scoreArr = $tr->get_question_score($qid, mysql_real_escape_string($answered), $config, $qtype);
-                        //die('ddd');
-                        //print_r($scoreArr);
-                        //die('aaaa');
                     } else {
                         $scoreArr = array(
                             'NULL'
                         );
                     }
             }
+            
+            //*****************
+            /*
+            $result = mysql_query('SELECT * FROM '.$this->);
+            $fields = mysql_num_fields($result);
+            $rows   = mysql_num_rows($result);
+            $table  = mysql_field_table($result, 0);
+            
+            for ($i=0; $i < $fields; $i++) {
+            $type  = mysql_field_type($result, $i);
+            $name  = mysql_field_name($result, $i);
+            echo $type . " " . $name . " " . $len . " " . $flags . "<br>";
+            }
+            mysql_free_result($result);*/
+            //*****************
             //echo 'TIME '.$tstart.'<p>'.date("D M j G:i:s T Y",$tstart);
             //die($tstart);
             //--- DURATION ---//
@@ -1682,9 +1704,7 @@ class ITS_screen
                 case 'c':
                     //-------------------------------//
                     $score    = array_sum($scoreArr[0]);
-                    //var_dump($info[1]);
-                    //die($info[1]);
-                    $perm_str = '"' . $info[1] . '"'; //$this->_answers_permutation[$name]
+                    $perm_str = '"' . $info[1] . '"'; 
                     break;
                 //-------------------------------//
                 default:
@@ -1693,25 +1713,44 @@ class ITS_screen
                     $perm_str = 'NULL';
                     //-------------------------------//
             }
-            
+
             switch ($event) {
                 case 'skip':
-                    $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (question_id,current_chapter,epochtime,duration,event) VALUES(' . $qid . ',' . $current_chapter . ',' . $tstart . ',' . $dur . ',"' . $event . '")';
+                    switch ($this->mode) {
+                        case 'concept':
+                            $fields = 'question_id,tags,epochtime,duration,event';
+                            $values = $qid . ',' . $tag_id . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            break;
+                        case 'question':
+                            $fields    = 'question_id,current_chapter,epochtime,duration,event';
+                            $values = $qid . ',' . $current_chapter . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            break;
+                    }
+                    
+                    $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (' . $fields . ') VALUES(' . $values . ')';
                     $res =& $mdb2->query($query_str);
                     if (PEAR::isError($res)) {
                         throw new Question_Control_Exception($res->getMessage());
                     }
                     break;
                 default:
-                    //$score = 100;
+                    switch ($this->mode) {
+                        case 'concept':
+                            $fields = 'question_id,tags,answered,comment,score,epochtime,duration,event';
+                            $values = $qid . ',' . $tag_id . ',"' . mysql_real_escape_string($answered) . '",' . $perm_str . ',' . $score . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            break;
+                        case 'question':
+                            $fields = 'question_id,current_chapter,answered,comment,score,epochtime,duration,event';
+                            $values = $qid . ',' . $current_chapter . ',"' . mysql_real_escape_string($answered) . '",' . $perm_str . ',' . $score . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            break;
+                    }
                     
-                    $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (question_id,current_chapter,answered,comment,score,epochtime,duration,event) VALUES(' . $qid . ',' . $current_chapter . ',"' . mysql_real_escape_string($answered) . '",' . $perm_str . ',' . $score . ',' . $tstart . ',' . $dur . ',"' . $event . '")';
-                    //var_dump($query_str);
-                    //die('done');
+                    $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (' . $fields . ') VALUES(' . $values . ')';
+                    // var_dump($query_str);die('done');
+                    
                     if (!(is_empty($answered))) {
                         //*** Prevent Multiple submissions: - 3. Server: MySQL check for recent (+/- 1 sec ) INSERT with qid ***//
                         $query = 'SELECT question_id,answered,epochtime,count(*) FROM ' . $this->tb_user . $this->id . ' WHERE score IS NOT NULL AND question_id=' . $qid . ' GROUP BY question_id,answered,epochtime HAVING epochtime BETWEEN ' . ($tstart - 1) . ' AND ' . ($tstart + 1);
-                        //
                         //echo $query; die();
                         $res =& $mdb2->query($query);
                         if (PEAR::isError($res)) {
@@ -2169,7 +2208,7 @@ class ITS_screen
             
             $qinfo .= '<table class="ITS_ADMIN" style="float:right"><tr><td><a href="Question.php?qNum=' . $qid . '" class="ITS_ADMIN">' . $qid . '</a></td></tr></table>';
         }
- 
+        
         return $qinfo;
     }
     //=====================================================================//
@@ -2995,4 +3034,4 @@ function ITS_message($msg)
 {
     return '<div class="ITS_MESSAGE"><ul><li>' . $msg . '</li></ul></div>';
 }
-?> 
+?>

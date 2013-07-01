@@ -40,13 +40,14 @@ if (isset($_REQUEST['choice'])) {
             $retStr = $obj->showLetters();
             break;
         case 'getConceptNav': 
-			$concept = $_REQUEST['ajax_data'];
-			$retStr = $obj->getConceptNav($concept);      
+			$concept = $_REQUEST['concept'];
+			$tag_id  = $_REQUEST['tag_id'];
+			$retStr  = $obj->getConceptNav($concept,$tag_id);      
 			break;     
         case 'getConcepts':
 			$role   = $_REQUEST['role'];
 			$letter = $_REQUEST['index'];
-            $retStr = '<div id="navConcept"></div><div id="conceptContainer">'.$obj->conceptListContainer($letter,$role) . '</div>'; //$obj->SelectedConcContainer(1) . $obj->ConcQuesContainer() . '</div>';
+            $retStr = '<div id="navConcept"></div><div id="conceptContainer">'.$obj->conceptListContainer($letter,$role) . '</div>';
             break;
         case 'getQuestions':
             $retStr = $obj->getQuestionsStudent();

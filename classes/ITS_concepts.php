@@ -59,10 +59,10 @@ class ITS_concepts
         //   echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
     //=====================================================================//
-    function getConceptNav($concept){
+    function getConceptNav($concept,$tag_id){
         //=====================================================================//    
     
-        $str = '<div class="navConcept">'.$concept.'</div><span class="navConceptInfo"><span class="todo">concept info here</span></span><br><hr>';
+        $str = '<div class="navConcept" tid="'.$tag_id.'">'.$concept.'</div><span class="navConceptInfo"><span class="todo">concept info here</span></span><br><hr>';
         
         return $str;
 	}
@@ -82,7 +82,7 @@ class ITS_concepts
         if ($all_flag) { $having = ''; }
         else { $having = ' HAVING count>0 '; }
         
-        $query = 'SELECT t.name, COUNT(qt.tags_id) AS count
+        $query = 'SELECT t.id,t.name, COUNT(qt.tags_id) AS count
   FROM
     tags t
   LEFT JOIN
@@ -101,7 +101,7 @@ class ITS_concepts
         // ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
   
         // die($query);
-        $res   = mysql_query($query, $con);  
+        $res = mysql_query($query, $con);
         if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
         //$concepts_result = mysql_fetch_assoc($res);
         $N = 10; // list items per column
@@ -113,7 +113,7 @@ class ITS_concepts
 			//echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
             if (empty($row['count'])) { $row['count'] = '&ndash;'; }
-            $str .= '<li  id="con_' . $row['name'] . '" cid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
+            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
             //$str .= ''.$x.'</div>';
             
             if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }

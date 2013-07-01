@@ -67,7 +67,8 @@ $(document).ready(function () {
         /*-------------------------------------------------------------------------*/
         var id = (this.id).split('_');
         var field = id[1];
-          
+        var tid = $(this).attr('tid');
+
         /*
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
@@ -105,9 +106,9 @@ $(document).ready(function () {
 
         $.post("ajax/ITS_concepts.php", {
             choice: 'getConceptNav',
-            ajax_data: field
+            concept: field,
+            tag_id: tid
         }, function (data) {
-            //alert(data);
             if (data) {
                 $("#navContainer").html(data);
             } else {
