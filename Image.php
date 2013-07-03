@@ -5,9 +5,7 @@ $LAST_UPDATE = 'Oct-26-2012';
 //=====================================================================*/
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
-require_once("classes/ITS_navigation.php");
-require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
+
 require_once("classes/ITS_search.php");
 require_once("classes/ITS_image.php");
 

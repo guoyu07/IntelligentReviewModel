@@ -1,19 +1,16 @@
 <?php
-$LAST_UPDATE = 'Jun-21-2013';
+$LAST_UPDATE = 'Jul-10-2013';
 /*=====================================================================// 					
     Author(s): Gregory Krudysz
 //=====================================================================*/
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
 
-require_once("classes/ITS_concepts.php");
-require_once("classes/ITS_footer.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
 require_once("classes/ITS_search.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_timer.php");
-require_once("classes/ITS_tag.php");
 require_once("classes/ITS_resource.php");
 
 session_start();
@@ -103,7 +100,6 @@ if (isset($_GET['tid'])) {
 }
 /*
   // QUERY
-
   $res =& $mdb2->query($query);
   if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
   $qs = $res->fetchAll();

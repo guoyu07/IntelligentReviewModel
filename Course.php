@@ -16,12 +16,9 @@ require_once(INCLUDE_DIR . "include.php");
 include("classes/ITS_timer.php");
 include "file2SQL.php";
 include "STATS.php";
-require_once("classes/ITS_navigation.php");
-require_once("classes/ITS_footer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
-require_once("classes/ITS_statistics.php");
 //$timer = new ITS_timer();
 session_start();
 
@@ -213,12 +210,6 @@ $nav     = $ITS_nav->render($current, $course);
         <script src="js/ITS_book.js"></script>
         <script src="tagging/ITS_tagging.js"></script>
         <script src="rating/forms/star_rating.js"></script>
-        <style>
-            #select_class { margin-top: 2em; }
-            .ui-dialog-titlebar { background: #aaa; border: 2px solid #666; }
-            .ui-dialog-content  { text-align: left; color: #666; padding: 0.5em; }
-            .ui-button-text { color: #00a; }
-        </style>
 <?php
 include INCLUDE_DIR . 'stylesheet.php';
 include 'js/ITS_course_jquery.php';

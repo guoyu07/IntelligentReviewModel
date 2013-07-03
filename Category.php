@@ -8,7 +8,6 @@ require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 
 include ("classes/ITS_timer.php");
-require_once ("classes/ITS_footer.php");
 
 //$timer = new ITS_timer();
 session_start();
@@ -167,6 +166,11 @@ if ($status == 'admin') {
         $form  = $class.' &nbsp; '.$users.' &nbsp; '.$chapter.' &nbsp; '.$classInfo.$sid;
 			
       //----------------------------------//
+    //--- NAVIGATION ------------------------------// 
+    $current = basename(__FILE__, '.php');
+    $ITS_nav = new ITS_navigation($status);
+    $nav     = $ITS_nav->render($current, '');
+    //---------------------------------------------//	      
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -216,18 +220,7 @@ if ($status == 'admin') {
 <div id="framecontent">
 <!---************* NAVIGATION ******************--->
 <div id="ITS_navcontainer">
-<ul id="ITS_navlist">
-<li><a href="logout.php">Logout</a></li>
-<li><a href="screen.php" >ITS</a></li>
-<li><a href="Question.php" >Questions</a></li>
-<li><a href="Profile.php">Profiles</a></li>
-<li><a href="User.php">Users</a></li>
-<li><a href="DB.php">Database</a></li>
-<li><a href="Logs.php">Logs</a></li>
-<li><a href="spen.php" class="ITS_course_tab">SPEN</a></li>
-<li><a href="ece3075.php" class="ITS_course_tab">ECE 3075</a></li>
-<li><a href="ece2025.php" id="current" class="ITS_course_tab">ECE 2025</a></li>
-</ul>
+<?php echo $nav; ?>
 </div>
 <!---******************************************--->
 <div class="innertube">

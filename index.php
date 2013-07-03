@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '221h';
-$LAST_UPDATE = 'Jul-6-2013';
+$ITS_version = '221g';
+$LAST_UPDATE = 'Jul-9-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -10,14 +10,8 @@ require_once(INCLUDE_DIR . "include.php");
 include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
-
 require_once("classes/ITS_message.php");
 require_once("classes/ITS_query2.php");
-
-require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
-
-require_once("classes/ITS_concepts.php");
 require_once("classes/ITS_resource.php");
 
 /* -- SCORING module ----------------------------------- */
@@ -201,9 +195,9 @@ echo intval($r);
 $MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">';
 
 //var_dump($chArr);die();
-$score             = new ITS_score($id, $role, $chArr, $term, $tset);
+$score             = new ITS_score($id, $term, $tset);
 $_SESSION['score'] = $score;
-$str               = $score->renderChapterScores(); //($chMax)        
+$str               = $score->renderChapterScores($chArr);       
 
 $MyScores .= $str . '</div>';
 echo $MyScores;

@@ -142,6 +142,20 @@ $(document).ready(function () {
         $(this).parents('tr').remove();
     });
     /*-------------------------------------------------------------------------*
+     * Order by concept list
+     *-------------------------------------------------------------------------*/
+    $(".concept_orderby").live('click', function () {
+		var idx =  $(this).attr('idx');
+        orderbyUPDATE(idx);
+        
+        $.post("ajax/ITS_concepts.php", {
+            choice: 'orderby',
+            data: idx,
+        }, function (data) {
+            $("#ConcQuesContainer").html(data);
+        });
+    });    
+    /*-------------------------------------------------------------------------*
      * Prompts a user to select or input module name of the module to be 
      * created with selected questions
      *-------------------------------------------------------------------------*/
@@ -432,3 +446,12 @@ $(document).ready(function () {
     });
     /*-------------------------------------------------------------------------*/
 });
+//*****************************************//
+function orderbyUPDATE(idx) {
+//*****************************************//
+$('.concept_orderby').each(function(index) {
+if (index==idx){$(this).attr('id','current');$(this).parent().attr('id','active');}
+else 				    {$(this).attr('id','');$(this).parent().attr('id','');}
+});
+}
+//*****************************************//

@@ -517,6 +517,16 @@ default:
         //$("#dialog").dialog({ autoOpen: false, resizable: false, width:425 });
     });							
 }	
+
+if (mode=="concept"){ 	
+    $.get('ajax/ITS_concepts.php', {
+        choice: "updateConceptInfo", 
+        data: tid
+    }, function(data) {
+        $('.navConceptInfo').html(data);
+    });	
+}
+
 //--- update Scores ---//
 $.get('ajax/ITS_screen.php', {
 ajax_args: "updateScores", 

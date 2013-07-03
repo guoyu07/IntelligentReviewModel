@@ -70,7 +70,7 @@ class ITS_query
 			$category = 'SPEN' . $ch . '$|PreLab0' . $ch . '$|Lab' . $ch . '$|Chapter' . $ch . '$|-Mod' . $ch . '$' . $other;
 		}
         $query = 'SELECT ' . $qet . ' FROM ' . $usertable . ',' . $this->tb_name . ' WHERE ' . $usertable . '.question_id=' . $this->tb_name . '.id AND current_chapter=' . $ch . ' AND category REGEXP "(' . $category . ')" AND ' . $usertable . '.score IS NOT NULL AND epochtime > ' . $epochtime;
-        // echo '<br>'.$query.'<br>';
+        //echo '<br>'.$query.'<br>';
         //die($query);
         
         return $query;
@@ -124,7 +124,8 @@ class ITS_query
         //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.tag_id in (SELECT tag_id FROM SPFindex i WHERE i.name in (".$str_vals."))";
         //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.id IN (SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT tags_id FROM SPFindex i WHERE i.name IN (".strtolower($str_vals).")))";
         $query = "SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT id FROM tags i WHERE i.name IN (" . strtolower($str_vals) . "))"; //AND verified=1";
-        //echo '<div style="color:red">'.$query.'</div>';//die();
+        
+		//echo '<div style="color:red">'.$query.'</div>';die();
         
         return $query;
     }

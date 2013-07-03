@@ -26,7 +26,9 @@ if (!empty($ajax_match)) {
 require_once($path.INCLUDE_DIR."Authentication.php");
 require_once($path.INCLUDE_DIR."common.php");
 require_once($path.INCLUDE_DIR."User.php");
+require_once($path."classes/ITS_concepts.php");
 require_once($path."classes/ITS_configure.php");
+require_once($path."classes/ITS_footer.php");
 require_once($path."classes/ITS_question.php");
 require_once($path."classes/ITS_query.php");
 require_once($path."classes/ITS_navigation.php");
@@ -35,4 +37,5 @@ require_once($path."classes/ITS_screen.php");
 require_once($path."classes/ITS_score.php");
 require_once($path."classes/ITS_statistics.php");
 require_once($path."classes/ITS_table.php");
+require_once($path."classes/ITS_tag.php");
 ?>

@@ -7,8 +7,7 @@ Constructor: ITS_concepts(ch)
 ex. $query = new ITS_concepts('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Khyati Shrivastava | May-10-2012
-Last Revision: Greg Krudysz, Nov-27-2012
-
+Last Revision: Greg Krudysz, Jul-09-2013
 //=====================================================================*/
 /*
 if(isset($_REQUEST['tbvalues'])){
@@ -26,8 +25,8 @@ $val = $obj->createModule($moduleName,$tbvalues,$tbvaluesConcp);
 echo $val;
 }
 */
-//echo getcwd() . "\n";
-//var_dump($_REQUEST['choice']);
+// echo getcwd() . "\n";
+// var_dump($_REQUEST['choice']);
 
 class ITS_concepts
 {
@@ -56,23 +55,61 @@ class ITS_concepts
         $this->db_pass = $dsn[2];
         $this->db_host = $dsn[4];
         $this->db_name = $dsn[6];
-        //   echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
+        // echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
     //=====================================================================//
     function getConceptNav($concept,$tag_id){
         //=====================================================================//    
-    
-        $str = '<div class="navConcept" tid="'.$tag_id.'">'.$concept.'</div><span class="navConceptInfo"><span class="todo">concept info here</span></span><br><hr>';
+		
+		$s = new ITS_score(1,'admin',time());
+		$info = $s->computeConceptScores($tag_id);
+		$info_str = $s->renderConceptScores($info);
+
+        $str = '<div class="navConcept" tid="'.$tag_id.'">'.$concept.'</div><span class="navConceptInfo">'.$info_str.'</span><br><hr>';
         
         return $str;
 	}
     //=====================================================================//	
-    // Returns all concepts at the highest level
     function getConcepts($letter,$all_flag) {
 		// $all_flag = 1 // print all concepts available, even with no questions
     //=====================================================================//	
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
+        
+        $list_arr = array('alphabet','chapter','attempted','available','score'); 
+        
+        $list = '<div id="navcontainer2"><ul id="navlist2">';
+        $active = 'available';
+        foreach ($list_arr as $key => $value){ 
+			if ($value==$active) {
+				$li_id = ' id="active"';
+				$a_id  = ' id="current"';
+			} else {
+			    $li_id = '';
+				$a_id  = '';	
+			}
+			$list .= '<li '.$li_id.'><a href="#" '.$a_id.' class="concept_orderby" idx="'.$key.'">'.$value.'</a></li>';			
+			}
+			
+		switch ($value) {
+    case 'alphabet':
+        $orderby = 'ORDER BY name DESC';
+        break;
+    case 'chapter':
+        $orderby = 'ORDER BY count DESC';
+        break;
+    case 'attempted':
+        $orderby = 'ORDER BY count DESC';
+        break;
+    case 'available':
+        $orderby = 'ORDER BY count DESC';
+        break;        
+    case 'score':
+        $orderby = 'ORDER BY count DESC';
+        break;        
+}	
+		$list .= '</ul></div>';      
+
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
         //$query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
@@ -96,6 +133,8 @@ class ITS_concepts
    ORDER BY
 	 count DESC';
 
+echo $query;
+
         // ALTER TABLE its.tags DROP question_id
         // ALTER TABLE its.tags DROP concept_id
         // ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
@@ -106,7 +145,7 @@ class ITS_concepts
         //$concepts_result = mysql_fetch_assoc($res);
         $N = 10; // list items per column
         
-        $str = '<div id="conceptColumnContainer">';
+        $str = $list.'<b><div id="conceptColumnContainer">';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
 			$mod = $x % $N;
 			if ($mod==0) { $str .= '<div class="conceptColumn"><ul class="conceptList">'; }
@@ -119,6 +158,9 @@ class ITS_concepts
             if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }
         }
         $str .= '</div>';
+        
+        mysql_free_result($res);
+        mysql_close($con);
         //echo htmlspecialchars($str);
         
         if ($str != '')
@@ -154,7 +196,10 @@ class ITS_concepts
             $str .= "<tr class='PROFILE'><td class='PROFILE'><input type='checkbox' name='chcktbl' class='chcktbl' id='chcktbl' value=" . $row['id'] . ">" . "</td><td class='PROFILE'>" . "<a href='Question.php?qNum=" . $row['id'] . "' target=”_blank” class='ITS_ADMIN'>" . $row['id'] . "</a>" . "</td><td class='PROFILE'>" . $row['question'] . "</td></tr>";
         }
         $str .= '</tbody></table>';
+        
         mysql_free_result($res);
+        mysql_close($con);
+        
         return $str;
         
     } // End of getRelatedQuestions()  
@@ -233,6 +278,9 @@ class ITS_concepts
             return $returnStr . $query;
         } else
             $returnStr = "ok! $moduleName Saved!!";
+            
+        mysql_free_result($res);
+        mysql_close($con);    
         
         return $returnStr;
     } // End of createModule function
@@ -263,8 +311,6 @@ class ITS_concepts
     //=====================================================================//
      
         $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
-
-        //print_r($role_flag);die();
         
         $str = '<div id="conceptListContainer">'.$this->getConcepts($letter,$role_flag).'</div><div id="errorConceptContainer"></div>';
         
@@ -414,28 +460,11 @@ class ITS_concepts
         return "Successful deletion";
     }
     //=====================================================================//
-    // function to return array of tag names when tag ids are provided 
-    /*
-    function getTags($tag_ids){
-    //=====================================================================//
-    $DBHOST = 'localhost';
-    $DBUSER = 'root';
-    $DBPASS = 'root';
-    $DBNAME = 'its';
-    $con = mysql_connect($DBHOST, $DBUSER, $DBPASS) or die('Could not Connect');
-    mysql_select_db($DBNAME, $con) or die('Could not select DB');
-    for($x=0;$x<count($tag_ids);$x++){
-    $query = 'SELECT name from index_1 WHERE id='.$tag_ids[$x];
-    $res = mysql_query($query,$con);
-    }
-    }
-    */
-    //=====================================================================//
     public function updateScore(){
     //=====================================================================//
         $str = '<span class="todo">concept scoreboard here</span>';
         return $str;
     }	
-    
+    //=====================================================================//
 } // eof class
 ?>

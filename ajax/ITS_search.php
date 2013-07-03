@@ -1,19 +1,12 @@
 <?php
 /*  ITS_search_AJAX - script for AJAX search
 Author(s): Greg Krudysz
-Date: Nov-21-2012
+Date: Jul-6-2013
 ---------------------------------------------------------------------*/
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
-header("Cache-Control: no-cache, must-revalidate"); // Must do cache-control headers 
-header("Pragma: no-cache");
 
-require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
-require_once("../classes/ITS_table.php");
-require_once("../classes/ITS_configure.php");
-require_once("../classes/ITS_question.php");
-require_once("../classes/ITS_tag.php");
+require_once("../config.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_search.php");
 
 $style = '<head>' . '<link type="text/css" href="jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" />' . '<link type="text/css" href="css/ITS_question.css" rel="stylesheet" />' . '<link type="text/css" href="css/ITS_tag.css" rel="stylesheet" />' . '</head>';

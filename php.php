@@ -8,7 +8,6 @@ $starttime = $mtime;
 
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
-require_once ("classes/ITS_navigation.php");
 
 //$timer = new ITS_timer();
 session_start();
@@ -43,6 +42,7 @@ $info   = & $_SESSION['user']->info();
     <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_php.css" type="text/css" media="screen">	
+	<link rel="stylesheet" href="css/ITS_concepts.css" type="text/css" media="screen">
             <script type="text/javascript">
             function getfocus() {document.getElementById("ITS_search_box").focus()}       
         </script>
@@ -82,7 +82,7 @@ $info   = & $_SESSION['user']->info();
                      
                 } else {
 					echo $intro;
-				}
+				}			
 //-----------------------------------------------------------//
 ?>
 </center>

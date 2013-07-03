@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Apr-10-2013';
+$LAST_UPDATE = 'Jul-10-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz
 //=====================================================================//
@@ -15,11 +15,8 @@ include("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
-require_once("classes/ITS_navigation.php");
-require_once("classes/ITS_footer.php");
 
 global $term, $tset;
-
 
 //$timer = new ITS_timer();
 session_start();
@@ -188,15 +185,11 @@ if ($status == 'admin' OR $status == 'instructor') {
         $classInfo = '<a href="Profile.php?class=' . $current_user . '&sid=0">' . preg_replace('/_/', ' ', $current_user) . '</a>';
         $form      = $class . ' &nbsp; ' . $users . ' &nbsp; ' . $chapter . ' &nbsp; ' . $classInfo . $id_str;
         
-        //echo '<p>'.$uid.' + '.$ch_max;
-        // SLOW: $score = new ITS_score($uid,$status,$ch_max);
-        // if ($role == 'admin') { $ch = 13; }
-        // else                  { $ch = 7;  }
         $chArr = range(1, $ch_max);
         
         // SCORE
-        $score   = new ITS_score($uid, $ch, $chArr, $term, $tset);
-        $str     = $score->renderChapterScores($ch_max);
+        $score   = new ITS_score($uid, $term, $tset);
+        $str     = $score->renderChapterScores($chArr);
         $myScore = '<div id="scoreContainer"><span>&raquo;&nbsp;User Scores</span></div>' . '<div id="scoreContainerContent">' . $str . '</div>';
         $sort    = 'id';
         $tr      = new ITS_statistics($uid, $section, $status);

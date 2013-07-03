@@ -1,16 +1,10 @@
 <?php
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 			   // or IE will pull from cache 100% of time (which is really bad) 
-header("Cache-Control: no-cache, must-revalidate"); 		   // Must do cache-control headers 
-header("Pragma: no-cache");
-
+require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
-require_once("../classes/ITS_table.php");
-require_once("../classes/ITS_configure.php");
-require_once("../classes/ITS_question.php");
-require_once("../classes/ITS_statistics.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_concepts.php");
 require_once("../classes/ITS_resource.php");
+require_once("../classes/ITS_score.php");
 
 if (isset($_REQUEST['letter'])) {
     $letter = $_REQUEST['letter'];
@@ -66,7 +60,14 @@ if (isset($_REQUEST['choice'])) {
             break;
         case 'updateScore':
             $retStr = $obj->updateScore();
-            break;            
+            break;                       
+        case 'updateConceptInfo':
+            $tid = $_REQUEST['data'];      
+            // $userid, $term, $date
+            $obj = new ITS_score(1, 'Spring_2013', time());
+			$info = $obj->computeConceptScores($tid);
+            $retStr = $obj->renderConceptScores($info);
+            break;              
         default:
     }
     echo $retStr;

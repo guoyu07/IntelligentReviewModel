@@ -2,7 +2,7 @@
 $LAST_UPDATE = 'Apr-10-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz, Khyati Shrivastava
-//Last Revision: Gregory Krudysz, Apr-10-2013
+//Last Revision: Gregory Krudysz, Jul-10-2013
 //=====================================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -14,7 +14,6 @@ require_once("classes/ITS_message.php");
 require_once("classes/ITS_search.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_timer.php");
-require_once("classes/ITS_tag.php");
 
 session_start();
 // return to login page if not logged in
