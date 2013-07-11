@@ -2,12 +2,12 @@
 /*=====================================================================//
 ITS_concepts- query DB for concept browser.
 
-Constructor: ITS_concepts(ch)
+Constructor: ITS_concepts()
 
 ex. $query = new ITS_concepts('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Khyati Shrivastava | May-10-2012
-Last Revision: Greg Krudysz, Jul-09-2013
+Last Revision: Greg Krudysz, Jul-11-2013
 //=====================================================================*/
 /*
 if(isset($_REQUEST['tbvalues'])){
@@ -38,7 +38,8 @@ class ITS_concepts
     public $mode;
     
     //=====================================================================//
-    function __construct(){
+    function __construct()
+    {
         //=====================================================================//
         //echo 'NOW'; die();
         $this->debug = FALSE; //TRUE;
@@ -58,121 +59,157 @@ class ITS_concepts
         // echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
     //=====================================================================//
-    function getConceptNav($concept,$tag_id){
+    function getConceptNav($concept, $tag_id)
+    {
         //=====================================================================//    
-		
-		$s = new ITS_score(1,'admin',time());
-		$info = $s->computeConceptScores($tag_id);
-		$info_str = $s->renderConceptScores($info);
-
-        $str = '<div class="navConcept" tid="'.$tag_id.'">'.$concept.'</div><span class="navConceptInfo">'.$info_str.'</span><br><hr>';
+        
+        $s        = new ITS_score(1, 'admin', time());
+        $info     = $s->computeConceptScores($tag_id);
+        $info_str = $s->renderConceptScores($info);
+        
+        $str = '<div class="navConcept" tid="' . $tag_id . '">' . $concept . '</div><span class="navConceptInfo">' . $info_str . '</span><br><hr>';
         
         return $str;
-	}
-    //=====================================================================//	
-    function getConcepts($letter,$all_flag) {
-		// $all_flag = 1 // print all concepts available, even with no questions
-    //=====================================================================//	
+    }
+    //=====================================================================//    
+    function getConcepts($letter, $all_flag, $order)
+    {
+        // $all_flag = 1 // print all concepts available, even with no questions
+        //=====================================================================//    
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         
-        $list_arr = array('alphabet','chapter','attempted','available','score'); 
+        $list_arr = array(
+            'name',
+            'attempted',
+            'available',
+            'score'
+        ); //'chapter'
         
-        $list = '<div id="navcontainer2"><ul id="navlist2">';
-        $active = 'available';
-        foreach ($list_arr as $key => $value){ 
-			if ($value==$active) {
-				$li_id = ' id="active"';
-				$a_id  = ' id="current"';
-			} else {
-			    $li_id = '';
-				$a_id  = '';	
-			}
-			$list .= '<li '.$li_id.'><a href="#" '.$a_id.' class="concept_orderby" idx="'.$key.'">'.$value.'</a></li>';			
-			}
-			
-		switch ($value) {
-    case 'alphabet':
-        $orderby = 'ORDER BY name DESC';
-        break;
-    case 'chapter':
-        $orderby = 'ORDER BY count DESC';
-        break;
-    case 'attempted':
-        $orderby = 'ORDER BY count DESC';
-        break;
-    case 'available':
-        $orderby = 'ORDER BY count DESC';
-        break;        
-    case 'score':
-        $orderby = 'ORDER BY count DESC';
-        break;        
-}	
-		$list .= '</ul></div>';      
-
+        $list   = '<div id="navcontainer2"><ul id="navlist2">';
+        $active = '';
+        foreach ($list_arr as $key => $value) {
+            if ($key == $order) {
+                $li_id  = ' id="active"';
+                $a_id   = ' id="current"';
+                $active = $value;
+            } else {
+                $li_id = '';
+                $a_id  = '';
+            }
+            $list .= '<li ' . $li_id . '><a href="#" ' . $a_id . ' class="concept_orderby" idx="' . $key . '">' . $value . '</a></li>';
+        }
+        $list .= '</ul></div>';
+        
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
         //$query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
-            
-        if ($letter=='ALL') { $where = ''; }
-        else { $where = ' WHERE t.name LIKE "'. $letter .'%"'; }
-        if ($all_flag) { $having = ''; }
-        else { $having = ' HAVING count>0 '; }
         
+        if ($letter == 'ALL') {
+            $where = '';
+        } else {
+            $where = ' WHERE name LIKE "' . $letter . '%"';
+        }
+        if ($all_flag) {
+            $having = '';
+        } else {
+            $having = ' HAVING count>0 ';
+        }
+        
+        switch ($active) {
+            case 'name':
+                $orderby = 'ORDER BY name ASC';
+                break;
+            case 'chapter':
+                $orderby = 'ORDER BY ' . $active . ' DESC';
+                break;
+            case 'attempted':
+                $orderby = 'ORDER BY ' . $active . ' DESC';
+                break;
+            case 'available':
+                $orderby = 'ORDER BY ' . $active . ' DESC';
+                break;
+            case 'score':
+                $orderby = 'ORDER BY ' . $active . ' DESC';
+                break;
+        }
+        /* OLD - partial        
         $query = 'SELECT t.id,t.name, COUNT(qt.tags_id) AS count
-  FROM
-    tags t
-  LEFT JOIN
-    questions_tags qt
-    ON
-       qt.tags_id = t.id
-    '. $where .'     
-  GROUP BY
-     t.id
-    '. $having .' 
-   ORDER BY
-	 count DESC';
-
-echo $query;
-
+        FROM tags t
+        INNER JOIN questions_tags qt ON qt.tags_id = t.id
+        '. $where .'    
+        INNER JOIN stats_1 s ON s.question_id = qt.questions_id AND s.event="concept"
+        GROUP BY
+        t.id
+        '. $having .' '.$orderby;
+        */
+        
+        $query = 'SELECT tags_id,name,count(question_id) AS attempted,count(questions_id) AS available, ROUND(AVG(score),1) AS score
+  FROM questions_tags qt
+           JOIN tags t    ON t.id   = qt.tags_id
+      LEFT JOIN stats_1 s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept"
+         ' . $where . '
+  GROUP BY name' . $having . ' ' . $orderby;
+        
+        // echo $query;  
         // ALTER TABLE its.tags DROP question_id
         // ALTER TABLE its.tags DROP concept_id
         // ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
-  
+        
         // die($query);
         $res = mysql_query($query, $con);
-        if (!$res) {die('Query execution problem in '.get_class($this).': ' . msql_error());}
-        //$concepts_result = mysql_fetch_assoc($res);
+        if (!$res) {
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+        }
         $N = 10; // list items per column
         
-        $str = $list.'<b><div id="conceptColumnContainer">';
+        //$str = $list . '<div id="conceptColumnContainer">';
+        $str = $list . '<div id="conceptColumn"><ul class="conceptList">';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
-			$mod = $x % $N;
-			if ($mod==0) { $str .= '<div class="conceptColumn"><ul class="conceptList">'; }
-			//echo $mod.'<br>';
+            $mod = $x % $N;
+            //if ($mod == 0) {
+            //    $str .= '<div class="conceptColumn"><ul class="conceptList">';
+            //}
+            //echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
-            if (empty($row['count'])) { $row['count'] = '&ndash;'; }
-            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="selcon">' . $row['name'] . '<span class="conceptCount">'.$row['count'].'</span></li>';
+            if (empty($row['score'])) {
+                $row['score'] = '&ndash;';
+            }
+            
+            $conceptData = '';
+            foreach (array_reverse($list_arr) as $key => $value) {
+                    //echo $x.$list_arr[$x].'<br>';
+                    if ($key<count($list_arr)-1){
+                    $class = ($active==$value) ? ' chighlight' : '';
+                    $conceptData .= '<span class="conceptCount'.$class.'">' . $row[$value] . '</span>';
+				}
+            }
+            
+            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['tags_id'] . '" class="selcon">' . $row['name'] . $conceptData.'</li>';
             //$str .= ''.$x.'</div>';
             
-            if ($mod==($N-1) || ($x == (mysql_num_rows($res)-1))) { $str .= '</ul></div>'; }
+            //if ($mod == ($N - 1) || ($x == (mysql_num_rows($res) - 1))) {
+            //    $str .= '</ul></div>';
+            //}
         }
-        $str .= '</div>';
+        $str .= '</ul></div></div>';
+        //#2 $str .= '</div>';
         
         mysql_free_result($res);
         mysql_close($con);
         //echo htmlspecialchars($str);
         
         if ($str != '')
-            //return "<center><ul class='conceptLIST'>" . $str . "</ul></center>";
+        //return "<center><ul class='conceptLIST'>" . $str . "</ul></center>";
             return $str;
         else
             return $str;
     }
     //=====================================================================//
     // returns all questions when given a set of concepts to be matched with tags associated with the questions
-    function getRelatedQuestions($tbvalues){
-    //=====================================================================//
+    function getRelatedQuestions($tbvalues)
+    {
+        //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         //die($tbvalues);
@@ -187,7 +224,7 @@ echo $query;
         //die($query);
         $res = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         //$concepts_result = mysql_fetch_assoc($res);
         $str = '<table id="ques" class="PROFILE"><tbody><tr><th style="width:5%;"><input type="checkbox" id="chckHead"/></th><th style="width:15%;">No.</th><th style="width:80%;">Question</th></tr>';
@@ -209,12 +246,13 @@ echo $query;
      * It also adds the tags associated with the module in module_tag table
      */
     //=====================================================================//
-    function createModule($moduleName, $tbvalues, $tbvaluesConcp){
-    //=====================================================================//
+    function createModule($moduleName, $tbvalues, $tbvaluesConcp)
+    {
+        //=====================================================================//
         $returnStr = 'Server returned error initial';
         
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
-        mysql_select_db($this->db_name, $con) or die('Could not select DB in '.get_class($this));
+        mysql_select_db($this->db_name, $con) or die('Could not select DB in ' . get_class($this));
         $ques_ids  = split(',', $tbvalues);
         $tag_names = split(',', $tbvaluesConcp);
         $query     = "SELECT mid FROM module WHERE title = '$moduleName'";
@@ -257,7 +295,7 @@ echo $query;
         
         if (!$res) {
             die('here?' . $query);
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
@@ -278,24 +316,26 @@ echo $query;
             return $returnStr . $query;
         } else
             $returnStr = "ok! $moduleName Saved!!";
-            
+        
         mysql_free_result($res);
-        mysql_close($con);    
+        mysql_close($con);
         
         return $returnStr;
     } // End of createModule function
     //=====================================================================//
     //<a href="Question.php?qNum=990" class="ITS_ADMIN">990</a>
-    function ConcQuesContainer(){
-    //=====================================================================//
+    function ConcQuesContainer()
+    {
+        //=====================================================================//
         $str = '<div id="ConcQuesContainer"><form id="qform" name="qform"></form></div>';
         return $str;
     }
     //=====================================================================//
-    function SelectedConcContainer($mode){
+    function SelectedConcContainer($mode)
+    {
         //=====================================================================//
-         $box =  '<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';    			
-
+        $box = '<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
+        
         $str = '<div id="SelectedConcContainer"><table id="seldcon" class="conceptTable"></table>';
         if ($mode == 0) // 0 is for Instructor mode
             $str .= '<input type="button" id="submitConcepts" name="submit" value="Submit Concepts"></div>';
@@ -307,45 +347,50 @@ echo $query;
         return $box;
     }
     //=====================================================================//
-    function conceptListContainer($letter,$role){
-    //=====================================================================//
-     
-        $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
+    function conceptListContainer($letter, $role)
+    {
+        //=====================================================================//
         
-        $str = '<div id="conceptListContainer">'.$this->getConcepts($letter,$role_flag).'</div><div id="errorConceptContainer"></div>';
+        $role_flag = ($role == 'admin' OR $role == 'instructor') ? 1 : 0;
+        
+        $str = '<div id="conceptListContainer">' . $this->getConcepts($letter, $role_flag, 0) . '</div><div id="errorConceptContainer"></div>';
         
         return $str;
     }
     //=====================================================================//
-    function showLetters(){
-    //=====================================================================//
+    function showLetters()
+    {
+        //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
-        $res   = mysql_query($query, $con);    
-        $rand  = rand(1,mysql_num_rows($res));
+        $res   = mysql_query($query, $con);
+        $rand  = rand(1, mysql_num_rows($res));
         
-		$str = '<ul class="nav"><li><a href="#" name="ITS_alph_index" value="ALL">ALL</a></li>';          
+        $str = '<ul class="nav"><li><a href="#" name="ITS_alph_index" value="ALL">ALL</a></li>';
         for ($x = 1; $x <= mysql_num_rows($res); $x++) {
             $row = mysql_fetch_row($res);
             $val = strtoupper($row[0]);
             
-            if (!fmod($x,15)) { $str .= '<br><hr class="concept">'; }
-            $idx_id = ($x == $rand) ? 'id="current"' : '';	
+            if (!fmod($x, 15)) {
+                $str .= '<br><hr class="concept">';
+            }
+            $idx_id = ($x == $rand) ? 'id="current"' : '';
             $str .= '<li><a href="#" name="ITS_alph_index" ' . $idx_id . ' value="' . $val . '">' . $val . '</a></li>';
-        }       
+        }
         $str .= '</ul>';
         return $str;
     }
     //=====================================================================//
-    function moduleList($choice){ // switch case ->? 0 for 1st page, 1 for drop down
+    function moduleList($choice) // switch case ->? 0 for 1st page, 1 for drop down
+    {
         //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!>');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         $query = "SELECT mid,title FROM module";
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         $str = '';
         switch ($choice) {
@@ -356,13 +401,13 @@ echo $query;
                 }
                 if ($str != '')
                     $str = "<ul>" . $str . "</ul>";
-                break;  
+                break;
             case 1:
                 for ($x = 0; $x < mysql_num_rows($res); $x++) {
                     $row = mysql_fetch_assoc($res);
                     $str .= "<option value='" . $row['title'] . "' >" . $row['title'] . "</option>";
                 }
-                //if($str!='') 
+                //if($str!='')
                 $str = "<div id='moduleListDialogDiv'><select id='moduleListDD' class='moduleListDD'><option value='0'>Create a new module..</option>" . $str . "</select></div>";
                 break;
             default:
@@ -372,17 +417,18 @@ echo $query;
         return $str;
     }
     //=====================================================================//
-    function getModuleQuestion($modulesQuestion){
+    function getModuleQuestion($modulesQuestion)
+    {
         //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         $query = "SELECT qid FROM module_question where mid in (select mid from module where title='$modulesQuestion')";
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         
-        //	return $query ;
+        //    return $query ;
         if ($row = mysql_fetch_assoc($res))
             $str = $row['qid'];
         else
@@ -397,7 +443,7 @@ echo $query;
         //return $query;
         $res   = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         $count = 0;
         
@@ -422,19 +468,19 @@ echo $query;
         
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
             $row = mysql_fetch_assoc($res);
-             /* to fetch tags associated with each question in the module
-             $query = "SELECT tag_id FROM webct WHERE id=$row['id']";
-             $res = mysql_query($query,$con);
-             if (!$res) {
-             die('Query execution problem in '.get_class($this).': ' . msql_error());
-             }
-             $row_tags = mysql_fetch_assoc($res);
-             $associatedTagsArray = $row_tags['tag_id'];
-             if(count($associatedTagsArray)>0)
-             $associatedTags = implode(',',$associatedTagsArray);
-             else
-             $associatedTags = "No Tags Associated";
-             */
+            /* to fetch tags associated with each question in the module
+            $query = "SELECT tag_id FROM webct WHERE id=$row['id']";
+            $res = mysql_query($query,$con);
+            if (!$res) {
+            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            }
+            $row_tags = mysql_fetch_assoc($res);
+            $associatedTagsArray = $row_tags['tag_id'];
+            if(count($associatedTagsArray)>0)
+            $associatedTags = implode(',',$associatedTagsArray);
+            else
+            $associatedTags = "No Tags Associated";
+            */
             
             $str2 .= "<tr class='PROFILE'><td class='PROFILE'>" . "<input type='checkbox' name='chcktbl' class='chcktbl' id='chcktbl' value=" . $row['id'] . "><br><br>" . "<a href='Question.php?qNum=" . $row['id'] . "' target=”_blank” class='ITS_ADMIN'>" . $row['id'] . "</a>" . "</td><td class='PROFILE'>" . $row['question'] . "</td>"
             //."<td class='PROFILE'>$associatedTags</td>"
@@ -446,7 +492,8 @@ echo $query;
     }
     //=====================================================================//
     // delete from module_question where mid=(select mid from module where title=$ModuleName) AND qid IN (string of tbvalues!)
-    function deleteModuleQuestion($deleteQuestion, $ModuleName){
+    function deleteModuleQuestion($deleteQuestion, $ModuleName)
+    {
         //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
@@ -455,16 +502,17 @@ echo $query;
         //die($query);
         $res = mysql_query($query, $con);
         if (!$res) {
-            die('Query execution problem in '.get_class($this).': ' . msql_error());
+            die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         return "Successful deletion";
     }
     //=====================================================================//
-    public function updateScore(){
-    //=====================================================================//
+    public function updateScore()
+    {
+        //=====================================================================//
         $str = '<span class="todo">concept scoreboard here</span>';
         return $str;
-    }	
+    }
     //=====================================================================//
 } // eof class
 ?>

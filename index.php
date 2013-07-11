@@ -1,12 +1,11 @@
 <?php
 //=============================================================//
-$ITS_version = '221g';
-$LAST_UPDATE = 'Jul-9-2013';
+$ITS_version = '221h';
+$LAST_UPDATE = 'Jul-11-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
-
 include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");

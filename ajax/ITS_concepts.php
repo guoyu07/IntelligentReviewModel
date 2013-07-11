@@ -9,9 +9,10 @@ require_once("../classes/ITS_score.php");
 if (isset($_REQUEST['letter'])) {
     $letter = $_REQUEST['letter'];
     $role   = $_REQUEST['role'];
+    $order  = $_REQUEST['index'];
     $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
     $obj    = new ITS_concepts();
-    $retStr = $obj->getConcepts($letter,$role_flag);
+    $retStr = $obj->getConcepts($letter,$role_flag,$order);
     echo $retStr;
 }
 if (isset($_REQUEST['choice'])) {
@@ -67,7 +68,7 @@ if (isset($_REQUEST['choice'])) {
             $obj = new ITS_score(1, 'Spring_2013', time());
 			$info = $obj->computeConceptScores($tid);
             $retStr = $obj->renderConceptScores($info);
-            break;              
+            break;                            
         default:
     }
     echo $retStr;

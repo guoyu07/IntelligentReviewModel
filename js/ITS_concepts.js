@@ -142,20 +142,6 @@ $(document).ready(function () {
         $(this).parents('tr').remove();
     });
     /*-------------------------------------------------------------------------*
-     * Order by concept list
-     *-------------------------------------------------------------------------*/
-    $(".concept_orderby").live('click', function () {
-		var idx =  $(this).attr('idx');
-        orderbyUPDATE(idx);
-        
-        $.post("ajax/ITS_concepts.php", {
-            choice: 'orderby',
-            data: idx,
-        }, function (data) {
-            $("#ConcQuesContainer").html(data);
-        });
-    });    
-    /*-------------------------------------------------------------------------*
      * Prompts a user to select or input module name of the module to be 
      * created with selected questions
      *-------------------------------------------------------------------------*/
@@ -247,7 +233,6 @@ $(document).ready(function () {
     $('.moduleListDD').live('change', function () {
         /*-------------------------------------------------------------------------*/
         if ($(this).val() == 0) {
-            //alert('xx');
             var str = '';
             str = '<br> Module Name: <input type="text" MAXLENGTH="20" name="moduleName"></input>';
             $('#ModuleNameDivDD').append(str);
@@ -290,6 +275,26 @@ $(document).ready(function () {
         });
     });
     /*-------------------------------------------------------------------------*
+     * "Order By" concept list
+     *-------------------------------------------------------------------------*/
+    $(".concept_orderby").live('click', function () {
+		
+		var letter = $('#current[name=ITS_alph_index]').text();
+        var role   = $('#myselectid option:selected').text();
+        var index  = $(this).attr('idx');
+        
+        //alert(index+'~'+letter+'~'+role);
+        //orderbyUPDATE(index);
+        
+        $.get("ajax/ITS_concepts.php", {
+             letter: letter,
+             role:   role,
+             index:  index
+        }, function (data) {
+             $("#contentContainer").html(data);
+        });
+    });      
+    /*-------------------------------------------------------------------------*
      * Called when letter clicked on
      * ------------------------------------------------------------------------*/
     $('[name="ITS_alph_index"]').live("click", function () {
@@ -308,7 +313,8 @@ $(document).ready(function () {
         $('#navContainer').hide();
         $.get("ajax/ITS_concepts.php", {
             letter: $(this).html(),
-             role: role
+             role: role,
+             index: 2
         }, function (data) {
             if (data) {
                 $("#contentContainer").html(data);

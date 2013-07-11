@@ -122,7 +122,7 @@ class ITS_score
 							
 		$query = 'SELECT COUNT(question_id),COUNT(questions_id), ROUND(AVG(score),1)
 				  FROM questions_tags AS qt
-				  LEFT JOIN '.$usertable.' AS s ON s.question_id=qt.questions_id AND s.event<>"skip"
+				  LEFT JOIN '.$usertable.' AS s ON s.question_id=qt.questions_id AND s.event="skip"
 				  WHERE qt.tags_id='.$tag_id;			  							
 		//echo $query; 	
 						
@@ -135,6 +135,7 @@ class ITS_score
 					$info['percent']   = $row[0][2];
                 }
           }
+     
         /*
         	echo '<pre>';
 	print_r($info);

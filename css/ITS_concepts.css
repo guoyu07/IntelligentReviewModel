@@ -7,9 +7,8 @@
 .conceptTable {position:relative;width:100%;border:2px solid #999;border-collapse:collapse}
 .conceptTable td {position:relative;border:1px solid #FFF}
 .conceptTable td.choice_del {border:1px solid #999;background-color:#aaa}
-/*.selcon{font:110% Georgia, serif;text-align:center;color:#000;border:2px solid #eee;}*/
-/*.selcon{font:110% Georgia, serif;text-align:center;color:#000;}*/
-.selcon:hover{color:#000;cursor:pointer} /*border:2px solid #000;*/
+.selcon{font:110% Georgia, serif;text-align:left;color:#000;}
+.selcon:hover{color:#000;cursor:pointer;border:2px solid #000;} /**/
 .concept_alph {color:pink;border:1px solid pink;}
 .concept_alph:hover{border:2px solid red;color:#090;cursor:pointer}
 #errorConceptContainer{color:#f00;padding:0;}
@@ -34,28 +33,14 @@ span.CHOICE {
 -khtml-border-radius:5px;
 	 overflow: auto;
 }
-.circle{
-width:35px;
-height:35px;
-display:block;
-border-radius:15px;
--moz-border-radius:15px;
--webkit-border-radius:15px;
--khtml-border-radius:15px;
-font-size:120%;
-color:#666;
-font-weight:bold;
-line-height:0px;
-text-align:center;
-background:#eee
-}
+span.chighlight { color:blue}
 #conceptColumnContainer { width:100%;text-align: center;}
 .conceptColumn { float: center;display: inline-block;vertical-align:text-top }
 .conceptList { border:1px solid #fff;padding:0;margin:0.5em 1em; text-align:left;list-style-type:none; }
 .conceptList li {color:#666;border:1px solid #fff;padding: 0.5}
 .conceptList li:hover{border:1px dotted #ccc;color:#090;cursor:pointer}
 .conceptScore { float:right;color:#999;font-size:60% }
-.conceptCount {float:right;color:#bbb;font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;margin-left:2em }
+.conceptCount {float:right;color:#bbb;margin-left:0.5em;color:#555;width:2em;text-align:right;border:1px solid #fff;font-family: Verdana,Arial,Helvetica,sans-serif;font-size:11pt}
 hr.concept { border:1px solid #ddd;margin:0.5em 2em }
 div.navConcept {float:left;font: 110% georgia, times, "times new roman", serif;text-align: left;color: blue;} 
 span.navConceptInfo {float:right;border:1px solid #fff; font: Courier, monospace; } 
@@ -112,7 +97,6 @@ outline:0;
 {
 border-bottom: 3px solid #000;
 }
-
 /*================= DEBUG =================/
 #conceptContainer{border:3px solid brown;}
 #conceptContainer{background-color:pink}
