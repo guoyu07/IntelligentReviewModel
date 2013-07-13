@@ -30,37 +30,6 @@ $(document).ready(function () {
     });
     /*-------------------------------------------------------------------------*
      * for Students!
-     *-------------------------------------------------------------------------*/
-    $('#getQuesForConcepts2').live('click', function (event) {
-        /*-------------------------------------------------------------------------*/
-
-        var tdArray = new Array();
-
-        $('.resource_concept').each(function () {
-            tdArray.push($(this).text());
-        });
-        var tbvalues = tdArray.join();
-        var tbdivs = tdArray.join('</span><span class="CHOICE">');
-        tbdivs = '<span class="CHOICE">' + tbdivs + '</span>';
-        //alert(tbdivs);
-        //$('#coContainer').html(tbdivs);
-        //$('.ITS_nav').html(tbdivs);//css("border","2px solid red");
-        //
-        $('#xx').html('<span class="CHOICE">sampling</span>');
-        //$('#coContainer').html(tbdivs);
-        //$('#modeContentContainer').html(tbdivs);
-
-        //$('#coContainer').html(tbdivs);
-        //$('#coContainer').show();
-        $.get('ajax/ITS_screen.php', {
-            ajax_args: "getQuestionsForConcepts",
-            ajax_data: tbvalues
-        }, function (data) {
-            //alert(data);
-            $("#conceptListContainer").html(data);
-        });
-        //+'<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">'
-    });
     /*-------------------------------------------------------------------------*/
     //$('#getQuesForConcepts').live('click', function(event) {
     $('.selcon').live('click', function (event) {
@@ -103,7 +72,7 @@ $(document).ready(function () {
         */
         $('#errorConceptContainer').html("");
         $('#navContainer').show();
-
+		// alert(field+' '+tid);
         $.post("ajax/ITS_concepts.php", {
             choice: 'getConceptNav',
             concept: field,
@@ -120,13 +89,6 @@ $(document).ready(function () {
             ajax_args: "getQuestionsForConcepts",
             ajax_data: field
         }, function (data) {
-			//alert(data);
-            //var tbdivs = tdArray.join('</span><span class="CHOICE">');
-            //tbdivs = '<span class="CHOICE">' + tbdivs + '</span>';
-            //alert(tbdivs);
-            //$('#coContainer').html(tbdivs);
-            //$('#coContainer').show();
-            //    alert(data);
             if (data) {
 				$("#contentContainer").html(data);
 				mathJax();
@@ -334,6 +296,7 @@ $(document).ready(function () {
         
         //alert(s); //.id = 'current'; //var s = $(this).val();
         if (s == "CONCEPTS") {
+			$('#scoreContainer').hide();
             $('#navContainer').hide();
             /* scoreContainer */        
             $.post("ajax/ITS_concepts.php", {
@@ -357,6 +320,7 @@ $(document).ready(function () {
             });
         } else if (s == "ASSIGNMENTS") {
             var role = $(this).attr('r');
+            $('#scoreContainer').show();
             /* scoreContainer */
             $.get('ajax/ITS_screen.php', {
 				ajax_args: "updateScores", 
@@ -369,15 +333,15 @@ $(document).ready(function () {
                 ajax_data: role
             }, function (data) {        
                 $('#modeContentContainer').html(data);
-
                 var ch = $('.chapter_index#current').text();
 				var view = 1;
+                //var ch = chUPDATE(ch,chhide,v);
+				
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "showTab",
                 ajax_data: ch+','+role+','+view
-            }, function (data) {        
-                $('#navContainer').html(data);
-                // alert($('#Question').attr('r'));
+            }, function (data) {      
+                $('#navContainer').html(data);          
                 indexUPDATE(ch,view,'Question');
                 $('#navContainer').show();
             });     

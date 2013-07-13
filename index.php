@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '221h';
-$LAST_UPDATE = 'Jul-11-2013';
+$ITS_version = '222';
+$LAST_UPDATE = 'Jul-13-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -45,7 +45,9 @@ if (isset($_GET['role'])) {
             break;
     }
 }
-$screen = new ITS_screen($id, $term, $role, 1, $tset);
+
+$screen = new ITS_screen($id, $term, $role, $tset);
+
 $S      = $screen->getSchedule($term);
 $A      = $screen->getAssignment($S);
 
@@ -157,6 +159,9 @@ $( "input[name=resourceSelect]" ).live('click', function(event) {
 </script>
     </head>
     <body>
+		<input type="hidden" id="term" term="<?php
+echo $term;
+?>"> 
         <noscript>
 <div style="color:#CC0000; text-align:center">
 <b>Warning: <a href="http://quid.gatech.edu/">ITS</a>
@@ -171,12 +176,9 @@ If your browser supports JavaScript, be sure it is enabled.</b>
             <div id="menuContainer">
                 <div id="logout" class="logout" uid="<?php
 echo $id;
+?>" course="<?php
+echo $term;
 ?>"><a href="logout.php">Logout</a></div>
-                <!--
-      <div class="icon" id="Minst_icon">I</div>
-               <p class="ITS_instruction"><img src="images/matching_example1.png" style="position:relative;max-width:100%"></p>
-        <div class="icon" id="Tag_icon">Tag</div>
-        -->
                 <div class="icon" id="instructionIcon" onClick="ITS_MSG(1)"><tt>?</tt></div>
                 <div class="icon" id="messageIcon"     onClick="ITS_MSG(1)">&para;</div>
             </div>
@@ -222,7 +224,8 @@ echo $o.'<p>';
 ?>
 <div id="navContainer">
 <?php
-echo $screen->getTab($S[0], $r, $view);
+$ch = $S[0];
+echo $screen->getTab($ch, $r, $view);
 ?>
 </div>
 <!-- end div#navContainer -->
@@ -233,9 +236,7 @@ $screen->screen = 4;
 echo $screen->main($mode);
 ?>              
 </div>
-<?php
-include(INCLUDE_DIR . 'footer.php');
-?>
+<?php include(INCLUDE_DIR . 'footer.php'); ?>
            <!-- FOOTER end -->
         </div>
         <!-- end div#page -->

@@ -63,10 +63,10 @@ if (isset($_REQUEST['choice'])) {
             $retStr = $obj->updateScore();
             break;                       
         case 'updateConceptInfo':
-            $tid = $_REQUEST['data'];      
+			$data = preg_split('[,]', $_REQUEST['data']);    
             // $userid, $term, $date
-            $obj = new ITS_score(1, 'Spring_2013', time());
-			$info = $obj->computeConceptScores($tid);
+            $obj    = new ITS_score($data[0],$data[1], time());
+			$info   = $obj->computeConceptScores($data[2]);
             $retStr = $obj->renderConceptScores($info);
             break;                            
         default:

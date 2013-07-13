@@ -6,10 +6,7 @@ $LAST_UPDATE = 'Jul-10-2013';
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
 
-require_once("classes/ITS_menu.php");
-require_once("classes/ITS_message.php");
 require_once("classes/ITS_search.php");
-require_once("classes/ITS_survey.php");
 require_once("classes/ITS_timer.php");
 require_once("classes/ITS_resource.php");
 
@@ -98,42 +95,7 @@ if (isset($_GET['tid'])) {
 	$tobj = new ITS_tag('tags');
     $tList = $tobj->query2('questions');
 }
-/*
-  // QUERY
-  $res =& $mdb2->query($query);
-  if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-  $qs = $res->fetchAll();
-
-  $query = 'SELECT name FROM tags WHERE id IN ('.$qs[$qindex][5].')';  //echo $query;
-  $res =& $mdb2->query($query);
-  if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-  $tagNames  = $res->fetchCol();
-  $tags = implode(',',$tagNames);
-  }
-
-  $Nqs = count($qs);
-  /// QUERY SEARCH
-  if ($Nqs){
-
-  $qid = $qs[$qindex][0];
-  $tagList = '';
-  if (!empty($tags)) {
-  for ($i=0; $i < count($tagNames); $i++) {
-  //$tagList .= '<input type="button" class="logout" value="'.$tagNames[$i].'">';
-  $tagList .= '<span class="ITS_tag">'.$tagNames[$i].'</span>';
-  }
-  }
-
-  //$tb = new ITS_table('qs',round(sqrt($Nqs)),round(sqrt($Nqs)),$qs,array(),'ITS_ANSWER');
-  //echo $tb->str;
-  //echo implode(', ',$qs).'<p>';
-  //--------------------------------------//
-  }
-  else { $qid = ''; $meta = '<p><b>- nothing found -</b>'; }
- */
-//$mdb2->disconnect();
 //--------------------------------------//
-//'<div class="ITS_navigate">'
 $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" onclick="ITS_QCONTROL(\'PREV\',\'ITS_question_container\')"  name="prev_question" value="<<" qid="' . $qid . '">' .
        '<input type="text" class="ITS_navigate" onkeypress=ITS_QCONTROL(\'TEXT\',\'ITS_question_container\') name="qNum" value="' . $qid . '" id="ITS_QCONTROL_TEXT" Q_num="' . $qid . '">' .
        '<input id="nextQuestion" class="ITS_navigate_button" type="button" onclick="ITS_QCONTROL(\'NEXT\',\'ITS_question_container\')" name="next_question" value="&gt;&gt;">';

@@ -7,7 +7,7 @@ ex. $ITS_tag = new ITS_tag();
 
 API: * getByResource($resource_table, $resource_id,$tags_table_extra)
 
-Author(s): Greg Krudysz |  Jun-21-2013                            
+Author(s): Greg Krudysz |  Jul-14-2013                            
 //=====================================================================*/
 
 class ITS_tag
@@ -101,7 +101,7 @@ class ITS_tag
         
         $tList = '<table class="DATA">';
         for ($l = 0; $l < 26; $l++) {
-            $query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE name LIKE "' . chr(65 + $l) . '%" ORDER BY name';
+            $query = 'SELECT id,name,synonym FROM ' . $this->tb_tags . ' WHERE name LIKE "' . chr(65 + $l) . '%" ORDER BY name';
             // echo $query; die($query);
             
             $res = mysql_query($query);
@@ -124,7 +124,7 @@ class ITS_tag
             }
             $tagList = '';
             while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB');
+                $tagList .= $this->render($row["id"], $row["name"], 0, $rname, 'deleteDB',true);
             }
             
             $tList .= '<tr><td class="DATA_list">OTHER</td><td class="DATA_list2">' . $tagList . '</td></tr>';
@@ -137,7 +137,7 @@ class ITS_tag
     function add($keyword, $rid, $rname)
     {
         //=====================================================================//      
-        $tag = $this->render(0, $keyword, $rid, $rname, 'add');
+        $tag = $this->render(0, $keyword, $rid, $rname, 'add',true);
         
         return $tag;
     }
@@ -146,15 +146,19 @@ class ITS_tag
     {
         //=====================================================================//  
         //ITS_debug();
+        //echo 'ITS_tags:addToQues: <br>'.$tid.' ' . $tag . ' - ' . $rid . '  ' . $rname;die();
         if ($tid == 0) { // new tag
             $tid = $this->addTag($tag);
         }
+        
         $query = 'INSERT IGNORE INTO ' . $rname . '_' . $this->tb_tags . ' (' . $rname . '_id,' . $this->tb_tags . '_id) VALUES (' . $rid . ',' . $tid . ')';
         //echo time().'<p>ITS_tags:addToQues: '.$query.'</p>';die();
+        
+        $res   = mysql_query($query);
         if (!$res) {
             die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
-        $tag = $this->render($tid, $tag, $rid, $rname, 'delete');
+        $tag = $this->render($tid, $tag, $rid, $rname, 'delete',true);
         
         return $tag;
     }
@@ -164,7 +168,7 @@ class ITS_tag
         //=====================================================================// 
         $query = 'DELETE FROM ' . $rname . '_' . $this->tb_tags . ' WHERE ' . $rname . '_id=' . $rid . ' AND ' . $tname . '_id=' . $tid;
         //echo 'ITS_tags:addToQues: <br>'.$query;die();
-        
+        $res   = mysql_query($query);
         if (!$res) {
             die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
@@ -196,18 +200,21 @@ class ITS_tag
         //=====================================================================//      
         //echo 'addTag<br>';
         $query = 'INSERT INTO ' . $this->tb_tags . ' (name) VALUES ("' . $tname . '")';
+        $res   = mysql_query($query);
+        
         if (!$res) {
             die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         //if( !mysql_query($query) ){echo '<br>'.$query;} 
         $tid = mysql_insert_id();
-        //die($tid);
+
         return $tid;
     }
     //=====================================================================//
     function render($tid, $tag, $rid, $rname, $type, $link_flag)
     {
         //=====================================================================// 
+
         switch ($type) {
             case 'add':
                 $icon       = '+';

@@ -64,6 +64,12 @@ class ITS_navigation {
     case 'Modules':        
     	$qArr = array( array('Modules','Modules.php'),);
         break;   
+    case 'Tags':        
+    	$qArr = array( 
+		array('Synonyms','Synonyms.php'),	
+				 );      
+    	$tabArr = array_merge($tabArr,$qArr);
+        break;         
     case 'QTI':        
     	$qArr = array( array('QTI','exportMultiple.php'),);
         break;                

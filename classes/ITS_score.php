@@ -11,6 +11,7 @@ NOTE: requires ITS_query() class
 Author(s): Gregory A. Krudysz, Nabanita Ghosal
 Last Update: Jul-09-2013
 //=====================================================================*/
+
 class ITS_score
 {
     
@@ -24,9 +25,6 @@ class ITS_score
         $this->tb_name      = $tb_name;
         $this->term         = $term;
         $this->epochtime    = $date;
-        
-        // array of chapters whose scores are to be displayed
-        $this->chapterArray = $chArr;
         
         // connect to database
         $mdb2 =& MDB2::connect($db_dsn);
@@ -113,98 +111,33 @@ class ITS_score
     {
         //=====================================================================//    
         // connect to database
+
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {
             throw new Exception($mdb2->getMessage());
         }
                     
-        $usertable = "stats_" . $this->userid;
-							
-		$query = 'SELECT COUNT(question_id),COUNT(questions_id), ROUND(AVG(score),1)
-				  FROM questions_tags AS qt
-				  LEFT JOIN '.$usertable.' AS s ON s.question_id=qt.questions_id AND s.event="skip"
-				  WHERE qt.tags_id='.$tag_id;			  							
-		//echo $query; 	
-						
+        $usertable = "stats_" . $this->userid;	 				  
+				  
+		$query = 'SELECT t.id,t.name,count(s.question_id) AS attempted,count(q.id) AS available, ROUND(AVG(s.score),1) AS percent 
+					FROM tags AS t 
+						LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id      AND t.synonym=0 
+						LEFT JOIN questions      AS q  ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") 
+						LEFT JOIN '.$usertable.' AS s  ON s.tags = qt.tags_id    AND s.question_id = qt.questions_id AND event = "concept" 
+					WHERE qt.tags_id='.$tag_id;
+				  	  							 
+		// echo '<p>'.$query.'</p>';				
         $res =& $mdb2->query($query);
         
-         while ($row = $res->fetchAll()) {
-                for ($j = 0; $j < count($row); $j++) {
-					$info['attempt']   = $row[0][0];
-					$info['totalques'] = $row[0][1];          
-					$info['percent']   = $row[0][2];
-                }
-          }
+        while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+					$info['attempt']   = $row['attempted'];
+					$info['totalques'] = $row['available'];          
+					$info['percent']   = $row['percent'];
+		}
+		$res->free();
      
-        /*
-        	echo '<pre>';
-	print_r($info);
-	echo '</pre>';
-        die($query);
-        */
-/*
-        $n = count($chArr);
-        //for every chapter
-        for ($i = 0; $i < $n; $i++) {
-            //for every chapter, set score to 0
-            $score = 0;
-            //for every chapter, compute score
-            $c     = $chArr[$i];
-            $query = $ITSq->getQuery('SUM(score)', $usertable, $c, $this->epochtime);
-            /*            
-            // taken
-            SELECT COUNT(questions_id) FROM stats_1 WHERE tags=144 AND event="concept";
-            
-            // available
-            SELECT COUNT(questions_id),COUNT(questions_id) FROM questions_tags qt,stats_1 s WHERE qt.tags_id=144 AND s.tags=144 AND s.event="concept";
-            
-            SELECT SUM(score) FROM stats_1,questions_tags qt WHERE stats_1.question_id=qt.questions_id AND qt.tags_id=144 AND stats_1.score IS NOT NULL;
-            ----------------------------                    
-			SELECT 
-				id,question_id,concept_id,current_chapter, score,tags, event,questions_id,tags_id
-				  FROM questions_tags AS qt
-				  LEFT JOIN stats_1 AS s ON s.question_id=qt.questions_id AND s.event<>"skip"
-				  WHERE qt.tags_id=144;	
-            
-            */
-/*          echo '<p>' . $query . '<p>'; die();
-            $res = $mdb2->query($query);
-            
-            //die($this->epochtime);
-            //die($query);
-            while ($row = $res->fetchAll()) {
-                for ($j = 0; $j < count($row); $j++) {
-                    $score = $row[$j][0];
-                }
-            }
-            //$score = $res->fetchRow();
-            //echo '<p>'.$score.'<p>';
-            $tscore[$i]['score'] = $score;
-            //var_dump($tscore);
-            $query1              = $ITSq->getQuery('count(question_id)', $usertable, $c, $this->epochtime);
-            
-            //echo '<p>'.$query1.'</p>';
-            //echo 'ITS_score::computeChapterScores():<br><font color="blue">'.$query1.'</font><p>';
-            
-            $res1 =& $mdb2->query($query1);
-            $row1                    = $res1->fetchAll();
-            $attemptedQuesNum        = $row1[0][0];
-            $tscore[$i]['attempt']   = $attemptedQuesNum;
-            $tscore[$i]['totalques'] = $this->getTotalNumQuestions($i + 1);
-            
-            $totalattempt_ques = $attemptedQuesNum;
-            if ($totalattempt_ques == 0) {
-                $percentage = 0;
-            } else {
-                $total      = 100 * $totalattempt_ques;
-                $percentage = ($score / $total) * 100;
-            }
-            $tscore[$i]['percent'] = $percentage;
-        }
-        //var_dump($tscore);
-*/ 
-	    mysql_free_result($res);
-        mysql_close($con);
+        // echo time();
+        // echo '<pre>';print_r($info);echo '</pre>';
         
         return $info;
     }

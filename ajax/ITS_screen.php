@@ -1,9 +1,7 @@
-<?php
-/* ITS_screen_AJAX2 - script for AJAX question control objects: CANCEL | SAVE
-when in 'Edit' mode, called from ITS_QControl.js
-
+ <?php
+/*
 Author(s): Greg Krudysz
-Date: Jul-2-2013
+Date: Jul-14-2013
 ---------------------------------------------------------------------*/
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
@@ -16,8 +14,6 @@ session_start();
 global $db_dsn, $db_name, $tb_name, $db_table_user_state;
 
 //---------------------------------------//
-// AJAX
-//---------------------------------------//
 $args = preg_split('[,]', $_GET['ajax_args']); //-- Get AJAX arguments
 $Data = rawurldecode($_GET['ajax_data']); //-- Get AJAX user data
 $Data = str_replace("'", "&#39;", $Data); //-- preprocess before SQL
@@ -29,7 +25,6 @@ if (empty($_SESSION['screen'])) {
 } else {
     $screen = $_SESSION['screen'];
 }
-//print_r($screen); //die();
 
 $action = $args[0];
 if (empty($_SESSION['score'])) {
@@ -37,13 +32,6 @@ if (empty($_SESSION['score'])) {
 } else {
     $score = $_SESSION['score'];
 }
-//echo 'ITS_screen_AJAX2: '.$screen->chapter_number.'<p>';
-//print_r($score);
-
-/*
-echo 'action = '.$action.'<p>';
-echo 'data   = '.$Data.'<p>';    //die();
-*/
 
 $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)) {
@@ -91,8 +79,6 @@ switch ($action) {
     case 'reviewMode':
         //-------------------------------------------//
         $data                   = preg_split('[,]', $Data); // data = [ch,offset]
-        //echo $Data.'<p>'; die();
-        //echo $data[0].' @ '.$data[1].'<p>'; die();
         $screen->chapter_number = $data[0];
         //if (!isset($data[1])) { $data[1] = 0; }
         $str                    = $screen->reviewMode($screen->chapter_number, $data[1]);
@@ -101,12 +87,8 @@ switch ($action) {
     case 'reviewUpdate':
         //-------------------------------------------//
         $data                   = preg_split('[,]', $Data); // data = [ch,offset]
-        //echo $Data.'<p>'; die();
-        //echo $data[0].' @ '.$data[1].'<p>'; die();
         $screen->chapter_number = $data[0];
         $str                    = $screen->reviewUpdate($screen->chapter_number, $data[1]);
-        
-        //if (!isset($data[1])) { $data[1] = 0; }
         break;
     //-------------------------------------------//
     case 'showExercises':
@@ -174,7 +156,7 @@ switch ($action) {
         //var_dump($Data);//die();
         $data = preg_split('[~]', $Data);
         //echo $data[0].' -- '.$data[1].' -- '.$data[2].'<p>';
-        
+
         $screen->recordQuestion($data[0], $data[1], $data[2]);
         //$screen->lab_index = $screen->lab_index + 1;
         //$str = $screen->getContent();
@@ -236,7 +218,7 @@ switch ($action) {
         $info = array(
             'skip'
         );
-        $screen->recordQuestion($data[0], $data[1], 'skip', $info, $data[3],$data[5]);
+        $screen->recordQuestion($data[0], $data[1], 'skip', $info, $data[3], $data[5]);
         $screen->mode = $data[4];
         $str          = $screen->getContent();
         break;
@@ -246,13 +228,6 @@ switch ($action) {
         $data = preg_split('[~]', $Data);
         $screen->recordRating($data[0], $data[1]);
         //$str = $data;
-        break;
-    //-------------------------------------------//
-    case 'updateScores':
-        //-------------------------------------------//
-        //$data = preg_split('[~]',$Data);
-        //var_dump($score->chapterArray); //die();
-        $str = $score->renderChapterScores();
         break;
     //-------------------------------------------//
     case 'getAnswer':
@@ -312,9 +287,7 @@ switch ($action) {
     case 'newChapter':
         //-------------------------------------------//
         $data = preg_split('[,]', $Data);
-        //var_dump($data);die();
         $str  = $screen->newChapter($data[0], $data[1]);
-        //die('add2');
         break;
     //-------------------------------------------//            
     case 'getResource':
@@ -366,18 +339,27 @@ switch ($action) {
         $str          = $screen->getContent();
         break;
     //-------------------------------------------//
+    case 'updateScores':
+        //-------------------------------------------//    
+        $S     = $screen->getSchedule($screen->term);
+        $A     = $screen->getAssignment($S);
+        $chArr = $A[1];
+        
+        $str = $score->renderChapterScores($chArr);
+        break;
+    //-------------------------------------------//
     case 'showAssignments':
         //-------------------------------------------//                        
-        $S    = $screen->getSchedule($screen->term);
-        $A    = $screen->getAssignment($S);
-        $str  = $A[0];
+        $S   = $screen->getSchedule($screen->term);
+        $A   = $screen->getAssignment($S);
+        $str = $A[0];
         break;
     //-------------------------------------------//
     case 'showTab':
         //-------------------------------------------//                        
         $data = preg_split('[,]', $Data);
-        $str = $screen->getTab($data[0], $data[1],$data[2]);
-        break;        
+        $str  = $screen->getTab($data[0], $data[1], $data[2]);
+        break;
 }
 //-----------------------------------------------//
 echo $style . $str;

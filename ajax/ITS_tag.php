@@ -1,8 +1,8 @@
 <?php
-/*  ITS_book - script for AJAX ITS_book class
+/*  ITS_tag - script for AJAX ITS_tag class
 
 Author(s): Greg Krudysz
-Date: Nov-21-2012        
+Date: Jul-14-2013        
 ---------------------------------------------------------------------*/
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
@@ -63,7 +63,6 @@ switch ($action){
 		  $t    = new ITS_tag('tags');
 		  
 		  $Ques_tag_arr  = $t->getByResource($data[1],$data[2]);
-		  //var_dump($Ques_tag_arr);		  die('stop');
 		  $Keyw_tag_list = '';
           $Keyw_tag_arr  = $t->query($data[0],$Ques_tag_arr);     
           if (empty($Keyw_tag_arr[0])) { 

@@ -54,7 +54,7 @@ class ITS_screen
     //public function set_chapter_number()    { return $this->lab_active;  }
     
     //=====================================================================//
-    function __construct($id, $term, $role, $idx, $date)
+    function __construct($id, $term, $role, $date)
     {
         //=====================================================================//
         $this->debug = FALSE; //TRUE;
@@ -106,7 +106,6 @@ class ITS_screen
         $this->lab_completed = false;
         
         // set BOOK parameters
-        $this->chapter_number  = $idx; //'ALL';
         $this->chapter_active  = 'ALL';
         $this->chapter_alpha   = 'A';
         $this->appendix_number = 3;
@@ -295,7 +294,7 @@ class ITS_screen
         if ($this->mode == 'concept') {
             $this->screen = 5;
         }
-        
+
         switch ($this->screen) {
             //------------------//
             case 1: // "LABS"
@@ -317,8 +316,8 @@ class ITS_screen
                 //------------------//
                 //echo 'FREE: '.$this->chapter_number;
                 $this->question_completed = false;
-                //echo $this->mode.' -- '.$this->chapter_number;die('s');
-                //$content_str = 'ch';
+                // echo $this->mode.' -- '.$this->chapter_number;die('getContent()');
+                
                 $content_str              = $this->getChapter($this->mode, $this->chapter_number);
                 //    echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
                 break;
@@ -397,16 +396,11 @@ class ITS_screen
     function newChapter($chapter_number, $mode)
     {
         //=====================================================================//
-        $this->chapter_number = $chapter_number;
-        $this->mode           = $mode;
-        //die( $this->chapter_number.":".$this->mode.":".$this->screen);
-        //ITS_debug();die();
-        
+        $this->chapter_number 	  = $chapter_number;
+        $this->mode           	  = $mode; 
         $this->question_completed = false;
-        //echo $this->mode.' -- '.$this->chapter_number;
-        //$content_str = 'ch';
         $content_str              = $this->getChapter2($this->mode, $this->chapter_number);
-        //$content_str = 'content';
+
         return $content_str;
     }
     //=====================================================================//
@@ -1519,8 +1513,9 @@ class ITS_screen
                         $chArr = range(1, $chMax);
                         for ($i = 1; $i <= $chMax; $i++) {
                             // echo $i.' -- '.($index_hide+1).'<br>';
-                            if ($i == ($index_hide)) {
+                            if ($i == ($index_hide)+1) {
                                 $idx_id = 'id="current"';
+                                $this->chapter_number = $i+1;
                             } else {
                                 $idx_id = '';
                             }
@@ -1533,9 +1528,9 @@ class ITS_screen
                         $chMax = $index_max;
                         $chArr = range(1, $chMax);
                         for ($i = 0; $i < count($chArr); $i++) {
-                            if ($i == $index_max) { // ($index_hide + 1)
+                            if ($i == $index_hide) { // ($index_hide + 1)
                                 $idx_id = 'id="current"'; // PRACTICE: = ''
-                                //var_dump($i);die('xx');
+                                $this->chapter_number = $i+1;
                             } else {
                                 $idx_id = '';
                             }
@@ -1553,6 +1548,7 @@ class ITS_screen
                 $chList .= '</ul><hr class="chapter">';
                 /* -------------------- */
         }
+        
         $this->role = $r;
         //echo var_dump($this->view);die();
         
@@ -1569,10 +1565,9 @@ class ITS_screen
     function getTab($ch, $role, $view)
     {
         //=====================================================================//
-        // var_dump(intval($this->view));die();
+        $this->chapter_number = $ch;
         $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
         
-        //echo htmlentities($tab); die();
         return $tab;
     }
     //=====================================================================//
@@ -1639,13 +1634,6 @@ class ITS_screen
             }
             $current_chapter = $this->chapter_number;
             $event           = $info[0];
-            //echo '<font color="Red">'.$this->chapter_number.'</font>';//die('rec');
-            
-            if ($current_chapter == 8) {
-                //$current_chapter = -$current_chapter; // NEGATIVE CHAPTERS
-            }
-            
-            // var_dump($this->mode);  echo '<hr><Br>';
             
             switch ($this->mode) {
                 case 'survey':
@@ -1660,8 +1648,6 @@ class ITS_screen
                 //break; <= let it go thru
                 default: // question
                     if ($info[0] != 'skip') {
-                        // var_dump($info);die('ds');
-                        
                         $config   = $info[1];
                         $tr       = new ITS_statistics($this->id, $this->term, $this->role);
                         $scoreArr = $tr->get_question_score($qid, mysql_real_escape_string($answered), $config, $qtype);
@@ -1719,11 +1705,11 @@ class ITS_screen
                     switch ($this->mode) {
                         case 'concept':
                             $fields = 'question_id,tags,epochtime,duration,event';
-                            $values = $qid . ',' . $tag_id . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            $values = $qid . ',' . $tag_id . ',' . $tstart . ',' . $dur . ',"' . $event.'-'.$this->mode . '"';
                             break;
                         case 'question':
                             $fields    = 'question_id,current_chapter,epochtime,duration,event';
-                            $values = $qid . ',' . $current_chapter . ',' . $tstart . ',' . $dur . ',"' . $event . '"';
+                            $values = $qid . ',' . $current_chapter . ',' . $tstart . ',' . $dur . ',"' . $event.'-'.$this->mode . '"';
                             break;
                     }
                     
@@ -1746,7 +1732,8 @@ class ITS_screen
                     }
                     
                     $query_str = 'INSERT IGNORE INTO ' . $this->tb_user . $this->id . ' (' . $fields . ') VALUES(' . $values . ')';
-                    // var_dump($query_str);die('done');
+                    // var_dump($query_str);
+                    // die('done');
                     
                     if (!(is_empty($answered))) {
                         //*** Prevent Multiple submissions: - 3. Server: MySQL check for recent (+/- 1 sec ) INSERT with qid ***//
@@ -2272,7 +2259,7 @@ class ITS_screen
             throw new Question_Control_Exception($mdb2->getMessage());
         }
         $msg = '';
-        
+ 
         switch ($resource) {
             //-------------------------------//
             case 'review':
@@ -2283,6 +2270,7 @@ class ITS_screen
             case 'concept':
                 //-------------------------------//
                 $msg             = 'Concept based questions';
+
                 $resource_source = $ITSq->getConceptQuestion($resource_name);
                 // AVAILABLE QUESTIONS for concept
                 $query           = $resource_source;
@@ -2291,17 +2279,6 @@ class ITS_screen
                 // var_dump($qarr);
                 break;
             //-------------------------------//
-            case 'concQuestion':
-                //-------------------------------//
-                $msg             = 'Concept based questions';
-                $resource_source = $ITSq->getConceptQuestion($resource_name);
-                // AVAILABLE QUESTIONS for chapter
-                //die($resource_source);
-                $res =& $mdb2->query($resource_source);
-                $qarr = $res->fetchCol();
-                //var_dump($qarr);
-                break;
-                //-------------------------------//
         }
         
         if (empty($qarr)) {
@@ -2317,7 +2294,11 @@ class ITS_screen
                     //-------------------------------//
                     case 'concept':
                         //-------------------------------//
-                        $query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")';
+                        
+                        // QUERY OUTPUT: id,qtype
+                        $query = $ITSq->getConceptQuestion($resource_name);
+                        //$query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")';
+                        
                         //  echo($query);die();
                         $res =& $mdb2->query($query);
                         $qAvailable = $res->fetchAll();
@@ -2447,7 +2428,7 @@ class ITS_screen
             }
         }
         if ($NO_QUESTIONS) {
-            $str = ITS_message('No more questions available for: <span class="ITS_null">' . $resource_name . '</span> concept questions');
+            $str = ITS_message('No more questions available for:<br><br><p>concept <span class="ITS_null">' . $resource_name . '</span></p>');
         }
         $mdb2->disconnect();
         //--------------------//
@@ -2645,9 +2626,7 @@ class ITS_screen
                 //echo $K . "\n";die();
                 
                 if ($K) { // section questions available
-                    // choose random question from ALL POSSIBLE QUESTIONS
-                    // $qAvailable = array(581); //492,1211,1212);
-                    
+                    // choose random question from ALL POSSIBLE QUESTIONS  
                     //----
                     switch ($resource) {
                         //-------------------------------//
@@ -2680,7 +2659,7 @@ class ITS_screen
                     $question = $this->getQuestion($qid, '');
                     //echo 'NOW: '.empty($this->question_info);                  
                     
-                    //var_dump($this->question_info);die('ggg');
+                    //var_dump($this->question_info);//die('ggg');
                     
                     if (empty($this->question_info)) {
                         $cstr = '';

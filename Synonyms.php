@@ -1,18 +1,11 @@
 <?php
-$LAST_UPDATE = 'May-04-2013';
+$LAST_UPDATE = 'Jul-14-2013';
 /*=====================================================================// 					
 Author(s): Gregory Krudysz
 //=====================================================================*/
 
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
-
-require_once("classes/ITS_survey.php");
-require_once("classes/ITS_menu.php");
-require_once("classes/ITS_footer.php");
-require_once("classes/ITS_navigation.php");
-
-//echo '<pre>';print_r($_POST);echo '</pre>';
 
 session_start();
 // return to login page if not logged in
@@ -53,7 +46,12 @@ foreach ($tags as $t) {
 $tb .= '</table>';
 $form = '<center><form action="Synonyms.php" method="post">' . $tb . '<br><input type="submit" value="Update"></form></center>';
 $mdb2->disconnect();
-//--------------------------------------// 
+
+//--- NAVIGATION ------------------------------// 
+	$current = basename(__FILE__,'.php');
+	$ITS_nav = new ITS_navigation($status);
+	$nav     = $ITS_nav->render($current);    
+//---------------------------------------------//
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
@@ -67,10 +65,35 @@ $mdb2->disconnect();
 body { margin:50px; padding:0px;text-align:center;max-height:auto;overflow: -moz-scrollbars-vertical; 
 overflow-y: scroll;}
 </style>
+        <title>Synonyms</title>
+<?php 
+include INCLUDE_DIR.'stylesheet.php';
+?>
     </head>
     <body>
+<!---===========================================--->
+        <div id="framecontent" style="height:60px">
+        <!---************* NAVIGATION ******************--->
+            <?php echo $nav;?>
+            <!---******************************************--->
+        </div>
+        <!---===========================================--->
+        <div id="maincontent" style="top:60px">
 <?php
-echo $form;
+echo '<p><center>'.$form.'</center></p>';
+//--- FOOTER ------------------------------------------------//
+$ftr = new ITS_footer($status, $LAST_UPDATE, '');
+echo $ftr->main();
+//-----------------------------------------------------------//
 ?>
-    </body>
+</div>  
+</body>
 </html>
+
+
+
+
+
+
+
+

@@ -61,7 +61,7 @@ if (agree)
 			//alert(tid+'~'+tag+'~'+rid+'~'+rname);
 
 			$.get('ajax/ITS_tag.php', {
-                ajax_args: "tag_add", 
+                ajax_args: "tag_add",
                 ajax_data: tid+'~'+tag+'~'+rid+'~'+rname
             }, function(data) {
                 $('#ITS_TAGS_LIST').append(data);							

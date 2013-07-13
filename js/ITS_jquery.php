@@ -1,6 +1,6 @@
 <?php
 /* =============================================================  /
-  LAST_UPDATE: Jul-1-2013
+  LAST_UPDATE: Jul-17-2013
   Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -38,12 +38,6 @@
 		imageBox();
 		mathJax();
         //--------------rating-------------------//
-        $(".icon#Minst_icon").change(function(){
-            $(this).css("background-color","red");
-        });
-        $(".icon#Minst_icon").click(function(){
-            $(".ITS_instruction").slideToggle("normal");
-        });
         $(".icon#tagg_icon").click(function(){
             $(".ITS_instruction").slideToggle("normal");
         });
@@ -141,7 +135,7 @@
 			
 		    var ch = $('.chapter_index#current').text(); //$(this).text().replace(/^\s+|\s+$/g,""); // need to trim white spaces
             var chhide = $('#chList').attr('ih');   
-            
+ 
             $('[name=header]').each(function(index) {
                 if ($(this).attr('id') == header){
                     $(this).children("a").attr('id','current');
@@ -150,21 +144,13 @@
                     $(this).children("a").attr('id','');
                 }
             });
-            
+			//alert(c);		
            if (v==0) {  // 0 => "Q" tab is deactivated 
      
                getMSG();
 			}
-			else {
-                $('.chapter_index').each(function(index) {
-                    // update style: closed chapters invisible
-                    if (v) {
-                        if ( (index) < chhide ){
-                            if ( ch == (parseInt(index+1)) ){ ch=parseInt(chhide)+1; } 
-                        }
-                    }
-                    //alert('text: '+$(this).text() +'='+ ch);
-                });				      
+			else {	
+				ch = chUPDATE(ch,chhide,v);
                 indexUPDATE(ch,v,'Question');
                 $.get('ajax/ITS_screen.php', {
                     ajax_args: "newChapter", 
@@ -484,12 +470,10 @@ break;
 default:
 }
 var chosen = values.join();     
-
+//alert(chosen);
 if (chosen&&isempty_c) {
 var c = $(this).attr("c");
-//alert($(this).attr("id"));
 //alert(ch+'~'+qid+'~'+qtype+'~'+chosen+'~'+c+'~'+t+'~ rate: '+rating+'~'+mode+'~'+tid);
-
 switch (mode) {
 case 'survey':
     $.get('ajax/ITS_screen.php', {
@@ -519,9 +503,12 @@ default:
 }	
 
 if (mode=="concept"){ 	
+	var uid = $('#logout').attr("uid");
+	var term = $('#logout').attr("course");
+	// alert(uid+'~'+term+'~'+tid);
     $.get('ajax/ITS_concepts.php', {
         choice: "updateConceptInfo", 
-        data: tid
+        data: uid+'~'+term+'~'+tid
     }, function(data) {
         $('.navConceptInfo').html(data);
     });	
@@ -621,6 +608,24 @@ $.each(myOptions, function(val, text) {
         });*/
 /*-------------------------------------------------------------------------*/
 });
+
+
+
+//*****************************************//
+function chUPDATE(ch,chhide,v) {
+//*****************************************//
+//alert(ch+'-'+chhide);
+                $('.chapter_index').each(function(index) {
+                    // update style: closed chapters invisible
+                    if (v) {
+                        if ( (index) < chhide ){
+                            if ( ch == (parseInt(index+1)) ){ ch=parseInt(chhide)+1; } 
+                        }
+                    }
+                    //alert('text: '+$(this).text() +'='+ ch);
+                });
+  return ch;              
+}
 //*****************************************//
 function indexUPDATE(ch,v,mode) {
 //*****************************************//

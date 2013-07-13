@@ -67,7 +67,7 @@ class ITS_concepts
         $info     = $s->computeConceptScores($tag_id);
         $info_str = $s->renderConceptScores($info);
         
-        $str = '<div class="navConcept" tid="' . $tag_id . '">' . $concept . '</div><span class="navConceptInfo">' . $info_str . '</span><br><hr>';
+        $str = '<div class="navConcept" tid="' . $tag_id . '">' . str_replace('-',' ',$concept) . '</div><span class="navConceptInfo">' . $info_str . '</span><br><hr>';
         
         return $str;
     }
@@ -133,24 +133,15 @@ class ITS_concepts
                 $orderby = 'ORDER BY ' . $active . ' DESC';
                 break;
         }
-        /* OLD - partial        
-        $query = 'SELECT t.id,t.name, COUNT(qt.tags_id) AS count
-        FROM tags t
-        INNER JOIN questions_tags qt ON qt.tags_id = t.id
-        '. $where .'    
-        INNER JOIN stats_1 s ON s.question_id = qt.questions_id AND s.event="concept"
-        GROUP BY
-        t.id
-        '. $having .' '.$orderby;
-        */
-        
-        $query = 'SELECT tags_id,name,count(question_id) AS attempted,count(questions_id) AS available, ROUND(AVG(score),1) AS score
-  FROM questions_tags qt
-           JOIN tags t    ON t.id   = qt.tags_id
-      LEFT JOIN stats_1 s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept"
-         ' . $where . '
-  GROUP BY name' . $having . ' ' . $orderby;
-        
+				
+	$query = 'SELECT t.id,t.name,count(s.question_id) AS attempted,count(q.id) AS available, ROUND(AVG(s.score),1) AS score 
+FROM tags AS t 
+LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0 
+LEFT JOIN questions AS q ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") 
+LEFT JOIN stats_1 AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
+' . $where . '
+GROUP BY name' . $having . ' ' . $orderby;				      
+       
         // echo $query;  
         // ALTER TABLE its.tags DROP question_id
         // ALTER TABLE its.tags DROP concept_id
@@ -164,7 +155,7 @@ class ITS_concepts
         $N = 10; // list items per column
         
         //$str = $list . '<div id="conceptColumnContainer">';
-        $str = $list . '<div id="conceptColumn"><ul class="conceptList">';
+        $str = $list . '<div id="conceptColumnContainer"><div id="conceptColumn"><ul class="conceptList">';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
             $mod = $x % $N;
             //if ($mod == 0) {
@@ -172,9 +163,10 @@ class ITS_concepts
             //}
             //echo $mod.'<br>';
             $row = mysql_fetch_assoc($res);
+            //var_dump($row);
             if (empty($row['score'])) {
                 $row['score'] = '&ndash;';
-            }
+            } else { $row['score'] .= '&nbsp;%'; }
             
             $conceptData = '';
             foreach (array_reverse($list_arr) as $key => $value) {
@@ -184,8 +176,15 @@ class ITS_concepts
                     $conceptData .= '<span class="conceptCount'.$class.'">' . $row[$value] . '</span>';
 				}
             }
+            $name = str_replace('-',' ',$row['name']);
             
-            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['tags_id'] . '" class="selcon">' . $row['name'] . $conceptData.'</li>';
+            $name_str  = $name;
+            $class_sel = 'selcon';
+            if ($row['available']){
+				$class_sel = ($row['attempted']==$row['available']) ? 'selcon' : 'selcon';
+				$name_str  = ($row['attempted']==$row['available']) ? '<strike>&nbsp;'.$name.'&nbsp;</strike>' : $name;
+			} 
+            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'">' .$name_str . $conceptData.'</li>';
             //$str .= ''.$x.'</div>';
             
             //if ($mod == ($N - 1) || ($x == (mysql_num_rows($res) - 1))) {
@@ -220,14 +219,14 @@ class ITS_concepts
         }
         $query = "SELECT id,question FROM questions w WHERE w.id IN (select questions_id from questions_tags q where q.tags_id IN (SELECT tags_id FROM SPFindex i WHERE i.name IN (" . $str_vals . ")))";
         //SELECT id,question FROM questions w where w.id IN (select questions_id from questions_tags q where q.tags_id in (SELECT tags_id FROM SPFindex i where i.name IN ('Matlab')));
-        
         //die($query);
+        
         $res = mysql_query($query, $con);
         if (!$res) {
             die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
         }
         //$concepts_result = mysql_fetch_assoc($res);
-        $str = '<table id="ques" class="PROFILE"><tbody><tr><th style="width:5%;"><input type="checkbox" id="chckHead"/></th><th style="width:15%;">No.</th><th style="width:80%;">Question</th></tr>';
+        $str = '<table id="ques" class="PROFILE"><tbody><tr><th style="width:5%"><input type="checkbox" id="chckHead"/></th><th style="width:15%;">No.</th><th style="width:80%;">Question</th></tr>';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
             $row = mysql_fetch_assoc($res);
             $str .= "<tr class='PROFILE'><td class='PROFILE'><input type='checkbox' name='chcktbl' class='chcktbl' id='chcktbl' value=" . $row['id'] . ">" . "</td><td class='PROFILE'>" . "<a href='Question.php?qNum=" . $row['id'] . "' target=”_blank” class='ITS_ADMIN'>" . $row['id'] . "</a>" . "</td><td class='PROFILE'>" . $row['question'] . "</td></tr>";
@@ -363,7 +362,8 @@ class ITS_concepts
         //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
-        $query = 'SELECT DISTINCT LEFT(name,1) FROM tags';
+        $query = 'SELECT DISTINCT LEFT(name,1) FROM tags t WHERE t.synonym=0 ORDER BY name';
+		// echo $query;
         $res   = mysql_query($query, $con);
         $rand  = rand(1, mysql_num_rows($res));
         
