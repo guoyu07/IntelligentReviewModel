@@ -89,11 +89,3 @@ echo $ftr->main();
 </div>  
 </body>
 </html>
-
-
-
-
-
-
-
-

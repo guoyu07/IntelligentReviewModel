@@ -322,11 +322,6 @@ switch ($action) {
         $str                        = $screen->getConcQues('concept', $Data);
         break;
     //-------------------------------------------//
-    case 'concept':
-        //-------------------------------------------//        
-        $str = $screen->getConceptFor1Question($Data[0]);
-        break;
-    //-------------------------------------------//
     case 'changeMode':
         $screen->mode   = $Data;
         $screen->screen = 4;

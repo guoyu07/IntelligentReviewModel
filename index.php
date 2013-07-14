@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '222';
-$LAST_UPDATE = 'Jul-13-2013';
+$ITS_version = '223';
+$LAST_UPDATE = 'Jul-17-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -10,7 +10,6 @@ include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
-require_once("classes/ITS_query2.php");
 require_once("classes/ITS_resource.php");
 
 /* -- SCORING module ----------------------------------- */

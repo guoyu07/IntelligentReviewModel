@@ -3,23 +3,13 @@
 when in 'Edit' mode, called from js/ITS_QControl.js
 
 Author(s): Greg Krudysz
-Last Update: Jun-04-2013
+Last Update: Jul-15-2013
 ----------------------------------------------------------------------*/
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
-header("Cache-Control: no-cache, must-revalidate"); // Must do cache-control headers 
-header("Pragma: no-cache");
 
-require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
-require_once("../classes/ITS_screen.php");
-require_once("../classes/ITS_query.php");
-require_once("../classes/ITS_tag.php");
+require_once("../config.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_search.php");
-require_once("../classes/ITS_table.php");
-require_once("../classes/ITS_configure.php");
-require_once("../classes/ITS_question.php");
-require_once("../classes/ITS_statistics.php");
 
 $style = '';
 session_start();
@@ -74,6 +64,7 @@ switch ($Control) {
         //-------------------------------------------//
         //-- evaluate corresponding method based on target={TITLE|QUESTION|IMAGE|...}
         $field = strtolower(str_replace("ITS_", "", $Target));
+             
 die('ajax/ITS_control: CANCEL');
         switch ($field):
             case 'title':
@@ -107,23 +98,15 @@ die('ajax/ITS_control: CANCEL');
         //-------------------------------------------//
         // DEBUG: var_dump($Data);//die();
         $field = strtolower(str_replace("ITS_", "", $Target));
-        //echo 'DEBUG: '.$Data; die();
-        
-        switch ($field):
-            case 'title':
-            case 'question':
-            case 'images_id':
-            case 'answers':
-            case 'category':
-            case 'questionConfig':
-            case 'answersConfig':
-                $query = 'UPDATE ' . $tb_name . ' SET ' . $field . '="' . trim(addslashes($Data)) . '" WHERE id=' . $qid;
-                break;
-            default:
-                $query = 'UPDATE ' . $tb_name . '_' . $qtype . ' SET ' . $field . '="' . trim(addslashes($Data)) . '" WHERE ' . $tb_name . '_id=' . $qid;
-        endswitch;
 
-        // echo $query;  die(' ... in ITS_control');
+if (array_key_exists($field, $Q->Q_question_data)) {
+    $query = 'UPDATE ' . $tb_name . ' SET ' . $field . '="' . trim(addslashes($Data)) . '" WHERE id=' . $qid;
+}
+
+if (array_key_exists($field, $Q->Q_answers_fields_data)) {
+    $query = 'UPDATE ' . $tb_name . ' SET ' . $field . '="' . trim(addslashes($Data)) . '" WHERE id=' . $qid;
+}        
+        
         $res =& $mdb2->query($query);
         if (PEAR::isError($res)) {
             throw new Question_Control_Exception($res->getMessage());

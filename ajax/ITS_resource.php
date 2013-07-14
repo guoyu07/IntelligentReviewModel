@@ -4,11 +4,9 @@
 Author(s): Greg Krudysz
 Date: Nov-21-2012        
 ---------------------------------------------------------------------*/
-require_once("../config.php");
 require_once("../FILES/PEAR/MDB2.php");
-require_once("../classes/ITS_table.php");
-require_once("../classes/ITS_configure.php");
-require_once("../classes/ITS_question.php");
+require_once("../config.php");
+require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_resource.php");
 
 session_start();

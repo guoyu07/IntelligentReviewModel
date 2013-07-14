@@ -450,7 +450,7 @@ class ITS_question
                                 break;
                             case "images_id":
                                 $tb .= '<tr><th width="5px">' . $field . '</th><td>image here</td></tr>';
-                                break;
+                                break;   
                             default:
                                 $tb .= '<tr><th width="5px">' . $field . '</th><td>' . $this->createEditTable($field, $this->Q_answers_data[$field], $style) . '</td></tr>';
                                 //$tb .= '<li style="float:left;list-style-type: none;padding:4px"><table style="border:1px solid #999"><tr><th>'.$field.'</th></tr><tr><td>'.$this->Q_answers_data[$field].'</td></tr></table></li>';
@@ -471,11 +471,28 @@ class ITS_question
                             case "id":
                             case "question":
                             case "qtype":
-                            case "tag_id":  
                                 break;
                             case "images_id":
                                 $Qtb .= '<tr><th width="5px">' . $field . '</th><td><a href="">'.$this->Q_question_data[$field].'</a></td></tr>';
                                 break;
+                 /*          case "status":
+				$optionArr    = array(
+                    'delete',
+                    'edit',
+                    'publish'
+                );
+                $Qstatus = '<select id="Qstatus">';
+                foreach ($optionArr as $op) {
+                    if ($this->Q_question_data[$field] == $op) {
+                        $sel = 'selected="selected"';
+                    } else {
+                        $sel = '';
+                    }
+                    $Qstatus .= '<option ' . $sel . '>' . $op . '</option>';
+                }
+                $Qstatus .= '</select>';
+				$Qtb .= '<tr><th width="5px">' . $field . '</th><td><a href="">'.$Qstatus.'</a></td></tr>';
+                                break;                          */        
                             default:
                                 $Qtb .= '<tr><th width="5px">' . $field . '</th><td>' . $this->createEditTable($field, $this->Q_question_data[$field], $style) . '</td></tr>';
                                 //$tb .= '<li style="float:left;list-style-type: none;padding:4px"><table style="border:1px solid #999"><tr><th>'.$field.'</th></tr><tr><td>'.$this->Q_answers_data[$field].'</td></tr></table></li>';
@@ -1029,7 +1046,6 @@ class ITS_question
                 case 'qtype':
                 case 'verified':
                 case 'verified_by':
-                case 'tag_id':
                     break;
                 //+++++++++++++++++++++++++++++++++++++++++++//
                 case 'answers':

@@ -59,26 +59,35 @@ class ITS_concepts
         // echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
     //=====================================================================//
-    function getConceptNav($concept, $tag_id)
+    function getConceptNav($concept,$tag_id,$uid,$term)
     {
         //=====================================================================//    
         
-        $s        = new ITS_score(1, 'admin', time());
-        $info     = $s->computeConceptScores($tag_id);
-        $info_str = $s->renderConceptScores($info);
+        $score_str = $this->getConceptScore($uid,$term,$tag_id);
         
-        $str = '<div class="navConcept" tid="' . $tag_id . '">' . str_replace('-',' ',$concept) . '</div><span class="navConceptInfo">' . $info_str . '</span><br><hr>';
+        $str = '<div class="navConcept" tid="' . $tag_id . '">' . str_replace('-',' ',$concept) . '</div><span class="navConceptInfo">' . $score_str . '</span><br><hr>';
         
         return $str;
     }
-    //=====================================================================//    
+     //=====================================================================//
+    function getConceptScore($uid,$term,$tag_id)
+    {
+        //=====================================================================//    
+        
+        $s     = new ITS_score($uid,$term,time());
+        $info  = $s->computeConceptScores($tag_id);
+        $score = $s->renderConceptScores($info);
+
+        return $score;
+    }   
+    //=====================================================================//
     function getConcepts($letter, $all_flag, $order)
     {
         // $all_flag = 1 // print all concepts available, even with no questions
         //=====================================================================//    
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
-        
+
         $list_arr = array(
             'name',
             'attempted',
@@ -104,7 +113,7 @@ class ITS_concepts
         //$query = "SELECT name FROM SPFindex WHERE name LIKE '" . $letter . "%' ORDER BY name";
         //$query = "SELECT name FROM index_1 WHERE name LIKE '" . $letter . "%' AND chapter_id=3 ORDER BY name";
         //$query = "SELECT name FROM tags WHERE name LIKE '" . $letter . "%' AND synonym=0 ORDER BY name";
-        
+
         if ($letter == 'ALL') {
             $where = '';
         } else {
@@ -113,7 +122,7 @@ class ITS_concepts
         if ($all_flag) {
             $having = '';
         } else {
-            $having = ' HAVING count>0 ';
+            $having = ' HAVING available>0 ';
         }
         
         switch ($active) {
@@ -137,12 +146,13 @@ class ITS_concepts
 	$query = 'SELECT t.id,t.name,count(s.question_id) AS attempted,count(q.id) AS available, ROUND(AVG(s.score),1) AS score 
 FROM tags AS t 
 LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0 
-LEFT JOIN questions AS q ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") 
+LEFT JOIN questions AS q ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") AND q.status="publish"
 LEFT JOIN stats_1 AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
 ' . $where . '
 GROUP BY name' . $having . ' ' . $orderby;				      
        
         // echo $query;  
+
         // ALTER TABLE its.tags DROP question_id
         // ALTER TABLE its.tags DROP concept_id
         // ALTER TABLE its.tags ADD COLUMN synonym INT, ADD FOREIGN KEY tags_id(synonym) REFERENCES tags(id) ON DELETE CASCADE;
@@ -510,7 +520,7 @@ GROUP BY name' . $having . ' ' . $orderby;
     public function updateScore()
     {
         //=====================================================================//
-        $str = '<span class="todo">concept scoreboard here</span>';
+        $str = ''; //'<span class="todo">concept scoreboard here</span>';
         return $str;
     }
     //=====================================================================//

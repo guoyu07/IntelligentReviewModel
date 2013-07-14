@@ -122,7 +122,7 @@ class ITS_score
 		$query = 'SELECT t.id,t.name,count(s.question_id) AS attempted,count(q.id) AS available, ROUND(AVG(s.score),1) AS percent 
 					FROM tags AS t 
 						LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id      AND t.synonym=0 
-						LEFT JOIN questions      AS q  ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") 
+						LEFT JOIN questions      AS q  ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") AND q.status="publish"
 						LEFT JOIN '.$usertable.' AS s  ON s.tags = qt.tags_id    AND s.question_id = qt.questions_id AND event = "concept" 
 					WHERE qt.tags_id='.$tag_id;
 				  	  							 

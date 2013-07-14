@@ -136,8 +136,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     $qindex = 0;
     // look for LIST of question
-    //$query = 'SELECT id,title,image,category,tag_id FROM webct WHERE '.$query_type.$query_chapter;
-    $query = 'SELECT id,title,image,category,answers FROM webct WHERE '.$query_type.$query_chapter;
+    $query = 'SELECT id,title,image,category,answers FROM questions WHERE '.$query_type.$query_chapter;
     //echo $query; die();
     
     $res =& $mdb2->query($query);

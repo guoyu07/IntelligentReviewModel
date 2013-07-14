@@ -32,7 +32,7 @@ class ITS_QTI {
         $tables = array($this->tb_name);
 		//die('in exportManyQues: '.$cardinality);       
         $table  = $tables[0];
-        $query  = "SELECT id,qtype,title,images_id,question,answers,category,tag_id FROM " . $table;
+        $query  = "SELECT id,qtype,title,images_id,question,answers,category FROM " . $table;
         //die($query);
         if ($cardinality == 1) {
             $query .= " WHERE id=" . $quesid;
@@ -86,7 +86,6 @@ class ITS_QTI {
             $ques[$x]     = $row['question'];
             $anss[$x]     = $row['answers'];
             $category[$x] = $row['category'];
-            $tag_id[$x]   = $row['tag_id'];
         }
         $count_ques = $x;
         $QTI        = '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n" . '<questestinterop>' . "\n\t" . '<assessment title="test1" ident="A1001">' . "\n\t\t" . '<section title="' . $section . '" ident="S1002">' . "\n\t\t\t";

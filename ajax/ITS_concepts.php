@@ -37,7 +37,9 @@ if (isset($_REQUEST['choice'])) {
         case 'getConceptNav': 
 			$concept = $_REQUEST['concept'];
 			$tag_id  = $_REQUEST['tag_id'];
-			$retStr  = $obj->getConceptNav($concept,$tag_id);      
+			$uid     = $_REQUEST['uid'];
+			$term    = $_REQUEST['term'];			
+			$retStr  = $obj->getConceptNav($concept,$tag_id,$uid,$term);      
 			break;     
         case 'getConcepts':
 			$role   = $_REQUEST['role'];
@@ -63,11 +65,9 @@ if (isset($_REQUEST['choice'])) {
             $retStr = $obj->updateScore();
             break;                       
         case 'updateConceptInfo':
-			$data = preg_split('[,]', $_REQUEST['data']);    
-            // $userid, $term, $date
-            $obj    = new ITS_score($data[0],$data[1], time());
-			$info   = $obj->computeConceptScores($data[2]);
-            $retStr = $obj->renderConceptScores($info);
+			$data = preg_split('[~]', $_REQUEST['data']);    
+            // uid+'~'+term+'~'+tid
+            $retStr = $obj->getConceptScore($data[0],$data[1],$data[2]);
             break;                            
         default:
     }

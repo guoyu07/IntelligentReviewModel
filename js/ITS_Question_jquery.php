@@ -1001,11 +1001,6 @@ $("#PreviewDialog").live('click', function(event) {
         // Control ==> 'Edit'
         var editList = '<div id="navEdit"><ul id="navlistEdit"><li><a href="#" name="ITS_EDIT" ref="' + obj_id + '"> Edit </a></li></ul></div>';
         $('#' + obj_id).html(editList);
-        
-        /* IS THIS NEEDED ????????????????????? - move to .get('ITS_control.php' ??
-        if (field == "answers") {
-            window.location.reload();
-        }*/
     });
     /*-------------------------------------------------------------------------*/
     $("a[name='ITS_CANCEL']").live('click', function (event) {

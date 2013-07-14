@@ -505,7 +505,7 @@ default:
 if (mode=="concept"){ 	
 	var uid = $('#logout').attr("uid");
 	var term = $('#logout').attr("course");
-	// alert(uid+'~'+term+'~'+tid);
+	//alert(uid+'~'+term+'~'+tid);
     $.get('ajax/ITS_concepts.php', {
         choice: "updateConceptInfo", 
         data: uid+'~'+term+'~'+tid

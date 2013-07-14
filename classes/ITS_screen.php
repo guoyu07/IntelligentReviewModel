@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Jul-6-2013
+Last Revision: Jul-14-2013
 
 SCHEMA:
 screen.php
@@ -1979,7 +1979,6 @@ class ITS_screen
             default:
                 $dist = '';
         }
-        //ITS_debug();die('rr');
         
         return $dist;
     }
@@ -2207,24 +2206,6 @@ class ITS_screen
         $content_str          = $this->getChapter();
         
         return $content_str;
-    }
-    //=====================================================================//
-    function getConceptFor1Question($qid)
-    {
-        //=====================================================================//
-        $tagidarr = 0;
-        $mdb2 =& MDB2::connect($this->db_dsn);
-        if (PEAR::isError($mdb2)) {
-            throw new Question_Control_Exception($mdb2->getMessage());
-        }
-        $query = 'SELECT tag_id FROM ' . $this->tb_name . ' WHERE id=' . $qid;
-        $res =& $mdb2->query($query);
-        $tagidarr = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        
-        
-        $tag_names = $this->getTagNames($tagidarr['tag_id']);
-        
-        return $tag_names;
     }
     //=====================================================================//
     function getTagNames($resource)

@@ -37,7 +37,8 @@ $(document).ready(function () {
         var id = (this.id).split('_');
         var field = id[1];
         var tid = $(this).attr('tid');
-
+		var uid = $('#logout').attr("uid");
+		var term = $('#logout').attr("course");
         /*
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
@@ -76,7 +77,9 @@ $(document).ready(function () {
         $.post("ajax/ITS_concepts.php", {
             choice: 'getConceptNav',
             concept: field,
-            tag_id: tid
+            tag_id: tid,
+            uid: uid,
+            term: term
         }, function (data) {
             if (data) {
                 $("#navContainer").html(data);
@@ -299,17 +302,17 @@ $(document).ready(function () {
 			$('#scoreContainer').hide();
             $('#navContainer').hide();
             /* scoreContainer */        
-            $.post("ajax/ITS_concepts.php", {
+            /*$.post("ajax/ITS_concepts.php", {
                 choice: "updateScore"
             }, function (data) {
                 $('#scoreContainerContent').html(data);
-            });
+            });*/
             $.post("ajax/ITS_concepts.php", {
                 choice: "showLetters",
             }, function (data) {
                 $('#modeContentContainer').html(data);
-                            var letter=$('#current[name=ITS_alph_index]').text();
-            //alert(letter);
+                var letter=$('#current[name=ITS_alph_index]').text();
+            //alert(letter+' '+role);
             $.post("ajax/ITS_concepts.php", {
                 choice: "getConcepts",
                 index: letter,
