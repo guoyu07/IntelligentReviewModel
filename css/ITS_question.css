@@ -66,3 +66,4 @@ TABLE.CPROFILE A{padding:0px;font-family:"Andale Mono", "Monotype.com", monospac
 TABLE.CPROFILE TD.sid {padding:5px 10px 5px 5px;color:#666;font-family:monospace}
 TABLE.CPROFILE TH{background-color:#eee;border:1px solid #666;padding:.5em}
 th.Num {width:4%;}
+.ITS_publish {position:absolute;top:0;right:0;width:40px}

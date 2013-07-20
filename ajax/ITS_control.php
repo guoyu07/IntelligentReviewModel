@@ -11,7 +11,6 @@ require_once("../config.php");
 require_once("../" . INCLUDE_DIR . "include.php");
 require_once("../classes/ITS_search.php");
 
-$style = '';
 session_start();
 //===================================================================//
 global $db_dsn, $db_name, $tb_name, $db_table_user_state;
@@ -39,6 +38,7 @@ $Q = new ITS_question(1, $db_name, $tb_name);
 $T = new ITS_statistics(1, 'Summer_2013', 'admin');
 $Q->load_DATA_from_DB($qid);
 $qtype = strtolower($Q->Q_question_data['qtype']);
+$publish = (strtolower($Q->Q_question_data['status'])=='publish') ? '<img src="admin/icons/check.jpeg" class="ITS_publish">' : '';
 
 // die($Control);
 // JS: encodeURIComponent() -> PHP: rawurldecode()
@@ -57,7 +57,7 @@ switch ($Control) {
         // Users pull-down menu
         $usersContainer     = '<div id="usersContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Users</span></div><div id="usersContent" style="display:none;"><center>' . $T->render_question_users($qid) . '</center></div>';
         $solutionContainers = '<div id="solutionContainer" class="Question_Toggle"><span>&raquo;&nbsp;Solutions</span></div><div id="results"></div>';
-        echo $style . $nav . $Q->render_ANSWERS('a', 2) . $usersContainer . $solutionContainers . '' . $Q->render_data() . $adminNav;
+        echo $publish . $nav . $Q->render_ANSWERS('a', 2) . $usersContainer . $solutionContainers . '' . $Q->render_data() . $adminNav;
         break;
     //-------------------------------------------//
     case 'CANCEL':
@@ -100,7 +100,7 @@ switch ($Control) {
         
         // Pre-process string for output:
         $str = $Q->renderFieldCheck($Data);
-        echo $style . $str;
+        echo $str;
         break;
         //-------------------------------------------//
 }

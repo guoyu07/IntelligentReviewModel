@@ -28,6 +28,7 @@ require_once($path.INCLUDE_DIR."common.php");
 require_once($path.INCLUDE_DIR."User.php");
 require_once($path."classes/ITS_concepts.php");
 require_once($path."classes/ITS_configure.php");
+require_once($path."classes/ITS_feedback.php");
 require_once($path."classes/ITS_footer.php");
 require_once($path."classes/ITS_question.php");
 require_once($path."classes/ITS_query.php");

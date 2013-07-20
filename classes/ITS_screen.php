@@ -2234,7 +2234,7 @@ class ITS_screen
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
         $ITSc         = new ITS_concepts($this->id,$this-term);
-        //$ITSf 		  = new ITS_feedback($this->id);
+        $ITSf 		  = new ITS_feedback($this->id);
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {
@@ -2379,11 +2379,11 @@ class ITS_screen
                     $_SESSION['ITSQ_' . $qid] = $token;
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
                     //***---------------------------------------------------------------------------------***//                    
-                    $form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
-                    $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
+                    $form   = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+                    $skip   = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     
-                    $feedback = ''; //$fbk->render($qid,88);
-                    $answer                   = $form . $skip . $resources.$feedback;
+                    $feedback = $ITSf->render($qid,88);
+                    $answer   = $form . $skip . $resources.$feedback;
                     
                     // die($this->role);
                     

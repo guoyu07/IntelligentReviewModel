@@ -342,6 +342,7 @@ echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
 
 // RENDER QUESTION
 if (!empty($qid)) {
+	echo '<img src="admin/icons/check.jpeg" class="ITS_publish">';
     echo $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
 }
 // id="metaContainer" style="display:none;"

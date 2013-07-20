@@ -56,6 +56,9 @@
         $("#scoreContainer").click(function(){
             $("#scoreContainerContent").slideToggle("slow");
         });
+        $("#feedbackContainer").click(function(){
+            $("#feedbackContainerContent").slideToggle("slow");
+        });        
         //$("#accor").accordion({autoHeight: false});
         $("#dialog").dialog({
             autoOpen: true, 
