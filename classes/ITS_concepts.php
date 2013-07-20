@@ -7,7 +7,7 @@ Constructor: ITS_concepts()
 ex. $query = new ITS_concepts('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Khyati Shrivastava | May-10-2012
-Last Revision: Greg Krudysz, Jul-11-2013
+Last Revision: Greg Krudysz, Jul-20-2013
 //=====================================================================*/
 /*
 if(isset($_REQUEST['tbvalues'])){
@@ -30,6 +30,9 @@ echo $val;
 
 class ITS_concepts
 {
+	public $id;
+	public $term;
+    public $tb_name;
     public $db_user;
     public $db_pass;
     public $db_host;
@@ -38,7 +41,7 @@ class ITS_concepts
     public $mode;
     
     //=====================================================================//
-    function __construct()
+    function __construct($id,$term)
     {
         //=====================================================================//
         //echo 'NOW'; die();
@@ -52,29 +55,31 @@ class ITS_concepts
         $dsn = preg_split("/[\/:@()]+/", $db_dsn);
         //foreach ($dsn as $value) {echo $value.'<br>';}
         
+        $this->id      = $id;
+        $this->term    = $term;
         $this->db_user = $dsn[1];
         $this->db_pass = $dsn[2];
         $this->db_host = $dsn[4];
         $this->db_name = $dsn[6];
+        $this->tb_user = $db_table_user_state;
         // echo "Values: ".$this->db_host.$this->db_user.$this->db_pass;
     }
     //=====================================================================//
-    function getConceptNav($concept,$tag_id,$uid,$term)
+    function getConceptNav($concept,$tag_id)
     {
         //=====================================================================//    
         
-        $score_str = $this->getConceptScore($uid,$term,$tag_id);
-        
+        $score_str = $this->getConceptScore($tag_id);       
         $str = '<div class="navConcept" tid="' . $tag_id . '">' . str_replace('-',' ',$concept) . '</div><span class="navConceptInfo">' . $score_str . '</span><br><hr>';
         
         return $str;
     }
      //=====================================================================//
-    function getConceptScore($uid,$term,$tag_id)
+    function getConceptScore($tag_id)
     {
         //=====================================================================//    
         
-        $s     = new ITS_score($uid,$term,time());
+        $s     = new ITS_score($this->id,$this->term,time());
         $info  = $s->computeConceptScores($tag_id);
         $score = $s->renderConceptScores($info);
 
@@ -147,11 +152,11 @@ class ITS_concepts
 FROM tags AS t 
 LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0 
 LEFT JOIN questions AS q ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") AND q.status="publish"
-LEFT JOIN stats_1 AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
+LEFT JOIN '.$this->tb_user.$this->id.' AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
 ' . $where . '
 GROUP BY name' . $having . ' ' . $orderby;				      
        
-        // echo $query;  
+        // echo $query;  //die();
 
         // ALTER TABLE its.tags DROP question_id
         // ALTER TABLE its.tags DROP concept_id
@@ -214,6 +219,31 @@ GROUP BY name' . $having . ' ' . $orderby;
         else
             return $str;
     }
+    //=====================================================================//
+    function getConceptQuestion($concept)
+    {
+        //=====================================================================//  
+        $arr_val  = split(',', $concept);
+        $str_vals = "'" . $arr_val[0] . "'";
+        for ($i = 1; $i < sizeof($arr_val); $i++) {
+            $str_vals .= ",'" . $arr_val[$i] . "'";
+        }
+        //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.tag_id in (SELECT tag_id FROM SPFindex i WHERE i.name in (".$str_vals."))";
+        //$query = "SELECT id FROM ".$this->tb_name." w WHERE w.id IN (SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT tags_id FROM SPFindex i WHERE i.name IN (".strtolower($str_vals).")))";
+        //$query = "SELECT questions_id FROM questions_tags q WHERE q.tags_id IN (SELECT id FROM tags i WHERE i.name IN (" . strtolower($str_vals) . "))"; //AND verified=1";	
+					
+$query = 'SELECT q.id,q.qtype
+FROM tags AS t 
+LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0 
+LEFT JOIN questions AS q ON (q.id = qt.questions_id AND q.qtype IN ("M","MC","C") AND q.status="publish") 
+LEFT JOIN '.$this->tb_user.$this->id.' AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
+WHERE t.name='.$str_vals.' AND q.qtype IN ("M","MC","C") AND event IS NULL';			
+		
+		// echo '<div style="color:red">'.$query.'</div>';
+		// die();
+        
+        return $query;
+    }    
     //=====================================================================//
     // returns all questions when given a set of concepts to be matched with tags associated with the questions
     function getRelatedQuestions($tbvalues)

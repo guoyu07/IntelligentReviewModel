@@ -19,7 +19,9 @@ include("classes/ITS_concepts.php");
 </head>
 <body class="ITS">
 <?php
-	$obj = new ITS_concepts();
+$id = 1;
+$term = 'Summer_2013';
+	$obj = new ITS_concepts($id,$term);
 	echo $obj->showLetters();
 ?>
 

@@ -508,7 +508,7 @@ if (mode=="concept"){
 	//alert(uid+'~'+term+'~'+tid);
     $.get('ajax/ITS_concepts.php', {
         choice: "updateConceptInfo", 
-        data: uid+'~'+term+'~'+tid
+        tid: tid
     }, function(data) {
         $('.navConceptInfo').html(data);
     });	
@@ -608,8 +608,6 @@ $.each(myOptions, function(val, text) {
         });*/
 /*-------------------------------------------------------------------------*/
 });
-
-
 
 //*****************************************//
 function chUPDATE(ch,chhide,v) {

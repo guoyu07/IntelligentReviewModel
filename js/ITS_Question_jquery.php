@@ -1,7 +1,7 @@
 <?php
 /*=============================================================
 Author(s): Gregory Krudysz
-Last Update: Feb-28-2013
+Last Update: Jul-20-2013
 =============================================================*/
 ?>
 <script type="text/javascript">
@@ -951,7 +951,7 @@ $("#PreviewDialog").live('click', function(event) {
         //alert('TXA_'+tar_id);
         //onclick="trackPos(this)"
         $('#' + tar_id).html(TXA_str);
-        /*
+        /*MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
                         codemirror = CodeMirror.fromTextArea('TXA_ITS_QUESTION_TARGET', {
           height: "250px",
           width: "100%",
@@ -995,7 +995,8 @@ $("#PreviewDialog").live('click', function(event) {
             ajax_data: tar_str
         }, function (data) {
 			//alert(data);
-            $('#' + tar_id).html(data); //htmlDecode //alert(data);
+            $('#' + tar_id).html(data); //htmlDecode
+            mathJax();
         });
 
         // Control ==> 'Edit'
@@ -1009,50 +1010,26 @@ $("#PreviewDialog").live('click', function(event) {
         var tar_id = obj_id + '_TARGET';
         var cstr = $('#' + tar_id).attr("code");
         var path = $('#tex_path').val(); //'/cgi-bin/mathtex.exe?';
-        var str = cstr.replace(/<latex>\s*([^>]*)?<\/latex>/gi, '<img latex="$1" src="' + path + '$1"/>');
-        //alert(path);
+        // MathTex
+        // var str = cstr.replace(/<latex>\s*([^>]*)?<\/latex>/gi, '<img latex="$1" src="' + path + '$1"/>');
+        // MathJax:
+        var str = cstr.replace(/<latex>\s*([^>]*)?<\/latex>/gi, '\\($1\\)');
         // CSS
         $('#' + tar_id).html(str).css({
             'border': '2px dotted silver'
         });
-
-        /*$('#'+target).html(function() {
+        
+/*
+        $('#'+target).html(function() {
             var decoded = $("<div/>").html(tar_str).text(); //decode html entities
 			return decoded;
         });*/
-
+        
         // Control ==> 'Edit'
         var editList = '<div id="navEdit"><ul id="navlistEdit"><li><a href="#" name="ITS_EDIT" ref="' + obj_id + '"> Edit </a></li></ul></div>';
         $('#' + obj_id).html(editList);
-    });    
-    /*-------------------------------------------------------------------------*/
-    /*
-    $("a[name='ITS_SAVE']").live('click', function (event) {
-        var obj_id = $(this).attr("ref");
-        var tar_id = obj_id + '_TARGET';
-        var tar_str = $('#TXA_' + tar_id).val();
-        $('#' + tar_id).attr("code", tar_str);
-
-        var ajx_str = htmlEncode(tar_str); //encodeURIComponent(tar_str);
-        var qid = $('#ITS_QCONTROL_TEXT').val();
-        //  alert(obj_id+'_TARGET' + tar_str);
-        var field = obj_id.replace(/ITS_/, '');
-        var args = qid + ',SAVE,' + field;
-
-        $.get('ITS_control.php', {
-            ajax_args: args,
-            ajax_data: tar_str
-        }, function (data) {
-            $('#' + tar_id).html(data); //htmlDecode //alert(data);
-            //alert( tar_str);
-            // Control ==> 'Edit'
-            if (field == "answers") {
-                window.location.reload();
-            }
-        });
-        var editList = '<div id="navEdit"><ul id="navlistEdit"><li><a href="#" name="ITS_EDIT" ref="' + obj_id + '"> Edit </a></li></ul></div>';
-        $('#' + obj_id).html(editList);
-    });*/
+        mathJax();
+    });   
     /*-------------------------------------------------------------------------*/
     $("a[name='ITS_IMG']").live('click', function (event) {
         var qid = $('#ITS_QCONTROL_TEXT').attr("value");
@@ -1212,6 +1189,11 @@ $("#PreviewDialog").live('click', function(event) {
     /*----------------------*/
 });
 //===========================================//	
+function mathJax() { 
+/*------------------------------------------ */
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+}
+/*------------------------------------------ */
 function htmlEncode(value) {
     return $('<div/>').text(value).html();
 }

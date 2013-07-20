@@ -212,6 +212,7 @@ $nav     = $ITS_nav->render($current, $course);
         <script src="rating/forms/star_rating.js"></script>
 <?php
 include INCLUDE_DIR . 'stylesheet.php';
+include(INCLUDE_DIR . 'include_mathjax.php');
 include 'js/ITS_course_jquery.php';
 ?>
     </head>

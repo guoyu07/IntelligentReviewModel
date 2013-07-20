@@ -1,8 +1,8 @@
 <?php
-$LAST_UPDATE = 'Apr-10-2013';
+$LAST_UPDATE = 'Jul-20-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz, Khyati Shrivastava
-//Last Revision: Gregory Krudysz, Jul-10-2013
+//Last Revision: Gregory Krudysz, Jul-20-2013
 //=====================================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -250,6 +250,7 @@ include 'js/ITS_tag_jquery.php';
 include 'js/ITS_search_jquery.php';
 include 'js/ITS_Question_jquery.php';
 include INCLUDE_DIR.'include_fancybox.php';
+include(INCLUDE_DIR . 'include_mathjax.php');
 ?>
 	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	
        <script type="text/javascript">

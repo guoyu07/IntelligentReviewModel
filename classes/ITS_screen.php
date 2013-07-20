@@ -2202,7 +2202,6 @@ class ITS_screen
     {
         //=====================================================================//
         $this->chapter_number = $chp_num;
-        //die($chp_num);
         $content_str          = $this->getChapter();
         
         return $content_str;
@@ -2234,6 +2233,8 @@ class ITS_screen
         
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
+        $ITSc         = new ITS_concepts($this->id,$this-term);
+        //$ITSf 		  = new ITS_feedback($this->id);
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {
@@ -2252,7 +2253,7 @@ class ITS_screen
                 //-------------------------------//
                 $msg             = 'Concept based questions';
 
-                $resource_source = $ITSq->getConceptQuestion($resource_name);
+                $resource_source = $ITSc->getConceptQuestion($resource_name);
                 // AVAILABLE QUESTIONS for concept
                 $query           = $resource_source;
                 $res =& $mdb2->query($query);
@@ -2277,8 +2278,7 @@ class ITS_screen
                         //-------------------------------//
                         
                         // QUERY OUTPUT: id,qtype
-                        $query = $ITSq->getConceptQuestion($resource_name);
-                        //$query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")';
+                        $query = $ITSc->getConceptQuestion($resource_name);
                         
                         //  echo($query);die();
                         $res =& $mdb2->query($query);
@@ -2381,7 +2381,9 @@ class ITS_screen
                     //***---------------------------------------------------------------------------------***//                    
                     $form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
-                    $answer                   = $form . $skip . $resources;
+                    
+                    $feedback = ''; //$fbk->render($qid,88);
+                    $answer                   = $form . $skip . $resources.$feedback;
                     
                     // die($this->role);
                     
@@ -2685,7 +2687,8 @@ class ITS_screen
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
-                    $answer                   = $form . $skip . $resources;
+                    $feedback = 'feed';
+                    $answer                   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     
                     /*-- TAGGING START --/
@@ -2944,7 +2947,8 @@ class ITS_screen
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
-                    $answer                   = $form . $skip . $resources;
+                    $feedback = 'ff';
+                    $answer                   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     
                     if ($this->role == 'admin') {

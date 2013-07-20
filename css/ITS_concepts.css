@@ -17,7 +17,7 @@
 
 .resource_concept {float:left;clear:both;text-align:left;font-size:120%;padding:0.2em;font-family: Geneva, Tahoma, Verdana, sans-serif;color:#00a}
 .ITS_resource_box { border:2px solid #999;margin:0;padding:0.15em;overflow:auto;}
-.conceptLIST {overflow:auto;padding:0;margin:0;border-top:3px ridge #999}
+.conceptLIST {overflow:auto;padding:0;margin:0;border-top:3px ridge #999;list-style-type:decimal;}
 span.CHOICE {
 	 clear:both;
 	 float: left;

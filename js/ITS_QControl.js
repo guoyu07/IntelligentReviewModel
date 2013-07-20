@@ -69,6 +69,7 @@ function ITS_QCONTROL_UPDATE(obj_id, text) {
         document.getElementById(obj_id + "_TARGET").innerHTML = text;
         break;
     }
+    mathJax();
 }
 //-------------------------------------------------//
 function ITS_QCONTROL_EDITMODE(obj) {

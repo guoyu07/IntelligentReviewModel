@@ -2,24 +2,30 @@
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
 require_once("../" . INCLUDE_DIR . "include.php");
-require_once("../classes/ITS_concepts.php");
-require_once("../classes/ITS_resource.php");
-require_once("../classes/ITS_score.php");
+
+//require_once("../classes/ITS_resource.php");
+
+$style = '';
+
+session_start();
+
+if (empty($_SESSION['concepts'])) {
+    abort_if_unauthenticated();
+} else {
+    $obj = $_SESSION['concepts'];
+}
 
 if (isset($_REQUEST['letter'])) {
     $letter = $_REQUEST['letter'];
     $role   = $_REQUEST['role'];
     $order  = $_REQUEST['index'];
     $role_flag = ($role=='admin' OR $role=='instructor') ? 1 : 0;
-    $obj    = new ITS_concepts();
     $retStr = $obj->getConcepts($letter,$role_flag,$order);
     echo $retStr;
 }
 if (isset($_REQUEST['choice'])) {
     $choice = $_REQUEST['choice'];
-    $obj    = new ITS_concepts();
     
-    //var_dump($choice);
     switch ($choice) {
         case 'submitConcepts':
             $tbvalues = $_REQUEST['tbvalues'];
@@ -31,15 +37,13 @@ if (isset($_REQUEST['choice'])) {
             $tbvaluesConcp = $_REQUEST['tbvaluesConcp'];
             $retStr        = $obj->createModule($moduleName, $tbvalues, $tbvaluesConcp);
             break;
-         case 'showLetters':
+        case 'showLetters':
             $retStr = $obj->showLetters();
             break;
         case 'getConceptNav': 
 			$concept = $_REQUEST['concept'];
-			$tag_id  = $_REQUEST['tag_id'];
-			$uid     = $_REQUEST['uid'];
-			$term    = $_REQUEST['term'];			
-			$retStr  = $obj->getConceptNav($concept,$tag_id,$uid,$term);      
+			$tag_id  = $_REQUEST['tag_id'];		
+			$retStr  = $obj->getConceptNav($concept,$tag_id);      
 			break;     
         case 'getConcepts':
 			$role   = $_REQUEST['role'];
@@ -65,9 +69,8 @@ if (isset($_REQUEST['choice'])) {
             $retStr = $obj->updateScore();
             break;                       
         case 'updateConceptInfo':
-			$data = preg_split('[~]', $_REQUEST['data']);    
-            // uid+'~'+term+'~'+tid
-            $retStr = $obj->getConceptScore($data[0],$data[1],$data[2]);
+			$tid = $_REQUEST['tid'];
+            $retStr = $obj->getConceptScore($tid);
             break;                            
         default:
     }

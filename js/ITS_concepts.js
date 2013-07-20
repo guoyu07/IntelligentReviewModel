@@ -37,8 +37,7 @@ $(document).ready(function () {
         var id = (this.id).split('_');
         var field = id[1];
         var tid = $(this).attr('tid');
-		var uid = $('#logout').attr("uid");
-		var term = $('#logout').attr("course");
+        
         /*
         var tdArray = new Array();
         $('#errorConceptContainer').html("");
@@ -77,9 +76,7 @@ $(document).ready(function () {
         $.post("ajax/ITS_concepts.php", {
             choice: 'getConceptNav',
             concept: field,
-            tag_id: tid,
-            uid: uid,
-            term: term
+            tag_id: tid
         }, function (data) {
             if (data) {
                 $("#navContainer").html(data);
@@ -214,31 +211,6 @@ $(document).ready(function () {
             $('.chcktbl:not(:checked)').attr('checked', true);
         }
     });
-    /*-------------------------------------------------------------------------        
-     Selects a concepts in the concept viewer
-    -------------------------------------------------------------------------*/
-    $(".selconXX").live("click", function () {
-        /*-------------------------------------------------------------------------*/
-        $('#errorConceptContainer').html("");
-        var field = this.id;
-        var cid = $(this).attr("cid");
-        /*
-        var tr = '';
-        if ($('#seldcon td:contains(' + this.id + ')').length) {
-            $('#errorConceptContainer').html("Concept already selected.");
-            return false;
-        }
-        //alert(field+' ~ '+cid);
-        tr = '<tr><td width="95%"><div class="resource_concept">' + this.id + '</div><br><br><div id="resource_'+field+'" cid="'+cid+'"></td><td class="choice_del">x</td></tr>';  
-        $('#seldcon').append(tr);
-        $('#SelectedConcContainer').css('display','block');
-        */
-        $.get("ajax/ITS_concepts.php", {
-            resource: this.id + '~' + field
-        }, function (data) {
-            $('#resource_' + field).html(data);
-        });
-    });
     /*-------------------------------------------------------------------------*
      * "Order By" concept list
      *-------------------------------------------------------------------------*/
@@ -312,6 +284,7 @@ $(document).ready(function () {
             }, function (data) {
                 $('#modeContentContainer').html(data);
                 var letter=$('#current[name=ITS_alph_index]').text();
+            //
             //alert(letter+' '+role);
             $.post("ajax/ITS_concepts.php", {
                 choice: "getConcepts",

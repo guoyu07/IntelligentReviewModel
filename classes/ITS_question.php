@@ -16,7 +16,7 @@ Methods: load_DATA_from_DB($q_num)
 ex. $ITS_question = new ITS_question(90001,"its","user_cpt");
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Nov-27-2012
+Last Revision: Jul-19-2013
 //=====================================================================*/
 
 class ITS_question
@@ -398,7 +398,7 @@ class ITS_question
 
         $style = 'ITS';
         $css   = 'ITS_QUESTION_DB';
-        $dbT   = '<tr><td id="ITS_TAGS_LIST" colspan="7">' . $Q_T_list . $Q_T_sys_list . '</td></tr><tr><th colspan="6">SEARCH FOR TAGS: ' . $sb . '</th></tr><tr><td colspan="7">' . $sbr . '</td></tr>';
+        $dbT   = '<tr><td id="ITS_TAGS_LIST" colspan="7">' . $Q_T_list . $Q_T_sys_list . '</td></tr><tr><th colspan="6"><span style="float:left;text-align:right">SEARCH FOR TAGS:<br>or type the name of the tag to add&nbsp;</span>' . $sb . '</th></tr><tr><td colspan="7">' . $sbr . '</td></tr>';
         $db1   = '<tr><th colspan="2">TITLE</th><th>ANS</th><th>CATEGORY</th></tr><tr>' . '<td class="' . $css . '" colspan="2">' . $this->createEditTable('title', $this->Q_question_data['title'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answers'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('category', $this->Q_question_data['category'], $style) . '</td>';
         $db11  = '<tr><th>QUESTION<br>config</b></th><th>ANSWERS<br>config</th></tr><td class="' . $css . '">' . $this->createEditTable('title', $this->Q_question_data['questionConfig'], $style) . '</td>' . '<td class="' . $css . '">' . $this->createEditTable('answers', $this->Q_question_data['answersConfig'], $style) . '</td>' . '</tr>';
         $db2   = '';

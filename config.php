@@ -4,8 +4,8 @@ $host = $_SERVER['SERVER_NAME'];   //gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
-$term = 'Summer_2013';
-$tset = mktime(0, 0, 0, 5, 13, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
+$term = 'Spring_2013';
+$tset = mktime(0, 0, 0, 1, 11, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
 
 switch ($host) {
     /*--------- LOCAL -----------------------*/
@@ -30,14 +30,6 @@ switch ($host) {
         $srv       = '/';
         break;
     /*---------------------------------------*/
-    case 'quid.gatech.edu':
-        /*---------------------------------------*/
-        $db_name   = 'its';
-        $db_dsn   = 'mysql://greg:csipcsip@tcp(web-db1.gatech.edu:3306)/' . $db_name;
-        $MDB2_path = '';
-        $srv       = '/';      
-        break;
-    /*---------------------------------------*/    
     default:
 }
 
@@ -139,6 +131,7 @@ echo '</table>';
 	print_r($data);
 	echo '</pre>';
 */
+
 /*
 ALTER TABLE webct DROP COLUMN VIP_tags
 RENAME TABLE webct TO questions

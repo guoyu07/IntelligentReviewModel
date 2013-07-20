@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Jul-10-2013';
+$LAST_UPDATE = 'Jul-19-2013';
 /*=====================================================================// 					
     Author(s): Gregory Krudysz
 //=====================================================================*/
@@ -124,6 +124,7 @@ $nav = '<input id="previousQuestion" class="ITS_navigate_button" type="button" o
         <title>Tags</title>
 <?php 
 include INCLUDE_DIR.'include_fancybox.php';
+include(INCLUDE_DIR.'include_mathjax.php');
 include INCLUDE_DIR.'stylesheet.php';
 include 'js/ITS_tag_jquery.php';
 ?>

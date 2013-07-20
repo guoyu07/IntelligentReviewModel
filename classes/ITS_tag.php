@@ -115,7 +115,7 @@ class ITS_tag
             
             $tList .= '<tr><td class="DATA_list">' . chr(65 + $l) . '</td><td class="DATA_list2">' . $tagList . '</td></tr>';
         }
-			$query = 'SELECT id,name FROM ' . $this->tb_tags . ' WHERE name REGEXP "^[^A-Za-z]" ORDER BY name';
+			$query = 'SELECT id,name,synonym FROM ' . $this->tb_tags . ' WHERE name REGEXP "^[^A-Za-z]" ORDER BY name';
             // echo $query; die($query);
             
             $res = mysql_query($query);

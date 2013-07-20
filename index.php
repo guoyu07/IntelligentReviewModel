@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '223';
-$LAST_UPDATE = 'Jul-17-2013';
+$ITS_version = '223f';
+$LAST_UPDATE = 'Jul-19-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -11,6 +11,7 @@ require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
 require_once("classes/ITS_resource.php");
+require_once("classes/ITS_feedback.php");
 
 /* -- SCORING module ----------------------------------- */
 require_once("classes/ITS_book.php");
@@ -57,7 +58,11 @@ $view   = $A[3];
 
 //$menu    = new ITS_menu(); //echo $menu->main();
 //$message = new ITS_message($screen->lab_number, $screen->lab_active);
-$_SESSION['screen'] = $screen;
+$concepts = new ITS_concepts($id, $term);
+
+$_SESSION['screen']   = $screen;
+$_SESSION['concepts'] = $concepts;
+//var_dump($_SESSION['concepts']);
 //------------------------------------------//
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -72,17 +77,8 @@ $_SESSION['screen'] = $screen;
 include(INCLUDE_DIR . 'stylesheet.php');
 include('js/ITS_jquery.php');
 include(INCLUDE_DIR . 'include_fancybox.php');
+include(INCLUDE_DIR . 'include_mathjax.php');
 ?>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ 
-    tex2jax: {
-      skipTags: ["script","noscript","style","textarea","code"],
-      preview: "none"
-    }
-  });
-</script>
-<script type="text/javascript" src="js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 <script type="text/javascript" src="js/ITS_concepts.js"></script>
     <script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
     <link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
