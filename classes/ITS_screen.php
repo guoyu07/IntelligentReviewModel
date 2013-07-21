@@ -2235,6 +2235,7 @@ class ITS_screen
         $ITSq         = new ITS_query();
         $ITSc         = new ITS_concepts($this->id,$this-term);
         $ITSf 		  = new ITS_feedback($this->id);
+        
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {
@@ -2426,6 +2427,7 @@ class ITS_screen
         //echo '<p style="color:brown">getChapter(): '.$resource.' | '.$resource_name.'</p>';die();  
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
+        $ITSf 		  = new ITS_feedback($this->id);
         
         // connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
@@ -2687,8 +2689,8 @@ class ITS_screen
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
-                    $feedback = 'feed';
-                    $answer                   = $form . $skip . $resources.$feedback;
+                    $feedback = $ITSf->render($qid,88);
+                    $answer   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     
                     /*-- TAGGING START --/

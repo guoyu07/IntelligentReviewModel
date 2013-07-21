@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '223f';
-$LAST_UPDATE = 'Jul-19-2013';
+$ITS_version = '223g';
+$LAST_UPDATE = 'Jul-20-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -188,14 +188,11 @@ echo intval($r);
 </div>          
 <!-- myScore ---------->
 <?php
-$MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">';
-
 //var_dump($chArr);die();
 $score             = new ITS_score($id, $term, $tset);
 $_SESSION['score'] = $score;
-$str               = $score->renderChapterScores($chArr);       
-
-$MyScores .= $str . '</div>';
+$score_str         = $score->renderChapterScores($chArr);       
+$MyScores = '<div id="scoreContainer"><span>&raquo;&nbsp;My Scores</span></div><div id="scoreContainerContent">'.$score_str . '</div>';
 echo $MyScores;
 ?>
       

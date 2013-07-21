@@ -522,7 +522,7 @@ class ITS_question
         if (!$res) {
             die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
-        
+
         $fields = array();
         for ($f = 0; $f < mysql_num_rows($res); $f++) {
             array_push($fields, mysql_result($res, $f));

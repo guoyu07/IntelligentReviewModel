@@ -5,12 +5,10 @@
 
 .tag_add {color:#666;background:#FF9;font-weight:bold;border-left:1px solid #999}
 .tag_add:hover{cursor:pointer;color: #FFF;background:#2a2;}
-.tag_del {color:#666;background:#FF9;font-weight:bold;border-left:1px solid #999}
+.tag_del {color:#666;background:#FF9;font-weight:bold;border-left:1px solid #999;}
 .tag_del:hover{cursor:pointer;color: #FFF;background:#e77;}
 .tag_del_DB {color:#666;background:#eee;font-weight:bold;border-left:1px solid #999}
 .tag_del_DB:hover{cursor:pointer;color: #FFF;background:#e77;}
-
-
 
 .tag_sep {margin:5px;border-top:2px solid #999}
 .tagref{color:#444;}

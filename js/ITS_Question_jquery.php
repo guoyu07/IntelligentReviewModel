@@ -102,6 +102,10 @@ $(document).ready(function () {
 		$("#toolsContainer").slideToggle("slow");
 	});
     /*-------------------------------------------------------------------------*/
+    $("#feedbackContainer").click(function () {
+        $("#feedbackContainerContent").slideToggle("slow");
+    });
+    /*-------------------------------------------------------------------------*/    
     <?php
 // This is php is for the live script used on Question.php to either show the solution when navigated from the Course page or not.
 if (isset($_GET['sol'])) {
@@ -174,9 +178,7 @@ if (isset($_GET['sol'])) {
 			//var viewSolution = $("input#viewSolution").val(); //=1
 			//////////////////var viewSolution = 1;
 			//var QNUM = $("input#QNUM").val(); //=qNum
-			//var QNUM = <?php
-echo $qid;
-?>;
+
 			///////////////////var QNUM = $('#ITS_QCONTROL_TEXT').attr("value");
 			///////////////////var dataString = 'hasaPost='+ hasaPost + '&viewSolution=' + viewSolution + '&QNUM=' + QNUM;
 			//alert (dataString);return false;
@@ -203,9 +205,6 @@ echo $qid;
 			var hasaPost = 1;
 			//var viewSolution = $("input#viewSolution").val(); //=1
 			var viewHints = 1;
-			//var QNUM = <?php
-echo $qid;
-?>;
 			var QNUM = $('#ITS_QCONTROL_TEXT').attr("value");
 			var dataString = 'hasaPost='+ hasaPost + '&viewHints=' + viewHints + '&QNUM=' + QNUM;
 			//alert (dataString);return false;
@@ -231,9 +230,6 @@ echo $qid;
 			var hasaPost = 1;
 			//var viewSolution = $("input#viewSolution").val(); //=1
 			var viewSol = 1;
-			//var QNUM = <?php
-echo $qid;
-?>;
 			var QNUM = $('#ITS_QCONTROL_TEXT').attr("value");
 			var dataString = 'hasaPost='+ hasaPost + '&viewSol=' + viewSol + '&QNUM=' + QNUM;
 			//alert (dataString);return false;
@@ -1018,7 +1014,6 @@ $("#PreviewDialog").live('click', function(event) {
         $('#' + tar_id).html(str).css({
             'border': '2px dotted silver'
         });
-        
 /*
         $('#'+target).html(function() {
             var decoded = $("<div/>").html(tar_str).text(); //decode html entities
@@ -1243,4 +1238,4 @@ $.fn.insertAtCaret = function (tagName) {
     });
 };
 /*------------------------------------------ */
-</script>																																																															
+</script>																																																											

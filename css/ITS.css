@@ -22,6 +22,7 @@ body { margin: 0 2%;
 #ITS_nav_prev,#ITS_nav_next { display: none; }
 .ITS_tag a { text-decoration: none; font-size: 120%; }
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*a { border-radius:7px 7px 7px 7px }*/
 a.ITS:link { color:#999;text-decoration:none;outline:0} 
 a.ITS:visited { color:#666;text-decoration:none;outline:0} 
 a.ITS:hover {color:#666;font-weight:bold} 

@@ -189,15 +189,18 @@ if ($status == 'admin' OR $status == 'instructor') {
 
     $Q = new ITS_question(1, $db_name, $tb_name);
     $T = new ITS_statistics(1,'Spring_2013',$status);
-    
+
     //var_dump($qid);
     //die($qid);     
     $Q->load_DATA_from_DB($qid);
     //echo $Q->render_QUESTION_check()."<p>";
+
     $Q->get_ANSWERS_data_from_DB();
+
     //echo $Q->render_ANSWERS('a',0);
     $meta = $Q->render_data();
     //$mdb2->disconnect();
+        
     //--------------------------------------//
     switch ($status) {
         case 'admin':
@@ -342,8 +345,8 @@ echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
 
 // RENDER QUESTION
 if (!empty($qid)) {
-	echo '<img src="admin/icons/check.jpeg" class="ITS_publish">';
-    echo $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
+	$publish = (strtolower($Q->Q_question_data['status'])=='publish') ? '<img src="admin/icons/check.jpeg" class="ITS_publish">' : '';
+    echo $publish . $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
 }
 // id="metaContainer" style="display:none;"
 
