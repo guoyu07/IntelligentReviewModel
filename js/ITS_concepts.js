@@ -215,13 +215,13 @@ $(document).ready(function () {
      * "Order By" concept list
      *-------------------------------------------------------------------------*/
     $(".concept_orderby").live('click', function () {
-		
+
 		var letter = $('#current[name=ITS_alph_index]').text();
         var role   = $('#myselectid option:selected').text();
         var index  = $(this).attr('idx');
         
-        //alert(index+'~'+letter+'~'+role);
-        //orderbyUPDATE(index);
+        // alert(index+'~'+letter+'~'+role);
+        // orderbyUPDATE(index);
         
         $.get("ajax/ITS_concepts.php", {
              letter: letter,
@@ -260,41 +260,9 @@ $(document).ready(function () {
             }
         });
     });
-    /*-------------------------------------------------------------------------*
-     * In student mode, this function call returns with all matched questions for practice
-     * -------------------------------------------------------------------------*/
-    $('input[type="radio"]').live('click', function (event) {
-        /*-------------------------------------------------------------------------*/
-        // click does not work with Chrome !!
-        var s = $(this).attr('id');
-        var role = $('#myselectid option:selected').text();
-        
-        //alert(s); //.id = 'current'; //var s = $(this).val();
-        if (s == "CONCEPTS") {
-			$('#scoreContainer').hide();
-            $('#navContainer').hide();
-            /* scoreContainer */        
-            /*$.post("ajax/ITS_concepts.php", {
-                choice: "updateScore"
-            }, function (data) {
-                $('#scoreContainerContent').html(data);
-            });*/
-            $.post("ajax/ITS_concepts.php", {
-                choice: "showLetters",
-            }, function (data) {
-                $('#modeContentContainer').html(data);
-                var letter=$('#current[name=ITS_alph_index]').text();
-            //
-            //alert(letter+' '+role);
-            $.post("ajax/ITS_concepts.php", {
-                choice: "getConcepts",
-                index: letter,
-                role: role
-            }, function (data) {
-                $('#contentContainer').html(data);
-            });
-            });
-        } else if (s == "ASSIGNMENTS") {
+    /* -------------------------------------------------------------------------*/
+    $("label[for='ASSIGNMENTS']").live('click', function (event) {
+    /*--------------------------------------------------------------------------*/
             var role = $(this).attr('r');
             $('#scoreContainer').show();
             /* scoreContainer */
@@ -328,8 +296,64 @@ $(document).ready(function () {
             }, function (data) {
                 $('#contentContainer').html(data);
                 mathJax();
+            });    
+	}       
+	$("[name=toggle]").change(function() {
+		var dd = $(this).val();
+		alert(dd);
+    var show = $(this).val() == "yes";
+    $("#second_radio_div").toggle(show);
+
+    if (!show) {
+        $('#second_radio_no').attr('checked',true); 
+        $("#third_element_div").hide();
+    }
+}); 
+    /* -------------------------------------------------------------------------*/
+    $("label[for='CONCEPTS']").live('click', function (event) {
+    /*--------------------------------------------------------------------------*/
+    alert('sss');
+			$('#scoreContainer').hide();
+            $('#navContainer').hide();
+            /* scoreContainer */        
+            /*$.post("ajax/ITS_concepts.php", {
+                choice: "updateScore"
+            }, function (data) {
+                $('#scoreContainerContent').html(data);
+            });*/
+            $.post("ajax/ITS_concepts.php", {
+                choice: "showLetters",
+            }, function (data) {
+                $('#modeContentContainer').html(data);
+                var letter=$('#current[name=ITS_alph_index]').text();
+				//alert(letter+' '+role);
+            $.post("ajax/ITS_concepts.php", {
+                choice: "getConcepts",
+                index: letter,
+                role: role
+            }, function (data) {
+                $('#contentContainer').html(data);
             });
-        }
+            });        
+	});    
+	
+	/*
+	<a href="#" id="CONCEPTS" class="wrapper">
+<input id="C2" class="toggle" name="toggle" value="true" type="radio">
+<label for="C2" class="btn rounded-corners">CONCEPTS</label></a>
+<a href="#" id="ASSIGNMENTS" class="wrapper">
+<input id="A2" class="toggle" name="toggle" value="false" type="radio" checked r="AA">
+<label for="A2" class="btn rounded-corners">ASSIGNMENTS</label></a>
+* */
+    /*-------------------------------------------------------------------------*
+     * In student mode, this function call returns with all matched questions for practice
+     * -------------------------------------------------------------------------*/
+    $('input[type="radio"]').live('click', function (event) {
+    /*-------------------------------------------------------------------------*/
+    alert('ss');
+    /*    var s    = $(this).attr('id');
+        var role = $('#myselectid option:selected').text();
+        * */
     });
     /*-------------------------------------------------------------------------*/
     $('#changeConcept').live('click', function (event) {

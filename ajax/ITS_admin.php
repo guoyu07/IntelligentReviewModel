@@ -197,34 +197,6 @@ switch ($action) {
         $list = $usr->add_user($data[0], $data[1], $data[2], $data[3]);
         $str  = $list;
         break;
-    //-------------------------------------------//            
-    /*
-    case 'saveQuestion':
-    //-------------------------------------------//
-    $data = preg_split('[~]',$Data);
-    // DEBUG: var_dump($Data);//die();
-    $field = strtolower(str_replace("ITS_","",$Target));
-    //echo 'DEBUG: '.$Data; die();
-    
-    switch ($field):
-    case 'title':
-    case 'question':
-    case 'image':
-    case 'category':
-    $query = "UPDATE ".$tb_name." SET ".$field."='".addslashes($Data)."' WHERE id=".$qNum;
-    //die($query);
-    break;
-    default:
-    $query = "UPDATE ".$tb_name."_".$Q->Q_type." SET ".$field."='".addslashes($Data)."' WHERE id=".$qNum;
-    endswitch;
-    
-    //echo $query;  die();
-    $res =& $mdb2->query($query);
-    if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
-    
-    // Pre-process string for output:
-    $str = latexCheck2($Data,$Q->tex_path);
-    break;*/
     //-------------------------------------------//
     case 'addUser':
         //-------------------------------------------//

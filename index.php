@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '223g';
-$LAST_UPDATE = 'Jul-20-2013';
+$ITS_version = '223j';
+$LAST_UPDATE = 'Aug-08-2013';
 //=============================================================//
 
 require_once("config.php"); // #1 include
@@ -31,7 +31,7 @@ abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
-//##########################################//
+//------------------------------------------------------//
 
 if (isset($_GET['role'])) {
     $role = $_GET['role'];
@@ -69,8 +69,8 @@ $_SESSION['concepts'] = $concepts;
 <html lang="en">
     <head>
         <META HTTP-EQUIV="Expires"         CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
-        <META HTTP-EQUIV="Pragma"       CONTENT="no-cache">
-        <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+        <META HTTP-EQUIV="Pragma"          CONTENT="no-cache">
+        <meta HTTP-EQUIV="content-type"    CONTENT="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" CONTENT="IE=edge" />
         <title>ITS</title>
 <?php
@@ -79,20 +79,19 @@ include('js/ITS_jquery.php');
 include(INCLUDE_DIR . 'include_fancybox.php');
 include(INCLUDE_DIR . 'include_mathjax.php');
 ?>
-<script type="text/javascript" src="js/ITS_concepts.js"></script>
+	<script type="text/javascript" src="js/ITS_concepts.js"></script>
     <script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
     <link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
     <link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
-    <link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />    
-    
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />        
+	<script type="text/javascript">
 $(document).ready(function() {
 $(".fancybox").fancybox({
               type: 'inline',
           closeClick: true,
           padding: 5,
           helpers: {
-    overlay : {
+		overlay : {
         closeClick : true,
         speedOut   : 300,
         showEarly  : false,
@@ -118,8 +117,8 @@ $(".ITS_schedule").fancybox({
                   type : 'inside'
               }
           }
-      });
-$( "input[name=selectResource]" ).live('click', function(event) {
+});
+$("input[name=selectResource]" ).live('click', function(event) {
             var field = $(this).val();
             var concept = $(this).attr("concept");
             //alert(field+'='+concept);
@@ -178,13 +177,17 @@ echo $term;
                 <div class="icon" id="messageIcon"     onClick="ITS_MSG(1)">&para;</div>
             </div>
 <!-- MODE ------------->
+<!-- 
+<a href="#" id="CONCEPTS" class="wrapper">
+<a href="#" id="ASSIGNMENTS" class="wrapper">
+-->
 <div id="modeContainer">
-    <input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
-<label for="CONCEPTS" class="btn rounded-corners">CONCEPTS</label>
+<input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
+<label for="CONCEPTS" class="btn rounded-corners">CONCEPTS</label></a>
 <input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked r="<?php
 echo intval($r);
 ?>">
-<label for="ASSIGNMENTS" class="btn rounded-corners">ASSIGNMENTS</label>
+<label for="ASSIGNMENTS" class="btn rounded-corners">ASSIGNMENTS</label></a>
 </div>          
 <!-- myScore ---------->
 <?php

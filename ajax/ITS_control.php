@@ -105,16 +105,4 @@ switch ($Control) {
         //-------------------------------------------//
 }
 //=====================================================================//
-function latexCheck2($str, $path)
-{
-    //=====================================================================//
-    die('ERROR 4');
-    $pattern = "/<latex>(.*?)<\/latex>/i";
-    if (preg_match($pattern, $str, $matches)) {
-        $replacement = '<img latex="' . $matches[1] . '" src="' . $path . $matches[1] . '"/>';
-        $str         = preg_replace($pattern, $replacement, $str);
-    }
-    return $str;
-}
-//=====================================================================//
 ?> 

@@ -46,7 +46,7 @@ class ITS_question
     function __construct($student_id, $db_name, $table_name)
     {
         //=====================================================================//
-        global $db_dsn, $db_name, $tb_name, $tb_tags, $db_table_user_state, $tex_path, $files_path;
+        global $db_dsn, $db_name, $tb_name, $tb_tags, $db_table_user_state, $files_path, $tex_path, $tex_method;
         
         $this->user_id    = $student_id;
         $this->db_name    = $db_name;
@@ -56,6 +56,7 @@ class ITS_question
         $this->cpt_attrib = array();
         $this->style      = 'ITS';
         $this->tex_path   = $tex_path;
+        $this->tex_method = $tex_method;
         $this->files_path = $files_path;
     }
     //=====================================================================//
@@ -986,8 +987,8 @@ class ITS_question
     function renderQuestionForm($action)
     {
         //=====================================================================//    
-        //var_dump(array_keys($this->Q_question_data));//die();
-        //var_dump(array_keys($this->Q_answers_data));
+        // var_dump(array_keys($this->Q_question_data));//die();
+        // var_dump(array_keys($this->Q_answers_data));
         
         /* KEEP
         $tb = '<table style="1px solid blue">';
@@ -1022,8 +1023,7 @@ class ITS_question
 		   }
 			 $qtype = '<p><b>'.$field.' QUESTION<b></p>';
 		}
-				//--
- /*
+		/*
         $qtypes = array('Multiple Choice','Matching','Calculated','Short Answer','Paragraph');
         $qtype = '<select id="ITS_qtype" name="qtype" qid="'.$this->Q_question_data['id'].'">';
         for ($t=1; $t<=count($qtypes); $t++) {
@@ -1052,6 +1052,7 @@ class ITS_question
                     //+++++++++++++++++++++++++++++++++++++++++++//
                     $ansMax = 10;
                     $Nans   = $this->Q_question_data[$field];
+                    
                     /* $sel = '<select id="'.$fields[$i].'" name="'.$fields[$i].'" qid="'.$this->Q_question_data['id'].'"  style="float:right">';
                     for ($a=1; $a<=$ansMax; $a++) {
                     if ($a==$Nans) { $issel = 'selected="selected"'; }
@@ -1279,7 +1280,7 @@ class ITS_question
         $tb  = $Target;
         }*/
         
-        $Table = '<table class="' . $style . '">' . '<tr>' . '<td class="' . $style . '">' . '<div id="ITS_' . $TargetName . '_TARGET" class="ITS_TARGET" code="' . htmlspecialchars($Target) . '">' . $Target . '</div>' . '</td>' . '<td class="ITS_EDIT">' . '<span class="ITS_QCONTROL" id="ITS_' . $TargetName . '" ref="' . strtolower($TargetName) . '"></span>' . '</td>' . '</tr>' . '</table>';
+        $Table = '<table class="' . $style . '">' . '<tr>' . '<td class="' . $style . '">' . '<div id="ITS_' . $TargetName . '_TARGET" class="ITS_TARGET" code="' . htmlspecialchars($Target) . '">' . $Target . '</div>' . '</td>' . '<td class="ITS_EDIT">' . '<span class="ITS_QCONTROL" id="ITS_' . $TargetName . '" ref="' . strtolower($TargetName) . '"></span></td></tr></table>';
         
         //echo '<pre>';print_r($Table);echo '</pre>';
         //code="' . htmlspecialchars($Target) . '"
@@ -1300,7 +1301,7 @@ class ITS_question
         
         //var_dump($Table);       
         //code="' . $Target . '"
-        $Table = '<table class="' . $style . '">' . '<tr>' . '<td class="' . $style . '">' . '<div id="ITS_' . $TargetName . '_TARGET" class="ITS_TARGET">' . $Target . '</div>' . '</td>' . '<td class="' . $style . '">' . '<span class="ITS_ICONTROL" id="ITS_' . $TargetName . '" ref="' . strtolower($TargetName) . '"></span>' . '</td>' . '</tr>' . '</table>';
+        $Table = '<table class="' . $style . '">' . '<tr>' . '<td class="' . $style . '">' . '<div id="ITS_' . $TargetName . '_TARGET" class="ITS_TARGET">' . $Target . '</div>' . '</td>' . '<td class="' . $style . '">' . '<span class="ITS_ICONTROL" id="ITS_' . $TargetName . '" ref="' . strtolower($TargetName) . '"></span></td></tr></table>';
         //$debug = htmlspecialchars($Table);echo $debug.'<hr>';
         return $Table;
     }
@@ -1309,12 +1310,8 @@ class ITS_question
     {
         //=====================================================================//
         // LATEX: <latex>latex_code</latex> ==> TEX img
-        // IMAGE_PATH
         
-        $field = latexCheck($field, $this->tex_path);
-        //echo '<center>'.$field.'<center><br>';
-        //$field = preg_replace("/tex_path/", $this->tex_path, $field);
-        //$field = preg_replace("/RESOURCE_PATH/", $this->files_path, $field);
+        $field = latexCheck($field, $this->tex_method, $this->tex_path);
         
         return $field;
     }
@@ -1322,29 +1319,24 @@ class ITS_question
 }
 //eo:class
 //=====================================================================//
-function latexCheck($str, $path)
+function latexCheck($str, $method, $path)
 {
     //=====================================================================//
     //ITS_debug();
-    //echo '<pre>';var_dump($str);echo '</pre><br>';
-    //echo '<p>latexCheck:<br>';
-    //echo '<div style="background:pink;color:blue">'.htmlspecialchars($str).'</div><br>'; //
-    //$pattern = "/\\\$\\\$(.*?)\\\$\\\$/im";
+    
+    //die($path);
+    
+    switch ($method) {
+    case 'mathtex': // server-side
+		$replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . ' ${1}"/>';
+        break;
+    case 'mathJax': // client-side
+        $replacement = '\(${1}\)';
+        break;
+	}
     
     $pattern = "/<latex>(.*?)<\/latex>/im";
-    //$replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . '${1}"/>';
-    
-    //$pattern	= "/\\$\\$(.*?)\\$\\$/im";
-    //------>> $pattern	= "/\\$\\$(.*?)\\$\\$/im";
-    //$replacement = '<div style="border:1px solid red">LaTeX</div>';
-    //die('src="' . $path . '${1}"');
-    
-    //--- mathtex solution ---//
-    //$replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . ' ${1}"/>';
-    //var_dump($path); die();
-    //------------------------//
-    
-    $replacement = '\(${1}\)';
+
     /*
     echo '<span style="color:blue">'.$str.'</span><br>'; //
     echo '<span style="color:green">'.$pattern.'</span><br>'; //
@@ -1352,9 +1344,10 @@ function latexCheck($str, $path)
     */
     //if(preg_match_all($pattern, $str, $matches,PREG_SET_ORDER)){
     //echo '<pre>';print_r($matches);echo '</pre>';	}
-    $str         = preg_replace($pattern, $replacement, $str);
-    //echo '<center><div style="background:yellow">'.$str.'</div></center><hr>';	
-    //die();
+    
+    $str = preg_replace($pattern, $replacement, $str);
+    
+    //echo '<center><div style="background:yellow">'.$str.'</div></center><hr>'; // die();
     return $str;
 }
 ?>

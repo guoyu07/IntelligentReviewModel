@@ -1,6 +1,6 @@
 <?php
 /*======== HOST =========================*/
-$host = $_SERVER['SERVER_NAME'];   //gethostname();
+$host = $_SERVER['SERVER_NAME'];          // gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
@@ -104,13 +104,15 @@ $tb_tags             = 'tags';
 $tb_images			 = 'images';
 $tb_question_diff    = 'questions_difficulty';
 
+$tex_method 		 = 'mathtex';   // 'mathtex' | 'mathJax'
+
 $question_dir      = "question";
 $question_file_ext = 'html';
 $answer_dir        = "answer";
 $answer_file_ext   = 'html';
 $BNT_dir           = "Debug";
 
-global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $tb_question_diff, $tex_path, $files_path, $dir, $host, $CAS_path, $term, $tset;
+global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $tb_question_diff, $files_path, $dir, $host, $CAS_path, $term, $tset,$tex_method,$tex_path;
 
 /*--- httpd.conf --------------//
 Alias /ITS_FILES/ "/var/www/ITS-RESOURCES/ITS_FILES/"
