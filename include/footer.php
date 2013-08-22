@@ -1,7 +1,7 @@
 <?php
 /*=====================================================================//					
 Author(s): Gregory Krudysz	 
-Last Revision: Jun-21-2013
+Last Revision: Jul-14-2013
 //=====================================================================*/
 //echo $status.'  '.$role;
 
@@ -48,7 +48,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     
     switch ($role) {
         case 'admin':
-            $footer_list = '<div id="footer_admin"><div id="footer_list" class="ITS_ADMIN"><div class="footer_col"><ul class="footer">' . '<li><a href="docs/">Documentation</a></li>' . '<li><a href="Tags.php">Tags</a></li>' . '</ul></div>' . '<div class="footer_col"><ul class="footer">' . '<li><a href="FILES/DATA/DATA.php">DATA</a></li> ' . '<li><a href="dSPFirst.php">eDSPFirst</a></li>' . '<li><a href="search/search.php">Search Tool</a></li>' . '</ul></div>' . '<div class="footer_col"><ul class="footer">' . '<li>Survey:<br><a href="survey1.php?survey=Fall_2011">Fall 2011</a><br><a href="survey1.php?survey=Fall_2011">Spring 2011</a><br><a href="survey1.php?survey=BMED6787">BMED6787</a></li> ' . '</ul></div>' . '<div class="footer_col" style="float:right;width:auto;"><div id="navcontainer">' . $nav . '</div></div></div>' .
+            $footer_list = '<div id="footer_admin"><div id="footer_list" class="ITS_ADMIN"><div class="footer_col"><ul class="footer">' . '<li><a href="docs/">Docs</a></li>'. '<li><a href="Tags.php">Tags</a></li>' . '<li><a href="Synonyms.php">Synonyms</a></li>' . '</ul></div>' . '<div class="footer_col"><ul class="footer">' . '<li><a href="FILES/DATA/DATA.php">DATA</a></li> ' . '<li><a href="dSPFirst.php">eDSPFirst</a></li>' . '<li><a href="search/search.php">Search Tool</a></li>' . '</ul></div>' . '<div class="footer_col"><ul class="footer">' . '<li>Survey:<br><a href="survey1.php?survey=Fall_2011">Fall 2011</a><br><a href="survey1.php?survey=Fall_2011">Spring 2011</a><br><a href="survey1.php?survey=BMED6787">BMED6787</a></li> ' . '</ul></div>' . '<div class="footer_col" style="float:right;width:auto;"><div id="navcontainer">' . $nav . '</div></div></div>' .
                 '</div>';
             break;
         case 'instructor':

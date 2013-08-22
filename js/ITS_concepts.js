@@ -34,6 +34,9 @@ $(document).ready(function () {
     //$('#getQuesForConcepts').live('click', function(event) {
     $('.selcon').live('click', function (event) {
         /*-------------------------------------------------------------------------*/
+        $('#contentContainer').hide();
+        $('#navContainer').fadeOut();
+        
         var id = (this.id).split('_');
         var field = id[1];
         var tid = $(this).attr('tid');
@@ -71,7 +74,6 @@ $(document).ready(function () {
         alert(tbvalues);
         */
         $('#errorConceptContainer').html("");
-        $('#navContainer').show();
 		// alert(field+' '+tid);
         $.post("ajax/ITS_concepts.php", {
             choice: 'getConceptNav',
@@ -95,6 +97,8 @@ $(document).ready(function () {
 			}
             else $("#contentContainer").html("There was some error in the request");
         });
+        $('#navContainer').fadeIn();
+        $('#contentContainer').fadeIn();
     });
     /*-------------------------------------------------------------------------*
      * Deletes a row in the selected concepts table
@@ -263,6 +267,7 @@ $(document).ready(function () {
     /* -------------------------------------------------------------------------*/
     $("label[for='ASSIGNMENTS']").live('click', function (event) {
     /*--------------------------------------------------------------------------*/
+			$('#contentContainer').fadeOut();
             var role = $(this).attr('r');
             $('#scoreContainer').show();
             /* scoreContainer */
@@ -297,24 +302,17 @@ $(document).ready(function () {
                 $('#contentContainer').html(data);
                 mathJax();
             });    
-	}       
-	$("[name=toggle]").change(function() {
-		var dd = $(this).val();
-		alert(dd);
-    var show = $(this).val() == "yes";
-    $("#second_radio_div").toggle(show);
-
-    if (!show) {
-        $('#second_radio_no').attr('checked',true); 
-        $("#third_element_div").hide();
-    }
-}); 
+            $('#contentContainer').fadeIn();  
+	});       
     /* -------------------------------------------------------------------------*/
     $("label[for='CONCEPTS']").live('click', function (event) {
     /*--------------------------------------------------------------------------*/
-    alert('sss');
+			//$('#contentContainer').html('<img src="admin/icons/ajax-loader.gif" class="fancybox" id="loading">');
+			$('#contentContainer').fadeOut();
+			var role = $(this).attr('r');
 			$('#scoreContainer').hide();
             $('#navContainer').hide();
+
             /* scoreContainer */        
             /*$.post("ajax/ITS_concepts.php", {
                 choice: "updateScore"
@@ -334,27 +332,12 @@ $(document).ready(function () {
             }, function (data) {
                 $('#contentContainer').html(data);
             });
-            });        
+            });
+            $('#contentContainer').fadeIn();       
 	});    
-	
-	/*
-	<a href="#" id="CONCEPTS" class="wrapper">
-<input id="C2" class="toggle" name="toggle" value="true" type="radio">
-<label for="C2" class="btn rounded-corners">CONCEPTS</label></a>
-<a href="#" id="ASSIGNMENTS" class="wrapper">
-<input id="A2" class="toggle" name="toggle" value="false" type="radio" checked r="AA">
-<label for="A2" class="btn rounded-corners">ASSIGNMENTS</label></a>
-* */
     /*-------------------------------------------------------------------------*
      * In student mode, this function call returns with all matched questions for practice
      * -------------------------------------------------------------------------*/
-    $('input[type="radio"]').live('click', function (event) {
-    /*-------------------------------------------------------------------------*/
-    alert('ss');
-    /*    var s    = $(this).attr('id');
-        var role = $('#myselectid option:selected').text();
-        * */
-    });
     /*-------------------------------------------------------------------------*/
     $('#changeConcept').live('click', function (event) {
         /*-------------------------------------------------------------------------*/

@@ -389,12 +389,7 @@ $r = 0;
 }
 
 print '</select><br>';
-print 'Number of enteries: ';
-print $r;
-
-
-print '</div>';
-
+print 'Number of enteries: '.$r.'</div>';
 }
 
 ?>

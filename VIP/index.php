@@ -7,6 +7,48 @@
    <body>
       <h3>VIP &mdash; ITS Projects</h3>
       <p>
+      <h2>Fall 2013</h2>
+      <table class="ITS_version" summary="ITS versions">
+         <!--------------------------------------------------------------------->
+         <tr>
+            <th width="100px">PROJECT</th>
+            <th width="140px">MEMBERS</th>
+            <th>DETAILS</th>
+         </tr>
+         <!--------------------------------------------------------------------->
+         <tr>
+            <td>Project 1</td>
+            <td>
+               <ul class="list2">
+               </ul>
+            </td>
+            <td class="list">
+               <ol>
+                  <li><b>Summary:</b></li>
+                  <li><b>Files:</b> <a href="Fall2013/Project1/Project1.zip">Project1.zip</a></li>
+                  <li><b>Presentation:</b> <a href="Fall2013/Project1/Project1.pptx">Project1.pptx</a></li>
+               </ol>
+            </td>
+         </tr>
+         <!--------------------------------------------------------------------->	
+         <tr>
+            <td>Project 2</td>
+                        <td>
+               <ul class="list2">
+               </ul>
+            </td>
+            <td class="list">
+               <ol>
+                  <li><b>Summary:</b></li>
+                  <li><b>Files:</b> <a href="Fall2013/Project2/Project2.zip">Project2.zip</a></li>
+                  <li><b>Presentation:</b> <a href="Fall2013/Project2/Project2.pptx">Project2.pptx</a></li>
+               </ol>
+            </td>
+         </tr>
+         <!--------------------------------------------------------------------->
+      </table>
+      </p>       
+      <p>
       <h2>Spring 2013</h2>
       <table class="ITS_version" summary="ITS versions">
          <!--------------------------------------------------------------------->

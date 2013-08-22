@@ -2,8 +2,7 @@
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
 require_once("../" . INCLUDE_DIR . "include.php");
-
-//require_once("../classes/ITS_resource.php");
+require_once("../classes/ITS_resource.php");
 
 $style = '';
 

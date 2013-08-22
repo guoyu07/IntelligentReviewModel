@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Jul-14-2013
+Last Revision: Aug-19-2013
 
 SCHEMA:
 screen.php
@@ -1379,70 +1379,70 @@ class ITS_screen
         //=====================================================================//  
         $open  = array(
             array(
-                5,
+                8,
+                19
+            ),
+            array(
+                8,
+                26
+            ),
+            array(
+                9,
+                2
+            ),
+            array(
+                9,
+                23
+            ),
+            array(
+                9,
+                30
+            ),
+            array(
+                10,
                 14
             ),
             array(
-                5,
-                20
+                10,
+                21
             ),
             array(
-                5,
-                20
-            ),
-            array(
-                6,
-                3
-            ),
-            array(
-                6,
-                10
-            ),
-            array(
-                6,
-                17
-            ),
-            array(
-                7,
-                8
-            ),
-            array(
-                7,
-                22
+                11,
+                11
             )
         );
         $close = array(
             array(
-                6,
-                3
+                9,
+                9
             ),
             array(
-                6,
-                10
+                9,
+                16
             ),
             array(
-                6,
-                10
+                9,
+                23
             ),
             array(
-                6,
-                17
+                10,
+                14
             ),
             array(
-                7,
-                1
+                10,
+                14
             ),
             array(
-                7,
-                10
+                11,
+                11
             ),
             array(
-                7,
-                31
+                11,
+                11
             ),
             array(
-                7,
-                31
+                12,
+                6
             )
         );
         
@@ -1462,11 +1462,11 @@ class ITS_screen
         
         for ($c = 0; $c < count($open); $c++) {
             //var_dump($close[$c][1]);die();
-            if ($c == 6) {
+            /*if ($c == 6) {
                 $close_time = mktime(8, 0, 0, $close[$c][0], $close[$c][1], $term_arr[1]);
-            } else {
+            } else {*/
                 $close_time = mktime(23, 59, 59, $close[$c][0], $close[$c][1], $term_arr[1]);
-            }
+            //}
             //var_dump(date("M - j @ g:i a", $close_time));die();
             array_push($schedule, date("M - j @ g:i a", $close_time));
             //echo '<p>'.date("M-j", $close_time).'</p>';
@@ -1503,7 +1503,7 @@ class ITS_screen
             default:
                 /* ----------------- */
                 $mode   = 'question'; // index | practice | question      
-                $oc     = '<a id="single_image" href="VIP/' . $this->term . '/schedule.png" class="ITS_question_img">schedule</a>';
+                $oc     = '<a id="single_image" href="' . $this->term . '_schedule.png" class="ITS_question_img">schedule</a>';
                 $chList = '<ul id="chList" class="nav" ih="' . $index_hide . '"><li style="margin-right:2em;">' . $oc . '</li>';
                 
                 switch ($this->role) {
@@ -1918,7 +1918,8 @@ class ITS_screen
                 $dist     = getQuestionDist($qid, $qtype, $score, $Nanswers);
                 $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, 2, $qn);
                 
-                $feedback = '<table style="border:1px solid #fff"><tr><td>' . $FEEDBACK . '</td><td style="width:220px">' . $rateBox . '</td></tr></table>';
+                //$feedback = '<table style="border:1px solid #fff"><tr><td>' . $FEEDBACK . '</td><td style="width:220px">' . $rateBox . '</td></tr></table>';
+                $feedback = '';
                 $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td>' . '<td class="PROFILE" colspan="2">' . $ANSWER . '<BR>' . $feedback . '</td>' . '</tr>';
                 //} // eof $qn
                 $Estr .= '</table>';
@@ -2085,7 +2086,9 @@ class ITS_screen
         
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
-        $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
+
+        // $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
+        $feedback = '';
         $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td></tr>' . '<tr><td class="PROFILE" colspan="2">' . $ANSWER . '<BR><div class="ITS_FEEDBACK">' . $feedback . '</div></td>' . '</td></tr>';
         //} // eof $qn
         $Estr .= '</table>';
@@ -2229,7 +2232,7 @@ class ITS_screen
     {
         //=====================================================================//
         
-        //echo $resource.' '.$resource_name.'<br>';
+        // echo $resource.' '.$resource_name.'<br>';
         
         $NO_QUESTIONS = FALSE;
         $ITSq         = new ITS_query();
@@ -2364,14 +2367,18 @@ class ITS_screen
                         }
                     }
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-                    $resources = '';
-                    //<div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent">';
                     
-                    //$Robj = new ITS_resource('sampling');
+                    // die($this->id.' '.$this->term.' '.$resource_name);
+                    
+                    $Robj = new ITS_resource($this->id,$this->term,$resource_name);
+                    $Rstr = $Robj->getEq();
+                    
                     //$Rstr  = $obj->setResource('sampling',402);  
                     //$Rstr = '<p style="height:0px">&nbsp;</p>';      
                     //$resources .= $Rstr . '</div>';
                     
+                    $resources = '<hr><div id="resourceContainer"><span>&raquo;&nbsp;Resources</span></div><div id="resourceContainerContent"><center>'.$Rstr.'</center></div>';
+                         
                     //$this->_answers_permutation[$name] = $Q->Q_answers_permutation;
                     $error                    = '<div id="errorContainer"></div>';
                     //<form action="javascript:ITS_question_submit(document.getElementById(\'ITS_SubmitForm\'),'.$qid.',\''.$qtype.'\');" name="ITS_SubmitForm" id="ITS_SubmitForm">
@@ -2383,7 +2390,8 @@ class ITS_screen
                     $form   = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
                     $skip   = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     
-                    $feedback = $ITSf->render($qid,88);
+                    //$feedback = $ITSf->render($qid,88);
+                    $feedback = '';
                     $answer   = $form . $skip . $resources.$feedback;
                     
                     // die($this->role);
@@ -2689,7 +2697,8 @@ class ITS_screen
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
-                    $feedback = $ITSf->render($qid,88);
+                    //$feedback = $ITSf->render($qid,88);
+                    $feedback = '';
                     $answer   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     
@@ -2949,7 +2958,7 @@ class ITS_screen
                     $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
-                    $feedback = 'ff';
+                    $feedback = ''; //ff
                     $answer                   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
                     

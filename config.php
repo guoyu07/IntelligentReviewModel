@@ -4,8 +4,8 @@ $host = $_SERVER['SERVER_NAME'];          // gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
-$term = 'Spring_2013';
-$tset = mktime(0, 0, 0, 1, 11, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
+$term = 'Fall_2013';
+$tset = mktime(0, 0, 0, 8, 20, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
 
 switch ($host) {
     /*--------- LOCAL -----------------------*/

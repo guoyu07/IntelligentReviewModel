@@ -99,7 +99,7 @@ if (0) { //($datagrid->getRecordCount()>0){
 // NEW CLASS
 //=============================================================
 // var_dump($_POST); echo "<p>"; die();
-$current_term = 'Summer_2013';   // BMED6787
+$current_term = 'Fall_2013';   // BMED6787
 //echo $_POST['new_class'];
 //echo isset($_POST['new_class']);
 //echo (isset($_POST['new_class']));

@@ -16,14 +16,14 @@ Methods: load_DATA_from_DB($q_num)
 ex. $ITS_question = new ITS_question(90001,"its","user_cpt");
 
 Author(s): Greg Krudysz | Aug-28-2008
-Last Revision: Jul-19-2013
+Last Revision: Aug-10-2013
 //=====================================================================*/
 
 class ITS_question
 {
-    var $user_id; // ITS student ID
-    var $file_name; // initial CPT file name (e.g. "ch7_iCPT.txt")
-    var $db_name; // DB name (e.g. "its")
+    var $user_id; 		// ITS student ID
+    var $file_name; 	// initial CPT file name (e.g. "ch7_iCPT.txt")
+    var $db_name; 		// DB name (e.g. "its")
     var $tb_name; // question table name
     var $max_cols; // max number of prob. entries for each node
     var $cpt_array; // CPT array
@@ -867,7 +867,7 @@ class ITS_question
                     default: {
                         //Changes to make multiple answer boxes: SHOULD the IDS be different for diff boxes?? how is the scoring done
                         for ($k = 0; $k < $this->Q_question_data['answers']; $k++)
-                            $answer_str .= $this->Q_question_parts['text' . ($k + 1)] . '&nbsp;&nbsp;&nbsp;&nbsp;<textarea class="TXA_ANSWER" id="ITS_TA' . $k . '" name="' . $name . '"></textarea><br>';
+                            $answer_str .= $this->renderFieldCheck($this->Q_question_parts['text' . ($k + 1)]) . '&nbsp;&nbsp;&nbsp;&nbsp;<textarea class="TXA_ANSWER" id="ITS_TA' . $k . '" name="' . $name . '"></textarea><br>';
                     }
                         $answer_str .= '<input type="hidden" value="' . $this->Q_question_data['answers'] . '" id="answersCount">';
                         // $answer_str .= '<textarea class="TXA_ANSWER" id="ITS_TA" name="' . $name . '"></textarea>';
@@ -1322,9 +1322,7 @@ class ITS_question
 function latexCheck($str, $method, $path)
 {
     //=====================================================================//
-    //ITS_debug();
-    
-    //die($path);
+    //ITS_debug(); /die($path);
     
     switch ($method) {
     case 'mathtex': // server-side
@@ -1346,7 +1344,7 @@ function latexCheck($str, $method, $path)
     //echo '<pre>';print_r($matches);echo '</pre>';	}
     
     $str = preg_replace($pattern, $replacement, $str);
-    
+
     //echo '<center><div style="background:yellow">'.$str.'</div></center><hr>'; // die();
     return $str;
 }

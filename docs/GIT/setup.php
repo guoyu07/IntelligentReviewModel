@@ -48,7 +48,7 @@
         REMOTE</td>
 
         <td class="list">
-          <ul>
+          <ul class="list">
             <li><b>DEV5 ( ssh -X [username]@itsdev5.vip.gatech.edu )</b></li>
 
             <li style="list-style: none"><code>cd /home/[username]<br />

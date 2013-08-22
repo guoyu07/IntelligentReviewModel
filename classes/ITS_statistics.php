@@ -2095,9 +2095,9 @@ class ITS_statistics
         $fdate = explode(',', $fdate);
         $fdate = $fdate[0] . ',' . $fdate[1] . '<br>' . $fdate[2];
         
-        $file =  '<form action="Profile.php" method="post" enctype="multipart/form-data"><p style="font-size:70%">Select T-square gradebook file (.csv):<br><input type="file" name="file" id="file" size="10"><p>' .$ch_list. ' <input type="submit" name="getGradesSubmit" value="Submit"></p></p></form>';
+        $file 	   = '<form action="Profile.php" method="post" enctype="multipart/form-data"><p style="font-size:70%">Select T-square gradebook file (.csv):<br><input type="file" name="file" id="file" size="10"><p>' .$ch_list. ' <input type="submit" name="getGradesSubmit" value="Submit"></p></p></form>';
 		$Gradebook = '<div class="file2"><div id="gradebookContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Gradebook</span></div>'.
-                '<div id="gradebookContent">'.$file.'</div></div>';
+					 '<div id="gradebookContent">'.$file.'</div></div>';
 
         $Estr = '<center><div class="file"><a href="' . $file_path . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">scores</font></div>' . '<div class="file"><a href="' . $file_path1 . '" target="_blank"><img alt="Export To Excel" src="css/media/excel_graphic.png" /></a><br><font color="blue">grades</font></div>' .
 				$Gradebook. '<table class="CPROFILE">' . $header;

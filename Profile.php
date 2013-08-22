@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Jul-10-2013';
+$LAST_UPDATE = 'Aug-20-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz
 //=====================================================================//
@@ -55,6 +55,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     switch ($status) {
         case 'instructor':
             $class_arr = array(
+                'Fall_2013',            
                 'Summer_2013',
                 'Spring_2013',
                 'Fall_2012',
@@ -71,6 +72,7 @@ if ($status == 'admin' OR $status == 'instructor') {
             break;
         case 'admin':
             $class_arr = array(
+                'Fall_2013',            
                 'Summer_2013',            
                 'Spring_2013',
                 'Fall_2012',

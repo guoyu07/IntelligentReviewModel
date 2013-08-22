@@ -23,8 +23,7 @@ $tbvaluesConcp = $_REQUEST['tbvaluesConcp'];
 $obj = new ITS_concepts();
 $val = $obj->createModule($moduleName,$tbvalues,$tbvaluesConcp);
 echo $val;
-}
-*/
+}*/
 // echo getcwd() . "\n";
 // var_dump($_REQUEST['choice']);
 
@@ -69,8 +68,13 @@ class ITS_concepts
     {
         //=====================================================================//    
         
-        $score_str = $this->getConceptScore($tag_id);       
-        $str = '<div class="navConcept" tid="' . $tag_id . '">' . str_replace('-',' ',$concept) . '</div><span class="navConceptInfo">' . $score_str . '</span><br><hr>';
+        $score_str = $this->getConceptScore($tag_id);        
+        
+        // render concept name
+        //$concept = str_replace('-',' ',$concept);
+        $concept = (strstr($concept,'()')) ? '<code>'.$concept.'</code>' : ucwords($concept);
+                 
+        $str = '<div class="navConcept" tid="' . $tag_id . '">' . $concept . '</div><div>'.$equation.'</div><span class="navConceptInfo">' . $score_str . '</span><br><hr>';
         
         return $str;
     }
@@ -90,6 +94,7 @@ class ITS_concepts
     {
         // $all_flag = 1 // print all concepts available, even with no questions
         //=====================================================================//    
+        
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
 
@@ -150,7 +155,7 @@ class ITS_concepts
 				
 	$query = 'SELECT t.id,t.name,count(s.question_id) AS attempted,count(q.id) AS available, ROUND(AVG(s.score),1) AS score 
 FROM tags AS t 
-LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0 
+LEFT JOIN questions_tags AS qt ON t.id = qt.tags_id AND t.synonym=0
 LEFT JOIN questions AS q ON q.id = qt.questions_id AND q.qtype IN ("M","MC","C") AND q.status="publish"
 LEFT JOIN '.$this->tb_user.$this->id.' AS s ON s.tags = qt.tags_id AND s.question_id = qt.questions_id AND event = "concept" 
 ' . $where . '
@@ -170,7 +175,8 @@ GROUP BY name' . $having . ' ' . $orderby;
         $N = 10; // list items per column
         
         //$str = $list . '<div id="conceptColumnContainer">';
-        $str = $list . '<div id="conceptColumnContainer"><div id="conceptColumn"><ul class="conceptList">';
+        //B: $str = $list . '<div id="conceptColumnContainer"><div id="conceptColumnX"><ul class="conceptListX">';     
+        $str = $list . '<div id="conceptColumnContainer"><div id="conceptColumnB"><ul class="conceptListB">';
         for ($x = 0; $x < mysql_num_rows($res); $x++) {
             $mod = $x % $N;
             //if ($mod == 0) {
@@ -191,15 +197,22 @@ GROUP BY name' . $having . ' ' . $orderby;
                     $conceptData .= '<span class="conceptCount'.$class.'">' . $row[$value] . '</span>';
 				}
             }
-            $name = str_replace('-',' ',$row['name']);
+            // render concept name
+            $name = $row['name']; 	//$name = str_replace('-',' ',$row['name']);
+            $name = (strstr($name,'()')) ? '<code>'.$name.'</code>' : ucwords($name);
             
             $name_str  = $name;
             $class_sel = 'selcon';
             if ($row['available']){
 				$class_sel = ($row['attempted']==$row['available']) ? 'selcon' : 'selcon';
 				$name_str  = ($row['attempted']==$row['available']) ? '<strike>&nbsp;'.$name.'&nbsp;</strike>' : $name;
-			} 
-            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'">' .$name_str . $conceptData.'</li>';
+			}
+			
+            //A: $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'">' .$name_str . $conceptData.'</li>';
+            //B:
+            $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'">' .$name_str.$conceptData.'</li>';   
+            //C:$str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'"><h3>' .$name_str .'</h3><p>'.$conceptData.'</p></li>';
+            //D: $str .= '<li  id="con_' . $row['name'] . '" tid="' . $row['id'] . '" class="'.$class_sel.'"><h3>' .$name_str .'</h3>'.'</li>';
             //$str .= ''.$x.'</div>';
             
             //if ($mod == ($N - 1) || ($x == (mysql_num_rows($res) - 1))) {
@@ -388,7 +401,7 @@ WHERE t.name='.$str_vals.' AND q.qtype IN ("M","MC","C") AND event IS NULL';
     //=====================================================================//
     function conceptListContainer($letter, $role)
     {
-        //=====================================================================//
+    //=====================================================================//
         
         $role_flag = ($role == 'admin' OR $role == 'instructor') ? 1 : 0;
         
@@ -399,7 +412,7 @@ WHERE t.name='.$str_vals.' AND q.qtype IN ("M","MC","C") AND event IS NULL';
     //=====================================================================//
     function showLetters()
     {
-        //=====================================================================//
+    //=====================================================================//
         $con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
         mysql_select_db($this->db_name, $con) or die('Could not select DB');
         $query = 'SELECT DISTINCT LEFT(name,1) FROM tags t WHERE t.synonym=0 ORDER BY name';

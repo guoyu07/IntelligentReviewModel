@@ -55,11 +55,11 @@ class ITS_feedback
     {
         //=====================================================================//    
         // Users pull-down menu
-        $dialog = 'Message: <textarea name="message" rows="2" cols="50"></textarea>
+        $dialog = '<textarea name="message" rows="2" cols="50"></textarea>
 					<input type="submit" value="Send">';
 					
 		$str = '<div id="feedbackContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Feedback</span></div>'.
-                '<div id="feedbackContent"><center>'. $dialog.'</center></div>';
+                '<div id="feedbackContent" style="display:none"><center>'. $dialog.'</center></div>';
 
         return $str;
     }   

@@ -12,14 +12,14 @@
 }
 #navListQC li a{
   position: relative;
-  padding: 3px 0.5em;
+  padding: 0.2em 0.5em;
   margin-left: 0px;
   border: 2px solid #FFF;
   border-bottom: none;
   background: #FFFFFF;
   font-family:Garamond, Georgia, serif;
   font-variant:small-caps;
-  letter-spacing: 0.1ex;
+  letter-spacing: 0.3ex;
   text-decoration: none;
   outline: 0; /* get rid of the dotted line */
 }

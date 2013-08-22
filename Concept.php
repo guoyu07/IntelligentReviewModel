@@ -1,12 +1,9 @@
 <?php
-error_reporting(E_ALL);
-include("classes/ITS_timer.php");
-$timer = new ITS_timer();
+require_once("config.php"); // #1 include
+require_once(INCLUDE_DIR . "include.php");
+include_once("classes/ITS_timer.php");
 
-require_once("config.php");
-require_once(INCLUDE_DIR . "common.php");
-require_once(INCLUDE_DIR . "User.php");
-//include("classes/ITS_statistics.php");
+$timer = new ITS_timer();
 
 session_start();
 // return to login page if not logged in
@@ -22,7 +19,10 @@ abort_if_unauthenticated();
 </head>
 <body class="ITS">
 <div class="main">
-<?php							
+<?php				
+
+//UPDATE concepts SET code="y[n]=H(e^{j0})X_{o}+\\sum\\limits_{k=1}^N (H(e^{j\\hat\\omega_{k}})\\frac{X_k}{2}e^{j\\hat\\omega_k n} + H(e^{-j\\hat\\omega_{k}})\\frac{X_k^*}{2}e^{-j\\hat\\omega_k n})" WHERE id=6005;
+			
 // connect to database
 $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)){ throw new Exception($this->mdb2->getMessage()); }
@@ -34,16 +34,21 @@ if (PEAR::isError($mdb2)){ throw new Exception($this->mdb2->getMessage()); }
   $mdb2->disconnect();
 
   $concepts = $res->fetchAll();
+  $tb = '<table class="ITS">';
 	//echo $concepts[1].'<p>';
   //echo str_replace('\\','\\\\',$concepts[1]);
 	for ($n=1;$n<=count($concepts)-1;$n++) {
-	  if (empty($concepts[$n][1])){
+	  /*if (empty($concepts[$n][1])){
 		  echo $concepts[$n][0].'<p>'; 
-		} else {
-	    echo '<font color=red>'.$concepts[$n][2].'</font> '.$concepts[$n][0].'  <img class="ITS_tag" src="'.$tex_path.$concepts[$n][1].'"><p>';
-	  }
+		} else {*/
+	    $tb .= '<tr><td><font color=red>'.$concepts[$n][2].'</font></td><td>'.$concepts[$n][0].'</td><td><img class="ITS_tag" src="'.$tex_path.$concepts[$n][1].'"></td></tr>';
+	  //}
 	}
-	//die();
+	$tb .= '</table>';
+	
+	echo $tb;
+	
+	/*
 $tex_path = '/cgi-bin/mimetex.exe?';		 
 $tag1  = '<img class="ITS_tag" src="'.$tex_path.'x[n]=x(n/fs)">'; //array('one','two','three','four');
 $tag2  = '<img class="ITS_tag" src="'.$tex_path.'\hat\omega=2\pi\frac{f_0}{f_s}+2\pi l">';
@@ -61,6 +66,7 @@ $tb3   = new ITS_table('TAGS',1,2,$data3,$width,'ITS_tag');
 $tb4   = new ITS_table('TAGS',1,2,$data4,$width,'ITS_tag');
 $tb    = new ITS_table('TAGS',1,4,array($tb1->str,$tb2->str,$tb3->str,$tb4->str),array(0.25,0.25,0.25,0.25),'ITS_tag');
 	echo '<p><i>Select the most relevant equation associated with your answer:</i>'.$tb->str.'<br><hr>';
+	*/
 ?>
 </body>
 </html>

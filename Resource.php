@@ -1,8 +1,7 @@
 <?php
-$LAST_UPDATE = 'Sep-27-2012';
+$LAST_UPDATE = 'Aug-09-2013';
 /*=====================================================================//               
 //Author(s): Gregory Krudysz
-//Last Revision: Gregory Krudysz, Sep-28-2012
 
 SPFindex_tags
 questions_tags
@@ -10,17 +9,12 @@ questions_tags
 //=====================================================================*/
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
-require_once("classes/ITS_navigation.php");
-require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
+
 require_once("classes/ITS_search.php");
 include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
-require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
-require_once("classes/ITS_concepts.php");
 
 session_start();
 // return to login page if not logged in
@@ -157,18 +151,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
         <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">        
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>	
-
-        <style>
-            #dialog-form { background: red; }
-            .ui-dialog-form { background: #e1e; }
-            .ui-widget-header { background: red; border: 2px solid #666; }
-            .ui-dialog-title { background: #aaa;}
-            .ui-dialog-titlebar { background: #aaa; border: 2px solid #666; color: #fff; font-size:12pt}
-            .ui-dialog-content  { text-align: left; color: #000; padding: 0.5em; }
-            .ui-button-text { color: #00a; }
-            #myDialog { background: #fff; border-bottom: 2px solid #666; zindex: 5;}
-        </style>    
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>	  
         <?php
 include INCLUDE_DIR.'stylesheet.php';
 include 'js/ITS_Question_jquery.php';

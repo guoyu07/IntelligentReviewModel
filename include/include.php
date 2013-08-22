@@ -3,6 +3,7 @@
 Author(s): Gregory Krudysz
 Last Update: Jul-21-2013
 /----------------------------------------*/
+
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // or IE will pull from cache 100% of time (which is really bad) 
 header("Cache-Control: no-cache, must-revalidate"); // Must do cache-control headers 

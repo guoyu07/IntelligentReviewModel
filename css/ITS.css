@@ -122,6 +122,9 @@ img.ITS_LaTeX { position:relative; vertical-align: middle; /*height:100%*/ }
 /*IMG  { max-height:200px;  }*/
 
 /* MODE */
+input[type="radio"].mode + label {cursor: pointer;}
+input[type="radio"].mode + label:hover {color:#000;}
+
 input[type="radio"].toggle {display: none;color:red}
 input[type="radio"].toggle:checked + label {cursor: pointer;border:1px solid #999;}
 input[type="radio"].toggle + label {cursor: pointer; width: 3em;padding: 10px;}
@@ -136,6 +139,7 @@ div.modeToggle {text-align:middle }
     -khtml-border-radius: 20px;
     border-radius: 20px;
 }
+#feedbackContent { vertical-align:top;}
 /*==========================================================================
 								M A I N
 ============================================================================*/

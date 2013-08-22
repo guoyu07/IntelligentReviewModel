@@ -70,6 +70,17 @@
         //alert(v+' ~ '+ch);
         indexUPDATE(ch,v,'Question');
         /*-------------------------------------------------------------------------*/
+        $.ajaxSetup({
+    beforeSend:function(){
+        // show gif here, eg:
+        $("#loading").show();
+    },
+    complete:function(){
+        // hide gif here, eg:
+        $("#loading").hide();
+    }
+		});
+        /*-------------------------------------------------------------------------*/
         $('#Practice').live('click', function() {
 		if($(this).attr('choice_mode')=='concept'){return;} // Do nothing in case of concept mode
             var v = $(this).attr('view');

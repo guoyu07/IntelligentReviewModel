@@ -1,11 +1,12 @@
  <?php
 /*
 Author(s): Greg Krudysz
-Date: Jul-14-2013
+Date: Aug-18-2013
 ---------------------------------------------------------------------*/
 require_once("../FILES/PEAR/MDB2.php");
 require_once("../config.php");
 require_once("../" . INCLUDE_DIR . "include.php");
+require_once("../classes/ITS_resource.php");
 $style = '';
 
 session_start();

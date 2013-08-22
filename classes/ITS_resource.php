@@ -8,24 +8,30 @@ Constructor: ITS_resource( ... )
 ex. $r = new ITS_resource( ... );
 
 Author(s): Greg Krudysz
-Last Update: Jun-22-2013
+Last Update: Aug-18-2013
 //=====================================================================*/
 class ITS_resource
 {
-    public function __construct($tag)
+    public function __construct($id,$term,$tag)
     {
+        $this->debug = FALSE; //TRUE;
+        
+        if ($this->debug) {
+            echo '<br>' . get_called_class();
+        }
         global $db_dsn, $db_name, $tb_name, $db_table_user_state, $tex_path;
         
-        $this->db_dsn  = $db_dsn;  
+        $dsn = preg_split("/[\/:@()]+/", $db_dsn);
+        //foreach ($dsn as $value) {echo $value.'<br>';}
+        
+        $this->id      = $id;
         $this->term    = $term;
-        $this->role    = $role;
-        $this->db_name = $db_name;
-        $this->tb_name = $tb_name;
-        $this->tb_user = $db_table_user_state;
-        
-        $this->epochtime = $date;        
+        $this->db_user = $dsn[1];
+        $this->db_pass = $dsn[2];
+        $this->db_host = $dsn[4];
+        $this->db_name = $dsn[6];
+        $this->tb_user = $db_table_user_state;        
         $this->concept = $tag;
-        
     }
     //=====================================================================//
     public function renderBox($rtb, $rid)
@@ -376,7 +382,7 @@ class ITS_resource
         }
         $Estr .= '</table>';                    
             
-/*
+			/*
             $Q     = new ITS_question($qid, $db_name, $tb_name);
             $Q->load_DATA_from_DB($qid);
             //echo $qid;
@@ -388,6 +394,42 @@ class ITS_resource
         return $Estr;
     }			
     //=====================================================================//
+	public function getEq()
+    {
+        //=====================================================================//
+
+			$con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
+			
+			$Q   = new ITS_question($this->id, $this->db_name, $this->tb_name);
+			
+			mysql_select_db($this->db_name, $con) or die('Could not select DB');
+			$query = 'SELECT code FROM concepts_tags AS ct LEFT JOIN concepts AS c ON c.id=ct.concepts_id WHERE ct.tags_id=(SELECT id FROM tags WHERE name="'.$this->concept.'")';
+
+			// echo $query.'<hr>';
+			
+			$res = mysql_query($query, $con);
+			if (!$res) {
+				die('Query execution problem in ' . get_class($this) . ': ' . msql_error());
+			}
+			//echo mysql_num_rows($res).'<hr>';
+			//$concepts_result = mysql_fetch_assoc($res);
+
+			$equation = '';
+			for ($x = 0; $x < mysql_num_rows($res); $x++) {
+				$row = mysql_fetch_assoc($res);
+				foreach ($row AS $r) {
+					// echo $r.'<hr>';
+					if ($r){
+					$tex = $Q->renderFieldCheck('<latex>'.$r.'</latex>');	
+					$eq = '<span class="CHOICE">'.$tex.'</span>';
+					$equation .= '<a id="single_image" class="ITS_question_img" href="IT">'.$eq.'</a>';			
+				}
+				}
+			}	
+          
+        return $equation;
+    }			
+    //=====================================================================//    
 } //eo:class
 //=====================================================================//
 ?>

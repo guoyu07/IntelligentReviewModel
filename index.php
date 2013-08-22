@@ -1,9 +1,8 @@
 <?php
 //=============================================================//
-$ITS_version = '223j';
-$LAST_UPDATE = 'Aug-08-2013';
+$ITS_version = '223t';
+$LAST_UPDATE = 'Aug-20-2013';
 //=============================================================//
-
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 include_once("classes/ITS_timer.php");
@@ -67,23 +66,33 @@ $_SESSION['concepts'] = $concepts;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
+	
     <head>
         <META HTTP-EQUIV="Expires"         CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
         <META HTTP-EQUIV="Pragma"          CONTENT="no-cache">
         <meta HTTP-EQUIV="content-type"    CONTENT="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" CONTENT="IE=edge" />
         <title>ITS</title>
+        <meta name="description" content="Signal Processing Tutoring System">
+        
+	<!-- Toggle Switch -->
+	<link rel="stylesheet" href="css/toggle-switch/toggle-switch.css">
+	
+	<!-- Prism Syntax Highlighter -->
+    <link rel="stylesheet" href="css/toggle-switch/lib/prism/prism.css">
+    <script src="css/toggle-switch/lib/prism/prism.js"></script>        
 <?php
-include(INCLUDE_DIR . 'stylesheet.php');
-include('js/ITS_jquery.php');
-include(INCLUDE_DIR . 'include_fancybox.php');
-include(INCLUDE_DIR . 'include_mathjax.php');
+include_once(INCLUDE_DIR . 'stylesheet.php');
+include_once('js/ITS_jquery.php');
+include_once(INCLUDE_DIR . 'include_fancybox.php');
+include_once(INCLUDE_DIR . 'include_mathjax.php');
 ?>
 	<script type="text/javascript" src="js/ITS_concepts.js"></script>
     <script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
     <link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
     <link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
     <link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />        
+        <link rel="stylesheet" type="text/css" href="css/aaa.css" /> 
 	<script type="text/javascript">
 $(document).ready(function() {
 $(".fancybox").fancybox({
@@ -182,13 +191,26 @@ echo $term;
 <a href="#" id="ASSIGNMENTS" class="wrapper">
 -->
 <div id="modeContainer">
+<!--
 <input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
 <label for="CONCEPTS" class="btn rounded-corners">CONCEPTS</label></a>
-<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked r="<?php
-echo intval($r);
-?>">
+<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked >
 <label for="ASSIGNMENTS" class="btn rounded-corners">ASSIGNMENTS</label></a>
-</div>          
+-->         
+				<div class="switch candy quid">
+					<input id="CONCEPTS" name="mode" type="radio" class="mode">
+					<label for="CONCEPTS" r="<?php
+echo intval($r);
+?>">CONCEPTS</label>
+
+					<input id="ASSIGNMENTS" name="mode" type="radio" class="mode" checked>	
+					<label for="ASSIGNMENTS" r="<?php
+echo intval($r);
+?>">ASSIGNMENTS</label>
+					
+					<span class="slide-button"></span>
+				</div>
+				</div> 
 <!-- myScore ---------->
 <?php
 //var_dump($chArr);die();

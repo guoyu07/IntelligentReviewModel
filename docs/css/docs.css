@@ -9,7 +9,8 @@ h3 a.header{color:red;border:none}
 code { color:#633}
 ul.key {text-align:left;color:#911;list-style-type:none}
 ul.list{text-align:left;list-style-type:disc}
-ul li {display:inline;margin:0 5px}
+ul li {display:block;margin:0 5px}
+ul.ver li {display:inline;}
 img.doc{border:2px solid #999;margin:.5em;padding:.5em}
 span.var{color:#191}
 span.g{color:#000;font:70% Verdana}

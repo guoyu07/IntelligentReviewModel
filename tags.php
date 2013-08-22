@@ -68,7 +68,7 @@ global $db_dsn,$tb_name;
 $mdb2 =& MDB2::connect($db_dsn);
 if (PEAR::isError($mdb2)){ throw new Exception($this->mdb2->getMessage()); }
 //=========================================================//	
-$ch = 1;
+$ch = 2;
 $meta = 'image';
 
 $query = 'SELECT id,chapter,section,paragraph,content,tag_id FROM dSPFirst WHERE meta="'.$meta.'" AND chapter='.$ch;

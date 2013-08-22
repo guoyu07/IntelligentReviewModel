@@ -1,7 +1,7 @@
 <?php 
 /*
 Author(s): Greg Krudysz
-Last Update: Jun-05-2013
+Last Update: Aug-18-2013
 =============================================*/
 error_reporting(E_ALL);
 require_once("config.php");
