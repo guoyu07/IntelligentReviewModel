@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '223t';
-$LAST_UPDATE = 'Aug-20-2013';
+$ITS_version = '224b';
+$LAST_UPDATE = 'Aug-26-2013';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");

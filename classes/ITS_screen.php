@@ -2029,6 +2029,7 @@ class ITS_screen
     function reviewQuestion($chapter, $qIndex, $queryList)
     {
         //=====================================================================//
+
         $this->review_count = count($queryList);
         //$index_new = $this->review_number + $delta;
         $index_new          = $qIndex;
@@ -2067,13 +2068,13 @@ class ITS_screen
         $QUESTION = $Q->render_QUESTION_check($queryList[$qn][5]);
         $QUESTION .= $Q->render_QUESTION_parts($queryList[$qn][5]);
         $Q->get_ANSWERS_data_from_DB();
-        
+
         $Q->Q_answers_permutation = explode(',', $queryList[$qn][5]);
         $ANSWER                   = $Q->render_ANSWERS('a', 0);
         
         $config = 1;
         $dist   = $this->getQuestionDist($qid, $qtype, $score, $Nanswers);
-        
+  
         //--- rating ---------//
         $rateObj = new ITS_rating();
         $rated   = $queryList[$qn][4];
@@ -2087,12 +2088,11 @@ class ITS_screen
         //+++--------------------------//
         $FEEDBACK = $tr->render_user_answer($ans, $score, $dist, $config, $qn);
 
-        // $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
-        $feedback = '';
+        $feedback = '<table class="FEEDBACK"><tr><td>' . $FEEDBACK . '</td><td>' . $rateBox . '</td><td>' . $difficultyBox . '</td></tr></table>';
         $Estr .= '<tr class="PROFILE">' . '<td class="PROFILE_IDX" style="width:1%"><b>' . ($qn + 1) . '.</b></td>' . '<td class="PROFILE">' . $QUESTION . '</td></tr>' . '<tr><td class="PROFILE" colspan="2">' . $ANSWER . '<BR><div class="ITS_FEEDBACK">' . $feedback . '</div></td>' . '</td></tr>';
         //} // eof $qn
         $Estr .= '</table>';
-        
+
         $Qarr = array(
             $qid,
             $Estr

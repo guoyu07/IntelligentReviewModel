@@ -1,25 +1,14 @@
 <?php
-
-$LAST_UPDATE = 'May-20-2012';
+$LAST_UPDATE = 'Aug-26-2013';
 //--- begin timer ---//
 $mtime     = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 //------------------//
 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");   		   // or IE will pull from cache 100% of time (which is really bad) 
-header("Cache-Control: no-cache, must-revalidate"); 		   // Must do cache-control headers 
-header("Pragma: no-cache");
+require_once("config.php"); // #1 include
+require_once(INCLUDE_DIR . "include.php");
 
-include ("classes/ITS_timer.php");
-require_once ("config.php");
-require_once ("classes/ITS_statistics.php");
-require_once ("classes/ITS_score.php");
-require_once ("classes/ITS_footer.php");
-
-require_once ("classes/ITS_screen.php");
-require_once (INCLUDE_DIR . "common.php");
-require_once (INCLUDE_DIR . "User.php");
+include("classes/ITS_timer.php");
 
 //$timer = new ITS_timer();
 session_start();
@@ -43,23 +32,30 @@ if ($status == 'admin') {
 		$questions = array();
 		
 		//--- USERS --- ------------------------------------------//
-		$query = 'SELECT id FROM users WHERE id BETWEEN 1200 AND 1500 ORDER BY id';
+		$query = 'SELECT id FROM users WHERE status="Summer_2013" ORDER BY id'; // 
 	    $res   = $mdb2->query($query);
 		$users = $res->fetchCol();
-		
+		//var_dump($users);
 			foreach ($users as $uid) {
 				//echo '<p>'.$uid.'<p>';
 				//$query = 'ALTER TABLE stats_'.$uid.' ADD event VARCHAR(63) AFTER duration';
-				$query1 = 'SELECT id FROM stats_'.$uid.' WHERE comment="skip"';
+				$query1 = 'SELECT id FROM stats_'.$uid.' WHERE question_id=924';
 				//echo $query1.'<br>';			
 				$res1 =& $mdb2->query($query1);
-				$skip = $res1->fetchCol();	
+				$out = $res1->fetchCol();	
+				//var_dump($out);
 				
-				foreach ($skip as $s) {
-					$query2 = 'UPDATE stats_'.$uid.' SET comment=NULL,event="skip" WHERE id='.$s;
-					$res2   =& $mdb2->query($query2);
+				if (!(empty($out))){
+					echo '<b>user: '.$uid.'</b><br>';
+				foreach ($out as $s) {
+					echo $s.'<br>';
+					//$query2 = 'UPDATE stats_'.$uid.' SET comment=NULL,event="skip" WHERE id='.$s;
+					$query2 = 'DELETE FROM stats_'.$uid.' WHERE id='.$s;
+					//$res2   =& $mdb2->query($query2);
 					echo $query2.'<br>';	
 				}
+				echo '<hr>';
+			}
 			}	
 		//echo '<pre>';  print_r($qid);  echo '</pre>'; die('==');	
 
@@ -81,6 +77,7 @@ if ($status == 'admin') {
 		}
 		*/
   $mdb2->disconnect();		
+  die('stop');
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -125,14 +122,7 @@ if ($status == 'admin') {
   $(document).ready(function() { 
      //$("#scoreContainer").click(function(){$("#scoreContainerContent").slideToggle("slow");});
   });
-  </script>
-  <style>
-	  #select_class { margin-top: 2em; }
-		.ui-widget-header   { background: #aaa; border: 2px solid #666; }
-		.ui-dialog-titlebar { background: #aaa; border: 2px solid #666; }
-		.ui-dialog-content  { text-align: left; color: #666; padding: 0.5em; }
-		.ui-button-text { color: #00a; }
-	</style>	
+  </script>	
 <script type="text/javascript">
 </script>
 </head>

@@ -4,19 +4,20 @@
 function abort_if_unauthenticated() {
 //==============================================================================
 // echo $_SESSION['auth']->authenticated();
-// var_dump($_SESSION['auth']);  die("hello");
+// var_dump($_SESSION['auth']);  
 
 	if (!isset($_SESSION['auth']) || !$_SESSION['auth']->authenticated()){
 		/* close session */
-		//
-		echo "rejected";
+		//echo "rejected";
 
 		$_SESSION = array();
 		
-		if(isset($_COOKIE[session_name()])){
-			setcookie(session_name(), '', time() - 4200, '/');
-		}
+		//var_dump($_COOKIE[session_name()]);  die("hello");
 		
+		if(isset($_COOKIE[session_name()])){
+			setcookie(session_name(), '', time() - 4200, '/');// 		setcookie('name', 'content', 1);
+		}
+
 		session_destroy();
 
 		//* redirect to start page *
@@ -35,9 +36,8 @@ function ITS_debug($info){
   echo '</pre><table class="ITS_backtrace">';	
   array_walk( debug_backtrace(), create_function( '$a,$b', 'print "<tr><td><font color=\"blue\">". basename( $a[\'file\'] ). "</b></font></td><td><font color=\"red\">{$a[\'line\']}</font></td><td><font color=\"green\">{$a[\'function\']}()</font></td><td>". dirname( $a[\'file\'] ). "/</td></tr>";' ) ); 	
   echo '</table></div>';
-  * */
+*/
 }
-
 //==============================================================================
 function answering_history($user_id) {
 //==============================================================================

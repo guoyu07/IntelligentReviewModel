@@ -1,6 +1,6 @@
 <?php
 /* =============================================================  /
-  LAST_UPDATE: Jul-17-2013
+  LAST_UPDATE: AugRe-26-2013
   Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -202,16 +202,16 @@
                 ajax_data: ch+','+qIdx
             }, function(data) {      		   
                 $('#contentContainer').html(data);
-                //alert('rate-2');
-                var qid = $('#ratingContainer').attr('qid');
+                var qid = 1000; //$('#ratingContainer').attr('qid');
+                //alert(qid);
                 ratingUPDATE(qid);	// update rating module (style, rendering & state)	
-                imageBox();	
+                imageBox();
                 mathJax();
 
                 //------------- slider -------------//
                 var qN   = $("#N1").attr('qN');
                 var qMax = $("#qAvail"+ch).html();    // Look-up from the Score-board
-                //alert('chapter: '+ch+' index: '+qIdx);
+                //alert('chapter: '+ch+' index: '+qIdx+' qN: '+qN);
                 slider(ch,qN);
                 navUPDATE(ch);
                 //------------//

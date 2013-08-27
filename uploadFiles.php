@@ -4,7 +4,6 @@ include "classes/ITS_QTI.php";
 $FILES = $_FILES;
 $obj = new ITS_QTI(); 
 $output = $obj->uploadFile($FILES);
-
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -19,12 +18,6 @@ $output = $obj->uploadFile($FILES);
   <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/ITS_question.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/login.css" type="text/css" media="screen">
-	
-	<style type="text/css">
-	  #framecontent   { height:60px; }
-    #frameseparator { top: 60px; height: 200px; /*Height of frame div*/ }
-    #maincontent    { top: 60px; /*Set top value to HeightOfFrameDiv*/  }
-  </style>
 	<link type="text/css" href="js/jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="stylesheet" />	
   <script type="text/javascript" src="plugins/MathJax.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>

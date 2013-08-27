@@ -11,3 +11,4 @@ div.login:focus{color:green;background:#666;cursor:pointer}
 div.login:active{color:#000;background:#FFD700;cursor:pointer}
 #footer {font-size:80%}
 div.em:hover{color:#000;border:1px solid #999;font-size:130%;margin:0.25em;padding:1em}
+td.wbot {text-align:center;padding:1em}

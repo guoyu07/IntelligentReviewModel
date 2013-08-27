@@ -8,7 +8,6 @@ body{font:120% arial, sans-serif;text-align:center;color:#000;background:#fff;ma
 #slider .ui-slider-handle:hover{border:1px solid #666;background:#CCC;cursor:pointer}
 #slider .ui-slider-handle:focus{border:1px solid #666;background:#999;cursor:pointer}
 .ITS_tag a{text-decoration:none;font-size:120%}
-a.ITS:link{color:#999;text-decoration:none;outline:0}
 a.ITS:visited{color:#666;text-decoration:none;outline:0}
 a.ITS:hover{color:#666;font-weight:700}
 h1,h2,h3,h4,h5,h6{font-size:0;color:#000;font-family:'times new roman', arial, verdana, helvetica,sans-serif;font-style:normal;font-weight:400;font-variant:normal;background-color:#fff;margin:0 0 .5em}
@@ -47,12 +46,14 @@ Q{font:8pt Georgia, serif}
 TT{font-family:aerial,sans serif}
 TD{text-align:center;border-style:none;border-width:1px;padding:0}
 img.ITS_LaTeX{position:relative;vertical-align:middle}
+input[type=radio].mode + label{cursor:pointer}
 input[type=radio].toggle{display:none;color:red}
 input[type=radio].toggle:checked + label{cursor:pointer;border:1px solid #999}
 input[type=radio].toggle + label{cursor:pointer;width:3em;padding:10px}
 input[type=radio].toggle:checked + label.btn:hover{background-color:inherit;background-position:0 0}
 div.modeToggle{text-align:middle}
 .rounded-corners{-moz-border-radius:20px;-webkit-border-radius:20px;-khtml-border-radius:20px;border-radius:20px}
+#feedbackContent{vertical-align:top}
 #pageContainer{position:relative;width:95%;border:none;margin:0 auto;padding:.1em}
 #menuContainer{position:relative;text-align:right;overflow:auto;padding:0}
 #modeContainer{position:relative;text-align:middle;overflow:auto;padding:1em}
@@ -232,8 +233,9 @@ ul.footer li a:hover{text-decoration:underline}
 div.footer_col{float:left;width:200px;padding:.5em 0}
 #resBoxContainer{font-size:10pt;border:2px solid #dcdc11;margin-left:3px;color:#666;background:#ffd700;padding:.1em .3em}
 #ITS_nav_prev,#ITS_nav_next,input.ansCheck{display:none}
+a.wrapper,a.ITS:link{color:#999;text-decoration:none;outline:0}
 .headering,a:visited{color:blue}
-a:focus,a:active{color:#000}
+a:focus,a:active,input[type=radio].mode + label:hover{color:#000}
 h2 a,ul.footer li a{text-decoration:none}
 div.icon:hover,div.icon:focus,div.ITS_screen_L:hover,div.ITS_screen_L:focus{color:#FFF;background:#666;cursor:pointer}
 div.icon:active,div.ITS_screen_L:active{color:#000;background:#ffd700;cursor:pointer}
