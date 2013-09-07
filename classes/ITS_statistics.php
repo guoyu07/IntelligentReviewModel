@@ -28,7 +28,7 @@ class ITS_statistics
     
     function __construct($id, $term, $role)
     {
-        global $db_dsn, $tb_name, $tb_question_diff;
+        global $db_dsn, $tb_name, $tb_question_diff, $tset;
         
         $this->id      = $id;
         $this->term    = $term;
@@ -38,6 +38,7 @@ class ITS_statistics
         $this->tb_name = $tb_name;
         $this->tb_diff = $tb_question_diff;
         $this->record  = array();
+        $this->tset    = $tset;
         
         // connect to database
         $mdb2 =& MDB2::connect($db_dsn);
@@ -1196,11 +1197,11 @@ class ITS_statistics
                 if (is_null($score[0])) {
                     $ans = '<div class="ITS_feedback" style="background: #FF9">' . $answer . '</div>';
                 } elseif ($score[0] == 100) {
-                    $ans = '<div class="ITS_feedback"><span class="ITS_correct">' . $answer . '</span>&nbsp;&nbsp;<b>Correct</b>&nbsp;</div>';
+                    $ans = '<div class="ITS_feedback"><div class="silver2"><span class="ITS_correct">' . $answer . '</span><span class="feedbackTxt">Correct</span></div></div>';
                 } elseif ($score[0] == 0) {
-                    $ans = '<div class="ITS_feedback"><span class="ITS_incorrect">' . $answer . '</span>&nbsp;&nbsp;Incorrect&nbsp;</div>';
+                    $ans = '<div class="ITS_feedback"><div class="silver2"><span class="ITS_incorrect">' . $answer . '</span><span class="feedbackTxt">Incorrect</span></div></div>';
                 } else {
-                    $ans = '<div class="ITS_feedback"><span class="ITS_partial">' . $answer . '</span>&nbsp;&nbsp;Partial Credit&nbsp;</div>';
+                    $ans = '<div class="ITS_feedback"><div class="silver2"><span class="ITS_partial">' . $answer . '</span><span class="feedbackTxt">Partial Credit</span></div></div>';
                 }
                 //-------------------------------
         }
@@ -1212,7 +1213,6 @@ class ITS_statistics
         //----------------------------------------------------------------------------  
         if (!empty($stats)) {
             $dist = array();
-            //die('1201');
             switch (strtolower($qtype)) {
                 //-------------------------------
                 case 'm':
@@ -1691,7 +1691,6 @@ class ITS_statistics
         //die('function render_profile2($chapter,$orderby)');
         $term = $this->term;
         $ITSq = new ITS_query();
-        //$term = array('Fall_2010');
         
         $Nterms = count($term);
         for ($t = 0; $t < $Nterms; $t++) {
@@ -1708,12 +1707,12 @@ class ITS_statistics
                         $column = '';
                     } else {
                         $category = $ITSq->getCategory($chapter);
-                        $query    = 'SELECT question_id,answered,qtype,answers,comment,epochtime,duration,rating,event FROM stats_' . $this->id . ',' . $this->tb_name . ' WHERE ' . $this->tb_name . '.id=stats_' . $this->id . '.question_id AND current_chapter="' . $chapter . '" AND ' . $category . ' AND event <> "skip" ORDER BY stats_' . $this->id . '.' . $orderby; //AND answered IS NOT NULL
+                        $query    = 'SELECT question_id,answered,qtype,answers,comment,epochtime,duration,rating,event FROM stats_' . $this->id . ',' . $this->tb_name . ' WHERE ' . $this->tb_name . '.id=stats_' . $this->id . '.question_id AND current_chapter="' . $chapter . '" AND ' . $category . ' AND event="chapter" ORDER BY stats_' . $this->id . '.' . $orderby; //AND answered IS NOT NULL
                         //die($query);
                         //AND comment<>"skip"
                         $column   = '<th style="width:5%;">Score</th>';
                     }
-                    //echo $query; //	 die();
+                    // echo $query; // die();
                     
                     $res =& $this->mdb2->query($query);
                     if (PEAR::isError($res)) {
@@ -1759,7 +1758,7 @@ class ITS_statistics
                     $qtype    = strtolower($answers[$qn][2]);
                     $Nanswers = $answers[$qn][3];
                     $score    = $this->get_question_score($answers[$qn][0], $answers[$qn][1], $answers[$qn][4], $qtype);
-                    $skips    = $this->get_question_event($answers[$qn][0], 'skip', $this->id);
+                    $skips    = $this->get_question_event($answers[$qn][0], 'skip-question', $this->id);
                     //var_dump(array_sum($score[0]));
                     $tscore   = $this->get_total_score($score[0], $answers[$qn][1], $qtype);
                     if ($chapter > 13) {
@@ -1887,7 +1886,7 @@ class ITS_statistics
         
         //--- USERS --- ------------------------------------------//
         $query = 'SELECT id,last_name,first_name FROM users WHERE status="' . $this->term . '" ORDER BY last_name';
-        //die($query);
+        // die($query);
         $res =& $this->mdb2->query($query);
         if (PEAR::isError($res)) {
             throw new Question_Control_Exception($res->getMessage());
@@ -1898,7 +1897,7 @@ class ITS_statistics
         $tb    = '<table class="CPROFILE"><th class="Num">No.</th><th>Name</th><th>answered</th><th>score</th><th>time</th><th>params</th>';
         foreach ($users as $uid) {
             //$query = 'SELECT question_id,answered,epochtime,count(*) FROM stats_'.$uid[0].' WHERE score IS NOT NULL AND epochtime IS NOT NULL GROUP BY question_id,answered,epochtime HAVING COUNT(*) > 1';
-            $query = 'SELECT question_id,answered,epochtime,comment,score,current_chapter FROM stats_' . $uid[0] . ' WHERE question_id=' . $qid . ' AND event="chapter"';
+            $query = 'SELECT question_id,answered,epochtime,comment,score,current_chapter FROM stats_' . $uid[0] . ' WHERE question_id=' . $qid . ' AND event="chapter" AND epochtime>'.$this->tset;
             //echo $query;
             $resq =& $this->mdb2->query($query);
             if (PEAR::isError($res)) {
@@ -1909,6 +1908,7 @@ class ITS_statistics
             $scr    = '';
             $tm     = '';
             $par    = '';
+  
             //var_dump($record);
             if (!empty($record)) {
                 //$qtb = '<table class="ITS">'; //<th>Answered</th><th>Score</th><th>time</th><th>Params</th>';
@@ -1922,7 +1922,7 @@ class ITS_statistics
                 }
                 
                 //$qtb .= '</table>';
-                $tb .= '<tr><td><b>' . $idx . '.</b></td><td style="text-align:left">&nbsp;&nbsp;<font color="blue"><a href="Profile.php?class=' . $this->term . '&sid=' . $uid[0] . '&ch=' . $ch . '#Q' . $qid . '">' . $uid[1] . ',' . $uid[2] . '</a></td><td>' . $ans . '</td><td>' . $scr . '</td><td>' . $tm . '</td><td>' . $par . '</td></tr>';
+                $tb .= '<tr><td><b>' . $idx . '.</b></td><td style="text-align:left">&nbsp;&nbsp;<font color="blue"><a href="Profile.php?class=' . $this->term . '&sid=' . $uid[0] . '&ch=' . $ch . '#Q' . $qid . '">' . $uid[1] . ',' . $uid[2] . '</a></td><td>' . $ans . '</td><td>' . $scr . '</td><td>' . $tm . '</td><td>' . $par . '</td><td>' . $ch . '</td></tr>';
                 $idx++;
             }
             //------------------------------------------------//				

@@ -1,6 +1,6 @@
 <?php
 /* =============================================================  /
-  LAST_UPDATE: AugRe-26-2013
+  LAST_UPDATE: Sep-6-2013
   Author(s): Gregory Krudysz
 /* ============================================================= */
 ?>
@@ -56,9 +56,9 @@
         $("#scoreContainer").click(function(){
             $("#scoreContainerContent").slideToggle("slow");
         });
-        $("#feedbackContainer").click(function(){
-            $("#feedbackContainerContent").slideToggle("slow");
-        });        
+        $("#levelContent").hide();
+		$("#levelContainerToggle").live('click', function() {$("#levelContent").slideToggle("slow");});
+        $("#feedbackContainer").live('click', function() {$("#feedbackContainerContent").slideToggle("slow");});        
         //$("#accor").accordion({autoHeight: false});
         $("#dialog").dialog({
             autoOpen: true, 
@@ -351,11 +351,12 @@ $('.ITS_navigation[name=updateReview_index]').live('click', function(event) {
 });
 /*-------------------------------------------------------------------------*/
 $('.ITS_navigation[name=update_index]').live('click', function(event) {
-    var mode  = $(this).attr("mode");  //alert(mode);
+    var mode = $(this).attr("mode");  //alert(mode);
+    var ch   = $(this).attr("ch");
     //alert('.ITS_navigation[name=update_index]: mode('+mode+')');
     $.get('ajax/ITS_screen.php', {
         ajax_args: "getContent",
-        ajax_data: mode
+        ajax_data: mode+','+ch
     }, function(data) {
         $('#contentContainer').html(data);
         imageBox();
@@ -501,6 +502,7 @@ case 'survey':
     break;
 default:
     //alert(qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid);
+    /*
     $.get('ajax/ITS_screen.php', {
         ajax_args: "recordChapterAnswer", 
         ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid
@@ -513,7 +515,23 @@ default:
         imageBox();
         mathJax();
         //$("#dialog").dialog({ autoOpen: false, resizable: false, width:425 });
-    });							
+    });			*/
+    //----------
+    $.ajax({
+     async: false,
+     type: 'GET',
+     url: 'ajax/ITS_screen.php',
+     data: {ajax_args: "recordChapterAnswer", ajax_data: qid+'~'+qtype+'~'+chosen+'~'+c+'~'+ch+'~'+t+'~'+mode+'~'+tid},
+     success: function(data) {
+        $('#contentContainer').html(data);
+        $("#ITS_rate").css({display: 'block'});
+        $('#ITS_nav_next').css({display: 'block'});
+        ratingUPDATE(qid);
+        imageBox();
+        mathJax();
+     }
+});
+    				
 }	
 
 if (mode=="concept"){ 	
@@ -527,15 +545,30 @@ if (mode=="concept"){
         $('.navConceptInfo').html(data);
     });	
 }
-
 //--- update Scores ---//
 $.get('ajax/ITS_screen.php', {
 ajax_args: "updateScores", 
 ajax_data: ''
 }, function(data) {
-//alert($(this).data('chosen'));
-$('#scoreContainerContent').html(data); 
+$('#scoreContainerContent').html(data);
+		  var tbid = '#a_4_'+Number(Number(ch)+1);
+          $(tbid).html($(tbid).html()).parent().css({background: '#ff9'}).delay(3000);
 });
+//---
+/*
+$.ajax({
+     async: false,
+     type: 'GET',
+     url: 'ajax/ITS_screen.php',
+     data: {ajax_args: "updateScores", ajax_data: ''},
+     success: function(data) {
+		  var tbid = '#a_4_'+Number(Number(ch)+1);
+          $('#scoreContainerContent').html(data); 
+          $(tbid).html($(tbid).html()+'<br>'+$.now());
+          //css({background: '#fff999'}).delay(3000);
+     }
+});*/
+//---
 } 
 else {
 $('#errorContainer').html('Please select an answer.').css({display: 'inline'});

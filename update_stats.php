@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Aug-26-2013';
+$LAST_UPDATE = 'Sep-6-2013';
 //--- begin timer ---//
 $mtime     = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -22,7 +22,7 @@ $info   = & $_SESSION['user']->info();
 //------------------------------------------// 
 
 if ($status == 'admin') {
-	 global $db_dsn, $db_name, $db_table_users, $db_table_user_state;
+	 global $db_dsn, $db_name, $db_table_users, $db_table_user_state, $tset;
 
 	 $mdb2 =& MDB2::connect($db_dsn);
 	 if (PEAR::isError($mdb2)){throw new Question_Control_Exception($mdb2->getMessage());}	 
@@ -32,14 +32,15 @@ if ($status == 'admin') {
 		$questions = array();
 		
 		//--- USERS --- ------------------------------------------//
-		$query = 'SELECT id FROM users WHERE status="Summer_2013" ORDER BY id'; // 
+		$query = 'SELECT id FROM users WHERE status="Fall_2013" ORDER BY id'; // 
 	    $res   = $mdb2->query($query);
 		$users = $res->fetchCol();
+		$qid   = 888;
 		//var_dump($users);
 			foreach ($users as $uid) {
 				//echo '<p>'.$uid.'<p>';
 				//$query = 'ALTER TABLE stats_'.$uid.' ADD event VARCHAR(63) AFTER duration';
-				$query1 = 'SELECT id FROM stats_'.$uid.' WHERE question_id=924';
+				$query1 = 'SELECT id FROM stats_'.$uid.' WHERE question_id='.$qid.' AND current_chapter=2 AND epochtime>='.$tset;
 				//echo $query1.'<br>';			
 				$res1 =& $mdb2->query($query1);
 				$out = $res1->fetchCol();	
@@ -50,8 +51,9 @@ if ($status == 'admin') {
 				foreach ($out as $s) {
 					echo $s.'<br>';
 					//$query2 = 'UPDATE stats_'.$uid.' SET comment=NULL,event="skip" WHERE id='.$s;
-					$query2 = 'DELETE FROM stats_'.$uid.' WHERE id='.$s;
-					//$res2   =& $mdb2->query($query2);
+					$query2 = 'UPDATE stats_'.$uid.' SET current_chapter=3 WHERE question_id='.$qid.' AND current_chapter=2 AND epochtime>='.$tset;
+					//$query2 = 'DELETE FROM stats_'.$uid.' WHERE id='.$s;
+					$res2   =& $mdb2->query($query2);
 					echo $query2.'<br>';	
 				}
 				echo '<hr>';
@@ -85,20 +87,6 @@ if ($status == 'admin') {
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<title>DATABASE</title>
-	<!---->
-	<link rel="stylesheet" href="css/ITS.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/login.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/print/ITS_print.css" media="print">
-	<link rel="stylesheet" href="tagging/ITS_tagging.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="rating/ITS_rating.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_BOOK.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/ITS_test.css" type="text/css" media="screen">
-	
 	<link type="text/css" href="jquery-ui-1.8.4.custom/css/ui-lightness/jquery-ui-1.8.4.custom.css" rel="stylesheet" />	
     <script type="text/javascript" src="jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>

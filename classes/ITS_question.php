@@ -865,11 +865,12 @@ class ITS_question
                         $answer_str = '';
                         break;
                     default: {
+						$answer_str .= '<table>'; 
                         //Changes to make multiple answer boxes: SHOULD the IDS be different for diff boxes?? how is the scoring done
                         for ($k = 0; $k < $this->Q_question_data['answers']; $k++)
-                            $answer_str .= $this->renderFieldCheck($this->Q_question_parts['text' . ($k + 1)]) . '&nbsp;&nbsp;&nbsp;&nbsp;<textarea class="TXA_ANSWER" id="ITS_TA' . $k . '" name="' . $name . '"></textarea><br>';
+                            $answer_str .= '<tr><td style="text-align:right">'.$this->renderFieldCheck($this->Q_question_parts['text' . ($k + 1)]) . '</td><td><textarea class="TXA_ANSWER" id="ITS_TA' . $k . '" name="' . $name . '"></textarea></td></tr>';
                     }
-                        $answer_str .= '<input type="hidden" value="' . $this->Q_question_data['answers'] . '" id="answersCount">';
+                        $answer_str .= '</table><input type="hidden" value="' . $this->Q_question_data['answers'] . '" id="answersCount">';
                         // $answer_str .= '<textarea class="TXA_ANSWER" id="ITS_TA" name="' . $name . '"></textarea>';
                 }
                 break;
@@ -877,13 +878,9 @@ class ITS_question
         }
         //$mysqldate = date( 'Y-m-d H:i:s', $phpdate );
         $this->timestamp = date('Y-m-d H:i:s');
-        //echo '<span style="color:#800000;background:pink">ITS_question.php :: render_ANSWERS</span><p>';
-        $div_ITS_ANSWER  = '<div class="ITS_ANSWER">' . $answer_str . '</div>';
+        $div_ITS_ANSWER  = '<div class="ITS_ANSWER"><center>' . $answer_str . '</center></div>';
         
         return $div_ITS_ANSWER;
-        
-        // SUBMIT BUTTON
-        //echo "<p><input type=submit name=score_question value=Submit>";
     }
     //=====================================================================//
     function set_ANSWERS_solution($solution)
@@ -1016,7 +1013,7 @@ class ITS_question
                $this->Q_question_data['answers'] = 1;
 		   }		
 		} else {
-						            switch (strtolower($this->Q_question_data['qtype'])) {
+			switch (strtolower($this->Q_question_data['qtype'])) {
                 case 'm':  $field = 'MATCHING';break;
                 case 'mc': $field = 'MULTIPLE CHOICE';break;
 				case 'c':  $field = 'CALCULATED';break;
@@ -1061,7 +1058,7 @@ class ITS_question
                     }
                     $sel .= '</select>'; */
                     
-                    $sel   = '<input type="button" name="changeAnswer" id="addAnswer" v="+" value="+" class="ITS_buttonQ">' . '<br><input type="button" name="changeAnswer" id="remAnswer" v="-" value="&mdash;" class="ITS_buttonQ">';
+                    $sel   = '<input type="button" name="changeAnswer" id="addAnswer" v="+" value="+" class="ITS_buttonQ round">' . '<br><input type="button" name="changeAnswer" id="remAnswer" v="-" value="&mdash;" class="ITS_buttonQ round">';
                     $n     = $this->Q_question_data[$field];
                     $qtype = strtolower($this->Q_question_data['qtype']);
                     switch ($qtype) {
@@ -1105,7 +1102,7 @@ class ITS_question
                         case 'c':
                             //-------------------------------------------//  
                             $sel  = '<input type="hidden" name="vals" value="' . $this->Q_answers_data['vals'] . '">';
-                            $sel1 = '<input type="hidden" name="' . $field . '" id="answers" value="' . $n . '"><input type="button" name="changeAnswer" id="add_fcount" v="+" value="+" class="ITS_buttonQ">' . '<br><input type="button" name="changeAnswer" id="dec_fcount" v="-" value="&mdash;" class="ITS_buttonQ">';
+                            $sel1 = '<input type="hidden" name="' . $field . '" id="answers" value="' . $n . '"><input type="button" name="changeAnswer" id="add_fcount" v="+" value="+" class="ITS_buttonQ round">' . '<br><input type="button" name="changeAnswer" id="dec_fcount" v="-" value="&mdash;" class="ITS_buttonQ round">';
                             
                             // FORMULAS:
                             $FORMULAS = '<table id="ITS_QansF" class="ITS_Qans" n="' . $n . '" qtype="' . $qtype . '">' . '<tr><th width="5%">No.</th><th width="30%">Text</th><th width="55%">Formula</th><th width="10%">Weight</th></tr>';

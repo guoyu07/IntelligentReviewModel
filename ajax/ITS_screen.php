@@ -16,8 +16,8 @@ global $db_dsn, $db_name, $tb_name, $db_table_user_state;
 
 //---------------------------------------//
 $args = preg_split('[,]', $_GET['ajax_args']); //-- Get AJAX arguments
-$Data = rawurldecode($_GET['ajax_data']); //-- Get AJAX user data
-$Data = str_replace("'", "&#39;", $Data); //-- preprocess before SQL
+$Data = rawurldecode($_GET['ajax_data']); 	   //-- Get AJAX user data
+$Data = str_replace("'", "&#39;", $Data); 	   //-- preprocess before SQL
 //$Data = nl2br($Data);
 
 // return to login page if not logged in
@@ -58,7 +58,8 @@ switch ($action) {
         //-------------------------------------------//
         $data         = preg_split('[,]', $Data); // data = [mode]
         //echo $data[0]; die();
-        $screen->mode = $data[0];
+        $screen->mode 			= $data[0];
+        $screen->chapter_number = $data[1];
         $str          = $screen->getContent();
         break;
     //-------------------------------------------//
@@ -66,7 +67,6 @@ switch ($action) {
         //-------------------------------------------//
         $data         = preg_split('[,]', $Data); // data = [ch,offset]
         $screen->mode = 'question';
-        //$screen->chapter_number = $data[0];
         $str          = $screen->surveyMode($screen->chapter_number, $data[1]);
         break;
     //-------------------------------------------//
@@ -239,7 +239,7 @@ switch ($action) {
         //$screen->recordQuestion($data[0],$data[1]);
         //$ans = $this->getUserAnswer($qid,$qtype,$answered);
         //$navigation_str = $this->getNavigation($ans);
-        die('this');
+        //die('this');
         $str = 'this'; //$answer_str;
         break;
     //-------------------------------------------//
@@ -257,8 +257,6 @@ switch ($action) {
     case 'answerLab':
         //-------------------------------------------//
         $str = 'NULL';
-        //die($screen->id);
-        
         /*----
         $prop = preg_split('[,]',$Data);
         //eval('$screen->lab_'.$prop[0].' = '.$prop[1]);

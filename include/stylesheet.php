@@ -23,13 +23,6 @@
         <link rel="stylesheet" href="plugins/rating/ITS_rating.css" type="text/css" media="screen">
         <link rel="stylesheet" href="js/jquery-ui-1.8.23.custom/css/ui-lightness/jquery-ui-1.8.23.custom.css" type="text/css">    
         <!-- rating module -->        	
-        <style type="text/css">
-            #feedback { font-size: 1.4em; }
-            #selectable .ui-selecting { background: #FECA40; }
-            #selectable .ui-selected  { background: #F39814; color: white; }
-            #selectable { list-style-type: none; margin: 0; padding: 0;    }
-            #selectable li { margin: 3px; padding: 1px; float: left; width: 200px; height: 80px; font-size: 4em; text-align: center; }
-        </style>
         <script src="js/ITS_admin.js"  type="text/javascript"></script>
         <script src="js/AJAX.js" 	   type="text/javascript"></script>
         <script src="js/ITS_AJAX.js"   type="text/javascript"></script>

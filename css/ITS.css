@@ -3,8 +3,8 @@ Author(s): Greg Krudysz
 W3C CSS Validator results for ITS.css (CSS level 2.1)
 ======================================================*/
 body { margin: 0 2%;
-	padding: 0;/*height: 100%;*/
-	font: 120% arial, sans-serif; text-align: center;color: black;background: #fff;
+	   padding: 0;/*height: 100%;*/
+	   font: 120% arial, sans-serif; text-align: center;color: black;background: #fff;
 }
 .ITS_error { background: #ff9;color: red;font-weight:bold;border:2px solid #000; }
 .todo {  background: #ff9;color: green;border:2px solid #000; padding:0.5em }
@@ -72,7 +72,7 @@ div.ITS_MESSAGE ul {
   border:none;
   font: bold 18px Georgia, sans-serif;
 }
-
+div.silver2 { border:2px solid #c0c0c0;background-color:#fff;padding:0.5em 0.5em;}
 #nav1 {padding:0.5em;margin:-5px;border:1px solid #fff;}
 #nav1 ul {float:left;padding:0;margin:0;list-style:none;background-color:#eee;}
 #nav1 a {display: block; width: 10em; height: 120%;font:120% Georgia;font-weight:bold;}
@@ -133,7 +133,7 @@ input[type="radio"].toggle:checked + label.btn:hover {
     background-position: 0 0;
 }
 div.modeToggle {text-align:middle }
-.rounded-corners {
+.round {
      -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     -khtml-border-radius: 20px;
@@ -826,7 +826,7 @@ TD.ansCheck {
  clear: both;
  margin: 1em auto;
 }
-div.ITS_FEEDBACK {clear: both;border:1px solid #FFF}
+div.ITS_FEEDBACK {border:1px solid #FFF}
 /*------- SCORE ----------------------*/
 TABLE.ITS_SCORE {
 	 clear:both;
@@ -891,6 +891,7 @@ span.ITS_partial {
   color: #A52A2A;
 	padding: 0.1em 0.25em;
 }
+span.feedbackTxt {position:relavtive;font:bold;padding:0.5em;white-space:nowrap;}
 span.ITS_null {
   position: relative;
   border: 2px solid #ccc;
@@ -1036,9 +1037,10 @@ TD.ITS_header {
 #navBoxContainer {
   position: relative;
 	width: 100%;
-	margin: 0.5em auto;
+	margin: 0;
 	border: none;
 	background-color: #fff;
+	overflow:auto;
 }
 div.navContent {
   clear: both;
@@ -1232,26 +1234,166 @@ span.ITS_EQ 	  {border: 1px solid silver;font-family: aerial, sans serif;}
 span.ITS_keyword  {border: 1px solid silver;color: red;}
 /*----------------------*/
 #answerContainer {text-align: center;}
+
+input.ITS_submit {clear: both;color: #666;font-weight: bold;font-size: 13pt;padding:.5em 1em;margin:0;background:#fff;border: 1px solid #666;outline:0;
+    behavior: url(/css/border-radius.htc);border-radius: 10px;
+}
+input.ITS_submit:hover,focus {color: #fff;background: #666;cursor: pointer;}
+/*
+input.ITS_submit{clear: both; color: #666; font-weight: bold;font-size:15px;width:80px;height:80px;border-radius:40px;line-height:100px;text-align:center;text-decoration:none;background:#fff}
+input.ITS_submit:hover{color:#ccc;text-decoration:none;background:#333}
+*/
+/*input.ITS_submit{clear: both;width:70px;height:70px;border-radius:35px;border:0px double #ccc;font-weight:bold;font-size:16px;color:#222;line-height:100px;text-align:center;text-decoration:none;text-shadow:0 1px 0 #fff;background:#aaa}
+input.ITS_submit:hover{width:70px;height:70px;border-radius:35px;border:4px double #aaa;color:#111;text-decoration:none;background:#bbbbbb;cursor:pointer}
+*/
+/* add submit harder and submit easier */
+input.ITS_submit_old { clear: both; color: #666;font-weight: bold;font-size: 13pt;padding: 0.5em 1em;margin: 1em;background:#fff;border: 1px solid #666;outline:0;}
+input.ITS_submit_old:hover,focus {color: #fff;background: #666;cursor: pointer;}
+
+input.ITS_submit2 { clear: both; color: #666;font-weight: bold;font-size: 13pt;padding: 0.5em 1em;margin: 1em;background:#fff;border: 1px solid #666;outline:0;}
+input.ITS_submit2:hover,focus {color: #fff;background: #666;cursor: pointer;}
+input.ITS_submit3 {/*position: absolute; top: 0px; right:0;*/ clear: both;color: #666;font-weight: bold;font-size: 13pt;padding: 0.5em 1em;margin: 1em;background:#fff;border: 1px solid #666;outline:0;}
+input.ITS_submit3:hover,focus {color: #fff; background: #666;cursor: pointer;}
+
+input.test {
+    position: absolute;
+    top: 25px;
+    right:25px;
+    background-image:url('admin/icons/arrow.small.right.gif');
+    color: #666;
+	/*font-weight: bold;*/
+	font-size: 20pt;
+	/*padding: 0.5em;*/
+	background:#fff;
+	font-family: arial;
+	margin: 1em 0;
+	border: 1px solid #fff;
+	outline: 0; /* get rid of the dotted line */
+	/*border-top: 1px solid #666;
+	border-bottom: 1px solid #666;*/
+}
+input.test:hover {color: #000;border: 1px solid #000;cursor: pointer;outline: 0;}
+/*
 input.ITS_submit {clear: both;color: #666;font-weight: bold;font-size: 13pt;padding: 0.5em 1em;margin: 1em;background:#fff;border: 1px solid #666;outline:0;}
 input.ITS_submit:hover,focus {color: #fff;background: #666;cursor: pointer;}
-input.ITS_skip {
+*/
+input.test:hover {color: #000;border: 1px solid #000;cursor: pointer;outline: 0;}
+input.ITS_skip_old {
     position: absolute;
     top: 100px;
     right:0;
     background-image:url('admin/icons/arrow.small.right.gif');
     color: #666;
 	font-weight: bold;
-	font-size: 11pt;
+	font-size: 12pt;
 	padding: 0.5em;
 	background:#fff;
 	font-family: arial;
 	margin: 1em 0;
 	border: 1px solid #fff;
+	behavior: url(/css/border-radius.htc);
+	border-radius: 10px;
 	outline: 0; /* get rid of the dotted line */
-  /*border-top: 1px solid #666;
-	border-bottom: 1px solid #666;*/
 }
-input.ITS_skip:hover {color: #000;border: 1px solid #000;cursor: pointer;outline: 0;}
+input.ITS_skip_old:hover {color: #000;border: 1px solid #666;cursor: pointer;}
+input.ITS_skip {
+    position: relative;
+    top: 10px;
+    right: 0px;
+    width: 0px;
+	height: 15px;
+	background-color: #fff;
+	border-style: solid;
+	border-width: 45px 30px 0px 30px;
+	border-color: #aaa transparent transparent transparent;
+}
+input.ITS_skip:hover{width: 0px;
+	height: 10px;
+	border-style: solid;
+	border-width: 45px 30px 0px 30px;
+	border-color: #bbb transparent transparent transparent;
+	cursor: pointer;
+	}
+input.ITS_skip2 {
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    behavior: url(PIE.htc);
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+    font: 32px Arial, sans-serif
+}
+input.ITS_skip2:hover{ cursor: pointer;}
+/*input.ITS_skip3:hover {color: #000;border: 1px solid #000;cursor: pointer;outline: 0;}*/
+input.ITS_skip3 {
+    position: relative;
+    top: 7px;
+    right:15px;
+    width: 0px;
+	height: 0px;
+	background-color: #fff;
+	border-style: solid;
+	border-width: 30px 45px 30px 0;
+	border-color: transparent #aaa transparent transparent;
+}
+input.ITS_skip3:hover{width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 30px 45px 30px 0;
+	border-color: transparent #bbb transparent transparent;
+		cursor: pointer;}
+input.ITS_skip4 {
+    position: relative;
+    top: 7px;
+    right:-15px;
+	width: 0px;
+	height: 0px;
+	background-color: #fff;
+	background:#fff;
+	border-style: solid;
+	border-width: 30px 0 30px 45px ;
+	border-color: transparent  transparent transparent #aaa;
+}
+input.ITS_skip4:hover{width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 30px 0 30px 45px ;
+	border-color: transparent  transparent transparent #bbb;
+	cursor: pointer;}
+
+div.DiffLevel { position:absolute;border:none;top:0;left:-15px}
+div.DifficultyBar { position:relative; background:#fff; border:1px solid #c0c0c0; height:50px;text-align:middle; margin:auto;
+	 border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	-khtml-border-radius:10px;
+}
+/*div.DifficultyBar div { background: #28B8C0; height: 50px; }*/
+div.DiffBarSel {border: 2px solid #666; background: #ddd;
+	 border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	-khtml-border-radius:10px;
+}
+div.DifficultyBar-in { position:relative; border:1px solid #666; background:#ddd; height:5px; text-align:middle; margin:auto;}
+div.DifficultyBar-in div { background:#666; height: 5px; position: relative; top: 0px; right:0px;}
+input.star-on{
+  width: 16px;
+  height: 15px;
+  display: block;
+  background: url("classes/stars.gif") no-repeat 0 0;
+}
+input.star-on2{
+	width: 16px;
+  height: 15px;
+  display: block;
+  background: url("stars.gif") no-repeat 0 0;
+}
 div.userContainer {
   position: relative;
 	width: 100%;
@@ -1477,14 +1619,14 @@ TD.ITS_QUESTION 	  { background: #eef;      }
 #frameContainer		  {	background: magenta;   }
 
 /* QUESTION + ANSWER /
-#ITS_QUESTION 				{ border: 3px solid blue; }
-#ITS_ANSWER 				{ border: 3px solid red;	}
-div.ITS_QUESTION 			{ border: 3px solid #88e;}
-div.ITS_ANSWER 				{ border: 3px solid pink;	}
-.FEEDBACK 					{ border: 2px dashed olive; }/**/
+#ITS_QUESTION 			{ border: 3px solid blue; }
+#ITS_ANSWER 			{ border: 3px solid red;	}
+div.ITS_QUESTION 		{ border: 3px solid #88e;}
+div.ITS_ANSWER 			{ border: 3px solid pink;	}
+.FEEDBACK 				{ border: 2px dashed olive; }/**/
 
 /* FOOTER /
-#footer_list 					{ border: 2px solid green;  }
-ul.footer 						{ border: 3px solid red;	}
-div.footer_list 				{ border: 3px solid pink;	}/**/
+#footer_list 			{ border: 2px solid green;  }
+ul.footer 				{ border: 3px solid red;	}
+div.footer_list 		{ border: 3px solid pink;	}/**/
 /*=========================================*/

@@ -35,6 +35,9 @@ require_once($path."classes/ITS_question.php");
 require_once($path."classes/ITS_query.php");
 require_once($path."classes/ITS_navigation.php");
 require_once($path."classes/ITS_rating.php");
+
+require_once($path."classes/ITS_NQ.php");
+require_once($path."Difficulty/User_DiffInfo.php");
 require_once($path."classes/ITS_screen.php");
 require_once($path."classes/ITS_score.php");
 require_once($path."classes/ITS_statistics.php");

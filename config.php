@@ -1,6 +1,6 @@
 <?php
 /*======== HOST =========================*/
-$host = $_SERVER['SERVER_NAME'];          // gethostname();
+$host = $_SERVER['SERVER_NAME'];         // gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
@@ -23,7 +23,7 @@ switch ($host) {
     case 'itsdev3.vip.gatech.edu':
     case 'itsdev4.vip.gatech.edu':
     case 'itsdev5.vip.gatech.edu':
-        /*---------------------------------------*/
+    /*---------------------------------------*/
         $db_name   = 'its';
         $db_dsn    = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
         $MDB2_path = '';
@@ -72,7 +72,7 @@ if (PHP_OS == "WINNT") {
     $QTI_path  = $root.'/FILES/DATA/QTI';
      
     $dir = dirname($_SERVER['PHP_SELF']);
-    preg_match('/ajax|admin|search|doc|ITS_FILES/', $dir, $ajax_match);
+    preg_match('/ajax|admin|search|doc|Difficulty|ITS_FILES/', $dir, $ajax_match);
     //var_dump($ajax_match);//die('s');
     
     if (empty($ajax_match)) { // exclude /ajax dir	
@@ -99,10 +99,12 @@ $db_table_users      = 'users';
 $db_table_user_state = 'stats_';
 $db_table_user_cpt   = 'cpt_';
 $db_table_question   = 'question';
+$db_table_difficulty = 'questions_difficulty';
 $tb_name             = 'questions';
 $tb_tags             = 'tags';
 $tb_images			 = 'images';
 $tb_question_diff    = 'questions_difficulty';
+$tb_difficulty_col	 = 'difficultySTD_mine';  //_NEW
 
 $tex_method 		 = 'mathtex';   // 'mathtex' | 'mathJax'
 
@@ -112,7 +114,10 @@ $answer_dir        = "answer";
 $answer_file_ext   = 'html';
 $BNT_dir           = "Debug";
 
-global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $tb_question_diff, $files_path, $dir, $host, $CAS_path, $term, $tset,$tex_method,$tex_path;
+global $db_dsn, $db_table_user_state, $db_table_user_cpt, $db_name, $tb_name, $tb_images, $tb_tags, $db_table_difficulty, $tb_difficulty_col, $tb_question_diff, $files_path, $dir, $host, $CAS_path, $term, $tset, $tex_method, $tex_path;
+
+// 1. rsync -a -e ssh root@its.vip.gatech.edu:/ITSdrive/__ITS/backup/ /home/its/ITS
+// 2. sudo rsync -vaz /home/its/ITS/ /media/ITSbackup/BACKUP/
 
 /*--- httpd.conf --------------//
 Alias /ITS_FILES/ "/var/www/ITS-RESOURCES/ITS_FILES/"

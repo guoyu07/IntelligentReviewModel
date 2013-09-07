@@ -56,7 +56,7 @@ sudo apt-get -y install texlive-full gedit-latex-plugin texmaker screen-kernel-h
 
 # COPY mathtex.zip to /usr/lib/cgi-bin
 # cc mathtex.c
-# mv a.out mathtex.cgi
+# mv a.out mathtex.cgi																																																																					
 
 sudo mkdir /var/www/cgi-bin
 chmod 777 /var/www/cgi-bin

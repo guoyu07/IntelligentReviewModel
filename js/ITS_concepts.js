@@ -270,22 +270,23 @@ $(document).ready(function () {
 			$('#contentContainer').fadeOut();
             var role = $(this).attr('r');
             $('#scoreContainer').show();
+
             /* scoreContainer */
             $.get('ajax/ITS_screen.php', {
 				ajax_args: "updateScores", 
 				ajax_data: ''
             }, function (data) {
                 $('#scoreContainerContent').html(data);
-            });
+            });      
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "showAssignments",
                 ajax_data: role
             }, function (data) {        
                 $('#modeContentContainer').html(data);
+    
                 var ch = $('.chapter_index#current').text();
 				var view = 1;
-                //var ch = chUPDATE(ch,chhide,v);
-				
+                //var ch = chUPDATE(ch,chhide,v);			
             $.get("ajax/ITS_screen.php", {
                 ajax_args: "showTab",
                 ajax_data: ch+','+role+','+view
@@ -311,6 +312,7 @@ $(document).ready(function () {
 			$('#contentContainer').fadeOut();
 			var role = $(this).attr('r');
 			$('#scoreContainer').hide();
+			$('#scoreContainerContent').hide();
             $('#navContainer').hide();
 
             /* scoreContainer */        

@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '224b';
-$LAST_UPDATE = 'Aug-26-2013';
+$ITS_version = '224i';
+$LAST_UPDATE = 'Sep-7-2013';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -24,7 +24,6 @@ if (!isset($_SESSION['auth'])) {
 include('login.php');
 exit;
 }*/
-
 session_start();
 abort_if_unauthenticated();
 
@@ -44,8 +43,8 @@ if (isset($_GET['role'])) {
             break;
     }
 }
-
-$screen = new ITS_screen($id, $term, $role, $tset);
+$updatet = time();
+$screen  = new ITS_screen($id, $term, $role, $tset, $updatet);
 
 $S      = $screen->getSchedule($term);
 $A      = $screen->getAssignment($S);
@@ -190,13 +189,7 @@ echo $term;
 <a href="#" id="CONCEPTS" class="wrapper">
 <a href="#" id="ASSIGNMENTS" class="wrapper">
 -->
-<div id="modeContainer">
-<!--
-<input id="CONCEPTS" class="toggle" name="toggle" value="true" type="radio">
-<label for="CONCEPTS" class="btn rounded-corners">CONCEPTS</label></a>
-<input id="ASSIGNMENTS" class="toggle" name="toggle" value="false" type="radio" checked >
-<label for="ASSIGNMENTS" class="btn rounded-corners">ASSIGNMENTS</label></a>
--->         
+<div id="modeContainer">        
 				<div class="switch candy quid">
 					<input id="CONCEPTS" name="mode" type="radio" class="mode">
 					<label for="CONCEPTS" r="<?php

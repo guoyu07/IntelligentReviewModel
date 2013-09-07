@@ -22,6 +22,9 @@ abort_if_unauthenticated();
 $status = $_SESSION['user']->status();
 
 if ($status == 'admin' OR $status == 'instructor') {
+	
+	global $term, $tset;
+	
     // connect to database
     $mdb2 =& MDB2::connect($db_dsn);
     if (PEAR::isError($mdb2)) {
@@ -188,7 +191,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     //--------------------------------------//
 
     $Q = new ITS_question(1, $db_name, $tb_name);
-    $T = new ITS_statistics(1,'Spring_2013',$status);
+    $T = new ITS_statistics(1,$term,$status);
 
     //var_dump($qid);
     //die($qid);     
@@ -300,7 +303,7 @@ $(".various").fancybox({
 		  closeClick: true,
 		  padding: 5,
           helpers: {
-	overlay : {
+		  overlay : {
 		closeClick : true,
 		speedOut   : 300,
 		showEarly  : false,
@@ -355,7 +358,7 @@ echo '<div id="usersContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;
                 '<div id="usersContent"><center>'. $T->render_question_users($qid).'</center></div>';
 // Solution pull-down menu
 echo '<div id="solutionContainer" class="Question_Toggle"><span>&raquo;&nbsp;Solutions</span></div>'.
-                '<div id="results">xxx</div>';
+                '<div id="results">---</div>';
 //Tags + metaData pull-down menu
 echo $meta . '<br>' . $adminNav . '</div>';
 ?>

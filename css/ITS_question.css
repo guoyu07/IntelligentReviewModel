@@ -46,7 +46,7 @@ TABLE.ITS_ANSWER_STRIPE{position:relative;display:inline-table;vertical-align:to
 TD.ITS_ANSWER_STRIPE{position:relative;width:100%;text-align:left;background-color:#E0E0E0;vertical-align:middle;max-height:50px}
 select.ITS_question{position:relative;border:2px solid #999;padding:.2em}
 select.ITS_question option{position:relative;border-bottom:1px dashed #AAA;vertical-align:middle;padding:.1em}
-.ITS_buttonQ{position:relative;width:50px;color:#999;font-weight:700;border:2px solid #999;background:#FFF;margin:.5em;padding:.25em}
+.ITS_buttonQ{position:relative;font: 150% Arial, sans-serif;width:50px;color:#999;font-weight:700;border:2px solid #999;background:#FFF;margin:0;padding:0;outline:none}
 .ITS_buttonQ:hover{cursor:pointer;font-weight:700;color:#000;border:2px solid #000}
 #framecontent{height:115px}
 #frameseparator{top:115px;height:115px}

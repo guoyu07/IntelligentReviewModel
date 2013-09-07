@@ -120,7 +120,7 @@ echo $nav;
      <td><input type="text" class="ITS_fields" name="username" size="15" /></td>
      <td>
 	 			<select class="ITS_status" id="select_status">
-			        <option value="">Fall 2012</option>
+			        <option value="">Fall_2013</option>
     			    <option value="">student</option>
 					<option value="">instructor</option>
 					<option value="">admin</option>

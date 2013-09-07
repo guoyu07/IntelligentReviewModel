@@ -21,7 +21,7 @@ b { color: black; }
     </style>
     <p><br>
 
-    <h2>ITS &mdash; Summer 2013</h2>
+    <h2>ITS &mdash; Fall 2013</h2>
     <h3>VM Installation</h3>
 
     <table class="w">

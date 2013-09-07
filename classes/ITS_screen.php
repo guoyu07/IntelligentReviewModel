@@ -8,12 +8,12 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Aug-19-2013
+Last Revision: Sep-6-2013
 
 SCHEMA:
 screen.php
 - getScreen()        // draw screen
--- getContent()      // draw content 
+-- getContent()      // draw content
 ---- getChapter()    // setup chapter mode
 ----- getQuestion()  // draws question            
 //=====================================================================*/
@@ -26,10 +26,16 @@ class ITS_screen
     public $tb_name;
     public $record;
     public $style;
+	
+	public $sessiont;
+    public $tb_difficulty;
+    public $tb_difficulty_col;
+    
+    public $difficulty;    
     public $view;
     
     public $screen;
-    public $mode; // question | review | survey | concept 
+    public $mode; 				// question | review | survey | concept 
     public $question_info;
     
     //--- LAB ---//
@@ -54,7 +60,7 @@ class ITS_screen
     //public function set_chapter_number()    { return $this->lab_active;  }
     
     //=====================================================================//
-    function __construct($id, $term, $role, $date)
+    function __construct($id, $term, $role, $date, $sessiont)
     {
         //=====================================================================//
         $this->debug = FALSE; //TRUE;
@@ -62,7 +68,7 @@ class ITS_screen
         if ($this->debug) {
             echo '<br>' . get_called_class();
         }
-        global $db_dsn, $db_name, $tb_name, $db_table_user_state, $tex_path;
+        global $db_dsn, $db_name, $tb_name, $db_table_user_state, $tex_path, $db_table_difficulty, $tb_difficulty_col;
         
         $this->id      = $id;
         $this->term    = $term;
@@ -70,9 +76,16 @@ class ITS_screen
         $this->db_name = $db_name;
         $this->tb_name = $tb_name;
         $this->tb_user = $db_table_user_state;
+        $this->tb_difficulty = $db_table_difficulty;
+        $this->tb_difficulty_col = $tb_difficulty_col;
         
+        $this->sessiont  = $sessiont;
         $this->epochtime = $date;
+        $this->difficulty = FALSE;
         //echo 'TIME '.$this->epochtime.'<p>'.date("D M j G:i:s T Y",$this->epochtime);die();
+        
+        //--- DURATION ---//
+        $t = $this->epochtime;
         
         $this->record = array();
         $this->db_dsn = $db_dsn;
@@ -143,6 +156,7 @@ class ITS_screen
         //$header_str = $this->getHeader($screen);
         $header      = ''; //'<p><div id="headerContainer">'.$header_str.'</div>';
         //echo $header;die();
+        
         //--- CONTENT ---//
         $content_str = $this->getContent();
         $content     = '<div id="contentContainer">' . $content_str . '</div>';
@@ -177,7 +191,7 @@ class ITS_screen
                 $header_active      = $this->getActiveHeader($header_name[$screen - 1]);
                 $header_content[$n] = '<div id="ITS_screen_A">' . $header_active . '</div>';
             } else { // LINK <- INACTIVE
-                $header_content[$n] = '<div class="ITS_screen_L" onClick="ITS_Q(' . ($n + 1) . ')"><p>' . $header_name[$n] . '</p></div>';
+                $header_content[$n] = '<div class="ITS_screen_L" onClick="ITS_Q(' . ($n + 1) . ')">' . $header_name[$n] . '</div>';
             }
             $header_str = $header_str . $header_content[$n];
         }
@@ -288,9 +302,9 @@ class ITS_screen
     function getContent()
     {
         //=====================================================================//
-        // echo ' -- in getContent :'.$this->mode.' '.$this->screen; // die();
+        // echo ' -- in getContent : MODE: '.$this->mode.' '.$this->screen; // die();
         // For concept mode, define a screen = 5
-        // echo "MODE: ".$this->mode."<br>";
+
         if ($this->mode == 'concept') {
             $this->screen = 5;
         }
@@ -316,10 +330,11 @@ class ITS_screen
                 //------------------//
                 //echo 'FREE: '.$this->chapter_number;
                 $this->question_completed = false;
-                // echo $this->mode.' -- '.$this->chapter_number;die('getContent()');
+                // echo '<br>'.$this->mode.' -- '.$this->chapter_number.'<br>'; //die('getContent()');
                 
-                $content_str              = $this->getChapter($this->mode, $this->chapter_number);
-                //    echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
+                $content_str = $this->getChapter($this->mode, $this->chapter_number);
+
+                // echo('GET CONTENT :: case 4: '.$this->screen." : ".$this->mode);
                 break;
             //------------------//
             case 5: // "NEW CONCEPTS BROWSER"
@@ -422,11 +437,10 @@ class ITS_screen
             throw new Question_Control_Exception($mdb2->getMessage());
         }
         
-        //echo $this->lab_active.'**<p>';
         $chapter_active = $this->chapter_active;
         $la             = sprintf("%02d", $chapter_active);
         $query          = 'SELECT question_id,qtype,answers FROM activity,' . $this->tb_name . ' WHERE term="' . $this->term . '" AND name="' . $this->lab_tag . $la . '" AND activity.question_id=' . $this->tb_name . '.id';
-        //die($query);echo $query.'--1<p>';
+        //die($query);echo $query.'--1<br>';
         
         $res =& $mdb2->query($query);
         if (PEAR::isError($res)) {
@@ -489,7 +503,7 @@ class ITS_screen
                     // finished lab
                     $time      = date("m-d-y, g:i a");
                     $query_str = "UPDATE users SET " . $this->lab_tag . $la . "='" . $time . "' WHERE id=" . $this->id; //echo "<p>".$query_str."<p>";die();
-                    echo '<p>' . $query_str . '<p>';
+                    echo '<p>' . $query_str . '</p>';
                     //die('DIED HERE');
                     $res_time =& $mdb2->query($query_str);
                     if (PEAR::isError($res_time)) {
@@ -1077,7 +1091,7 @@ class ITS_screen
             $str     = '<img src="' . $pg_path . '">';
         } else {
             $pg_path = 'images/dspfirst.jpg';
-            $str     = '<p style="margin:2em;">' . '<img src="' . $pg_path . '" style="padding:0.5em;border:2px solid #aaa">' . '<p><a href="index.php" style="color:#777;border:1px solid #777;padding:0.5em 1em;margin:1em;text-decoration:none;">back</a><p>&nbsp;';
+            $str     = '<p style="margin:2em;">' . '<img src="' . $pg_path . '" style="padding:0.5em;border:2px solid #aaa">' . '<a href="index.php" style="color:#777;border:1px solid #777;padding:0.5em 1em;margin:1em;text-decoration:none;">back</a>&nbsp;';
         }
         return $str;
     }
@@ -1158,8 +1172,6 @@ class ITS_screen
         //$nav = '<img src="phpimg/ITS_button.php?o=f"'
         $next_icon = '&gt;'; // Next
         $prev_icon = '&lt;'; // Previous
-        //echo isset($this->screen);
-        //echo '<p><hr>'.$this->screen.'+++'; //die($this->screen);
         
         switch ($this->screen) {
             //-------------------------------//
@@ -1212,7 +1224,7 @@ class ITS_screen
                     //$next   =  $style1.$data.$style2.$next_icon.'</div>';
                     
                     // SUBMIT BUTTON
-                    $submit = '<div class="center">' . '<input type="submit" style="color:darkgreen;font-weight:bold" name="submit" value="Submit Lab #' . $this->lab_active . '">' . '</div>' . '</form>';
+                    $submit = '<div class="center"><input type="submit" style="color:darkgreen;font-weight:bold" name="submit" value="Submit Lab #' . $this->lab_active . '">' . '</div>' . '</form>';
                 } else {
                     $next = $style1 . $data . $style2 . $next_icon . '</div>';
                 }
@@ -1243,7 +1255,7 @@ class ITS_screen
                         );
                         $container      = "'getContent'";
                         $button_onClick = ''; //"onClick=ITS_question_next()";
-                        $next_str       = 'name="update_index" class="ITS_navigation" mode="' . $this->mode . '" ' . $button_onClick;
+                        $next_str       = 'name="update_index" class="ITS_navigation" mode="' . $this->mode . '" ch="'.$this->chapter_number.'" ' . $button_onClick;
                         break;
                     /********************/
                     case 'review':
@@ -1338,7 +1350,7 @@ class ITS_screen
         
         //<div name="updateLab_index" class="ITS_navigation"
         $prev = '<div id="ITS_nav_prev" ' . $prev_str . '>' . $prev_icon . '</div>';
-        $next = '<p><div id="ITS_nav_next" ' . $next_str . '>' . $next_icon . '</div>';
+        $next = '<div id="ITS_nav_next" ' . $next_str . '>' . $next_icon . '</div>';
         
         //echo '<p> ###: '.htmlentities($next);//die();
         $width       = array(
@@ -1352,8 +1364,6 @@ class ITS_screen
             $nav_content,
             $next
         );
-        
-        //$navigation = '<div id=navigationContainer></div>'
         
         /* 
         $navigation = '<ul id="navQuestion">'
@@ -1469,10 +1479,13 @@ class ITS_screen
             //}
             //var_dump(date("M - j @ g:i a", $close_time));die();
             array_push($schedule, date("M - j @ g:i a", $close_time));
-            //echo '<p>'.date("M-j", $close_time).'</p>';
+            //echo '<p>'.date("M-j", $close_time).'  '.time().'</p>';
+            //echo '<p>'.$close_time.'  '.time().'  ='.(int)($close_time < time()).'</p>';
             if ($close_time < time())
                 $index_hide++;
         }
+        
+        //var_dump($index_max);
         
         //echo '<pre>';print_r($chArr); echo '</pre>';die();
         $schedule_arr = array(
@@ -1513,7 +1526,7 @@ class ITS_screen
                         $chArr = range(1, $chMax);
                         for ($i = 1; $i <= $chMax; $i++) {
                             // echo $i.' -- '.($index_hide+1).'<br>';
-                            if ($i == ($index_hide)+1) {
+                            if ($i == ($index_max)) {
                                 $idx_id = 'id="current"';
                                 $this->chapter_number = $i+1;
                             } else {
@@ -1673,12 +1686,13 @@ class ITS_screen
             mysql_free_result($result);*/
             //*****************
             //echo 'TIME '.$tstart.'<p>'.date("D M j G:i:s T Y",$tstart);
-            //die($tstart);
+            
             //--- DURATION ---//
             $dur = time() - $tstart;
             
             //--- RATING ---//
             //if (empty($rating)) { $rating = 'NULL'; }
+            
             switch (strtolower($qtype)) {
                 //-------------------------------//
                 case 'm':
@@ -2201,8 +2215,32 @@ class ITS_screen
         return $qinfo;
     }
     //=====================================================================//
-    function updateChapter($chp_num)
-    {
+    function getDifficulty($qid){
+		$mdb2 =& MDB2::connect($this->db_dsn);
+        if (PEAR::isError($mdb2)) {
+            throw new Question_Control_Exception($mdb2->getMessage());
+        }
+                
+		$query =   "SELECT {$this->tb_difficulty_col} FROM {$this->tb_difficulty} WHERE q_id={$qid};";
+		$res =& $mdb2->query($query);
+		if (PEAR::isError($res)) {
+            throw new Question_Control_Exception($res->getMessage());
+        }
+        $mdb2->disconnect();
+		$answer = $res->fetchAll();
+		$answer = $answer[0][0];
+		//if(is_null($answer))$answer=5;
+		$width = 500;
+		$percent = round($width * $answer / 10);
+		$str = '<div class="DifficultyBar" style="width:'.$width.'px;">
+					<div  style="width:'.$percent.'px;"></div>
+					<center>'.$answer.' / 10</center>
+				</div>';
+		return $str;
+		
+	}
+
+    function updateChapter($chp_num){
         //=====================================================================//
         $this->chapter_number = $chp_num;
         $content_str          = $this->getChapter();
@@ -2388,7 +2426,7 @@ class ITS_screen
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
                     //***---------------------------------------------------------------------------------***//                    
                     $form   = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
-                    $skip   = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
+                    $skip   = '<input type="button" class="ITS_skip_old" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     
                     //$feedback = $ITSf->render($qid,88);
                     $feedback = '';
@@ -2420,7 +2458,7 @@ class ITS_screen
             }
         }
         if ($NO_QUESTIONS) {
-            $str = ITS_message('No more questions available for:<br><br><p>concept <span class="ITS_null">' . $resource_name . '</span></p>');
+            $str = ITS_message('No more questions available for:<br><br>concept <span class="ITS_null">' . $resource_name . '</span>');
         }
         $mdb2->disconnect();
         //--------------------//
@@ -2608,16 +2646,45 @@ class ITS_screen
                         break;
                     //-------------------------------//
                     default:
-                        $query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND current_chapter=' . $resource_name . ' AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")'; //###!!!
-                        //echo '<p>'.$query; //die($query);
-                        $res =& $mdb2->query($query);
-                        $qAvailable = $res->fetchAll();
-                        //echo '<pre>';print_r($qAvailable);echo '</pre>';
-                        $K          = count($qAvailable);
+                    
+                        if($this->difficulty){
+							$query = 'SELECT id FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND current_chapter=' . $resource_name . ' AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")'; //###!!!
+							//echo '<p>'.$query; //die($query);
+							$res =& $mdb2->query($query);
+							$qAvailable = $res->fetchCol();
+							
+							$qTotal=$qAvailable;
+							//echo '<pre>';print_r($qAvailable);echo '</pre>';
+							
+							$ITS_NQ = NEW ITS_NQ($this->id,$this->sessiont,$qAvailable,$resource_name);
+							
+							$qAvailable = $ITS_NQ->NextQuestion();
+							$refresh = TRUE;
+							//
+							//die('ww3e');
+							if(is_string($qAvailable)){
+								$refresh = FALSE;
+								$qAvailable = NULL;
+							}
+							
+							$K  = count($qAvailable);
+							
+							if(!$K AND $refresh){
+								//echo "<br>NEW SESSION<br>";
+								$this->sessiont = time();
+								$ITS_NQ = NEW ITS_NQ($this->id,$this->sessiont,$qTotal,$resource_name);
+								$qAvailable = $ITS_NQ->NextQuestion();
+								$K          = count($qAvailable);
+							}
+						} else {  //use old ITS system	//-------------------------------//
+							$query = 'SELECT id,qtype FROM ' . $this->tb_name . ' WHERE id IN (' . $ques_list . ') AND id NOT IN (SELECT question_id FROM stats_' . $this->id . ' WHERE score IS NOT NULL AND current_chapter=' . $resource_name . ' AND epochtime > ' . $this->epochtime . ')  AND qtype IN ("M","MC","C")'; //###!!!
+							$res =& $mdb2->query($query);
+							$qAvailable = $res->fetchAll();
+							$K          = count($qAvailable);
+						}
                         //-------------------------------//
                 }
                 //echo $K . "\n";die();
-                
                 if ($K) { // section questions available
                     // choose random question from ALL POSSIBLE QUESTIONS  
                     //----
@@ -2692,15 +2759,45 @@ class ITS_screen
                     $token                    = time(); // based on current time
                     $_SESSION['ITSQ_' . $qid] = $token;
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
-                    //***---------------------------------------------------------------------------------***//                    
-                    $form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
-                    $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
+                    //***---------------------------------------------------------------------------------***//          
+              
+                    if($this->difficulty){ //use new buttons
+                    					
+                    $easier		= '<input type="button" class="ITS_buttonQ round" id="ITS_skip" name="skip" value="&ndash;" title="EASIER" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="easier">';
+                    $harder		= '<input type="button" class="ITS_buttonQ round" id="ITS_skip" name="skip2" value="+" title="HARDER" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="harder">';
+                    $back		= '<input type="button" class="ITS_skip3" id="ITS_skip" name="skip3" value="&lsaquo;&lsaquo;Backward" title="BACK" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="back">';
+                    $forward	= '<input type="button" class="ITS_skip_old" id="ITS_skip" name="skip4" value="skip &nbsp;&rsaquo;&rsaquo;" title="FORWARD" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="forward">';
+					//var_dump('ddd'); die('end');
+                    $diffinfo = new User_DiffStats($this->id,$ch_idx);
+                    $Difficulty = $diffinfo->GetDifficulty($qid);
+                    //$Difficulty	=  $this->getDifficulty($qid);
+
+                    /*$form                     = $qinfo . $question . $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+					$form2                     = $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit2" id="ITS_submit" name="submit2" value="Submit_Easier" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+					$form3                     = $error . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit3" id="ITS_submit" name="submit3" value="Submit_Harder" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>'; */
+					$form3                     = $qinfo . $question .$error .  '<div class="navContainer" id="navBoxContainer">' .
+												'<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource .'" event="submit"></div>' ;
+					//$Diff = '<div style="position: absolute; top: 0px; left:0px;">'.$harder.$Difficulty.$easier.'</div>';
+                    
+                    $Diff = '<div class="DiffLevel"><div id="levelContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Level</span></div>'.
+					 '<div id="levelContent">'.$harder.$Difficulty.$easier.'</div></div>';
+                    
+                    //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
+                    //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
+                    $answer                   = $form3 . $forward.$resources.$Diff;
+                    }else{ // NO difficulty feature
+						//$skip		= '<input type="button" class="ITS_skip_old" id="ITS_skip" name="skip" value="&rsaquo;&rsaquo;" title="SKIP" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="old">';
+					    $skip       = '<input type="button" class="ITS_skip_old" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;"   ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
+						$form          = $qinfo . $question .$error . '<div class="navContainer" id="navBoxContainer"><input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource .'" event="submit"></div>';
+					    //$form           = $qinfo . $question .$error . '<div class="navContainer" id="navBoxContainer"><input type="submit" class="ITS_submit"     id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
+
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
                     //$feedback = $ITSf->render($qid,88);
                     $feedback = '';
                     $answer   = $form . $skip . $resources.$feedback;
                     //DEBUG: echo '|input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" qid="'.$qid.'" qtype="'.$qtype.'" c="'.$cstr.'"';
+					}
                     
                     /*-- TAGGING START --/
                     $tagBox = new ITS_tagInterface();                    
@@ -2738,8 +2835,17 @@ class ITS_screen
         }
         
         if ($NO_QUESTIONS) {
-            //var_dump($msg);die($msg);
-            $str = ITS_message('No more questions available for ' . $msg);
+            if($this->difficulty){ //use difficulty feature
+				//$back                   = '<input type="button" class="ITS_skip3" id="ITS_skip" name="skip3" value="&lsaquo;&lsaquo;" title="BACK" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '" skip="back">';
+				$token                    = time(); // based on current time
+				$_SESSION['ITSQ_8']=TRUE;
+				$back     = '<input type="button" class="ITS_skip3" id="ITS_skip" name="skip3" value="&lsaquo;&lsaquo;" title="BACK" ch="' . $this->chapter_number . '" qid="8" qtype="M" c="" t="' . $token . '" mode="' . $resource . '" skip="back">';//replace q_id 8 with the dummy q_id **EDIT**
+				$forward  = '<input type="button" class="ITS_skip4" id="ITS_skip" name="skip4" value="&rsaquo;&rsaquo;" title="FORWARD" ch="' . $this->chapter_number . '" qid="8" qtype="NULL" c="" t="' . $token . '" mode="' . $resource . '" skip="forward">';//replace q_id 8 with the dummy q_id **EDIT**
+				$str = '<div class="ITS_MESSAGE">&diams;&nbsp;No more questions available for ' . $msg . '.</div>'.$back.$forward;
+				//$str = $this->main();
+			}else{//use old system
+			    $str = ITS_message('No more questions available for ' . $msg);
+			}
         }
         $mdb2->disconnect();
         //--------------------//
@@ -2845,6 +2951,7 @@ class ITS_screen
         if (empty($qarr)) {
             $NO_QUESTIONS = TRUE;
         } else {
+
             if (empty($qarr)) {
                 $NO_QUESTIONS = TRUE;
             } else {
@@ -2924,9 +3031,6 @@ class ITS_screen
                             //$skip = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" mode="'.$resource.'">';
                             break;
                     }
-                    //echo '<p>++++ '.$qid.' + '.$qtype.' ++++<p>';die();
-                    //==>>    $qid = 1196; $qtype = 'MC';
-                    //if ($this->role == 'admin') { echo 'ITS_screen::getChapter '.$qid.'<p>'; }
                     
                     //echo $qAvailable[$ques_arr_rand_key[0]] . "\n";
                     $qinfo    = $this->getQuestionRef($qid);
@@ -2955,7 +3059,7 @@ class ITS_screen
                     //echo $token;var_dump($_SESSION['ITSQ_'.$qid]);
                     //***---------------------------------------------------------------------------------***//                    
                     $form                     = $qinfo . $question . $error /*$rateBox*/ . '<div class="navContainer" id="navBoxContainer">' . '<input type="submit" class="ITS_submit" id="ITS_submit" name="submit" value="Submit" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">' . '</div>';
-                    $skip                     = '<input type="button" class="ITS_skip" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
+                    $skip                     = '<input type="button" class="ITS_skip_old" id="ITS_skip" name="skip" value="skip &nbsp;&rsaquo;&rsaquo;" ch="' . $ch_idx . '" qid="' . $qid . '" qtype="' . $qtype . '" c="' . $cstr . '" t="' . $token . '" mode="' . $resource . '">';
                     //$resource = '<div class="resContainer" id="resBoxContainer">my res</div>';
                     //$answer = $form.'<div id="errorContainer" class="ITS_message"></div><div id="answerContainer" onreset="ITS_obj_timer()">'.$submit.'</div>';
                     $feedback = ''; //ff

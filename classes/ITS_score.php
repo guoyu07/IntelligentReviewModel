@@ -9,7 +9,7 @@ ex. $scores = new ITS_score( ... );
 NOTE: requires ITS_query() class
 
 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-Last Update: Jul-09-2013
+Last Update: Aug-26-2013
 //=====================================================================*/
 
 class ITS_score
@@ -161,15 +161,11 @@ class ITS_score
         if (PEAR::isError($mdb2)) {
             throw new Exception($mdb2->getMessage());
         }
+        
+        $time_pre = microtime(true);      
                
         $usertable = "stats_" . $this->userid;
-        $s         = new ITS_statistics($this->userid, $this->term, 'student');
         $ITSq      = new ITS_query();
-        
-        //var_dump($chArr);
-        //echo '<table class="ITS_backtrace">';    
-        //array_walk( debug_backtrace(), create_function( '$a,$b', 'print "<tr><td><font color=\"blue\">". basename( $a[\'file\'] ). "</b></font></td><td><font color=\"red\">{$a[\'line\']}</font></td><td><font color=\"green\">{$a[\'function\']}()</font></td><td>". dirname( $a[\'file\'] ). "/</td></tr>";' ) );    
-        //echo '</table>';
         
         $n = count($chArr);
         //for every chapter
@@ -177,31 +173,16 @@ class ITS_score
             //for every chapter, set score to 0
             $score = 0;
             //for every chapter, compute score
-            $c     = $chArr[$i];
+            $c      = $chArr[$i];
+            $query = $ITSq->getQuery('TRUNCATE(SUM(score),2) AS score,count(question_id) AS attempt', $usertable, $c, $this->epochtime);
+
+            //echo 'ITS_score::computeChapterScores():<br><font color="blue">'.$query.'</font><p>';
             
-            $query = $ITSq->getQuery('SUM(score)', $usertable, $c, $this->epochtime);
-            //echo '<p>'.$query.'<p>'; 
-            $res   = $mdb2->query($query);
-            
-            //die($this->epochtime);
-            //die($query);
-            while ($row = $res->fetchAll()) {
-                for ($j = 0; $j < count($row); $j++) {
-                    $score = $row[$j][0];
-                }
-            }
-            //$score = $res->fetchRow();
-            //echo '<p>'.$score.'<p>';
-            $tscore[$i]['score'] = $score;
-            //var_dump($tscore);
-            $query1              = $ITSq->getQuery('count(question_id)', $usertable, $c, $this->epochtime);
-            
-            //echo '<p>'.$query1.'</p>';
-            //echo 'ITS_score::computeChapterScores():<br><font color="blue">'.$query1.'</font><p>';
-            
-            $res1 =& $mdb2->query($query1);
-            $row1                    = $res1->fetchAll();
-            $attemptedQuesNum        = $row1[0][0];
+            $res =& $mdb2->query($query);
+            $row = $res->fetchAll();
+            //var_dump($row1);die();
+            $attemptedQuesNum        = $row[0][1];
+            $tscore[$i]['score'] 	 = $row[0][0];
             $tscore[$i]['attempt']   = $attemptedQuesNum;
             $tscore[$i]['totalques'] = $this->getTotalNumQuestions($i + 1);
             
@@ -213,8 +194,13 @@ class ITS_score
                 $percentage = ($score / $total) * 100;
             }
             $tscore[$i]['percent'] = $percentage;
+            //var_dump($tscore); die('here');
         }
-        //var_dump($tscore);
+
+        /* timer
+        $time_post = microtime(true);
+		$exec_time = $time_post - $time_pre;echo $exec_time; */
+        
         $mdb2->disconnect();
         
         return $tscore;
@@ -224,7 +210,7 @@ class ITS_score
     {
         //=====================================================================//    
         //echo 'chapter: '.$this->chapter.'<p>';  
-        $ptsMax   = 3300;
+        $ptsMax   = 2400;
         $ptsGrade = 30;
         
         $chapter_score_arr = $this->computeChapterScores($chArr);
@@ -248,7 +234,7 @@ class ITS_score
         $totalGrade        = 0;
         $idx               = 1;
         foreach ($chapter_score_arr as $s) {
-            $score_arr[]       = round($s['score'], 2) . '<span class="gray"> pts</span>';
+            $score_arr[]       = round($s['score'], 2). '<span class="gray"> pts</span>';
             $total_score       = $total_score + $s['score'];
             //Attempted Questions
             $attemptedQues[]   = '<span id="qAvail' . $idx . '">' . $s['attempt'] . '</span><span class="gray"> / </span>' . $s['totalques'];
