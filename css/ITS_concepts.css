@@ -1,9 +1,8 @@
 #conceptContainer{border:1px solid #fff;margin:0;padding:0}
-#conceptListContainer{border:1px solid #fff;margin:0;width:100%;overflow: auto;padding:0}
+#conceptListContainer{border:1px solid #fff;margin:0;width:100%;padding:0}/*overflow: auto;*/
 #SelectedConcContainer{padding:1em;border-top:3px solid #eee;margin-top:1em;overflow:auto;display:none}
 #ConcQuesContainer{position:absolute; top:400; height:400px;overflow: auto;}
 #getQuesForConcepts {position:relative;clear: both;margin-top:20px;}
-
 .conceptTable {position:relative;width:100%;border:2px solid #999;border-collapse:collapse}
 .conceptTable td {position:relative;border:1px solid #FFF}
 .conceptTable td.choice_del {border:1px solid #999;background-color:#aaa}

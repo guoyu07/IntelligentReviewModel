@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Sep-6-2013
+Last Revision: Sep-10-2013
 
 SCHEMA:
 screen.php
@@ -82,7 +82,6 @@ class ITS_screen
         $this->sessiont  = $sessiont;
         $this->epochtime = $date;
         $this->difficulty = FALSE;
-        //echo 'TIME '.$this->epochtime.'<p>'.date("D M j G:i:s T Y",$this->epochtime);die();
         
         //--- DURATION ---//
         $t = $this->epochtime;
@@ -1421,14 +1420,23 @@ class ITS_screen
                 11
             )
         );
-        $close = array(
-            array(
+        
+        if ($this->id==2378){
+                    $A1 = array(
+                9,
+                18
+            );}else{
+				$A1 = array(
                 9,
                 9
-            ),
+            );
+			}
+        
+        $close = array(
+            $A1,
             array(
                 9,
-                16
+                20
             ),
             array(
                 9,
@@ -2405,7 +2413,6 @@ class ITS_screen
                         }
                     }
                     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-                    
                     // die($this->id.' '.$this->term.' '.$resource_name);
                     
                     $Robj = new ITS_resource($this->id,$this->term,$resource_name);

@@ -38,6 +38,9 @@ for ($u=0; $u < count($users); $u++) {
 	if (PEAR::isError($res)) {throw new Question_Control_Exception($res->getMessage());}
 	//----***--------//
 }
+
+$ex = exec("start.sh");
+
 echo 'finished';
 // mysqldump --single-transaction --skip-add-locks -h its.vip.gatech.edu its -u root -p > ITS_123.sql
 // mysqldump --single-transaction --skip-add-locks its -u root -pcsip > ITS_123.sql

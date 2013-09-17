@@ -1,5 +1,4 @@
 #!/bin/sh
-#
 # ITS installer
 # Author(s): Gregory Krudysz
 # Last Revision: Jan-21-2012
@@ -111,7 +110,6 @@ yum -y install libXp.x86_64 unixODBC unixODBC-kde
 #-------------------------------------------------------#
 yum -y install python-numeric python-numpy python-scipy
 # Place *.repo file into /etc/yum.repo.d/, and then install numpy/scipy with yum:
-
 
 #-------------------------------------------------------#
 # Shibboleth

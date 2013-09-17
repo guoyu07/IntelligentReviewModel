@@ -16,8 +16,11 @@ Methods: load_DATA_from_DB($q_num)
 ex. $ITS_question = new ITS_question(90001,"its","user_cpt");
 
 Author(s): Greg Krudysz | Aug-28-2008
+		   Khyati 		| Apr-16-2012
 Last Revision: Aug-10-2013
 //=====================================================================*/
+
+
 
 class ITS_question
 {
@@ -328,8 +331,7 @@ class ITS_question
                 //$img.= '<div style="display:none"><div id="data"><img src="' . $this->files_path . $this->Q_question_data['image'] . '" class="ITS_question_img" alt="' . $this->files_path . $this->Q_question_data['image'] . '"></div></div>';
             } else {
                 $img = '<a id="single_image" href="' . $src . '" class="ITS_question_img" alt="' . $src . '"><img src="' . $src . '" class="ITS_question_img" alt="' . $src . '"></a>';
-            }
-            
+            }   
             //$img = '<a class="example2" href="' . $src . '"><img src="' . $src . '" alt="' . $src . '"></a>';
         } else {
             $img = '';
@@ -1239,14 +1241,17 @@ class ITS_question
     {
         //=====================================================================// 
         
+        switch ($qid) {
+    case 0:
+        $nav .= '<input type="button" class="' . $style . '" onclick="ITS_QCONTROL_EDITMODE(this)" name="editMode" value="Edit" status="true">';
+        break;
+    default:
         $nav .= '<input type="button" class="' . $style . '" id="createQuestion" name="new"   value="New"   qid="' . $qid . '" qtype="' . $qtype . '">' . '<input type="button" class="' . $style . '" id="cloneQuestion"  name="clone" value="Clone" qid="' . $qid . '" qtype="' . $qtype . '">' . '<input type="button" class="' . $style . '" id="importQuestion" name="new"   value="import QTI" qid="' . $qid . '">' . '<input type="button" class="' . $style . '" id="exportQuestion" name="export"   value="export to QTI" qid="' . $qid . '">' . '<input type="button" class="' . $style . '" id="exportManyQuestion" name="export_many"   value="export multiple question" qid="' . $qid . '">' . '<input type="button" class="' . $style . '" onclick="ITS_QCONTROL_EDITMODE(this)" name="editMode" value="Edit" status="true">';
-        
-        /* <!--<input type="button" class="ITS_button" id="deleteQuestion" name="delete" value="Delete" qid="<?php echo $qid;?>">
-        <input type="button" class="ITS_button" id="testme" name="test" value="test" qid="<?php echo $qid;?>">-->
-        */
+        break;
+}
         return $nav;
     }
-    //========================Added by Khyati - APR 16 2012	======================//
+    //=========================================================================//
     function returnResult($varlist, $rand_values_list, $formula)
     {
         //=====================================================================//
@@ -1331,15 +1336,6 @@ function latexCheck($str, $method, $path)
 	}
     
     $pattern = "/<latex>(.*?)<\/latex>/im";
-
-    /*
-    echo '<span style="color:blue">'.$str.'</span><br>'; //
-    echo '<span style="color:green">'.$pattern.'</span><br>'; //
-    echo '<span style="color:red">'.$replacement.'</span><br>'; //
-    */
-    //if(preg_match_all($pattern, $str, $matches,PREG_SET_ORDER)){
-    //echo '<pre>';print_r($matches);echo '</pre>';	}
-    
     $str = preg_replace($pattern, $replacement, $str);
 
     //echo '<center><div style="background:yellow">'.$str.'</div></center><hr>'; // die();

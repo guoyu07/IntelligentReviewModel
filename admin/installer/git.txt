@@ -11,7 +11,7 @@ git config --global merge.tool meld
 cd /var/www/ITS-GT
 git init
 git add *
-git commit -a -m 'version 208'
+git commit -a -m 'version 225'
 cd /var/www
 git clone --bare ITS-GT ITS-GT.git
 scp -r ITS-GT.git root@itsdev5.vip.gatech.edu:/opt/git

@@ -45,19 +45,9 @@ class ITS_solution
         $this->db_user = $dsn[1]; //Database username
         $this->db_pass = $dsn[2]; //Database pass
         
-<<<<<<< HEAD
-        $this->con = mysql_connect($this->host, $this->db_user, $this->db_pass) or die('Could not Connect to DB');
-        mysql_select_db($this->db_name, $this->con) or die('Could not select DB');
-    }
-=======
         $this->con = mysql_connect($this->host, $this->db_user, $this->db_pass) or die('Could not Connect to DB in '.get_class($this));
         mysql_select_db($this->db_name, $this->con) or die('Could not Connect to DB in '.get_class($this));       
     }   
-<<<<<<< HEAD
->>>>>>> dev
-=======
->>>>>>> concept
->>>>>>> dev
     //=============================================================//
     // Show Index
     // Description: Shows the Index for the Solutions page by showing
@@ -144,10 +134,7 @@ class ITS_solution
 		Flags: -W = Warmup
 		</div>
 
-		<br>
-		<hr>
-		<center>Enter a Solution</center>
-		<hr>
+		<br><hr><center>Enter a Solution</center><hr>
 
 		<form action="solutions.php" method="post">
 		<input type="hidden" name="hasaPost" value="1">
@@ -953,8 +940,7 @@ class ITS_solution
         }
         mysql_free_result($res);
         
-        //Back Button
-        
+        //Back Button  
         /*
         echo '<br><form action="solutions.php">
         <div align="center">
@@ -1052,8 +1038,6 @@ class ITS_solution
         $stype = $stypeVAL; //<--- all _GET variables
         $add   = $addVAL;
         $ID    = $IDVAL;
-        
-        
         
         // DISPLAY QUESTION NUMBER
         //echo '<center>QUESTION: <font color="red">'.$qNum.'</font> ( '.$this->db_name.':'.$this->tb_name.' )</center>';
@@ -1295,8 +1279,7 @@ class ITS_solution
         </div>
         </form>';
         */
-        return;
-        
+        return;  
     }
     //=============================================================//
     // Parse ratings coming from viewSolution()
@@ -1365,8 +1348,7 @@ class ITS_solution
             echo 'Successfully Rated';
         }
         
-        //BACK button to showIndex()       
-        
+        //BACK button to showIndex()           
         /*
         echo '<form action="solutions.php">
         <div align="center">
@@ -1391,8 +1373,7 @@ class ITS_solution
             $res = mysql_query($query) or die('' . mysql_error() . ' In Hint Insert'); //                                                                     v-'.$_SESSION['user']->id().'
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $QNUMVAL . ', \'Hint\',\'' . $Hint . '\', ' . $this->sessionId . ', ' . time() . ', \'Added\');'; //Inserts into the log
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
-            echo '<b>Hint:</b> ' . $HintVAL;
-            echo '<br>';
+            echo '<b>Hint:</b> ' . $HintVAL.'<br>';
         } else {
             echo 'No hint was entered';
         }
@@ -1414,8 +1395,7 @@ class ITS_solution
             $res = mysql_query($query) or die('' . mysql_error() . ' In Solution Insert'); //                                                               v-'.$_SESSION['user']->id().'
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $QNUMVAL . ', \'Sol\',\'' . $Sol . '\', ' . $this->sessionId . ', ' . time() . ', \'Added\');'; //Inserts into the log
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
-            echo '<b>Solution:</b> ' . $SolutionVAL;
-            echo '<br>';
+            echo '<b>Solution:</b> ' . $SolutionVAL.'<br>';
         } else {
             echo 'No solution was entered';
         }
@@ -1436,8 +1416,7 @@ class ITS_solution
             $res = mysql_query($query) or die('' . mysql_error() . ' In Detailed Insert'); //                                                               v-'.$_SESSION['user']->id().'
             $query3 = 'INSERT INTO solutionsLog (question_id, stype, text, author, timestamp, actionTaken) VALUES (' . $QNUMVAL . ', \'Det\',\'' . $Det . '\', ' . $this->sessionId . ', ' . time() . ', \'Added\');'; //Inserts into the log
             $res3 = mysql_query($query3) or die('' . mysql_error() . ' Adding into log');
-            echo '<b>Detailed:</b> ' . $DetailedVAL;
-            echo '<br>';
+            echo '<b>Detailed:</b> ' . $DetailedVAL.'<br>';
         } else {
             echo 'No detailed solution was entered';
         }
@@ -1476,7 +1455,6 @@ class ITS_solution
         
         return;
     }
-    
     //=============================================================//
     // Adds a Hint/Sol/Det to the database
     // Description: Given the question_id, the stype, and the text,
@@ -1506,7 +1484,6 @@ class ITS_solution
     //
     // *NOTE* id is the ID in the solutions table
     // *NOTE* stype NEEDS to be either Hint, Sol, or Det. <-Case sensitive 
-    //
     //=============================================================//
     function updateSol($qNum, $idNum, $stype, $textVAL)
     {
@@ -1525,9 +1502,6 @@ class ITS_solution
     //=============================================================//
     // Views the hints for a question
     // Description: This function is to be used on the "screen" page 
-    //
-    //  
-    //
     //=============================================================//
     function viewHints($QNUMVAR)
     {
@@ -1555,8 +1529,7 @@ class ITS_solution
             
             //TITLE AND EDIT BUTTON 
             echo '<b>Hint #' . ($N + 1) . '</b><br>';
-            
-            
+    
             //TEXT
             echo '<table class="' . self::solutionStyleCheck($styleCount) . '" border=1>';
             echo '<tr><th rowspan=2 class="' . self::solutionStyleCheck($styleCount) . '" width="65%">';
@@ -1700,8 +1673,7 @@ class ITS_solution
             
             // ADD BUTTON
             //          action="solutions.php" method="get"
-            echo '</div>';
-            echo '</td></tr></table>';
+            echo '</div></td></tr></table>';
             $styleCount++;
         }
         echo '<br>';

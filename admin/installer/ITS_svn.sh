@@ -4,7 +4,6 @@
 # Author(s): Gregory Krudysz
 # Last Revision: June-30-2011
 #------------------------------------#
-#
 
 yum -y install mod_dav_svn  # WebDAV
 

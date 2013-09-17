@@ -2,7 +2,7 @@
 require_once("config.php"); // #1 include 
 require_once(INCLUDE_DIR . "include.php");
 
-require_once ("classes/ITS_timer.php");
+//require_once ("classes/ITS_timer.php");
 require_once ("classes/ITS_solution.php");
 require_once ("classes/ITS_logs.php");
 

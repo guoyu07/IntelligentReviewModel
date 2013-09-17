@@ -494,7 +494,7 @@ class ITS_NQ {
 	function CreateUserQuery($where,$limit,$debug){
 		/****FUNCTION INSTRUCTIONS*************************************
 		 * creates a query to pull all of the information needed 
-		 * where=the where part of the query statement 
+		 * where=the where part of the query statement
 		 * limit=number of rows to pull {enter 0 for no limit}
 		 * ***********************************************************/
 		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
@@ -523,7 +523,7 @@ class ITS_NQ {
 		 * 			TRUE=yes    FALSE=no
 		 * ***********************************************************/
 		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
-		//
+		
 		//die($query);
 		
 		// connect to database
@@ -544,7 +544,6 @@ class ITS_NQ {
 			$answer = $res->fetchAll();
 		}
 		
-		//
 		//var_dump($answer);die($answer);
 		
 		$mdb2->disconnect();

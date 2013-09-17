@@ -6,6 +6,7 @@ body { margin: 0 2%;
 	   padding: 0;/*height: 100%;*/
 	   font: 120% arial, sans-serif; text-align: center;color: black;background: #fff;
 }
+code { font-weight:bold}
 .ITS_error { background: #ff9;color: red;font-weight:bold;border:2px solid #000; }
 .todo {  background: #ff9;color: green;border:2px solid #000; padding:0.5em }
 #slider { z-index: 2; }
@@ -118,7 +119,7 @@ p  { margin:0; padding: 10px;         }
 Q  { font: 8pt Georgia, serif;        }
 TT { font-family: aerial,sans serif;      }
 TD { text-align: center;border-width: 1px;border-style: none;padding: 0px;}
-img.ITS_LaTeX { position:relative; vertical-align: middle; /*height:100%*/ }
+img.ITS_LaTeX { position:relative;vertical-align:middle;/*height:100%*/ }
 /*IMG  { max-height:200px;  }*/
 
 /* MODE */
@@ -167,7 +168,7 @@ div.modeToggle {text-align:middle }
     position: relative;
 	text-align: middle;
 	padding: 1em;
-	overflow: auto;
+	/*overflow: auto;*/
 }
 #header h1 {
 	position: absolute;
@@ -1523,7 +1524,6 @@ label.ansCheck_inactive {
 }
 div.footer_list {
   position: relative;
-  background: url('media/bgFooter.png') no-repeat;
   background-size:100% 100%;
   -webkit-background-origin:content-box; /* Safari */
   background-origin:content-box;

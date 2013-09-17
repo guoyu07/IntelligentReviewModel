@@ -23,7 +23,7 @@ if($_SERVER["REQUEST_METHOD"]!="POST"){
 		$result->sortIntoBuckets($NumBuckets, 0);
 	}
 	
-	print "<h2>Form	arguments	in URL</h2><br>\n";	  
+	print "<h2>Form	arguments	in URL</h2><br>\n";
 foreach($_POST as$x=>$value)	{	
 	  print	"{$x}:{$value}<br>\n"; 
 };	
@@ -81,7 +81,6 @@ FUNCTION runDif($connection,$DataTable,$QTable,$DifCol,$NewDif,$pA,$pAR,$pD,$pS,
 				$total=$total+printDif($connection,$QTable,$DifCol,$row['id'],$QType,$Dbug);
 			print "</td></tr>";
 		}
-		
 	}
 	print "</table><br> <h1><center>{$total}</center></h1>";
 	RETURN 1;
@@ -109,7 +108,6 @@ FUNCTION printDif($connection,$QTable,$DifCol,$tag_id,$QType,$Dbug){
 	}
 	print "<td><center>{$total}</center></td></tr></table>";
 	RETURN $total;
-	
 }
 //=====================================================================//
 FUNCTION updateDif($connection,$DataTable,$QTable,$DifCol,$pA,$pAR,$pD,$pS,$tag_id,$QType,$Dbug){

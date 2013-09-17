@@ -26,205 +26,15 @@ abort_if_unauthenticated();
 
 $id     = $_SESSION['user']->id();
 $status = $_SESSION['user']->status();
-$info =& $_SESSION['user']->info();
+$info   =& $_SESSION['user']->info();
 //------------------------------------------// 
 //echo '<pre>';var_dump($_POST);echo '</pre>';die();
 
 if ($status == 'admin' OR $status == 'instructor') {
-    if ($_POST['getGradesSubmit'] == 'Submit') {
-        //--- FILE UPLOAD ---------------------*//  
-        if ($Debug) {
-            if ($_FILES["file"]["error"] > 0) {
-                $Debug = "Error: " . $_FILES["file"]["error"] . "<br>";
-            } else {
-                echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-                echo "Type: " . $_FILES["file"]["type"] . "<br>";
-                echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-                echo "Stored in: " . $_FILES["file"]["tmp_name"];
-            }
-        }
-        $tsquare_file = $_FILES["file"]["tmp_name"];
-        $A            = $_POST['assignment'];
-        $s            = new ITS_statistics(1,$term, 'admin');
-        $grade_link   = $s->getGrades($tsquare_file, $A);
-        //-------------------------------------*//
-    } else {
-        $grade_link = '';
-    }
-    //------- CLASS -------------//
-    switch ($status) {
-        case 'instructor':
-            $class_arr = array(
-                'Fall_2013',            
-                'Summer_2013',
-                'Spring_2013',
-                'Fall_2012',
-                'Summer_2012',
-                'Spring_2012',
-                'Fall_2011',
-                'Spring_2011',
-                'Fall_2010',
-                'BMED6787',
-                'instructor',
-                'ta'
-            );
-            $delButton = '';
-            break;
-        case 'admin':
-            $class_arr = array(
-                'Fall_2013',            
-                'Summer_2013',            
-                'Spring_2013',
-                'Fall_2012',
-                'Summer_2012',
-                'Spring_2012',
-                'Fall_2011',
-                'Spring_2011',
-                'Fall_2010',
-                'BMED6787',
-                'admin',
-                'instructor',
-                'ta'
-            );
-            $delButton = '<div id="deleteButton" uid="' . $id . '" class="dialogButton">Clear my<br>Profile</div>' . '<div id="deleteDialog" title="Delete Account Info?" style="display:none">' . '<B>ALL</B> of your ITS records will be permanently deleted and cannot be recovered.<br>' . '<div class="mysql"><code>mysql>&nbsp;<font class="mysql">DELETE FROM stats_' . $id . '</font></code></div>' . '</div>';
-            break;
-    }
-    
-    if (isset($_GET['class'])) {
-        $section = $_GET['class'];
-    } else {
-        $section = $class_arr[0];
-    }
-    
-    //$class = '<div name="class" id="select_class">Class: ';
-    $class = 'Class: <select class="ITS_select" name="class" id="select_class" onchange="javascript:this.submit()">';
-    for ($cs = 0; $cs < count($class_arr); $cs++) {
-        if ($section == $class_arr[$cs]) {
-            $sel             = 'selected="selected"';
-            $current_section = $class_arr[$cs];
-        } else {
-            $sel = '';
-        }
-        
-        //$class .= '<input type="checkbox" name="class" id="check'.$cs.'" '.$sel.'/><label for="check'.$cs.'">'.$class_arr[$cs].'</label>';
-        $class .= '<option value="' . $class_arr[$cs] . '" ' . $sel . '>' . preg_replace('/_/', ' ', $class_arr[$cs]) . '</option>';
-    }
-    $class .= '</select>';
-    
-    //------- USER ---------------//
-    if (isset($_GET['sid'])) {
-        $uid = $_GET['sid'];
-    } else {
-        $uid = $id;
-    }
-    $usertable = 'stats_' . $uid;
-    
-    $mdb2 =& MDB2::connect($db_dsn);
-    $query = 'SELECT id,last_name,first_name,status FROM users WHERE status IN ("' . $section . '") ORDER BY last_name'; // "admin",
-    $res =& $mdb2->query($query);
-    
-    $mdb2->disconnect();
-    $user_data = $res->fetchAll();
-    $users     = '<select  name="sid" class="ITS_select" id="select_user" onchange="javascript:this.submit()">';
-    
-    //echo $uid.' == '.$user[0].'<p>';
-    if ($uid == 0) {
-        $sel          = 'selected="selected"';
-        $current_user = 'ALL';
-    } else {
-        $sel          = '';
-        $current_user = 'ALL';
-    }
-    
-    $users .= '<option class="highlighted" value="ALL" ' . $sel . '>ALL</option>';
-    
-    foreach ($user_data as &$user) {
-        if ($uid == $user[0]) {
-            $sel          = 'selected="selected"';
-            $current_user = $user[3];
-        } else {
-            $sel = '';
-        }
-        
-        if ($user[3] == 'admin') {
-            $cl = 'class="highlighted"';
-        } else {
-            $cl = '';
-        }
-        
-        $users .= '<option ' . $cl . ' value="' . $user[0] . '" ' . $sel . '>' . $user[1] . ', ' . $user[2] . '</option>';
-    }
-    $users .= '</select>';
-    
-    //echo $uid.' -- '.$user[0].' -- '.$current_user.' -- '.strcmp($current_user,'ALL');
-    if (strcmp($current_user, 'ALL')) { // indiv user
-        //--- CHAPTER ---------------------------------//
-        $ch_max = 14;
-        if (isset($_GET['ch'])) {
-            $ch = $_GET['ch'];
-        } else {
-            $ch = 1;
-        }
-        
-        $chapter = 'Assignment #<select class="ITS_select" name="ch" id="select_chapter" onchange="javascript:this.submit()">';
-        for ($c = 1; $c <= $ch_max; $c++) {
-            if ($ch == $c) {
-                $sel = 'selected="selected"';
-            } else {
-                $sel = '';
-            }
-            $chapter .= '<option value="' . $c . '" ' . $sel . '>' . $c . '</option>';
-        }
-        $chapter .= '</select>';
-        //---------------------------------------------// 
-        switch ($status) {
-            case 'admin':
-                $id_str = ' &nbsp; <tt>id: </tt>' . $uid;
-                break;
-            default:
-                $id_str = '';
-        }
-        $classInfo = '<a href="Profile.php?class=' . $current_user . '&sid=0">' . preg_replace('/_/', ' ', $current_user) . '</a>';
-        $form      = $class . ' &nbsp; ' . $users . ' &nbsp; ' . $chapter . ' &nbsp; ' . $classInfo . $id_str;
-        
-        $chArr = range(1, $ch_max);
-        
-        // SCORE
-        $score   = new ITS_score($uid, $term, $tset);
-        $str     = $score->renderChapterScores($chArr);
-        $myScore = '<div id="scoreContainer"><span>&raquo;&nbsp;User Scores</span></div>' . '<div id="scoreContainerContent">' . $str . '</div>';
-        $sort    = 'id';
-        $tr      = new ITS_statistics($uid, $section, $status);
-        $list    = $tr->render_profile2($ch, $sort);
-        //die('---dd---');
-        //----------------------------//
-    } else {
-        /*
-        switch ($section) {
-        case 'mc':
-        case 'm':*/
-        $chs     = array(
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            11
-        );
-        $form    = $class . '&nbsp;  Profile:&nbsp;' . $users;
-        $myScore = '';
-        
-        $tr   = new ITS_statistics($uid, $section, $status);
-        $list = $tr->render_class_profile($section, $chs, $tset);
-        
-        /*
-        echo '<pre>';
-        print_r($list);
-        echo '</pre>';*/
-    }
+
+
+$scripts = '<ul><li><a href="SQL_2_default_users.php">SQL -to- default users</a></li></ul>';
+
     //--- NAVIGATION ------------------------------// 
     $current = basename(__FILE__, '.php');
     $ITS_nav = new ITS_navigation($status);
@@ -271,7 +81,7 @@ echo $delButton;
     <div id="maincontent">
 <?php
 //--- PROFILE -----------------------------------------------//
-echo $myScore . $grade_link . '<div id="userProfile">' . $list . '</div>';
+echo $scripts;
 
 //--- TIMER -------------------------------------------------//
 $mtime     = explode(" ", microtime());

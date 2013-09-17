@@ -13,7 +13,7 @@ require_once("../classes/ITS_search.php");
 
 session_start();
 //===================================================================//
-global $db_dsn, $db_name, $tb_name, $db_table_user_state;
+global $db_dsn, $db_name, $tb_name, $db_table_user_state, $term;
 
 //-- Get AJAX arguments
 $args    = split('[,]', $_GET['ajax_args']);
@@ -35,7 +35,7 @@ if (PEAR::isError($mdb2)) {
     throw new Question_Control_Exception($mdb2->getMessage());
 }
 $Q = new ITS_question(1, $db_name, $tb_name);
-$T = new ITS_statistics(1, 'Summer_2013', 'admin');
+$T = new ITS_statistics(1, $term, 'admin');
 $Q->load_DATA_from_DB($qid);
 $qtype = strtolower($Q->Q_question_data['qtype']);
 $publish = (strtolower($Q->Q_question_data['status'])=='publish') ? '<img src="admin/icons/check.jpeg" class="ITS_publish">' : '';

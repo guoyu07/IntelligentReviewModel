@@ -18,8 +18,7 @@ Instructions for installing GIT on Ubuntu:
 			<td class="list">
 			  <ol>
 				<li><code>sudo apt-get install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev</code></li>
-				<li><code>sudo apt-get install git-core</code></li>			
-				<li><code>sudo apt-get install git-gui</code></li>		
+				<li><code>sudo apt-get install git-core git-gui gitolite</code></li>				
         			</ol>
 
 			</td>

@@ -1,21 +1,20 @@
 <?php
-$LAST_UPDATE = 'Sep-14-2012';
-/*=====================================================================//               
-Author(s): Gregory Krudysz, Khyati Shrivastava
-Last Revision: Gregory Krudysz, Sep-14-2012
-//=====================================================================*/
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 			   // or IE will pull from cache 100% of time (which is really bad) 
-header("Cache-Control: no-cache, must-revalidate"); 		   // Must do cache-control headers 
-header("Pragma: no-cache");
+$LAST_UPDATE = 'Jul-20-2013';
+//=====================================================================//               
+//Author(s): Gregory Krudysz, Khyati Shrivastava
+//Last Revision: Gregory Krudysz, Jul-20-2013
+//=====================================================================//
+require_once("config.php"); // #1 include
+require_once(INCLUDE_DIR . "include.php");
 
-include("config.php");
-require_once(INCLUDE_DIR . "common.php");
-require_once(INCLUDE_DIR . "User.php");
-require_once("classes/ITS_navigation.php");
+require_once("classes/ITS_concepts.php");
 require_once("classes/ITS_footer.php");
-require_once("classes/ITS_tag.php");
+require_once("classes/ITS_menu.php");
+require_once("classes/ITS_message.php");
 require_once("classes/ITS_search.php");
+require_once("classes/ITS_survey.php");
+require_once("classes/ITS_timer.php");
+require_once("classes/ITS_resource.php");
 
 session_start();
 // return to login page if not logged in
@@ -24,6 +23,9 @@ abort_if_unauthenticated();
 $status = $_SESSION['user']->status();
 
 if ($status == 'admin' OR $status == 'instructor') {
+	
+	global $term, $tset;
+	
     // connect to database
     $mdb2 =& MDB2::connect($db_dsn);
     if (PEAR::isError($mdb2)) {
@@ -31,6 +33,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     // DEBUG:    echo '<p>GET: '.$_GET['qNum'].'  POST: '.$_POST['qNum'];
     //--- determine question number ---//
+
     if (isset($_GET['qNum'])) {
         $qid  = $_GET['qNum'];
         $from = 'if';
@@ -40,12 +43,12 @@ if ($status == 'admin' OR $status == 'instructor') {
     } elseif (isset($_SESSION['qNum_current'])) {
         $qid = $_SESSION['qNum_current'];
     } else {
-        $qid  = 2;
+        $qid = 2;
         $from = 'else';
     }
     //------- CHAPTER -------------//
     $ch_max = 13;
-    
+
     if (isset($_GET['ch'])) {
         $ch = $_GET['ch'];
     } else {
@@ -105,9 +108,10 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     $type .= '</select>';
     
+    $tag_chk = 'Tagging<input id="tag_check" type="checkbox">';
     // update SESSION
     $_SESSION['qNum_current'] = $qid;
-    $form                     = $chapter . '&nbsp;&nbsp;' . $type;
+    $form                     = $tag_chk.$chapter . '&nbsp;&nbsp;' . $type;
     //--------------------------------------//
     /*
     // QUERY
@@ -136,8 +140,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     $qindex = 0;
     // look for LIST of question
-    //$query = 'SELECT id,title,image,category,tag_id FROM webct WHERE '.$query_type.$query_chapter;
-    $query = 'SELECT id,title,image,category,answers FROM webct WHERE '.$query_type.$query_chapter;
+    $query = 'SELECT id,title,image,category,answers FROM questions WHERE '.$query_type.$query_chapter;
     //echo $query; die();
     
     $res =& $mdb2->query($query);
@@ -180,26 +183,27 @@ if ($status == 'admin' OR $status == 'instructor') {
     }
     else { $qid = ''; $meta = '<p><b>- nothing found -</b>'; }
     */
-    //die();
+
     $Nqs   = 'z';
     //-- search box --//
     $s     = new ITS_search();
     $sb    = $s->renderBox('questions', $qid);            
     $sbr   = $s->renderResultsBox();
-    
     //--------------------------------------//
     $Q = new ITS_question(1, $db_name, $tb_name);
     $Q->load_DATA_from_DB($qid);
+    
+    $T = new ITS_statistics(1,$term,$status);
+
     //echo $Q->render_QUESTION_check()."<p>";
     $Q->get_ANSWERS_data_from_DB();
-    //$Q->get_ANSWERS_solution_from_DB();
     //echo $Q->render_ANSWERS('a',0);
     $meta = $Q->render_data();
     //$mdb2->disconnect();
     //--------------------------------------//
     switch ($status) {
         case 'admin':
-            $adminNav = $Q->render_Admin_Nav($qid, $Q->Q_type, 'ITS_button');
+            $adminNav = $Q->render_Admin_Nav(0,0, 'ITS_button');
             break;
         default:
             $adminNav = '';
@@ -220,21 +224,13 @@ if ($status == 'admin' OR $status == 'instructor') {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
-		<META HTTP-EQUIV="Expires" 	    CONTENT="Tue, 01 Jan 1980 1:00:00 GMT">
-        <META HTTP-EQUIV="Pragma"       CONTENT="no-cache">
-        <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
         <script src="js/ITS_AJAX.js"></script>
         <script src="js/ITS_QControl.js"></script>
         <title>Questions Database</title>
-        <link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css" media="screen">    
         <link rel="stylesheet" href="css/ITS_questionCreate.css" type="text/css" media="screen">    
-        <link rel="stylesheet" href="css/ITS_index4.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_tag.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_search.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_Solution_warmup.css" type="text/css">
-        <link rel="stylesheet" href="css/ITS_QTI.css" type="text/css">        
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>	
+        <link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">  
         <!-- <script type="text/javascript" src="MathJax/MathJax.js"></script> -->
 
         <!-- QTI IMPORTER start ----------------------------------->
@@ -249,22 +245,16 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="plugins/CodeMirror-2.0/lib/codemirror.css">
         <script src="plugins/CodeMirror-2.0/mode/javascript/javascript.js"></script>
         <link rel="stylesheet" href="plugins/CodeMirror-2.0/mode/javascript/javascript.css">
-        <!------------------------------------------------->
-        <style>
-            #dialog-form { background: red; }
-            .ui-dialog-form { background: #e1e; }
-            .ui-widget-header { background: red; border: 2px solid #666; }
-            .ui-dialog-title { background: #aaa;}
-            .ui-dialog-titlebar { background: #aaa; border: 2px solid #666; color: #fff; font-size:12pt}
-            .ui-dialog-content  { text-align: left; color: #000; padding: 0.5em; }
-            .ui-button-text { color: #00a; }
-            #myDialog { background: #fff; border-bottom: 2px solid #666; zindex: 5;}
-        </style>    
+        <!------------------------------------------------->  
         <?php
-include '_include/stylesheet.php';
-include 'js/ITS_Question_jquery.php';
+include INCLUDE_DIR.'stylesheet.php';
+include 'js/ITS_tag_jquery.php';
 include 'js/ITS_search_jquery.php';
+include 'js/ITS_Question_jquery.php';
+include INCLUDE_DIR.'include_fancybox.php';
+include(INCLUDE_DIR . 'include_mathjax.php');
 ?>
+	<link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />	
        <script type="text/javascript">
             $("#exportQuestion").live('click', function(event) {
             var qid = $(this).attr("qid");
@@ -302,24 +292,24 @@ echo $host;
     });      
          /* Export many code ends */    
         </script>
-        <script type="text/javascript" src="js/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-        <link rel="stylesheet" type="text/css" href="js/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 <script type="text/javascript">
 $(document).ready(function() {
-    /* This is basic - uses default settings */
-    $("a#single_image").fancybox();    
-    /* Using custom settings */    
-    $("a#inline").fancybox({
-        'hideOnContentClick': true
-    });
-    /* Apply fancybox to multiple items */    
-    $("a.group").fancybox({
-        'transitionIn'    :    'elastic',
-        'transitionOut'    :    'elastic',
-        'speedIn'        :    600, 
-        'speedOut'        :    200, 
-        'overlayShow'    :    false
-    });
+$(".various").fancybox({
+		  type: 'inline',
+		  closeClick: true,
+		  padding: 5,
+          helpers: {
+		  overlay : {
+		closeClick : true,
+		speedOut   : 300,
+		showEarly  : false,
+		css        : { 'background' : 'rgba(155, 155, 155, 0.5)'}
+	},			  
+              title : {
+                  type : 'inside'
+              }
+          }
+      });    
 });
 </script>
     </head>
@@ -337,6 +327,8 @@ echo $nav;
                 <form id="question" name="question" action="Question.php" method="get">
                 <?php
 //echo '<table><tr><td width="40%">'.$form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</tb><td>' . $sb . '</td></tr></table><br>'.$sbr.'</b>';
+echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
+
 ?>
                <noscript><input type="submit" value="Submit"></noscript>
                 </form>
@@ -347,55 +339,23 @@ echo $nav;
         <div id="maincontent">
             <div id="ITS_question_container">
 <?php
-//$Q2 = new ITS_question2();
-//echo $Q2->render_list();
+// RENDER RESOURCE
+$source = 'concept';
+echo 'Source: '.$source.'<br>';
+                    
+$Robj = new ITS_resource(1,'Fall_2013','convolution');
+$edit = TRUE;
+$Rstr = $Robj->getEq($edit);
 
-// RENDER QUESTION
-if (!empty($qid)) {
-    echo $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
-}
-echo $sb . '<br></b>'.$sbr.'</b>';
+echo $Rstr;
+echo '<hr>';
 
-//Solution pull-down menu
-echo '<div id="solutionContainer"><span>&raquo;&nbsp;Solutions</span></div>
-                <div id="results"></div>';
 //Tags + metaData pull-down menu
 echo $meta . '<br>' . $adminNav . '</div>';
-?>
-                <!-- QTI IMPORTER start ----------------------------------->
-                <div id="importQuestionContainer" style="display:none">
-                    <form id="QTI2form" action="upload_QTIfile.php" enctype="multipart/form-data" method="post">
-                        <table><tr>
-                                <td><label for="files">QTI file</label></td>
-                                <td><input type="file" name="file" id="file"></td>
-                                <td><input id="file_upload" name="file_upload" type="file"></td>
-                                <td><input type="submit" name="submit" value="Submit" id="QTIsubmit"></td>
-                            </tr></table><noscript><input type="submit" value="Submit"></noscript>
-                            <input type="hidden" name="QTI_type" value="1">
-                            </form>
-                </div>
-                <!-- QTI IMPORTER end ----------------------------------->
-				<!-- QTI EXPORTER Many start *********************************-->
-                <div id="exportManyQuestionContainer" style="display:none">
-                    <form id="exportManyForm" action="QTI.php" enctype="multipart/form-data" method="post">
-						<center>
-                        <table class="QTI_many"><tr>
-                                <td><label>Category</label></td>
-                                <td><input type="text" name="category_export" id="category_export"></td>
-                                <td> Select Question type:</td><td><input type="checkbox" name="ques_type[]" value="MC" /> MC <input type="checkbox" name="ques_type[]" value="C" /> C
-                                <input type="checkbox" name="ques_type[]" value="M" />M
-                                </td>
-                                <td><input type="submit" name="submit" value="Submit" id="QTIExportSubmit"></td>
-                            </tr></table><noscript><input type="submit" value="Submit"></noscript></center>
-                            <input type="hidden" name="QTI_type" value="2">
-                            </form>
-                </div>
-                <div id="QTI_output" style="display:none">
-				<!-- QTI EXPORTER Many end **********************************-->
-<?php
+
 //--- FOOTER ------------------------------------------------//
-$ftr = new ITS_footer($status, $LAST_UPDATE, '');
-echo $ftr->main();
+$ftr = new ITS_footer($status, $LAST_UPDATE,'');
+echo '<p>'.$ftr->main().'</p>';
 //-----------------------------------------------------------//
 ?>
            </div>

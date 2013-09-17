@@ -55,7 +55,7 @@ class ITS_statistics
     {
         //----------------------------------------------------------------------------
         
-        /**NAB EDIT START**/
+        /** EDIT START **/
         /*
         if(!isset($_GET['title']))
         $titleVar = "ITS";
@@ -92,7 +92,7 @@ class ITS_statistics
         $ChapterListTab = new ITS_table('ChapterList',1,4,$chapterlinks,array(20,20,20,20),'InnerTable');
         echo '<div class="next_header">'.$ChapterListTab->str.'</div><br>';
         */
-        /**------- NAB EDIT END -------**/
+        /**------- EDIT END -------**/
         //-- obtain activity: name --//
         $query = 'SELECT DISTINCT name,active FROM activity WHERE term="' . $this->term . '"';
         $res   = $this->mdb2->query($query);
@@ -2023,9 +2023,9 @@ class ITS_statistics
     //----------------------------------------------------------------------------
     function render_class_profile($class_name, $chs, $tstart)
     {
-        //----------------------------------------------------------------------------
-        
+        //----------------------------------------------------------------------------  
         //echo '<pre>render_class_profile</pre>';die();
+        
         // Set time zone: America/New_York
         date_default_timezone_set('America/New_York');
         $ITSq      = new ITS_query();
@@ -2105,7 +2105,7 @@ class ITS_statistics
         $sts      = array_fill(0, count($chs) - 1, 0);
         $full_sts = array_fill(0, count($chs) - 1, 0);
         $grade    = array_fill(0, count($chs) - 1, 0);
-        $ptsMax   = 3300;
+        $ptsMax   = 2400;
         $ptsGrade = 30;
         
         foreach ($users as $key => $user) { //$users as $user){
@@ -2127,7 +2127,7 @@ class ITS_statistics
                 //Score for jth chapter
                 $totalscore[$key][$j] = round($score, 2);
                 if ($totalscore[$key][$j] > 0) {
-                    if ($totalscore[$key][$j] >= 3300) {
+                    if ($totalscore[$key][$j] >= $ptsMax) {
                         $full_sts[$j]++;
                     }
                     $sts[$j]++;
@@ -2204,7 +2204,7 @@ class ITS_statistics
             $td_sts .= '<td style="text-align:right;font-weight:bold">' . $sts[$t] . '<br>' . round(100 * $sts[$t] / $N) . ' <font color="#669">%</font></td>';
             $td_full_sts .= '<td style="text-align:right;font-weight:bold">' . $full_sts[$t] . '<br>' . round(100 * $full_sts[$t] / $N) . ' <font color="#669">%</font></td>';
         }
-        $Estr .= $header . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>ATTEMPTED</b> / ' . $N . '<br><b>%</b></td>' . $td_sts . '<td colspan="2" style="text-align:center;font-weight:bold">' . $pc . '<br>' . round(100 * $pc / $N) . '<font color="#669">%</font></td>' . '</tr>' . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>WITH FULL CREDIT</b> (3300 pts) / ' . $N . '<br><b>%</b></td>' . $td_full_sts . '<td style="text-align:center;font-weight:bold"></td>' . '</tr>';
+        $Estr .= $header . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>ATTEMPTED</b> / ' . $N . '<br><b>%</b></td>' . $td_sts . '<td colspan="2" style="text-align:center;font-weight:bold">' . $pc . '<br>' . round(100 * $pc / $N) . '<font color="#669">%</font></td>' . '</tr>' . '<tr style="border-top:2px solid #999;background:lightyellow">' . '<td colspan="2" style="text-align:center"><b>WITH FULL CREDIT</b> ('.$ptsMax.' pts) / ' . $N . '<br><b>%</b></td>' . $td_full_sts . '<td style="text-align:center;font-weight:bold"></td>' . '</tr>';
         $Estr .= '</table></center>';
         //-- STATS --//
         fclose($fp);

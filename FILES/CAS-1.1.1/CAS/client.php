@@ -837,7 +837,7 @@ class CASClient
 	function forceAuthentication()
 		{
 		phpCAS::traceBegin();
-		
+//die('i22');
 		if ( $this->isAuthenticated() ) {
 			// the user is authenticated, nothing to be done.
 			phpCAS::trace('no need to authenticate');

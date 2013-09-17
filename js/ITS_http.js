@@ -1,4 +1,9 @@
 /*
+ ********  THIS FILE IS PROBABLY NOT NEEDED ANYMORE ********
+ * 
+ * 
+ * 
+ * 
 ITS_http.js - AJAX function file for question control
 						  objects: CANCEL | SAVE, called from ITS.js
 
@@ -13,7 +18,7 @@ function ITS_QCONTROL(qNum,qTarget,Control)
 //  qTarget - upadte container id
 //  Control - PHP (ITS_Control.php) operation: 'QUESTION' | 'CANCEL' | 'SAVE'
 { 
-//alert(qTarget);
+	alert(qTarget);
 // alert("TXA_"+qTarget);
 // fetch unaltered string from the DB according to qNum and qType
 xmlHttp=GetXmlHttpObject()
@@ -60,7 +65,7 @@ function ITS_QCONTROL_UPDATE() {
 //-------------------------------------------------//
 if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
  { // obj_targ.innerHTML.replace(/</g,'&lt;').replace(/\n/g,'<br>');
-
+alert('in ITS_http.js');
 	// workaround to get/set current target
 	//var qinfo_obj = document.getElementById('ITS_question_info');
   //document.getElementById(qinfo_obj.getAttribute("CurrentTarget")).innerHTML = xmlHttp.responseText;

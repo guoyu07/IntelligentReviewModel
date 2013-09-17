@@ -343,15 +343,11 @@ echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
         <div id="maincontent">
             <div id="ITS_question_container">
 <?php
-//$Q2 = new ITS_question2();
-//echo $Q2->render_list();
-
 // RENDER QUESTION
 if (!empty($qid)) {
 	$publish = (strtolower($Q->Q_question_data['status'])=='publish') ? '<img src="admin/icons/check.jpeg" class="ITS_publish">' : '';
     echo $publish . $Q->render_QUESTION() . '<p>' . $Q->render_ANSWERS('a', 2);
 }
-// id="metaContainer" style="display:none;"
 
 // Users pull-down menu
 echo '<div id="usersContainerToggle" class="Question_Toggle"><span>&raquo;&nbsp;Users</span></div>'.

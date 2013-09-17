@@ -960,7 +960,7 @@ class phpCAS {
 	 */
 	function forceAuthentication() {
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-
+//die('sssd');
 		phpCAS :: traceBegin();
 		if (!is_object($PHPCAS_CLIENT)) {
 			phpCAS :: error('this method should not be called before ' . __CLASS__ . '::client() or ' . __CLASS__ . '::proxy()');

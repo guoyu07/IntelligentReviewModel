@@ -22,7 +22,8 @@ Instructions for installing developer's tools on Ubuntu:
 				<li>Install classic destkop:<br><code>sudo apt-get install gnome-panel</code></li>
 				<li>Install tools: <code><br>sudo apt-get install geany gftp kdiff3 meld vim postfix</code></li>
 				<li>Developers tools: <code><br>sudo apt-get install apache2 php5 libapache2-mod-php5 mysql-server php-pear phpmyadmin</code></li>
-				<li>Developers git: <code><br>sudo apt-get install git gitg qgit gitk git-gui</code></li>
+				<li>Developers git: <code><br>sudo apt-get install git gitg qgit gitk git-gui gitolite</code></li>
+				<li>Python:<code><br>sudo apt-get install python python-numpy python-scipy</code></li>
         </ol>
 			</td>
 		  </tr>	

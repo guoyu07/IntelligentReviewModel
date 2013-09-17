@@ -4,8 +4,7 @@ ITS_resource - search box class.
 ajax/ITS_resource.php
 
 Constructor: ITS_resource( ... )	
-
-ex. $r = new ITS_resource( ... );
+								ex. $r = new ITS_resource( ... );
 
 Author(s): Greg Krudysz
 Last Update: Aug-18-2013
@@ -394,12 +393,11 @@ class ITS_resource
         return $Estr;
     }			
     //=====================================================================//
-	public function getEq()
+	public function getEq($edit_flag)
     {
         //=====================================================================//
 
-			$con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');
-			
+			$con = mysql_connect($this->db_host, $this->db_user, $this->db_pass) or die('Could not Connect!');			
 			$Q   = new ITS_question($this->id, $this->db_name, $this->tb_name);
 			
 			mysql_select_db($this->db_name, $con) or die('Could not select DB');
@@ -422,14 +420,23 @@ class ITS_resource
 					if ($r){
 					$tex = $Q->renderFieldCheck('<latex>'.$r.'</latex>');	
 					$eq = '<span class="CHOICE">'.$tex.'</span>';
-					$equation .= '<a id="single_image" class="ITS_question_img" href="IT">'.$eq.'</a>';			
-				}
+					
+					$equation .= '<a id="single_image" class="ITS_question_img" href="IT">'.$eq.'</a>';	
+					$style = 'ITS';
+					$w = '100px';
+					$edit = $Q->createEditTable('equation' . $w, $r, $style);	
+					
+				// $TABLE_QUESTION = $this->createEditTable('QUESTION',$ques_str, "ITS_QUESTION");
+				// $TABLE_QUESTION = $this->renderFieldCheck($TABLE_QUESTION);							
+						
+					//echo $edit.'<br>';
+					}
 				}
 			}	
           
         return $equation;
     }			
-    //=====================================================================//    
+    
 } //eo:class
 //=====================================================================//
 ?>

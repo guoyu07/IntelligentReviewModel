@@ -15,6 +15,7 @@ include_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
+require_once("classes/ITS_resource.php");
 
 session_start();
 // return to login page if not logged in
@@ -226,7 +227,18 @@ echo $form . $nav2 . ' &nbsp;Available: <b>' . $Nqs . '</b>';
 //$Q2 = new ITS_question2();
 //echo $Q2->render_list();
 
-// RENDER QUESTION
+// RENDER RESOURCE
+
+$source = 'concept';
+echo 'Source: '.$source.'<br>';
+                    
+$Robj = new ITS_resource(1,'Fall_2013','convolution');
+$edit = TRUE;
+$Rstr = $Robj->getEq($edit);
+
+
+echo $Rstr;
+echo '<hr>';
 if (!empty($qid)) {
     echo $sb.'<br>'.$sbr;
 }

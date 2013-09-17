@@ -9,7 +9,7 @@ ex. $scores = new ITS_score( ... );
 NOTE: requires ITS_query() class
 
 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-Last Update: Aug-26-2013
+Last Update: Sep-10-2013
 //=====================================================================*/
 
 class ITS_score
@@ -180,21 +180,19 @@ class ITS_score
             
             $res =& $mdb2->query($query);
             $row = $res->fetchAll();
-            //var_dump($row1);die();
+            
             $attemptedQuesNum        = $row[0][1];
             $tscore[$i]['score'] 	 = $row[0][0];
             $tscore[$i]['attempt']   = $attemptedQuesNum;
             $tscore[$i]['totalques'] = $this->getTotalNumQuestions($i + 1);
             
-            $totalattempt_ques = $attemptedQuesNum;
-            if ($totalattempt_ques == 0) {
+            if ($attemptedQuesNum == 0) {
                 $percentage = 0;
             } else {
-                $total      = 100 * $totalattempt_ques;
-                $percentage = ($score / $total) * 100;
+                $total      = 100 * $attemptedQuesNum;
+                $percentage = ($tscore[$i]['score'] / $total) * 100;
             }
             $tscore[$i]['percent'] = $percentage;
-            //var_dump($tscore); die('here');
         }
 
         /* timer

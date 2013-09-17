@@ -1,33 +1,42 @@
 <?php
 /*======== HOST =========================*/
-$host = $_SERVER['SERVER_NAME'];         // gethostname();
+$host = $_SERVER['SERVER_NAME'];          // gethostname();
 $root = $_SERVER['DOCUMENT_ROOT'];
 /*=======================================*/
 $srv  = '';
 $term = 'Fall_2013';
 $tset = mktime(0, 0, 0, 8, 20, 2013);  // 11 AM, May-01, 2011  ::  MONTH | DAY | YEAR
+$db_name  = 'its';
 
 switch ($host) {
     /*--------- LOCAL -----------------------*/
     case 'localhost':
     /*---------------------------------------*/
         error_reporting(E_ALL ^ E_DEPRECATED);
-        $db_name  = 'its';
-        $db_dsn   = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
-        $srv      = ''; // 'ITS'
-        $CAS_path = '';
+        $db_dsn     = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
+        $srv        = ''; // 'ITS'
+        $CAS_path   = '';
+        $tex_method = 'mathtex';
         break;
-    /*--------- ITS.VIP.GATECH.EDU ----------*/
+    /*--------- QUID.GATECH.EDU ----------*/
+    case 'quid.gatech.edu':
+          /*---------------------------------------*/
+        $db_dsn     = 'mysql://its:csipcsip@tcp(web-db1.gatech.edu:3306)/' . $db_name;
+        $MDB2_path  = '';
+        $srv        = '/';  
+        $tex_method = 'mathJax';
+    break;
+        /*--------- ITS.VIP.GATECH.EDU ----------*/
     case 'its.vip.gatech.edu':
     case 'itsdev2.vip.gatech.edu':
     case 'itsdev3.vip.gatech.edu':
     case 'itsdev4.vip.gatech.edu':
     case 'itsdev5.vip.gatech.edu':
-    /*---------------------------------------*/
-        $db_name   = 'its';
-        $db_dsn    = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
-        $MDB2_path = '';
-        $srv       = '/';
+        /*---------------------------------------*/
+        $db_dsn     = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
+        $MDB2_path  = '';
+        $srv        = '/';
+        $tex_method = 'mathtex';        
         break;
     /*---------------------------------------*/
     default:
@@ -55,6 +64,7 @@ if (PHP_OS == "WINNT") {
         /*---------------------------------------*/  
             break;
         /*--------- ITS.VIP.GATECH.EDU ----------*/
+        case 'quid.gatech.edu':
         case 'its.vip.gatech.edu':
         case 'itsdev2.vip.gatech.edu':
         case 'itsdev3.vip.gatech.edu':
@@ -104,9 +114,7 @@ $tb_name             = 'questions';
 $tb_tags             = 'tags';
 $tb_images			 = 'images';
 $tb_question_diff    = 'questions_difficulty';
-$tb_difficulty_col	 = 'difficultySTD_mine';  //_NEW
-
-$tex_method 		 = 'mathtex';   // 'mathtex' | 'mathJax'
+$tb_difficulty_col	 = 'difficultySTD_mine';
 
 $question_dir      = "question";
 $question_file_ext = 'html';
@@ -138,7 +146,6 @@ echo '</table>';
 	print_r($data);
 	echo '</pre>';
 */
-
 /*
 ALTER TABLE webct DROP COLUMN VIP_tags
 RENAME TABLE webct TO questions
