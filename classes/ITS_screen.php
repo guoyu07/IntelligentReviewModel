@@ -8,7 +8,7 @@ ex. $ITS_table = new ITS_screen('tableA',2,2,array(1,2,3,4),array(20,30));
 
 Author(s): Greg Krudysz |  Oct-26-2010
 : Khyati Shrivastava | May 10 2012
-Last Revision: Sep-10-2013
+Last Revision: Sep-20-2013
 
 SCHEMA:
 screen.php
@@ -1419,28 +1419,19 @@ class ITS_screen
                 11,
                 11
             )
-        );
-        
-        if ($this->id==2378){
-                    $A1 = array(
-                9,
-                18
-            );}else{
-				$A1 = array(
+        );     
+        $close = array(
+            array(
                 9,
                 9
-            );
-			}
-        
-        $close = array(
-            $A1,
+            ),
             array(
                 9,
                 20
             ),
             array(
                 9,
-                23
+                30
             ),
             array(
                 10,

@@ -159,8 +159,7 @@ Organizational Unit Name (eg, section) []:EDU
 Common Name (eg, your name or your server's hostname) []:itsdev1.vip.gatech.edu
 Email Address []:its-gt@gatech.edu
 
-# -- ---------------------------------- --
-
+#--------------------------------------#
 # Copy into /etc/httpd/conf/httpd.conf
 <IfModule mod_ssl.c>
 <VirtualHost *:443>

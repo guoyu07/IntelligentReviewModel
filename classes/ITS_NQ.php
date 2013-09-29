@@ -7,7 +7,7 @@ Constructor: ITS_screen(name,rows,cols,data,width)
 ex. $ITS_NQ = NEW ITS_NQ($this->id,$this->sessiont,$qAvailable,$resource_name);
 
 Author(s): Charles Ethan Hayes |  Oct-11-2012
-		 Gregory Krudysz |  Sep-3-2013
+		   Gregory Krudysz     |  Sep-3-2013
 SCHEMA:
 ITS_NQ.php
 --NextQuestion();
@@ -34,9 +34,9 @@ class ITS_NQ {
  //=====================================================================//
     function __construct($id, $t, $qarr, $ch){
         //=====================================================================//
-        $this->debug = TRUE; //TRUE;
+        $this->debug = FALSE; //TRUE;
         //if you only want the main debug info functions to run 
-        $this->debugInfo = TRUE;
+        $this->debugInfo = FALSE;
         
         if ($this->debug) {
             echo '<br>' . get_called_class().'<br>';
@@ -66,7 +66,7 @@ class ITS_NQ {
 		$event = $this->GetLastEvent($this->debug);
 		
 		if(!empty($this->qlist)){
-			$qAvailable = $this->GetQavailable($event["event"],$event,'',.5,$this->epochtime,$this->debug);
+			$qAvailable = $this->GetQavailable($event["event"],$event,'',0.5,$this->epochtime,$this->debug);
 			//if the filter kicked out all of the questions, send it through with instructions on how to pick the question
 			if(empty($qAvailable))$qAvailable = $this->GetQavailable("empty",$event,$event["event"],.5,$this->epochtime,$this->debug);
 		}else{
@@ -178,7 +178,7 @@ class ITS_NQ {
 		if(($event['epochtime']-$time)<0)$action = 'new session';
 		
 		if($this->debug)echo  "<center>GetQavailable(case {$action})<br></center>";
-		
+
 		switch($action){
 			//picks an easier question 
 			case "skip easier":
@@ -498,6 +498,7 @@ class ITS_NQ {
 		 * limit=number of rows to pull {enter 0 for no limit}
 		 * ***********************************************************/
 		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
+		
 		//FROM (stats_1 JOIN questions_difficulty ON stats_1.question_id=questions_difficulty.q_id) JOIN questions ON questions_difficulty.q_id=questions.id
 		$dbq_table = "({$this->tb_user} JOIN {$this->tb_difficulty} ON {$this->tb_user}.question_id={$this->tb_difficulty}.q_id)
 							JOIN {$this->tb_name} ON {$this->tb_difficulty}.q_id={$this->tb_name}.id";
@@ -522,10 +523,8 @@ class ITS_NQ {
 		 * assoc=if you would like the array to use the field names as indices
 		 * 			TRUE=yes    FALSE=no
 		 * ***********************************************************/
-		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
-		
-		//die($query);
-		
+		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font><br>';
+
 		// connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {

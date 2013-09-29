@@ -11,6 +11,7 @@
   });
 	/*-------------------------------------------------------------------------*/
   $(document).ready(function() { 
+	 MathJax.Hub.Queue(["Typeset",MathJax.Hub]); 
      $("#scoreContainer").click(function(){$("#scoreContainerContent").slideToggle("slow");});
          /*-------------------------------------------------------------------------*/
     $("#gradebookContent").hide();
@@ -50,18 +51,6 @@
 				$("#sortProfile").change(function() { doChange(); });
       });			
     }	
-     /*-------------------------------------------------------------------------*/		
-		 $("#getGradesSubmit").live('click', function (event) {
-	 /*-------------------------------------------------------------------------*/
-	    alert('hel');
-        $.get('ajax/ITS_admin.php', {
-            ajax_args: "getGrades",
-            ajax_data: qid
-        }, function (data) {
-            //alert(data);
-            //$('#ITS_question_container').append(data);
-        });
-    }); 
 	 /*-------------------------------------------------------------------------*/
   });
 </script>

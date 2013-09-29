@@ -9,7 +9,7 @@ ex. $scores = new ITS_score( ... );
 NOTE: requires ITS_query() class
 
 Author(s): Gregory A. Krudysz, Nabanita Ghosal
-Last Update: Sep-10-2013
+Last Update: Sep-20-2013
 //=====================================================================*/
 
 class ITS_score
@@ -25,6 +25,9 @@ class ITS_score
         $this->tb_name      = $tb_name;
         $this->term         = $term;
         $this->epochtime    = $date;
+        
+        $this->ptsMax   = 2400;
+        $this->ptsGrade = 30;
         
         // connect to database
         $mdb2 =& MDB2::connect($db_dsn);
@@ -208,8 +211,6 @@ class ITS_score
     {
         //=====================================================================//    
         //echo 'chapter: '.$this->chapter.'<p>';  
-        $ptsMax   = 2400;
-        $ptsGrade = 30;
         
         $chapter_score_arr = $this->computeChapterScores($chArr);
         $N                 = count($chapter_score_arr);
@@ -222,7 +223,7 @@ class ITS_score
         $score_arr[]     = "<b>Score</b>";
         $attemptedQues[] = '<span class="ITS_smallFont">Attempted / Available</span><br><b>Questions</b>';
         $percentageArr[] = "<b>Percentage</b>";
-        $note            = 'Grade = ' . $ptsGrade . '*( min( Score , ' . $ptsMax . ' ) / ' . $ptsMax . ' )';
+        $note            = 'Grade = ' . $this->ptsGrade . '*( min( Score , ' . $this->ptsMax . ' ) / ' . $this->ptsMax . ' )';
         $gradeArr[]      = '<span class="grade" style="cursor:help" title="' . $note . '">Grade</span>';
         
         $total_score       = 0;
@@ -241,8 +242,8 @@ class ITS_score
             //Percentages
             $percentageArr[]   = round($s['percent'], 2) . '<span class="gray"> %</span>';
             //Grade
-            $grade             = round(10 * $ptsGrade * min($s['score'], $ptsMax) / $ptsMax) / 10;
-            $gradeArr[]        = '<span class="gray">' . $grade . '</span> / <span class="gray">' . $ptsGrade . '</span><br><span class="grade">' . (round(1000 * ($grade / $ptsGrade)) / 10) . '</span><span class="gray"> %</span>';
+            $grade             = round(10 * $this->ptsGrade * min($s['score'], $this->ptsMax) / $this->ptsMax) / 10;
+            $gradeArr[]        = '<span class="gray">' . $grade . '</span> / <span class="gray">' . $this->ptsGrade . '</span><br><span class="grade">' . (round(1000 * ($grade / $this->ptsGrade)) / 10) . '</span><span class="gray"> %</span>';
             $totalGrade        = $totalGrade + $grade;
             $idx++;
         }
@@ -255,7 +256,7 @@ class ITS_score
         }
         
         $percentageArr[] = round($totalPercent, 2) . '<span class="gray"> %</span>';
-        $gradeArr[]      = '<span class="gray">' . $totalGrade . '</span> / <span class="gray">' . (($idx - 1) * $ptsGrade) . '</span><br><span class="grade">' . (round(1000 * ($totalGrade / ((($idx - 1) * $ptsGrade)))) / 10) . '</span><span class="gray"> %</span>';
+        $gradeArr[]      = '<span class="gray">' . $totalGrade . '</span> / <span class="gray">' . (($idx - 1) * $this->ptsGrade) . '</span><br><span class="grade">' . (round(1000 * ($totalGrade / ((($idx - 1) * $this->ptsGrade)))) / 10) . '</span><span class="gray"> %</span>';
         $weight          = array_fill(0, ($N + 3), 100 / ($N + 3));
         $str             = array_merge($chapter_arr, $score_arr, $percentageArr, $attemptedQues, $gradeArr);
         $tb_score        = new ITS_table('a', 5, ($N + 2), $str, $weight, 'ITS_mySCORE');
@@ -330,6 +331,50 @@ class ITS_score
         return $top_score_table;
     }
     //=====================================================================//
+    function getGrades($tsquare_file, $A)
+    {
+        //=====================================================================//     
+        $epochtime = mktime(0, 0, 0, 8, 20, 2013);
+        $ITSq      = new ITS_query();
+        
+        $file_path = 'admin/csv/';
+        $file_name = 'ITS-A'.$A.'.csv';     
+        $fp        = fopen($file_path.$file_name, 'w');
+        
+        $handle = fopen($users, "r");
+        $row    = 1;
+        if (($handle = fopen($tsquare_file, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if ($data[0] != 'Student ID') {       
+                    $query = 'SELECT id,first_name,last_name FROM users WHERE username="' . $data[0] . '"';
+                    // echo $query;die();
+                    
+                    $res =& $this->mdb2->query($query);
+                    if (PEAR::isError($res)) {
+                        throw new Question_Control_Exception($res->getMessage());
+                    }
+                    $user = $res->fetchAll();
+
+                    $q1    = $ITSq->getQuery('ROUND(SUM(score),2) AS sum', 'stats_' . $user[0][0], $A, $epochtime);
+                    // echo $q1;die();
+                    $r1    = mysql_query($q1);
+                    $score = mysql_result($r1, 0, "sum");
+                    $grade = round(100*$this->ptsGrade * min($score, $this->ptsMax) / $this->ptsMax)/100;        
+                    $grades = array($data[0],$data[1],$grade);
+                } else {
+					$grades = array($data[0],$data[1],'ITS-'.$A);          
+				}
+				fputcsv($fp, $grades);
+            }
+            fclose($handle);
+        }   
+        fclose($fp);
+        
+        $link = '<a href="'.$file_path.$file_name.'">'.$file_name.'</a>';
+		
+        return $link;
+    }
+    //==============================================================================    
 } //eo:class
 //=====================================================================//
 ?>

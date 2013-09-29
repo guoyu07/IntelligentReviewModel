@@ -16,7 +16,7 @@ cd /var/www
 git clone --bare ITS-GT ITS-GT.git
 scp -r ITS-GT.git root@itsdev5.vip.gatech.edu:/opt/git
 
-//--- DEV5
+//--- DEV-x
 cd /opt/git/ITS-GT.git
 git init --bare --shared
 mv hooks/post-update.sample hooks/post-update
@@ -24,7 +24,7 @@ chmod a+x hooks/post-update
 
 ====== USER ==================================================
 
-//--- DEV5
+//--- DEV-x
 cd /home/gte269x/
 git clone gte269x@itsdev5.vip.gatech.edu:/opt/git/ITS-GT.git html
 chmod 775 html
@@ -35,18 +35,16 @@ git clone gte269x@itsdev5.vip.gatech.edu:/home/gte269x/html
 
 //--- REMOTE: CENTRAL
 git push gte269x@itsdev3.vip.gatech.edu:/opt/git/ITS-GT.git HEAD
-
 git remote add mpark47 gte269x@itsdev5.vip.gatech.edu:/home/mpark47/html
-
-
 ==============================================================
 
-NameVirtualHost git.itsdev5.vip.gatech.edu
-<VirtualHost git.itsdev5.vip.gatech.edu>
-    ServerName git.itsdev5.vip.gatech.edu
+NameVirtualHost git.itsdev3.vip.gatech.edu
+<VirtualHost git.itsdev3.vip.gatech.edu>
+    ServerName git.itsdev3.vip.gatech.edu
     DocumentRoot /opt/git
     <Directory /opt/git/>
         Order allow,deny
         allow from all
     </Directory>
 </VirtualHost>
+==============================================================

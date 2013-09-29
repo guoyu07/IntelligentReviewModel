@@ -19,7 +19,7 @@ dbConn = database(dbName, user , password, jdbcDriver, jdbcString);
 % Check to make sure that we successfully connected
 if isconnection(dbConn) 
     sql  = exec(dbConn,'SELECT id,name from tags LIMIT 10');
-    sql  = fetch(e);
+    sql  = fetch(sql);
     data = sql.Data    
     % --- OPTION 2 ----%
     %result = get(fetch(exec(dbConn, 'SELECT 1')), 'Data');

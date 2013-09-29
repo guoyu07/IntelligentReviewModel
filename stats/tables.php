@@ -5,7 +5,6 @@
       http-equiv="Content-Type">
     <title>ITS STATS</title>
   </head>
-
   <body>
     <div style="text-align: center;"><h1><big><span
                 style="font-weight: bold; color: rgb(153, 153, 153);"><span
@@ -16,25 +15,13 @@
 <big style=" color: rgb(0, 150, 50);">
 <h2><a href="itsstats.php">ITS STATS</a></h2>
 <br></big>
-
       <big style="text-decoration: underline; color: rgb(0, 0, 102);"><big><big>
             Tables<br>
           </big></big></big><big style="color: rgb(0, 0, 102);"><big><big><br>
           </big></big></big>
       <div style="text-align: left;"><big style="color: rgb(0, 0, 102);"><big><big>
             </big></big></big>
-
-
-
-
-
-
-
-
-
   <form action="tables1.php" method="GET"> <br>
- 
-
 <center>
 <h3> Select Table</h3>
 
@@ -50,7 +37,6 @@ if(!(mysql_select_db("its",$connection)))
 if(!($result = @ mysql_query("show tables",$connection)))
   echo "query failed<br>";
 
-
 print '<select name=table_name>';
 
  while($row = mysql_fetch_array($result))
@@ -63,10 +49,7 @@ print '<select name=table_name>';
 	
 }
 
-
 print '</select><br><br>';
-
- 
 ?>
 --- OR ---
 <br><br>
@@ -79,15 +62,11 @@ Some Important Tables:
 <option value ="questions"> questions <br>
 
 </select>
-  
 </select>
 <br><br>
-
  Number of entries : 
 <input type="text" name="entry_nos" value="-" style="width:35px;" >
-
 <br><br><br><br><br><br>
-
 <input value="Submit" type="submit"> </form>
 </center>
 </html>

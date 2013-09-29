@@ -1,11 +1,4 @@
 <?php
-/*
-require_once("../config.php");
-require_once("../FILES/PEAR/MDB2.php");
-require_once("../classes/ITS_query.php");
-//require_once("../css/ITS.css");
-*/
-
 class User_DiffStats{
 	
 	public $db_dsn;
@@ -81,8 +74,8 @@ class User_DiffStats{
 	function GetTotal($ques,$num,$dbug){
 		if($this->debug)echo "<center>GetTotal<br></center>";
         
-        $numh = $num +.5;
-        $numl = $num -.5;
+        $numh = $num +0.5;
+        $numl = $num -0.5;
         $query = "SELECT q_id FROM {$this->tb_difficulty} 
 					WHERE {$this->tb_difficulty_col} < {$numh} 
 					AND {$this->tb_difficulty_col} > {$numl} 
@@ -132,12 +125,11 @@ class User_DiffStats{
 			$percent = round($nwidth *$values[$i]['count'] / $values[$i]['total']);
 			if(!$values[$i]['total']) $percent =$nwidth;
 			$str = '<div class="DifficultyBar" style="width:'.$width.'px;" 
-					title="You have answered '.$values[$i]['count'].' question(s) out of '.$values[$i]['total'].
-					' '.$title[$i-1].' questions">';
+					title="'.$title[$i-1].': '.$values[$i]['count'].' / '.$values[$i]['total'].'">';				
 
 			if($i==$answer) $str = '<div class="DifficultyBar DiffBarSel" style="width:'.$width.'px" 
-									title="You have answered '.$values[$i]['count'].' question(s) out of '.$values[$i]['total'].
-									' '.$title[$i-1].' questions">';
+									title="'.$title[$i-1].': '.$values[$i]['count'].' / '.$values[$i]['total'].'">';
+									
 			$str = $str. '<div style="position:relative;top:10px;">';
 			for($n=0;$n<$i;$n++)$str = $str.'<img src="Difficulty/star.gif" width="15px" height="15px">';//"<center><b>{$i}</b> <br> </center>";//{$values[$i]['count']} / {$values[$i]['total']}<br>
 			$str = $str.'<br><div class="DifficultyBar-in" style="width:'.$nwidth.'px;position:relative;top:5px;">
@@ -208,31 +200,5 @@ class User_DiffStats{
 		return $answer;
 	}
 	//=====================================================================//
-
 }
-/*
-?>
-<html>
-<head>
-<link rel="stylesheet" href="../css/ITS.css" type="text/css" media="screen"> 
-</head>	
-<body>
-<?php
-
-$test = new User_DiffStats(1,5);
-//die(hi);
-$data = $test->GetData();
-
-echo "Total:\t";
-for($i = 0; $i<=10; $i++){echo $data[$i]['total']; echo "\t";}
-echo "<br>";
-
-echo "Count:\t\t";
-for($i = 0; $i<=10; $i++){echo $data[$i]['count']; echo "\t";}
-echo "<br>";
-	
-$bar = $test->getDifficulty(1091);	
-echo $bar;
-echo '</body></html>';
-*/
 ?>

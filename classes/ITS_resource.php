@@ -5,9 +5,8 @@ ajax/ITS_resource.php
 
 Constructor: ITS_resource( ... )	
 								ex. $r = new ITS_resource( ... );
-
 Author(s): Greg Krudysz
-Last Update: Aug-18-2013
+Last Update: Sep-20-2013
 //=====================================================================*/
 class ITS_resource
 {
@@ -370,13 +369,14 @@ class ITS_resource
         if (!$res) {
             die('Query execution problem in '.get_class($this).': ' . msql_error());
         }
-        
+        $Q   = new ITS_question($this->id, $this->db_name, $this->tb_name);
         $qn = 1;
         $Estr  = '<table class="PROFILE">' . '<tr><th>No.</th><th style="width:77%;">Title</th><th style="width:14%;">Category</th></tr>';
         while ($row = MySQL_fetch_array($res)) {
                         //echo '<pre>';var_dump($row);echo '</pre>';die();
                     //$str .= $row['id'].$row['title'].$row['category'].'<br>';    
-           $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE" >' . ($qn) . '.&nbsp;<a href="Question.php?qNum=' . $row['id'] . '&sol=1" class="ITS_ADMIN">' . $row['id'] . '</a></td>' . '<td class="PROFILE"><div style="text-align:left;color:blue;font-size:105%;border-bottom:2px dashed #999;width:100%">' . $row['title'] . '</div><br><p style="color: grey">'.$row['question'].'</p></td>' . '<td class="PROFILE" ><p style="color: grey">' . $row['category'] . '</p></td></tr>';    
+           $ques = $Q->renderFieldCheck($row['question']);
+           $Estr .= '<tr class="PROFILE" id="tablePROFILE">' . '<td class="PROFILE" >' . ($qn) . '.&nbsp;<a href="Question.php?qNum=' . $row['id'] . '&sol=1" class="ITS_ADMIN">' . $row['id'] . '</a></td>' . '<td class="PROFILE"><div style="text-align:left;color:blue;font-size:105%;border-bottom:2px dashed #999;width:100%">' . $row['title'] . '</div><br><p style="color: grey">'.$ques.'</p></td>' . '<td class="PROFILE" ><p style="color: grey">' . $row['category'] . '</p></td></tr>';    
         $qn++;
         }
         $Estr .= '</table>';                    

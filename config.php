@@ -16,14 +16,14 @@ switch ($host) {
         $db_dsn     = 'mysql://root:csip@tcp(localhost:3306)/' . $db_name;
         $srv        = ''; // 'ITS'
         $CAS_path   = '';
-        $tex_method = 'mathtex';
+        $tex_method = 'mathJax';
         break;
     /*--------- QUID.GATECH.EDU ----------*/
     case 'quid.gatech.edu':
           /*---------------------------------------*/
         $db_dsn     = 'mysql://its:csipcsip@tcp(web-db1.gatech.edu:3306)/' . $db_name;
         $MDB2_path  = '';
-        $srv        = '/';  
+        $srv        = '/';
         $tex_method = 'mathJax';
     break;
         /*--------- ITS.VIP.GATECH.EDU ----------*/

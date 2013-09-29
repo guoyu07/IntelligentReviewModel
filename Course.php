@@ -193,14 +193,7 @@ $nav     = $ITS_nav->render($current, $course);
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <title>Course</title>
         <!---->
-        <link rel="stylesheet" href="css/ITS.css" 		 type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_course.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_navigation.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/login.css" 	 type="text/css" media="screen">
-        <link rel="stylesheet" href="css/admin.css" 	 type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_score.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="css/ITS_BOOK.css" 	 type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_test.css" 	 type="text/css" media="screen">
         <script src="js/ITS_admin.js"></script>
         <script src="js/AJAX.js"></script>
@@ -211,9 +204,9 @@ $nav     = $ITS_nav->render($current, $course);
         <script src="tagging/ITS_tagging.js"></script>
         <script src="rating/forms/star_rating.js"></script>
 <?php
-include INCLUDE_DIR . 'stylesheet.php';
-include(INCLUDE_DIR . 'include_mathjax.php');
-include 'js/ITS_course_jquery.php';
+include_once(INCLUDE_DIR . 'stylesheet.php');
+include_once(INCLUDE_DIR . 'include_mathjax.php');
+include_once('js/ITS_course_jquery.php');
 ?>
     </head>
     <body>

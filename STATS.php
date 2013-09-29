@@ -8,7 +8,6 @@ Constructor: STAT(student_id,db_name,table_name)
 
 ex. $pstats = new STATS("0000001","its","user_cpt");
 
-Author(s): Greg Krudysz |  Apr-10-2008
 Last Revision: Aug-21-2012
 //=====================================================================*/
 class STATS

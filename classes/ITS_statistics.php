@@ -2,14 +2,14 @@
 /*=====================================================================//
 ITS_statistics class - generate and render statistical displays.
 
-user_role: 'admin'|'instr'|'student'	
+user_role: 'admin'|'instr'|'student'
 
 Constructor: ITS_statistics(student_id,class_term,user_role)
 
 ex. $ITS_stats = new ITS_statistics(45,'Fall_2009','student');
 
-Methods: 	render_user_answer()				
-render_question_answer( $score,$answer,$qtype,$index ) 
+Methods: 	render_user_answer()
+render_question_answer( $score,$answer,$qtype,$index )
 
 Author(s): Greg Krudysz | Aug-28-2008
 Last Revision: Apr-10-2013
@@ -20,7 +20,7 @@ class ITS_statistics
     private $id; 		// Stores user id
     private $user_name; // Stores username
     private $role; 		// user role: admin | inst | student
-    private $term; 
+    private $term;
     private $stats; 	// Stores statistical data to be output
     public $data; 		// Stores all raw data from database
     public $hist;
@@ -2217,7 +2217,7 @@ class ITS_statistics
         //----------------------------------------------------------------------------     
         $ptsMax    = 3300;
         $ptsGrade  = 30;
-        $epochtime = mktime(0, 0, 0, 1, 11, 2013);
+        $epochtime = mktime(0, 0, 0, 8, 20, 2013);
         $ITSq      = new ITS_query();
         
         $file_path = 'admin/csv/';

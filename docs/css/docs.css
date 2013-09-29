@@ -4,9 +4,11 @@ div.ITS_ghost{position:relative;background:#fff;height:auto;padding:0}
 a:focus,a:active{color:#000}
 a:link{color:#B52C07}
 a:hover{color:red}
+h2.c {border-bottom:3px ridge #666;padding:0.5em;text-align:left}
 h2 a{text-decoration:none}
 h3 a.header{color:red;border:none}
 code { color:#633}
+th.members {width:180px;text-align:left}
 ul.key {text-align:left;color:#911;list-style-type:none}
 ul.list{text-align:left;list-style-type:disc}
 ul li {display:block;margin:0 5px}

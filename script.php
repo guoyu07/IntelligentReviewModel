@@ -32,8 +32,9 @@ $info   =& $_SESSION['user']->info();
 
 if ($status == 'admin' OR $status == 'instructor') {
 
-
-$scripts = '<ul><li><a href="SQL_2_default_users.php">SQL -to- default users</a></li></ul>';
+	$scripts = '<ul style="text-align:left;margin-left:20%"><li><a href="SQL_2_default_users.php">SQL -to- default users</a></li>
+	<li><a href="CLASS_STATS.php">Class statistics</a></li>
+	<li><a href="stats_all.php">Create stats table for class</a></li></ul>';
 
     //--- NAVIGATION ------------------------------// 
     $current = basename(__FILE__, '.php');
