@@ -1,7 +1,7 @@
 <?php
 //=============================================================//
-$ITS_version = '225';
-$LAST_UPDATE = 'Sep-16-2013';
+$ITS_version = '225d';
+$LAST_UPDATE = 'Sep-29-2013';
 //=============================================================//
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
@@ -172,7 +172,6 @@ If your browser supports JavaScript, be sure it is enabled.</b>
 </div>
 <hr>
 </noscript>
-        
         <div id="pageContainer">
             <!-- MENU -------------------------------------------------->
             <div id="menuContainer">

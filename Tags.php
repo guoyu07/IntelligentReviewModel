@@ -130,6 +130,7 @@ include 'js/ITS_tag_jquery.php';
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	/* This is basic - uses default settings */
 	$("a#fbimage").fancybox();	
 	$( "input[name=selectResource]" ).live('click', function(event) {

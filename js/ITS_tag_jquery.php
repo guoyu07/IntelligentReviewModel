@@ -6,6 +6,7 @@
 ?>
 <script type="text/javascript">
     $(document).ready(function() { 
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 		/*-------------------------------------------------------------------------*/ 
         $('.tag_del_DB').live('click', function(event) {
 			var tid   = $(this).attr('tid');

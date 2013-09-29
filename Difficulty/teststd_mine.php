@@ -1,33 +1,33 @@
 <?php
-$file="teststd_mine.php";
+$file = "teststd_mine.php";
 require_once("Buckets.php");
 echo '<html><body>';
-if($_SERVER["REQUEST_METHOD"]!="POST"){
-	formIn(0,$file);
-}else if(($_POST['pA']+$_POST['pAR']+$_POST['pD']+$_POST['pS'])!=100){
-	formIn(1,$file);
-}else{
-	$DataTable = "MinedData"; 			//The data table with the mined data
-	$QTable = "questions_difficulty";   //the questions difficulty data table
-	$DifCol = "difficultySTD_mine";  	//The difficulty column to use
-	$NewCol = $DifCol."_NEW";
-	$NumBuckets = 5;
-	$NumChapters = 7;
-	$connection = SQL_setup();
-	CheckField($connection,$QTable,$DifCol,0);
-	CheckField($connection,$QTable,$NewCol,0);
-	UpdateQID($connection,$QTable,$DataTable,0);
-	runDif($connection,$DataTable,$QTable,$DifCol,$NewDif,$_POST['pA'],$_POST['pAR'],$_POST['pD'],$_POST['pS'],0);
-	for($i = 1 ; $i <= $NumChapters ; $i++){
-		$result = new Buckets($DifCol, $i);
-		$result->sortIntoBuckets($NumBuckets, 0);
-	}
-	
-	print "<h2>Form	arguments	in URL</h2><br>\n";
-foreach($_POST as$x=>$value)	{	
-	  print	"{$x}:{$value}<br>\n"; 
-};	
-};
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    formIn(0, $file);
+} else if (($_POST['pA'] + $_POST['pAR'] + $_POST['pD'] + $_POST['pS']) != 100) {
+    formIn(1, $file);
+} else {
+    $DataTable   = "MinedData"; 			// the data table with the mined data
+    $QTable      = "questions_difficulty";  // the questions difficulty data table
+    $DifCol      = "difficultySTD_mine"; 	// the difficulty column to use
+    $NewCol      = $DifCol . "_NEW";
+    $NumBuckets  = 5;
+    $NumChapters = 7;
+    $connection  = SQL_setup();
+    CheckField($connection, $QTable, $DifCol, 0);
+    CheckField($connection, $QTable, $NewCol, 0);
+    UpdateQID($connection, $QTable, $DataTable, 0);
+    runDif($connection, $DataTable, $QTable, $DifCol, $NewDif, $_POST['pA'], $_POST['pAR'], $_POST['pD'], $_POST['pS'], 0);
+    for ($i = 1; $i <= $NumChapters; $i++) {
+        $result = new Buckets($DifCol, $i);
+        $result->sortIntoBuckets($NumBuckets, 0);
+    }
+    
+    print "<h2>Form	arguments	in URL</h2><br>\n";
+    foreach ($_POST as $x => $value) {
+        print "{$x}:{$value}<br>\n";
+    }
+}
 echo '</body></html>';
 //=====================================================================//
 FUNCTION SQL_setup(){

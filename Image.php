@@ -10,12 +10,14 @@ require_once("classes/ITS_search.php");
 require_once("classes/ITS_image.php");
 
 session_start();
+
 // return to login page if not logged in
 abort_if_unauthenticated();
 //--------------------------------------// 
 $status = $_SESSION['user']->status();
 
 if ($status == 'admin' OR $status == 'instructor') {
+	
     // connect to database
     $mdb2 =& MDB2::connect($db_dsn);
     if (PEAR::isError($mdb2)) {
@@ -27,6 +29,7 @@ if ($status == 'admin' OR $status == 'instructor') {
     $current = 'Image';
     $nav     = $ITS_nav->render($current);
     //---------------------------------------------//
+    
     global $db_dsn, $db_name, $tb_name, $tb_images, $db_table_users, $db_table_user_state;
     
     if (isset($_REQUEST['id'])) {
@@ -80,7 +83,7 @@ if ($status == 'admin' OR $status == 'instructor') {
         <link rel="stylesheet" href="css/admin.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/ITS_jquery.css" type="text/css" media="screen">
         <script type="text/javascript" src="js/jquery-ui-1.8.23.custom/js/jquery-1.8.0.min.js"></script>
-        <?php
+<?php
 include 'js/ITS_Question_jquery.php';
 include 'js/ITS_search_jquery.php';
 ?> 

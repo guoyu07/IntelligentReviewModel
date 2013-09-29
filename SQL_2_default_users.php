@@ -41,10 +41,18 @@ for ($u=0; $u < count($users); $u++) {
 	//----***--------//
 }
 $path = '/var/www/';
+<<<<<<< HEAD
 $file = 'ITS_'.date("m-d-y").'_ALIAS.sql'; 
 $cmd = 'mysqldump --single-transaction --skip-add-locks its -u root -pcsip > '.$path.$file;
 echo 'Aliased DB and saved with command:<pre class="cmd">'.$cmd.'</pre>';
 exec($cmd . " > /dev/null &");
+=======
+$file = 'ITS_'.date("m-d-Y").'_ALIAS.sql'; 
+$cmd = 'mysqldump --single-transaction --skip-add-locks its -u root -pcsip > '.$path.$file;
+echo 'Aliased DB and saved with command:<pre class="cmd">'.$cmd.'</pre>';
+//exec($cmd . " > /dev/null &");
+exec($cmd);
+>>>>>>> 5d477cfe7a07b5615f2d2cbda771d739cf5a41c9
 echo '<br>finished<br>';
 
 // mysqldump --single-transaction --skip-add-locks -h its.vip.gatech.edu its -u root -p > ITS_123.sql

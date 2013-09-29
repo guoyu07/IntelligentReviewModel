@@ -1,5 +1,5 @@
 <?php
-$LAST_UPDATE = 'Sep-6-2013';
+$LAST_UPDATE = 'Sep-20-2013';
 //=====================================================================//               
 //Author(s): Gregory Krudysz
 //=====================================================================//
@@ -11,7 +11,7 @@ $Debug       = FALSE;
 require_once("config.php"); // #1 include
 require_once(INCLUDE_DIR . "include.php");
 
-include("classes/ITS_timer.php");
+require_once("classes/ITS_timer.php");
 require_once("classes/ITS_survey.php");
 require_once("classes/ITS_menu.php");
 require_once("classes/ITS_message.php");
@@ -32,6 +32,14 @@ if ($status == 'admin' OR $status == 'instructor') {
 	
 	global $term, $tset;
 	
+	    //------- USER ---------------//
+    if (isset($_GET['sid'])) {
+        $uid = $_GET['sid'];
+    } else {
+        $uid = $id;
+    }
+    $usertable = 'stats_' . $uid;
+    
     if ($_POST['getGradesSubmit'] == 'Submit') {
         //--- FILE UPLOAD ---------------------*//  
         if ($Debug) {
@@ -46,8 +54,11 @@ if ($status == 'admin' OR $status == 'instructor') {
         }
         $tsquare_file = $_FILES["file"]["tmp_name"];
         $A            = $_POST['assignment'];
-        $s            = new ITS_statistics(1,$term, 'admin');
-        $grade_link   = $s->getGrades($tsquare_file, $A);
+        $score   	  = new ITS_score($uid, $term, $tset);
+        $grade_link   = $score->getGrades($tsquare_file, $A);
+          
+        //$s            = new ITS_statistics(1,$term, 'admin');
+        //$grade_link   = $s->getGrades($tsquare_file, $A);
         //-------------------------------------*//
     } else {
         $grade_link = '';
@@ -89,14 +100,6 @@ if ($status == 'admin' OR $status == 'instructor') {
         $class .= '<option value="' . $class_arr[$cs] . '" ' . $sel . '>' . preg_replace('/_/', ' ', $class_arr[$cs]) . '</option>';
     }
     $class .= '</select>';
-    
-    //------- USER ---------------//
-    if (isset($_GET['sid'])) {
-        $uid = $_GET['sid'];
-    } else {
-        $uid = $id;
-    }
-    $usertable = 'stats_' . $uid;
     
     $mdb2 =& MDB2::connect($db_dsn);
     $query = 'SELECT id,last_name,first_name,status FROM users WHERE status IN ("' . $section . '") ORDER BY last_name'; // "admin",
@@ -221,8 +224,10 @@ if ($status == 'admin' OR $status == 'instructor') {
         <title>Profile</title>
         <link rel="stylesheet" href="css/ITS_profile.css" type="text/css" media="screen">
         <?php
-include INCLUDE_DIR . 'stylesheet.php';
-include 'js/ITS_Profile_jquery.php';
+include_once(INCLUDE_DIR . 'stylesheet.php');
+include_once(INCLUDE_DIR . 'include_mathjax.php'); //1
+include_once('js/ITS_Profile_jquery.php'); //2
+
 ?>
     </head>
     <body>

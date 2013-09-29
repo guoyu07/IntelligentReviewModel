@@ -69,7 +69,7 @@ sudo /usr/lib/cgi-bin/a.out /usr/lib/cgi-bin/mathtex.cgi
 yum -y install tetex tetex-IEEEtran tetex-afm tetex-dvipost tetex-dvips tetex-fonts tetex-latex tetex-perltex tetex-preview tetex-tex4ht tetex-unicode tetex-xdvi
 
 #-------------------------------------------------------#
-# Server configuration: 
+# Server configuration:
 #-------------------------------------------------------#
 Alias /icons/ "/var/www/icons/"
 <Directory "/var/www/icons">

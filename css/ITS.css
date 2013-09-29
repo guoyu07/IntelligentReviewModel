@@ -1375,7 +1375,7 @@ div.DifficultyBar { position:relative; background:#fff; border:1px solid #c0c0c0
 	-khtml-border-radius:10px;
 }
 /*div.DifficultyBar div { background: #28B8C0; height: 50px; }*/
-div.DiffBarSel {border: 2px solid #666; background: #ddd;
+div.DiffBarSel {border: 2px solid #666;
 	 border-radius:10px;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;

@@ -17,10 +17,8 @@ ex. $ITS_question = new ITS_question(90001,"its","user_cpt");
 
 Author(s): Greg Krudysz | Aug-28-2008
 		   Khyati 		| Apr-16-2012
-Last Revision: Aug-10-2013
+Last Revision: Sep-20-2013
 //=====================================================================*/
-
-
 
 class ITS_question
 {
@@ -1325,7 +1323,7 @@ function latexCheck($str, $method, $path)
 {
     //=====================================================================//
     //ITS_debug(); /die($path);
-    
+    //echo $str.' '.$method.' '.$path.'<hr>';
     switch ($method) {
     case 'mathtex': // server-side
 		$replacement = '<img class="ITS_LaTeX" latex="${1}" src="' . $path . ' ${1}"/>';
