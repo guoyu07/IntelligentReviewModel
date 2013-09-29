@@ -498,6 +498,7 @@ class ITS_NQ {
 		 * limit=number of rows to pull {enter 0 for no limit}
 		 * ***********************************************************/
 		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
+		
 		//FROM (stats_1 JOIN questions_difficulty ON stats_1.question_id=questions_difficulty.q_id) JOIN questions ON questions_difficulty.q_id=questions.id
 		$dbq_table = "({$this->tb_user} JOIN {$this->tb_difficulty} ON {$this->tb_user}.question_id={$this->tb_difficulty}.q_id)
 							JOIN {$this->tb_name} ON {$this->tb_difficulty}.q_id={$this->tb_name}.id";
@@ -522,10 +523,8 @@ class ITS_NQ {
 		 * assoc=if you would like the array to use the field names as indices
 		 * 			TRUE=yes    FALSE=no
 		 * ***********************************************************/
-		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font>'.'<br>';
-		
-		//die($query);
-		
+		if($this->debug)echo  '<font color="blue">'.__METHOD__.'</font><br>';
+
 		// connect to database
         $mdb2 =& MDB2::connect($this->db_dsn);
         if (PEAR::isError($mdb2)) {

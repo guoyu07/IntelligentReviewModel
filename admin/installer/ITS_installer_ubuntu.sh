@@ -145,14 +145,11 @@ chmod 0600 ~/.Xauthority
    37  cd /etc/network/
    42  gedit interfaces &
    47  sudo apt-get install x11-apps
-   48  xeyes
    49  mysql -u root -p
-   62  sudo -i
    63  cd /etc/
    64  gedit vsftpd.conf 
    65  sudo gedit vsftpd.conf 
    66  sudo /etc/init.d/vsftpd restar
    67  sudo /etc/init.d/vsftpd restart
-   68  pwd
    72  gedit /etc/ssh/ssh_config &
    73  sudo gedit /etc/ssh/ssh_config &

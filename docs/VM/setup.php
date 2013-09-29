@@ -26,7 +26,7 @@ Instructions for installing developer's tools on Ubuntu:
 				<li>Python:<code><br>sudo apt-get install python python-numpy python-scipy</code></li>
         </ol>
 			</td>
-		  </tr>	
+		  </tr>
 	    <!--------------------------------------------------------------------->			
   </table></center>
 </body>
