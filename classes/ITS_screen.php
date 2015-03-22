@@ -1578,7 +1578,11 @@ class ITS_screen
     {
         //=====================================================================//
         $this->chapter_number = $ch;
-        $tab = '<ul id="navListQC"><li id="Question" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li><li id="Review" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li></ul>';
+        $tab = '<ul id="navListQC">
+        <li id="Question" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '"><a href="#" id="current">Questions</a></li>
+        <li id="Review" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Review</a></li>
+        <li id="IRM" name="header" view="' . intval($view) . '" r="' . intval($role) . '" ch="' . $ch . '" style="margin-left: 50px;"><a href="#">Intelligent Review Model	</a></li>
+        </ul>';
         
         return $tab;
     }
@@ -1804,7 +1808,7 @@ class ITS_screen
         
         /* $config: mode: (0-rand) | (1-DB) parameters */
         //echo $qid,$qtype,$config,$answered
-        //echo $qid.' -- '.$qtype.' -- '.$answered.' --> '.$config.'<p>';
+        echo $qid.' -- '.$qtype.' -- '.$answered.' --> '.$config.'<p>';
         
         $tr = new ITS_statistics($this->id, $this->term, $this->role);
         

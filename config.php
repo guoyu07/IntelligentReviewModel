@@ -82,7 +82,7 @@ if (PHP_OS == "WINNT") {
     $QTI_path  = $root.'/FILES/DATA/QTI';
      
     $dir = dirname($_SERVER['PHP_SELF']);
-    preg_match('/ajax|admin|search|doc|Difficulty|ITS_FILES/', $dir, $ajax_match);
+    preg_match('/ajax|admin|search|doc|Difficulty|Reinforcement|ITS_FILES/', $dir, $ajax_match);
     //var_dump($ajax_match);//die('s');
     
     if (empty($ajax_match)) { // exclude /ajax dir	

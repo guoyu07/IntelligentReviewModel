@@ -87,7 +87,8 @@ include_once(INCLUDE_DIR . 'include_fancybox.php');
 include_once(INCLUDE_DIR . 'include_mathjax.php');
 ?>
 	<script type="text/javascript" src="js/ITS_concepts.js"></script>
-    <script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
+	<script type="text/javascript" src="js/ITS_reinforcement.js"></script>
+	<script type="text/javascript" src="js/jquery.tipsy/src/javascripts/jquery.tipsy.js"></script>
     <link rel="stylesheet" type="text/css" href="js/jquery.tipsy/src/stylesheets/tipsy.css" />
     <link rel="stylesheet" type="text/css" href="css/ITS_resource.css" />
     <link rel="stylesheet" type="text/css" href="css/ITS_mode.css" />        
