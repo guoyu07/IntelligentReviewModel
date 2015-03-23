@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	console.log("watiing for the document to ge tready");
 	$("#IRM").click(function(event){
 		$("#navListQC > li > a").attr("id","");
 		$("#IRM > a").attr("id","current");
@@ -10,3 +11,5 @@ $(document).ready(function(){
 		
 	});
 });
+
+console.log("hello there");
